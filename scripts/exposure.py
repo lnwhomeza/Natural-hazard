@@ -20,7 +20,7 @@
 - เกณฑ์ 0/−2/−5/−10/−20 มม./ปี (paper ใช้ 0 ถึง −5) เพราะกรุงเทพฯ ทรุดเร็วกว่า
 - ประชากรใช้กริด WorldPop 100 ม. และนับอาคารราย footprint (พร้อมพื้นที่และปริมาตรอาคาร
   แทน "property") แทนข้อมูลรายเคาน์ตี จึงคำนวณได้ทุกเขต ไม่ต้องจำกัดเฉพาะเขตที่พื้นที่ exposed > 60%
-- β คำนวณจากการทรุดสะสมในช่วงละ 1 ปี (paper สะสม 13 ปี) และ l = 80 ม. (paper 50 ม.)
+- β คำนวณจากการทรุดสะสมตามความยาวจริงของแต่ละช่วง (paper สะสม 13 ปี) และ l = 80 ม. (paper 50 ม.)
 - ค่าเฉลี่ยถ่วงน้ำหนักของจุด/พื้นที่ใช้น้ำหนัก 1/SD² (paper ไม่ระบุชนิดน้ำหนัก)
 """
 import math
@@ -39,7 +39,15 @@ DISTRICTS = ROOT / 'boundaries' / 'districts_bmr.gpkg'
 
 EPSG = 32647
 PERIODS = ['pre', 'post']
-PERIOD_YEARS = 1.0                         # ความยาวแต่ละช่วง ใช้แปลงอัตราเป็นการทรุดสะสม
+
+
+def period_years():
+    """ความยาวแต่ละช่วง (ปี) จาก pipeline.PERIODS ใช้แปลงอัตราเป็นการทรุดสะสมสำหรับ β"""
+    sys.path.insert(0, str(Path(__file__).parent))
+    from pipeline import PERIODS as P
+    return {p: ((P[p][1] - P[p][0]).days + 1) / 365.25 for p in PERIODS}
+
+
 THRESHOLDS = [0, -2, -5, -10, -20]         # มม./ปี
 BOUNDS = {                                 # ตาม paper: lower = VLM + SD, upper = VLM − SD
     'lower': +1,
@@ -256,9 +264,9 @@ def infra_layer(layer):
 
 
 # ---------------------------------------------------------------- β
-def beta_map(vlm, pixel):
+def beta_map(vlm, pixel, years):
     """β = max |Δδ| กับ pixel ข้างเคียง 4 ทิศ / l, Δδ = การทรุดสะสมในช่วง (ม.)"""
-    d = vlm / 1000 * PERIOD_YEARS
+    d = vlm / 1000 * years
     b = np.full(d.shape, np.nan)
     for dy, dx in [(0, 1), (1, 0)]:
         diff = np.abs(d[dy:, dx:] - d[:d.shape[0] - dy, :d.shape[1] - dx]) / pixel
@@ -279,11 +287,12 @@ def beta():
     from matplotlib.colors import ListedColormap
     OUT.mkdir(parents=True, exist_ok=True)
     adm = districts()
+    years = period_years()
     rows = []
     fig, axs = plt.subplots(1, 2, figsize=(14, 5), constrained_layout=True)
     for ax, p in zip(axs, PERIODS):
         v, prof = read(RESULTS / f'vlm_{p}.tif')
-        b = beta_map(v, abs(prof['transform'].a))
+        b = beta_map(v, abs(prof['transform'].a), years[p])
         write(b, OUT / f'beta_{p}.tif', prof)
         cls = beta_class(b)
         n = np.isfinite(cls).sum()
@@ -296,7 +305,7 @@ def beta():
         ax.imshow(cls, cmap=ListedColormap(['#1a9850', '#fee08b', '#f46d43', '#a50026']),
                   vmin=-.5, vmax=3.5, extent=ext, interpolation='nearest')
         adm.boundary.plot(ax=ax, color='k', lw=.3)
-        ax.set_title(f'Angular distortion β ({p}, {PERIOD_YEARS:g}-yr cumulative)')
+        ax.set_title(f'Angular distortion β ({p}, {years[p]:.1f}-yr cumulative)')
     from matplotlib.patches import Patch
     axs[1].legend(handles=[Patch(color=c, label=n) for c, (n, _, _) in
                            zip(['#1a9850', '#fee08b', '#f46d43', '#a50026'], BETA_CLASSES)], loc='lower right')
