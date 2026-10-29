@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แผ่นดินทรุด กรุงเทพฯ–ปริมณฑล 3D</title>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1d1d1f; --muted: #6b6b70; --line: #e3e3e6; --accent: #b2182b;
+    --panel: rgba(255, 255, 255, .96);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141416; --fg: #ececef; --muted: #a0a0a8; --line: #2e2e33; --accent: #ef8a62;
+      --panel: rgba(28, 28, 31, .96);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141416; --fg: #ececef; --muted: #a0a0a8; --line: #2e2e33; --accent: #ef8a62;
+    --panel: rgba(28, 28, 31, .96);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+    font: 14px/1.45 "IBM Plex Sans Thai", system-ui, sans-serif; }
+  #map { position: absolute; inset: 0; }
+  #panel { position: absolute; top: 12px; left: 12px; width: 320px; max-height: calc(100% - 24px);
+    overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; box-shadow: 0 4px 18px rgba(0,0,0,.12); }
+  #panel h1 { font-size: 17px; margin: 0 0 2px; }
+  #panel .sub { color: var(--muted); font-size: 12.5px; margin-bottom: 10px; }
+  #panel h2 { font-size: 13px; margin: 14px 0 6px; color: var(--muted); font-weight: 600; }
+  .seg { display: flex; gap: 4px; flex-wrap: wrap; }
+  .seg button { flex: 1; border: 1px solid var(--line); background: transparent; color: var(--fg);
+    padding: 6px 8px; border-radius: 7px; cursor: pointer; font: inherit; font-size: 13px; min-width: 72px; }
+  .seg button.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  label.chk { display: flex; align-items: center; gap: 8px; margin: 4px 0; cursor: pointer; }
+  select, input[type=range] { width: 100%; font: inherit; }
+  select { padding: 5px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+  .legend { height: 10px; border-radius: 4px; margin: 6px 0 2px; }
+  .ticks { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); }
+  .note { font-size: 12.5px; color: var(--muted); margin-top: 12px; }
+  #toggle { display: none; position: absolute; top: 12px; left: 12px; z-index: 2; border: 1px solid var(--line);
+    background: var(--panel); color: var(--fg); border-radius: 8px; padding: 8px 12px; font: inherit; }
+  .maplibregl-popup-content { background: var(--panel); color: var(--fg); font: 13px/1.4 "IBM Plex Sans Thai", sans-serif; }
+  .maplibregl-popup-tip { border-top-color: var(--panel) !important; }
+  .pop b { display: block; margin-bottom: 2px; }
+  .pop table { border-collapse: collapse; } .pop td { padding: 1px 6px 1px 0; }
+  .pop td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+  @media (max-width: 640px) {
+    #panel { width: auto; left: 8px; right: 8px; top: auto; bottom: 8px; max-height: 55%; }
+    #panel.hidden { display: none; }
+    #toggle { display: block; }
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<button id="toggle" aria-label="เปิด/ปิดแผงควบคุม">☰ ตัวเลือก</button>
+<div id="panel">
+  <h1>แผ่นดินทรุด กรุงเทพฯ–สมุทรปราการ–สมุทรสาคร</h1>
+  <div class="sub">อัตราการเคลื่อนตัวแนวดิ่ง (VLM) จาก Sentinel-1 SBAS InSAR (ascending + descending)
+    1 ปีก่อน และ 1 ปีหลังแผ่นดินไหว 28 มี.ค. 2568</div>
+
+  <h2>ค่าที่แสดง</h2>
+  <div class="seg" id="var">
+    <button data-v="a">ก่อน</button>
+    <button data-v="b" class="on">หลัง</button>
+    <button data-v="d">Δv</button>
+  </div>
+  <div id="legend"></div>
+
+  <h2>ชั้นข้อมูล</h2>
+  <label class="chk"><input type="checkbox" id="l-bld" checked> อาคาร 3D (ซูมเข้าระดับเขตขึ้นไป)</label>
+  <label class="chk"><input type="checkbox" id="l-img" checked> ภาพ VLM</label>
+  <label class="chk"><input type="checkbox" id="l-rail" checked> แนวราง / รถไฟฟ้า</label>
+  <label class="chk"><input type="checkbox" id="l-fac"> สถานที่สำคัญ</label>
+  <label class="chk"><input type="checkbox" id="l-dist"> % พื้นที่เขตที่ exposed</label>
+  <select id="thr" aria-label="เกณฑ์อัตราทรุด"></select>
+
+  <h2>ความสูงอาคาร ×<span id="exv">1.5</span></h2>
+  <input type="range" id="ex" min="1" max="5" step="0.5" value="1.5">
+
+  <div class="note">
+    คลิกอาคาร ราง สถานที่ หรือเขต เพื่อดูค่า · ค่าลบ = ทรุด (มม./ปี) · Δv = หลัง − ก่อน<br>
+    อาคาร: Global Building Atlas LoD1 · ราง/สถานที่: Overture Maps (OSM) · ฐานแผนที่ © CARTO, © OpenStreetMap<br>
+    VLM อ้างอิงจุดเดียวในพื้นที่ศึกษา (relative) · Geoinformatics for Natural Hazard Management (2205479)
+  </div>
+</div>
+
+<script>
+const PROP = { a: 'v_pre', b: 'v_post', d: 'dv' };
+const LABEL = { a: 'VLM ก่อนแผ่นดินไหว', b: 'VLM หลังแผ่นดินไหว', d: 'Δv = หลัง − ก่อน' };
+const FTYPE = { school: 'โรงเรียน', university: 'มหาวิทยาลัย', hospital: 'โรงพยาบาล', police: 'สถานีตำรวจ',
+  fire_station: 'สถานีดับเพลิง', rail_station: 'สถานีราง', airport: 'สนามบิน' };
+let meta, cur = 'b';
+
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol('pmtiles', protocol.tile);
+
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const map = new maplibregl.Map({
+  container: 'map',
+  style: `https://basemaps.cartocdn.com/gl/${dark ? 'dark-matter' : 'positron'}-gl-style/style.json`,
+  center: [100.55, 13.72], zoom: 10.3, pitch: 45, bearing: -15, maxPitch: 75, hash: true,
+});
+map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+map.addControl(new maplibregl.ScaleControl(), 'bottom-right');
+
+const stops = v => v === 'd' ? meta.dv_stops : meta.vlm_stops;
+const colorExpr = (prop, v) => ['case', ['==', ['typeof', ['get', prop]], 'number'],
+  ['interpolate', ['linear'], ['get', prop], ...stops(v).flat()], '#bdbdbd'];
+const fmt = x => (x === undefined || x === null) ? '–' : (+x).toFixed(1);
+
+function legend() {
+  const s = stops(cur);
+  document.getElementById('legend').innerHTML =
+    `<div class="legend" style="background:linear-gradient(90deg,${s.map(x => x[1]).join(',')})"></div>
+     <div class="ticks">${s.map(x => `<span>${x[0]}</span>`).join('')}</div>
+     <div class="ticks"><span>${cur === 'd' ? 'ทรุดเร็วขึ้น' : 'ทรุด'}</span><span>มม./ปี</span>
+     <span>${cur === 'd' ? 'ทรุดช้าลง' : 'ยกตัว'}</span></div>`;
+}
+
+function setVar(v) {
+  cur = v;
+  document.querySelectorAll('#var button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  meta.buildings.forEach((_, i) => map.setPaintProperty(`bld${i}`, 'fill-extrusion-color', colorExpr(v, v)));
+  map.setPaintProperty('ss-rail', 'line-color', colorExpr(PROP[v], v));
+  if (v !== 'd') map.setPaintProperty('ss-fac', 'circle-color', colorExpr(v === 'a' ? 'pre' : 'post', v));
+  const url = `${PROP[v]}.png`;
+  if (map.getSource('ss-img').url !== url) map.getSource('ss-img').updateImage({ url, coordinates: meta.image_coords });
+  setDistrict();
+  legend();
+}
+
+function setDistrict() {
+  const th = document.getElementById('thr').value;
+  const p = cur === 'a' ? 'pre' : 'post';
+  map.setPaintProperty('ss-dist-fill', 'fill-color', ['case', ['==', ['typeof', ['get', `pa_${p}_${th}`]], 'number'],
+    ['interpolate', ['linear'], ['get', `pa_${p}_${th}`], 0, 'rgba(255,255,178,0.05)', 50, '#fd8d3c', 100, '#bd0026'],
+    'rgba(0,0,0,0)']);
+}
+
+function vis(id, on) { if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'); }
+
+map.on('load', async () => {
+  meta = await (await fetch('meta.json')).json();
+  const thr = document.getElementById('thr');
+  meta.thresholds.forEach(t => thr.insertAdjacentHTML('beforeend',
+    `<option value="${Math.abs(t)}"${t === -10 ? ' selected' : ''}>VLM &lt; ${t} มม./ปี</option>`));
+
+  const firstSymbol = map.getStyle().layers.find(l => l.type === 'symbol')?.id;
+  map.addSource('ss-img', { type: 'image', url: 'v_post.png', coordinates: meta.image_coords });
+  map.addLayer({ id: 'ss-img', type: 'raster', source: 'ss-img',
+    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.75, 14, 0.25], 'raster-resampling': 'nearest' } }, firstSymbol);
+
+  map.addSource('ss-dist', { type: 'geojson', data: 'districts.geojson' });
+  map.addLayer({ id: 'ss-dist-fill', type: 'fill', source: 'ss-dist', layout: { visibility: 'none' },
+    paint: { 'fill-opacity': 0.7 } }, firstSymbol);
+  map.addLayer({ id: 'ss-dist-line', type: 'line', source: 'ss-dist',
+    paint: { 'line-color': dark ? '#888' : '#555', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 0.4, 14, 1.2] } });
+
+  meta.buildings.forEach((f, i) => {
+    map.addSource(`b${i}`, { type: 'vector', url: `pmtiles://${new URL(f, location.href)}` });
+    map.addLayer({ id: `bld${i}`, type: 'fill-extrusion', source: `b${i}`, 'source-layer': 'buildings', minzoom: 13,
+      paint: { 'fill-extrusion-color': colorExpr('b', 'b'),
+        'fill-extrusion-height': ['*', ['get', 'h'], 1.5], 'fill-extrusion-opacity': 0.92 } });
+  });
+
+  map.addSource('ss-rail', { type: 'geojson', data: 'rail.geojson' });
+  map.addLayer({ id: 'ss-rail-case', type: 'line', source: 'ss-rail',
+    paint: { 'line-color': dark ? '#000' : '#333', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2.5, 15, 7] } });
+  map.addLayer({ id: 'ss-rail', type: 'line', source: 'ss-rail',
+    paint: { 'line-color': colorExpr('v_post', 'b'), 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.5, 15, 5] } });
+
+  map.addSource('ss-fac', { type: 'geojson', data: 'facilities.geojson' });
+  map.addLayer({ id: 'ss-fac', type: 'circle', source: 'ss-fac', layout: { visibility: 'none' },
+    paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 3, 15, 8], 'circle-color': colorExpr('post', 'b'),
+      'circle-stroke-color': '#111', 'circle-stroke-width': 1 } });
+
+  setVar(cur);
+
+  const pop = (e, html) => new maplibregl.Popup({ maxWidth: '280px' }).setLngLat(e.lngLat).setHTML(`<div class="pop">${html}</div>`).addTo(map);
+  const row = (k, v) => `<tr><td>${k}</td><td>${v}</td></tr>`;
+  meta.buildings.forEach((_, i) => map.on('click', `bld${i}`, e => {
+    const p = e.features[0].properties;
+    const sig = { '-1': 'ทรุดเร็วขึ้นอย่างมีนัยสำคัญ', '0': 'ไม่ต่างอย่างมีนัยสำคัญ', '1': 'ทรุดช้าลงอย่างมีนัยสำคัญ' }[p.s] || '–';
+    pop(e, `<b>อาคาร</b><table>${row('ความสูง', p.h + ' ม.')}${row('VLM ก่อน', fmt(p.a) + ' มม./ปี')}
+      ${row('VLM หลัง', fmt(p.b) + ' มม./ปี')}${row('Δv', fmt(p.d) + ' มม./ปี')}</table>${sig}`);
+  }));
+  map.on('click', 'ss-rail', e => { const p = e.features[0].properties;
+    pop(e, `<b>${p.name || 'ราง'}</b><table>${row('VLM ก่อน', fmt(p.v_pre))}${row('VLM หลัง', fmt(p.v_post))}${row('Δv', fmt(p.dv))}</table>มม./ปี`); });
+  map.on('click', 'ss-fac', e => { const p = e.features[0].properties;
+    pop(e, `<b>${p.name || ''}</b>${FTYPE[p.ftype] || p.ftype}<table>${row('VLM ก่อน', fmt(p.pre))}${row('VLM หลัง', fmt(p.post))}</table>มม./ปี (เฉลี่ยถ่วงน้ำหนัก)`); });
+  map.on('click', 'ss-dist-fill', e => { const p = e.features[0].properties, th = thr.value;
+    pop(e, `<b>${p.adm2_name1} (${p.adm1_name1})</b><table>
+      ${row('VLM median ก่อน', fmt(p.vlm_pre_median))}${row('VLM median หลัง', fmt(p.vlm_post_median))}
+      ${row(`% พื้นที่ VLM &lt; −${th} ก่อน`, fmt(p[`pa_pre_${th}`]))}${row(`% พื้นที่ VLM &lt; −${th} หลัง`, fmt(p[`pa_post_${th}`]))}
+      ${row('ประชากร exposed (หลัง)', p[`pop_post_${th}`] != null ? Math.round(p[`pop_post_${th}`]).toLocaleString() : '–')}
+      ${row('อาคาร exposed (หลัง)', p[`bld_post_${th}`] != null ? Math.round(p[`bld_post_${th}`]).toLocaleString() : '–')}</table>`); });
+  ['ss-rail', 'ss-fac', 'ss-dist-fill', ...meta.buildings.map((_, i) => `bld${i}`)].forEach(id => {
+    map.on('mouseenter', id, () => map.getCanvas().style.cursor = 'pointer');
+    map.on('mouseleave', id, () => map.getCanvas().style.cursor = '');
+  });
+
+  document.querySelectorAll('#var button').forEach(b => b.onclick = () => setVar(b.dataset.v));
+  thr.onchange = setDistrict;
+  document.getElementById('l-bld').onchange = e => meta.buildings.forEach((_, i) => vis(`bld${i}`, e.target.checked));
+  document.getElementById('l-img').onchange = e => vis('ss-img', e.target.checked);
+  document.getElementById('l-rail').onchange = e => { vis('ss-rail', e.target.checked); vis('ss-rail-case', e.target.checked); };
+  document.getElementById('l-fac').onchange = e => vis('ss-fac', e.target.checked);
+  document.getElementById('l-dist').onchange = e => vis('ss-dist-fill', e.target.checked);
+  document.getElementById('ex').oninput = e => {
+    document.getElementById('exv').textContent = e.target.value;
+    meta.buildings.forEach((_, i) => map.setPaintProperty(`bld${i}`, 'fill-extrusion-height', ['*', ['get', 'h'], +e.target.value]));
+  };
+});
+document.getElementById('toggle').onclick = () => document.getElementById('panel').classList.toggle('hidden');
+</script>
+</body>
+</html>

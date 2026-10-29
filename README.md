@@ -43,6 +43,15 @@ python scripts/pipeline.py search|submit|status|download|mintpy|analyze|coseismi
 python scripts/exposure.py data|beta|area|infra|case|all
 ```
 
+## เว็บแมป 3D
+
+`scripts/webmap.py` สร้างเว็บ (MapLibre GL + PMTiles) จาก `results/` → `data/web/site/` แล้ว deploy ไป branch `gh-pages`
+- อาคาร GBA 3.25 ล้านหลัง ยกสูงตามความสูง ระบายสีตาม VLM ก่อน/หลัง หรือ Δv (แบ่ง PMTiles เป็นไฟล์ละ < 100 MB)
+- ภาพ VLM, แนวราง/รถไฟฟ้า, สถานที่สำคัญ, % พื้นที่เขตที่ exposed ต่อเกณฑ์ — คลิกดูค่าได้
+- เปิด GitHub Pages: Settings → Pages → Source: Deploy from a branch → `gh-pages` / `(root)`
+
+ดูในเครื่อง (ต้องใช้ server ที่รองรับ Range request): `pip install rangehttpserver && python -m RangeHTTPServer 8000` ใน `data/web/site`
+
 ## Notebooks
 
 | ไฟล์ | เนื้อหา | เปิดใน Colab |

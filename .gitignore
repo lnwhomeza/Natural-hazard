@@ -2,5 +2,6 @@ data/
 *.tif
 *.h5
 *.zip
+*.pmtiles
 .ipynb_checkpoints/
 __pycache__/
