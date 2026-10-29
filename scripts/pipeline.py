@@ -273,11 +273,28 @@ def make_conncomp(d):
             dst.write(lut[label], 1)
 
 
+def era5_setup():
+    """เปิด tropospheric correction ด้วย ERA5 (PyAPS) เมื่อมี env CDSAPI_KEY (Copernicus CDS)"""
+    key = os.environ.get('CDSAPI_KEY')
+    if not key:
+        print('ไม่มี CDSAPI_KEY — ข้าม tropospheric correction')
+        return 'mintpy.troposphericDelay.method = no'
+    rc = Path.home() / '.cdsapirc'
+    if not rc.exists():
+        rc.write_text(f'url: https://cds.climate.copernicus.eu/api\nkey: {key}\n')
+    weather = DATA / 'ERA5'
+    weather.mkdir(parents=True, exist_ok=True)
+    return ('mintpy.troposphericDelay.method = pyaps\n'
+            'mintpy.troposphericDelay.weatherModel = ERA5\n'
+            f'mintpy.troposphericDelay.weatherDir = {weather}')
+
+
 def run_mintpy(stack, ref_yx):
     d = DATA / stack / 'hyp3'
     run_dir = DATA / stack / 'mintpy'
     run_dir.mkdir(parents=True, exist_ok=True)
     make_conncomp(d)
+    tropo = era5_setup()
     water = (f'mintpy.load.waterMaskFile       = {d}/*/*_water_mask_clip.tif'
              if any(d.glob('*/*_water_mask_clip.tif')) else '')
     cfg = run_dir / f'{PROJECT}_{stack}.txt'
@@ -298,7 +315,10 @@ mintpy.network.keepMinSpanTree  = yes
 ## (phase_closure ทดสอบกับข้อมูลจริงแล้วทำให้ฝั่งตะวันตก/ตะวันออกของเจ้าพระยาคลาดกันเป็นรอบ)
 mintpy.unwrapError.method       = bridging
 mintpy.reference.yx             = {ref_yx or 'auto'}
-mintpy.troposphericDelay.method = no
+{tropo}
+## ประมาณ annual term ไปพร้อมความเร็ว: ช่วง post ไม่ครบรอบปี สัญญาณตามฤดูกาลจะ bias velocity
+mintpy.timeFunc.polynomial      = 1
+mintpy.timeFunc.periodic        = 1.0
 mintpy.deramp                   = no
 mintpy.topographicResidual      = yes
 mintpy.save.kmz                 = no
