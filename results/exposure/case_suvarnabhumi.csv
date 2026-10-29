@@ -1,0 +1,9 @@
+﻿period,feature,median,max_subsidence,max_vlm,weighted_mean
+pre,runway 1,,,,
+pre,runway 2,,,,
+pre,runway 3,,,,
+pre,whole airport,-0.28,-13.04,11.25,0.33
+post,runway 1,,,,
+post,runway 2,,,,
+post,runway 3,,,,
+post,whole airport,-17.9,-32.8,-6.0,-18.59
