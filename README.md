@@ -5,18 +5,27 @@ Final Project วิชา Geoinformatics for Natural Hazard Management (2205479
 พื้นที่ศึกษา: กรุงเทพฯ สมุทรปราการ สมุทรสาคร — เปรียบเทียบอัตราการทรุดตัว (VLM) จาก Sentinel-1 SBAS InSAR
 ช่วง 1 ปีก่อน และ 1 ปีหลัง แผ่นดินไหว 28 มี.ค. 2568
 
-## รันบนเครื่อง (Claude Code cloud session)
+## รันบน cloud (Claude Code session)
 
-`scripts/pipeline.py` — ทำงานเดียวกับ notebook แต่เก็บข้อมูลใน `data/` และผลสุดท้ายใน `results/`
-ใช้ขอบเขต 59 เขต/อำเภอจริง (`boundaries/districts_bmr.gpkg`, จาก HDX COD-AB) เลือกเฉพาะภาพที่คลุมสามจังหวัดครบ 100%
+`scripts/pipeline.py` — ใช้ **สอง track** แล้วแยกองค์ประกอบเป็นแนวดิ่ง + แนวตะวันออก-ตะวันตก
+(ไม่ต้องสมมติว่าการเคลื่อนตัวแนวราบน้อยมาก) เก็บข้อมูลใน `data/` และผลสุดท้ายใน `results/`
+ใช้ขอบเขต 59 เขต/อำเภอจริง (`boundaries/districts_bmr.gpkg`, จาก HDX COD-AB)
 
-ผลค้นภาพ: Sentinel-1A ascending path 172 — pre 27 ภาพ (75 คู่), post 26 ภาพ (72 คู่), co-seismic 2025-03-17 → 2025-03-29
+| Track | HyP3 job | pre | post | co-seismic |
+|---|---|---|---|---|
+| Ascending path 172 (1 frame คลุมครบ) | `INSAR_GAMMA` | 27 ภาพ / 75 คู่ | 26 ภาพ / 72 คู่ | 2025-03-17 → 03-29 |
+| Descending path 62 (9 bursts ข้ามรอยต่อ frame) | `INSAR_ISCE_MULTI_BURST` | 29 ภาพ / 81 คู่ | 26 ภาพ / 72 คู่ | 2025-03-21 → 04-02 |
+
+ใช้ประมาณ 2,300 HyP3 credits (asc 10/คู่, desc 9 bursts 5/คู่)
 
 ต้องมี env `EARTHDATA_TOKEN` (Earthdata Login bearer token) และ env Python ที่มี MintPy + GDAL (conda-forge)
 
 ```
 python scripts/pipeline.py search|submit|status|download|mintpy|analyze|coseismic
 ```
+
+ผลใน `results/`: `vlm_{pre,post}.tif` แนวดิ่ง, `east_{pre,post}.tif` แนวตะวันออก-ตะวันตก, `sd_*.tif`, `dv.tif`, `dv_sig.tif`,
+`vlm_{asc,desc}_{pre,post}.tif` (track เดียว ไว้เทียบ), แผนที่ `.png`, `summary.txt`, `district_stats.csv`
 
 ## Notebooks
 
