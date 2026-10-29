@@ -5,6 +5,19 @@ Final Project วิชา Geoinformatics for Natural Hazard Management (2205479
 พื้นที่ศึกษา: กรุงเทพฯ สมุทรปราการ สมุทรสาคร — เปรียบเทียบอัตราการทรุดตัว (VLM) จาก Sentinel-1 SBAS InSAR
 ช่วง 1 ปีก่อน และ 1 ปีหลัง แผ่นดินไหว 28 มี.ค. 2568
 
+## รันบนเครื่อง (Claude Code cloud session)
+
+`scripts/pipeline.py` — ทำงานเดียวกับ notebook แต่เก็บข้อมูลใน `data/` และผลสุดท้ายใน `results/`
+ใช้ขอบเขต 59 เขต/อำเภอจริง (`boundaries/districts_bmr.gpkg`, จาก HDX COD-AB) เลือกเฉพาะภาพที่คลุมสามจังหวัดครบ 100%
+
+ผลค้นภาพ: Sentinel-1A ascending path 172 — pre 27 ภาพ (75 คู่), post 26 ภาพ (72 คู่), co-seismic 2025-03-17 → 2025-03-29
+
+ต้องมี env `EARTHDATA_TOKEN` (Earthdata Login bearer token) และ env Python ที่มี MintPy + GDAL (conda-forge)
+
+```
+python scripts/pipeline.py search|submit|status|download|mintpy|analyze|coseismic
+```
+
 ## Notebooks
 
 | ไฟล์ | เนื้อหา | เปิดใน Colab |
