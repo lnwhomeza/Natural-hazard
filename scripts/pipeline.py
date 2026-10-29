@@ -38,11 +38,12 @@ DISTRICTS = ROOT / 'boundaries' / 'districts_bmr.gpkg'
 
 EQ_DATE = date(2025, 3, 28)
 PERIODS = {
-    'pre':  (date(2024, 3, 28), date(2025, 3, 27)),
-    'post': (date(2025, 3, 29), date(2026, 3, 28)),
+    'pre':  (date(2021, 3, 28), date(2025, 3, 27)),
+    'post': (date(2025, 3, 29), date(2026, 10, 29)),
 }
 TRACKS = ['asc', 'desc']
-PLATFORM = 'Sentinel-1A'   # รอบถ่าย 12 วันเท่ากันทั้งสองช่วง
+# รอบถ่าย 12 วันเท่ากันทั้งสองช่วง: 1D รับช่วงวงโคจรต่อจาก 1A ตั้งแต่กลางปี 2569 (ไม่ใช้ 1C ซึ่งทำให้เป็น 6 วัน)
+PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
@@ -117,7 +118,7 @@ def search():
         'coverage': shape(r.geometry).intersection(prov).area / prov.area,
     } for r in res])
     sc['date'] = pd.to_datetime(sc.date).dt.date
-    sc = sc[(sc.platform.str.upper() == PLATFORM.upper()) & (sc.coverage >= 0.999) & sc.date.map(period_of).notna()]
+    sc = sc[sc.platform.str.upper().isin(PLATFORMS) & (sc.coverage >= 0.999) & sc.date.map(period_of).notna()]
     sc = sc.sort_values('coverage', ascending=False).drop_duplicates(['path', 'date'])
     path = sc.groupby('path').size().idxmax()
     sc = sc[sc.path == path].sort_values('date')
@@ -132,7 +133,7 @@ def search():
         'burst_id': r.properties['burst']['fullBurstID'], 'geom': shape(r.geometry),
     } for r in res])
     bu['date'] = pd.to_datetime(bu.date).dt.date
-    bu = bu[(bu.platform.str.upper() == PLATFORM.upper()) & bu.date.map(period_of).notna()]
+    bu = bu[bu.platform.str.upper().isin(PLATFORMS) & bu.date.map(period_of).notna()]
     bu = bu[bu.geom.map(lambda g: g.intersection(prov).area > 0)]
     path = bu.groupby('path').date.nunique().idxmax()
     bu = bu[bu.path == path].drop_duplicates(['date', 'burst_id'])
