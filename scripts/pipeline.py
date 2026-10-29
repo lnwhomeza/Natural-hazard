@@ -242,7 +242,6 @@ def download():
             prod_dir = sdk.util.extract_zipped_product(zip_path)
             clip_product(prod_dir, out_root / name, bounds)
             shutil.rmtree(prod_dir)
-            zip_path.unlink()
             print(f'{stack} {k}/{len(jobs)} {name}', flush=True)
         print(stack, 'พร้อม:', len(list(out_root.glob('*/*_unw_phase_clip.tif'))), 'คู่')
 
