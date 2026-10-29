@@ -248,22 +248,28 @@ def download():
 
 # ---------------------------------------------------------------- MintPy
 def make_conncomp(d):
-    """HyP3 GAMMA ไม่มีไฟล์ connected component แต่ phase-closure correction ของ MintPy ต้องใช้
-    จึงสร้างจาก pixel ที่ unwrap ได้ (ค่า != 0/nodata) ให้เป็น component เดียว"""
+    """HyP3 GAMMA ไม่มีไฟล์ connected component แต่ bridging correction ของ MintPy ต้องใช้
+    พื้นที่ที่ unwrap ได้ถูกแม่น้ำ/water mask แบ่งเป็นหลายส่วน แต่ละส่วนอาจคลาดกันเป็นจำนวนเต็มรอบ
+    จึงติดป้ายแต่ละส่วนที่ต่อกัน (8 ทิศ) ของ pixel ที่ unwrap ได้เป็น component แยกกัน"""
     import rasterio
+    from scipy import ndimage
     for unw in d.glob('*/*_unw_phase_clip.tif'):
         out = unw.with_name(unw.name.replace('_unw_phase_clip', '_conncomp_clip'))
-        if out.exists():
-            continue
         with rasterio.open(unw) as src:
             ph = src.read(1)
             valid = np.isfinite(ph) & (ph != 0)
             if src.nodata is not None:
                 valid &= ph != src.nodata
             prof = src.profile
-        prof.update(dtype='int16', nodata=None, compress='deflate')
+        label, n = ndimage.label(valid, structure=np.ones((3, 3)))
+        size = np.bincount(label.ravel())
+        size[0] = 0
+        keep = np.flatnonzero(size >= 100)            # ทิ้งเศษ pixel เล็กๆ
+        lut = np.zeros(n + 1, 'int32')
+        lut[keep[np.argsort(-size[keep])]] = np.arange(1, len(keep) + 1)   # 1 = ส่วนที่ใหญ่ที่สุด
+        prof.update(dtype='int32', nodata=None, compress='deflate')
         with rasterio.open(out, 'w', **prof) as dst:
-            dst.write(valid.astype('int16'), 1)
+            dst.write(lut[label], 1)
 
 
 def run_mintpy(stack, ref_yx):
@@ -287,8 +293,9 @@ mintpy.load.connCompFile        = {d}/*/*_conncomp_clip.tif
 mintpy.network.coherenceBased   = yes
 mintpy.network.minCoherence     = 0.5
 mintpy.network.keepMinSpanTree  = yes
-## แก้ unwrapping error ด้วย phase closure (network มี triplet จากการจับคู่ภาพถัดไป 3 ภาพ)
-mintpy.unwrapError.method       = phase_closure
+## แก้ unwrapping error ระหว่างส่วนที่ถูกแม่น้ำแบ่ง ด้วย bridging
+## (phase_closure ทดสอบกับข้อมูลจริงแล้วทำให้ฝั่งตะวันตก/ตะวันออกของเจ้าพระยาคลาดกันเป็นรอบ)
+mintpy.unwrapError.method       = bridging
 mintpy.reference.yx             = {ref_yx or 'auto'}
 mintpy.troposphericDelay.method = no
 mintpy.deramp                   = no
