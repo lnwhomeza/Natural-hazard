@@ -5,3 +5,4 @@ data/
 *.pmtiles
 .ipynb_checkpoints/
 __pycache__/
+data_test/
