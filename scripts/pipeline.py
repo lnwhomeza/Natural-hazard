@@ -248,10 +248,30 @@ def download():
 
 
 # ---------------------------------------------------------------- MintPy
+def make_conncomp(d):
+    """HyP3 GAMMA ไม่มีไฟล์ connected component แต่ phase-closure correction ของ MintPy ต้องใช้
+    จึงสร้างจาก pixel ที่ unwrap ได้ (ค่า != 0/nodata) ให้เป็น component เดียว"""
+    import rasterio
+    for unw in d.glob('*/*_unw_phase_clip.tif'):
+        out = unw.with_name(unw.name.replace('_unw_phase_clip', '_conncomp_clip'))
+        if out.exists():
+            continue
+        with rasterio.open(unw) as src:
+            ph = src.read(1)
+            valid = np.isfinite(ph) & (ph != 0)
+            if src.nodata is not None:
+                valid &= ph != src.nodata
+            prof = src.profile
+        prof.update(dtype='int16', nodata=None, compress='deflate')
+        with rasterio.open(out, 'w', **prof) as dst:
+            dst.write(valid.astype('int16'), 1)
+
+
 def run_mintpy(stack, ref_yx):
     d = DATA / stack / 'hyp3'
     run_dir = DATA / stack / 'mintpy'
     run_dir.mkdir(parents=True, exist_ok=True)
+    make_conncomp(d)
     water = (f'mintpy.load.waterMaskFile       = {d}/*/*_water_mask_clip.tif'
              if any(d.glob('*/*_water_mask_clip.tif')) else '')
     cfg = run_dir / f'{PROJECT}_{stack}.txt'
@@ -262,7 +282,14 @@ mintpy.load.corFile             = {d}/*/*_corr_clip.tif
 mintpy.load.demFile             = {d}/*/*_dem_clip.tif
 mintpy.load.incAngleFile        = {d}/*/*_lv_theta_clip.tif
 mintpy.load.azAngleFile         = {d}/*/*_lv_phi_clip.tif
+mintpy.load.connCompFile        = {d}/*/*_conncomp_clip.tif
 {water}
+## ตัดคู่ที่ coherence เฉลี่ยต่ำ (นาข้าวหน้าฝน) แต่คง minimum spanning tree ไว้ให้ network ไม่ขาด
+mintpy.network.coherenceBased   = yes
+mintpy.network.minCoherence     = 0.5
+mintpy.network.keepMinSpanTree  = yes
+## แก้ unwrapping error ด้วย phase closure (network มี triplet จากการจับคู่ภาพถัดไป 3 ภาพ)
+mintpy.unwrapError.method       = phase_closure
 mintpy.reference.yx             = {ref_yx or 'auto'}
 mintpy.troposphericDelay.method = no
 mintpy.deramp                   = no
