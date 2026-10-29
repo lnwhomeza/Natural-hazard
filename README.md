@@ -27,6 +27,22 @@ python scripts/pipeline.py search|submit|status|download|mintpy|analyze|coseismi
 ผลใน `results/`: `vlm_{pre,post}.tif` แนวดิ่ง, `east_{pre,post}.tif` แนวตะวันออก-ตะวันตก, `sd_*.tif`, `dv.tif`, `dv_sig.tif`,
 `vlm_{asc,desc}_{pre,post}.tif` (track เดียว ไว้เทียบ), แผนที่ `.png`, `summary.txt`, `district_stats.csv`
 
+## Exposure (ตาม Ohenhen et al. 2024)
+
+`scripts/exposure.py` อ่าน `results/vlm_*.tif`, `sd_*.tif` แล้วเขียนผลลง `results/exposure/`
+
+| ข้อมูล | แหล่ง |
+|---|---|
+| ประชากร | WorldPop 2025 constrained 100 ม. (รวมประชากรแฝง: กรุงเทพฯ ~11.1 ล้าน) |
+| อาคาร | Global Building Atlas LoD1 — 3.25 ล้านหลัง (footprint + ความสูง) |
+| ถนน ราง สถานที่สำคัญ | Overture Maps 2026-10-21 (โรงเรียน 713, โรงพัก 299, สถานีราง 225, มหาวิทยาลัย 124, โรงพยาบาล 117, ดับเพลิง 54, สนามบิน 6) |
+
+เกณฑ์ VLM < 0/−2/−5/−10/−20 มม./ปี × 3 bounds (VLM+SD / VLM / VLM−SD) × ช่วง pre/post
+
+```
+python scripts/exposure.py data|beta|area|infra|case|all
+```
+
 ## Notebooks
 
 | ไฟล์ | เนื้อหา | เปิดใน Colab |
