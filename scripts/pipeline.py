@@ -235,10 +235,13 @@ def download():
     for stack in load_stacks():
         out_root = DATA / stack / 'hyp3'
         jobs = [j for j in hyp3.find_jobs(name=job_name(stack)) if j.succeeded() and not j.expired()]
+        # คู่เดียวกันอาจมีหลาย job (ส่งซ้ำตอนคิวช้า) ชื่อ product ต่างกันแค่รหัสท้าย → เอาคู่ละชุดเดียว
+        have = {p.parent.name.rsplit('_', 1)[0] for p in out_root.glob('*/*_unw_phase_clip.tif')}
         for k, job in enumerate(jobs, 1):
             name = Path(job.files[0]['filename']).stem
-            if (out_root / name / f'{name}_unw_phase_clip.tif').exists():
+            if name.rsplit('_', 1)[0] in have:
                 continue
+            have.add(name.rsplit('_', 1)[0])
             zip_path = job.download_files(SCRATCH)[0]
             prod_dir = sdk.util.extract_zipped_product(zip_path)
             clip_product(prod_dir, out_root / name, bounds)
