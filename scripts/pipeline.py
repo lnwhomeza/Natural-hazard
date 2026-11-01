@@ -343,10 +343,66 @@ mintpy.topographicResidual      = yes
 mintpy.save.kmz                 = no
 mintpy.compute.numWorker        = 4
 ''')
-    subprocess.run(['smallbaselineApp.py', str(cfg), '--dir', str(run_dir)], check=True)
+    app = ['smallbaselineApp.py', str(cfg), '--dir', str(run_dir)]
+    subprocess.run(app + ['--end', 'correct_unwrap_error'], check=True)
+    if align_components(run_dir):          # ifg เปลี่ยน → ต้อง invert ใหม่
+        for f in run_dir.glob('timeseries*.h5'):
+            f.unlink()
+    subprocess.run(app + ['--start', 'invert_network'], check=True)
     if stack in PLATFORM_STEP:
         fix_platform_offset(stack)
     return run_dir
+
+
+def align_components(run_dir, gap=20, min_px=2500):
+    """ปรับระดับ phase ของแต่ละ connected component ให้ต่อเนื่องกับ component ที่มีจุดอ้างอิง (ไม่จำกัดเป็นจำนวนเต็มรอบ)
+
+    ใน asc (GAMMA) บาง ifg สองฝั่งเจ้าพระยาถูก unwrap แยกกันและคลาดกัน ~1–2 รอบแบบไม่เป็นจำนวนเต็ม ซึ่ง bridging
+    (ปัดเป็นจำนวนเต็มรอบ) ไม่แก้ — สมมติการเคลื่อนตัวต่อเนื่องข้ามแม่น้ำ: เทียบค่ามัธยฐานของแถบริมฝั่งที่ห่างกันไม่เกิน gap pixel
+    เขียนทับ unwrapPhase_bridging ใน ifgramStack.h5 ครั้งเดียว (บันทึก attribute ไว้กันรันซ้ำ) คืน True ถ้ามีการแก้"""
+    import h5py
+    from scipy import ndimage
+    from mintpy.utils import readfile
+    stack_file = run_dir / 'inputs' / 'ifgramStack.h5'
+    atr = readfile.read_attribute(str(stack_file))
+    ry, rx = int(atr['REF_Y']), int(atr['REF_X'])
+    ball = np.ones((2 * gap + 1, 2 * gap + 1), bool)
+    with h5py.File(stack_file, 'r+') as h:
+        ds = h['unwrapPhase_bridging']
+        if ds.attrs.get('ALIGNED_COMPONENTS') == 'yes':
+            return False
+        n_fix = 0
+        for i in range(ds.shape[0]):
+            ph = ds[i]
+            cc = h['connectComponent'][i]
+            sizes = np.bincount(cc.ravel())
+            ref = cc[ry, rx]
+            if ref == 0:
+                continue
+            done = {ref}
+            # ต่อ component ใกล้สุดเข้ากับกลุ่มที่ปรับแล้วไปเรื่อยๆ (component ใหญ่ก่อน)
+            todo = [c for c in np.argsort(-sizes) if c not in (0, ref) and sizes[c] >= min_px]
+            base = cc == ref
+            for _ in range(len(todo)):
+                near = ndimage.binary_dilation(base, ball)
+                best = None
+                for c in todo:
+                    side_c = (cc == c) & near
+                    if side_c.sum() >= 50:
+                        side_b = base & ndimage.binary_dilation(cc == c, ball)
+                        best = (c, np.median(ph[side_b]) - np.median(ph[side_c]))
+                        break
+                if best is None:
+                    break
+                c, off = best
+                ph[cc == c] += off
+                base |= cc == c
+                todo.remove(c)
+                n_fix += abs(off) > np.pi / 2
+            ds[i] = ph
+        ds.attrs['ALIGNED_COMPONENTS'] = 'yes'
+    print(f'align_components: {run_dir.parent.name} ปรับ component ที่คลาด > 0.25 รอบ {n_fix} ครั้ง', flush=True)
+    return True
 
 
 def burst_labels(stack, atr):
