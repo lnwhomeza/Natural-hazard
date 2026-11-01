@@ -331,7 +331,9 @@ mintpy.reference.yx             = {ref_yx or 'auto'}
 ## ประมาณ annual term ไปพร้อมความเร็ว: ช่วง post ไม่ครบรอบปี สัญญาณตามฤดูกาลจะ bias velocity
 mintpy.timeFunc.polynomial      = 1
 mintpy.timeFunc.periodic        = 1.0
-mintpy.deramp                   = no
+## ลบระนาบเอียงรายวัน: Δv ของ asc/desc ไม่สัมพันธ์กัน (r 0.00) และเป็นระนาบเอียงคนละทาง 20–44 มม./ปี ต่อ 100 กม.
+## (น่าจะเป็นไอโอโนสเฟียร์ใกล้ศูนย์สูตรช่วง solar max ซึ่ง HyP3/ERA5 ไม่ได้แก้) — ตัดการเคลื่อนตัวจริงที่เป็นระนาบไปด้วย
+mintpy.deramp                   = linear
 mintpy.topographicResidual      = yes
 mintpy.save.kmz                 = no
 mintpy.compute.numWorker        = 4
@@ -363,12 +365,18 @@ def burst_labels(stack, atr):
     return inside.astype(bool), list(bu.id)
 
 
+def final_timeseries(mintpy_dir):
+    """time series สุดท้ายของ smallbaselineApp (ชื่อเปลี่ยนตามขั้นที่เปิด เช่น _ramp เมื่อ deramp)"""
+    fs = [f for f in mintpy_dir.glob('timeseries*_demErr.h5')]
+    return max(fs, key=lambda f: f.stat().st_mtime)
+
+
 def fix_platform_offset(stack):
     """แทน step ราย pixel ด้วยค่ามัธยฐานต่อ burst → ลบออกจาก time series ตั้งแต่วันเปลี่ยนดาวเทียม → velocity ใหม่"""
     import h5py
     from mintpy.utils import readfile, writefile
     m = DATA / stack / 'mintpy'
-    ts_file, vel = m / 'timeseries_ERA5_demErr.h5', m / 'velocity.h5'
+    ts_file, vel = final_timeseries(m), m / 'velocity.h5'
     step_ds = f'step{PLATFORM_STEP[stack]}'
     with h5py.File(vel, 'r') as f:
         if step_ds not in f:          # รันซ้ำ: velocity.h5 ถูกแทนแล้ว ใช้ไฟล์ที่เก็บไว้
@@ -399,7 +407,7 @@ def fix_platform_offset(stack):
         bperp = f['bperp'][:]
     after = np.array([d >= PLATFORM_STEP[stack] for d in dates])
     ts[after] -= offset
-    out = m / 'timeseries_ERA5_demErr_burstFix.h5'
+    out = ts_file.with_name(ts_file.stem + '_burstFix.h5')
     writefile.write({'timeseries': ts, 'date': np.array(dates, dtype=np.bytes_), 'bperp': bperp},
                     out_file=str(out), metadata=atr)
     subprocess.run(['timeseries2velocity.py', str(out), '--poly', '1', '--periodic', '1.0',
