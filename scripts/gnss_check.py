@@ -7,13 +7,12 @@
     python scripts/gnss_check.py          # ดาวน์โหลด tenv3 ไป data/gnss แล้วเขียน results/gnss_check.txt + .png
 """
 import urllib.request
-from datetime import date, datetime
 
 import h5py
 import numpy as np
 import pandas as pd
 
-from pipeline import DATA, EQ_DATE, EPSG, PERIODS, RESULTS, TRACKS, NETWORK_END
+from pipeline import DATA, EQ_DATE, EPSG, PERIODS, RESULTS, TRACKS
 
 STATIONS = {'CUSV': 'จุฬาฯ ปทุมวัน', 'KMIT': 'สจล. ลาดกระบัง'}
 PAIR = ('KMIT', 'CUSV')
@@ -36,8 +35,6 @@ def load_gnss(sta):
 
 def period_window(p):
     start, end = PERIODS[p]
-    if p in NETWORK_END:
-        end = min(end, datetime.strptime(NETWORK_END[p], '%Y%m%d').date())
     return pd.Timestamp(start), pd.Timestamp(end)
 
 
@@ -93,7 +90,7 @@ def main():
     import matplotlib.pyplot as plt
 
     G = {s: load_gnss(s) for s in STATIONS}
-    lines = ['GNSS: Nevada Geodetic Laboratory (IGS20) | ช่วง post ตัดที่ ' + NETWORK_END.get('post', '-'), '',
+    lines = ['GNSS: Nevada Geodetic Laboratory (IGS20)', '',
              '== 1) GNSS แนวดิ่ง (มม./ปี, IGS20 ไม่ใช่เทียบจุดอ้างอิง InSAR) ==']
     for s, name in STATIONS.items():
         g = G[s][0]

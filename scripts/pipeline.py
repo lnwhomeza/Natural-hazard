@@ -44,9 +44,11 @@ PERIODS = {
 TRACKS = ['asc', 'desc']
 # รอบถ่าย 12 วันเท่ากันทั้งสองช่วง: 1D รับช่วงวงโคจรต่อจาก 1A ตั้งแต่กลางปี 2569 (ไม่ใช้ 1C ซึ่งทำให้เป็น 6 วัน)
 PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
-# interferogram ที่คร่อมการเปลี่ยนจาก 1A เป็น 1D (desc: 1D เริ่ม 3 มิ.ย. 2569, asc: 5 ก.ค.) มี offset ราย burst
-# ทำให้ velocity ช่วง post เป็นแถบกว้างเท่า burst → ตัดช่วง post ที่ MintPy ไว้ก่อน 1D ทั้งสอง track ให้ช่วงตรงกัน
-NETWORK_END = {'post': '20260430'}
+# interferogram ที่คร่อมการเปลี่ยนจาก 1A เป็น 1D มี offset ราย burst ทำให้ velocity ช่วง post เป็นแถบกว้างเท่า burst
+# → ให้ MintPy ประมาณ step ราย pixel ที่วันเปลี่ยนดาวเทียมไปพร้อม velocity (ตัดช่วงให้จบก่อน 1D ไม่ได้:
+#    เหลือราว 1 ปี แยก velocity ออกจากเทอมรายปีไม่ได้) — desc: 1A ภาพสุดท้าย 9 เม.ย. 69 / 1D แรก 3 มิ.ย.,
+#    asc: 1A ภาพสุดท้าย 28 มิ.ย. / 1D แรก 5 ก.ค.
+PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
@@ -320,7 +322,7 @@ mintpy.network.keepMinSpanTree  = yes
 ## แก้ unwrapping error ระหว่างส่วนที่ถูกแม่น้ำแบ่ง ด้วย bridging
 ## (phase_closure ทดสอบกับข้อมูลจริงแล้วทำให้ฝั่งตะวันตก/ตะวันออกของเจ้าพระยาคลาดกันเป็นรอบ)
 mintpy.unwrapError.method       = bridging
-mintpy.network.endDate          = {NETWORK_END.get(stack.split('_')[1], 'auto')}
+mintpy.timeFunc.stepDate        = {PLATFORM_STEP.get(stack, 'auto')}
 mintpy.reference.yx             = {ref_yx or 'auto'}
 {tropo}
 ## ประมาณ annual term ไปพร้อมความเร็ว: ช่วง post ไม่ครบรอบปี สัญญาณตามฤดูกาลจะ bias velocity
