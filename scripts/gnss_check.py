@@ -60,7 +60,9 @@ def insar_pixel(stack, lat, lon):
     from pyproj import Transformer
     from mintpy.utils import readfile, utils as ut
     m = DATA / stack / 'mintpy'
-    f = m / 'timeseries_ERA5_demErr.h5'
+    f = m / 'timeseries_ERA5_demErr_burstFix.h5'   # แก้ offset ราย burst ของ S1D แล้ว (fix_platform_offset)
+    if not f.exists():
+        f = m / 'timeseries_ERA5_demErr.h5'
     a = readfile.read_attribute(str(f))
     x, y = Transformer.from_crs(4326, EPSG, always_xy=True).transform(lon, lat)
     c = int((x - float(a['X_FIRST'])) / float(a['X_STEP']))

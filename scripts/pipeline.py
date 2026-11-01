@@ -49,8 +49,9 @@ PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 # ทดลองแล้วทั้งสองทางแย่กว่าไม่แก้ (asc − desc ช่วง post, ไม่แก้: r 0.56, −5.4 มม./ปี):
 #   - ตัดช่วง post ไว้ก่อน 1D (endDate 20260430): เหลือ ~1 ปี แยก velocity จากเทอมรายปีไม่ได้ → r 0.24, −36
 #   - step ราย pixel ที่วันเปลี่ยนดาวเทียม: หลัง step เหลือ 4–5 เดือน → r 0.61, −20.5, SD post 9 มม./ปี
-# จึงปิดไว้ ใส่ {'asc_post': '20260701', 'desc_post': '20260601'} เพื่อเปิด step
-PLATFORM_STEP = {}
+# วิธีที่ใช้: ให้ MintPy ประมาณ step ราย pixel ก่อน แล้ว fix_platform_offset() แทนด้วยค่ามัธยฐานต่อ burst
+# (offset ของดาวเทียมคงที่ทั้ง burst) ลบออกจาก time series แล้วประมาณ velocity ใหม่โดยไม่มี step
+PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
@@ -336,7 +337,73 @@ mintpy.save.kmz                 = no
 mintpy.compute.numWorker        = 4
 ''')
     subprocess.run(['smallbaselineApp.py', str(cfg), '--dir', str(run_dir)], check=True)
+    if stack in PLATFORM_STEP:
+        fix_platform_offset(stack)
     return run_dir
+
+
+def burst_labels(stack, atr):
+    """footprint ของ burst ในวันแรกหลังเปลี่ยนดาวเทียม เป็น mask (n, ยาว, กว้าง) บนกริดของ MintPy"""
+    import asf_search as asf
+    from datetime import datetime, timedelta
+    from rasterio.features import rasterize
+    from rasterio.transform import from_origin
+    from shapely.geometry import shape
+    day = datetime.strptime(PLATFORM_STEP[stack], '%Y%m%d')
+    res = asf.geo_search(processingLevel='BURST', polarization='VV', beamMode=asf.BEAMMODE.IW,
+                         flightDirection='ASCENDING' if stack.startswith('asc') else 'DESCENDING',
+                         intersectsWith=provinces().convex_hull.wkt,
+                         start=day.isoformat(), end=(day + timedelta(days=13)).isoformat())
+    bu = gpd.GeoDataFrame([{'id': r.properties['burst']['fullBurstID'], 'path': r.properties['pathNumber'],
+                            'geometry': shape(r.geometry)} for r in res], crs=4326)
+    bu = bu[bu.path == bu.path.mode()[0]].drop_duplicates('id').to_crs(EPSG).reset_index(drop=True)
+    h, w = int(atr['LENGTH']), int(atr['WIDTH'])
+    tr = from_origin(float(atr['X_FIRST']), float(atr['Y_FIRST']), float(atr['X_STEP']), -float(atr['Y_STEP']))
+    inside = np.stack([rasterize([(g, 1)], out_shape=(h, w), transform=tr, fill=0, dtype='uint8') for g in bu.geometry])
+    return inside.astype(bool), list(bu.id)
+
+
+def fix_platform_offset(stack):
+    """แทน step ราย pixel ด้วยค่ามัธยฐานต่อ burst → ลบออกจาก time series ตั้งแต่วันเปลี่ยนดาวเทียม → velocity ใหม่"""
+    import h5py
+    from mintpy.utils import readfile, writefile
+    m = DATA / stack / 'mintpy'
+    ts_file, vel = m / 'timeseries_ERA5_demErr.h5', m / 'velocity.h5'
+    step_ds = f'step{PLATFORM_STEP[stack]}'
+    with h5py.File(vel, 'r') as f:
+        if step_ds not in f:          # รันซ้ำ: velocity.h5 ถูกแทนแล้ว ใช้ไฟล์ที่เก็บไว้
+            vel = m / 'velocity_step.h5'
+    if vel.name == 'velocity.h5':
+        shutil.move(vel, m / 'velocity_step.h5')
+        vel = m / 'velocity_step.h5'
+    step = readfile.read(str(vel), datasetName=step_ds)[0]
+    atr = readfile.read_attribute(str(ts_file))
+    inside, ids = burst_labels(stack, atr)
+    good = readfile.read(str(m / 'maskTempCoh.h5'))[0].astype(bool) & np.isfinite(step)
+    only = inside & (inside.sum(0) == 1)
+    # ค่าของแต่ละ burst จากส่วนที่ไม่ซ้อน burst อื่น
+    off = np.array([np.median(step[o & good]) if (o & good).sum() > 100 else np.nan for o in only])
+    # ส่วนที่ burst ซ้อนกัน: รอยต่อจริงตอน merge ไม่รู้ จึงเลือก burst ที่ค่าใกล้ step ของ pixel ที่สุด
+    cand = np.where(inside & np.isfinite(off)[:, None, None], np.abs(step[None] - off[:, None, None]), np.inf)
+    cand[:, ~np.isfinite(step)] = np.where(inside & np.isfinite(off)[:, None, None], 0, np.inf)[:, ~np.isfinite(step)]
+    pick = cand.argmin(0)
+    offset = np.where(np.isfinite(cand.min(0)), off[pick], 0)
+    # วัดเทียบ burst ที่มีจุดอ้างอิง ไม่เช่นนั้นทั้งภาพเลื่อนเทียบจุดอ้างอิง และ asc/desc จะไม่ได้อ้างอิงจุดเดียวกัน
+    ref = off[pick[int(atr['REF_Y']), int(atr['REF_X'])]]
+    offset[offset != 0] -= ref
+    for bid, o in zip(ids, off):
+        print(f'{stack} {bid}: offset {(o - ref) * 1000:6.1f} มม.', flush=True)
+    ts, atr = readfile.read(str(ts_file))
+    with h5py.File(ts_file, 'r') as f:
+        dates = [d.decode() for d in f['date'][:]]
+        bperp = f['bperp'][:]
+    after = np.array([d >= PLATFORM_STEP[stack] for d in dates])
+    ts[after] -= offset
+    out = m / 'timeseries_ERA5_demErr_burstFix.h5'
+    writefile.write({'timeseries': ts, 'date': np.array(dates, dtype=np.bytes_), 'bperp': bperp},
+                    out_file=str(out), metadata=atr)
+    subprocess.run(['timeseries2velocity.py', str(out), '--poly', '1', '--periodic', '1.0',
+                    '-o', str(m / 'velocity.h5')], check=True)
 
 
 def mintpy(ref_yx=None):
