@@ -52,6 +52,7 @@ PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 # วิธีที่ใช้: ให้ MintPy ประมาณ step ราย pixel ก่อน แล้ว fix_platform_offset() แทนด้วยค่ามัธยฐานต่อ burst
 # (offset ของดาวเทียมคงที่ทั้ง burst) ลบออกจาก time series แล้วประมาณ velocity ใหม่โดยไม่มี step
 PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
+UNWRAP_METHOD = {'asc': 'bridging+phase_closure', 'desc': 'bridging'}
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
@@ -322,9 +323,9 @@ mintpy.load.connCompFile        = {d}/*/*_conncomp_clip.tif
 mintpy.network.coherenceBased   = yes
 mintpy.network.minCoherence     = 0.5
 mintpy.network.keepMinSpanTree  = yes
-## แก้ unwrapping error ระหว่างส่วนที่ถูกแม่น้ำแบ่ง ด้วย bridging
-## (phase_closure ทดสอบกับข้อมูลจริงแล้วทำให้ฝั่งตะวันตก/ตะวันออกของเจ้าพระยาคลาดกันเป็นรอบ)
-mintpy.unwrapError.method       = bridging
+## แก้ unwrapping error ระหว่างส่วนที่ถูกแม่น้ำแบ่ง ด้วย bridging (phase_closure อย่างเดียวกับชุด 1 ปีทำให้สองฝั่ง
+## เจ้าพระยาคลาดกันเป็นรอบ) — asc (GAMMA) ยังคลาด ≥1 รอบข้ามแม่น้ำใน 2–10% ของ ifg จึงต่อด้วย phase_closure
+mintpy.unwrapError.method       = {UNWRAP_METHOD[stack.split('_')[0]]}
 mintpy.timeFunc.stepDate        = {PLATFORM_STEP.get(stack, 'auto')}
 mintpy.reference.yx             = {ref_yx or 'auto'}
 {tropo}
