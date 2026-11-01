@@ -44,11 +44,13 @@ PERIODS = {
 TRACKS = ['asc', 'desc']
 # รอบถ่าย 12 วันเท่ากันทั้งสองช่วง: 1D รับช่วงวงโคจรต่อจาก 1A ตั้งแต่กลางปี 2569 (ไม่ใช้ 1C ซึ่งทำให้เป็น 6 วัน)
 PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
-# interferogram ที่คร่อมการเปลี่ยนจาก 1A เป็น 1D มี offset ราย burst ทำให้ velocity ช่วง post เป็นแถบกว้างเท่า burst
-# → ให้ MintPy ประมาณ step ราย pixel ที่วันเปลี่ยนดาวเทียมไปพร้อม velocity (ตัดช่วงให้จบก่อน 1D ไม่ได้:
-#    เหลือราว 1 ปี แยก velocity ออกจากเทอมรายปีไม่ได้) — desc: 1A ภาพสุดท้าย 9 เม.ย. 69 / 1D แรก 3 มิ.ย.,
-#    asc: 1A ภาพสุดท้าย 28 มิ.ย. / 1D แรก 5 ก.ค.
-PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
+# interferogram ที่คร่อมการเปลี่ยนจาก 1A เป็น 1D (desc: 1A ภาพสุดท้าย 9 เม.ย. 69 / 1D แรก 3 มิ.ย.,
+# asc: 28 มิ.ย. / 5 ก.ค.) มี offset ราย burst ทำให้ velocity ช่วง post เป็นแถบกว้างเท่า burst
+# ทดลองแล้วทั้งสองทางแย่กว่าไม่แก้ (asc − desc ช่วง post, ไม่แก้: r 0.56, −5.4 มม./ปี):
+#   - ตัดช่วง post ไว้ก่อน 1D (endDate 20260430): เหลือ ~1 ปี แยก velocity จากเทอมรายปีไม่ได้ → r 0.24, −36
+#   - step ราย pixel ที่วันเปลี่ยนดาวเทียม: หลัง step เหลือ 4–5 เดือน → r 0.61, −20.5, SD post 9 มม./ปี
+# จึงปิดไว้ ใส่ {'asc_post': '20260701', 'desc_post': '20260601'} เพื่อเปิด step
+PLATFORM_STEP = {}
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
