@@ -52,12 +52,18 @@ PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 # วิธีที่ใช้: ให้ MintPy ประมาณ step ราย pixel ก่อน แล้ว fix_platform_offset() แทนด้วยค่ามัธยฐานต่อ burst
 # (offset ของดาวเทียมคงที่ทั้ง burst) ลบออกจาก time series แล้วประมาณ velocity ใหม่โดยไม่มี step
 PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
-# asc (GAMMA) คลาด ≥1 รอบข้ามเจ้าพระยาใน 2–10% ของ ifg; phase_closure ต่อท้าย bridging ช่วยแทบไม่ได้ (12→11 ใน asc_post)
-# ลองลดหน้าต่างหาค่ากลางรอบจุดเชื่อมของ bridging จาก 50 pixel (4 กม.) เหลือ 10 (800 ม.) เพื่อให้วัดเฉพาะริมแม่น้ำ
+# ชุดหลักคือ ERA5 + แก้ offset ราย burst ของ S1D เท่านั้น: ให้ r(asc, desc) ดีที่สุดเมื่อใช้ค่าตั้งเดียวกันทั้งสองช่วง
+# (pre 0.61 / post 0.71) ส่วนด้านล่างทดลองแล้วปิดไว้ — pre ดีขึ้น (r ~0.74) แต่ post ตกเหลือ ~0.4:
+#   DERAMP = 'linear'                       pre 0.74 / post 0.42, ใกล้ GNSS ขึ้น (KMIT−CUSV +8.4 → +4.8, GNSS +1.0)
+#   ALIGN_COMPONENTS = True                 ปรับ component ข้ามเจ้าพระยา: แทบไม่เปลี่ยน (0.75 / 0.38)
+#   EXCLUDE_DATES ของ asc ที่เสียหน้าฝน      {'asc_pre': '20210922,20230831,20241012', 'asc_post': '20260616,20260903'}
+#                                           (0.74 / 0.41)
+#   bridging+phase_closure หรือ bridgePtsRadius 10 สำหรับ asc: ไม่ลดการคลาดข้ามแม่น้ำ
+DERAMP = 'no'
+ALIGN_COMPONENTS = False
+EXCLUDE_DATES = {}
 UNWRAP_METHOD = {'asc': 'bridging', 'desc': 'bridging'}
-BRIDGE_RADIUS = {'asc': 10, 'desc': 'auto'}
-# วันที่ asc ที่ทำให้สองฝั่งเจ้าพระยาคลาดกันใน ifg จำนวนมาก (หน้าฝน ~18:30 น. — พายุ/ไอโอโนสเฟียร์) ตัดออกจาก network
-EXCLUDE_DATES = {'asc_pre': '20210922,20230831,20241012', 'asc_post': '20260616,20260903'}
+BRIDGE_RADIUS = {'asc': 'auto', 'desc': 'auto'}
 N_NEIGHBORS = 3            # จำนวนคู่ต่อภาพ (SBAS network)
 LOOKS, PIXEL = '20x4', 80  # 80 ม.
 PROJECT = 'bkk_subs'       # prefix ชื่อ job ใน HyP3
@@ -339,16 +345,15 @@ mintpy.reference.yx             = {ref_yx or 'auto'}
 ## ประมาณ annual term ไปพร้อมความเร็ว: ช่วง post ไม่ครบรอบปี สัญญาณตามฤดูกาลจะ bias velocity
 mintpy.timeFunc.polynomial      = 1
 mintpy.timeFunc.periodic        = 1.0
-## ลบระนาบเอียงรายวัน: Δv ของ asc/desc ไม่สัมพันธ์กัน (r 0.00) และเป็นระนาบเอียงคนละทาง 20–44 มม./ปี ต่อ 100 กม.
-## (น่าจะเป็นไอโอโนสเฟียร์ใกล้ศูนย์สูตรช่วง solar max ซึ่ง HyP3/ERA5 ไม่ได้แก้) — ตัดการเคลื่อนตัวจริงที่เป็นระนาบไปด้วย
-mintpy.deramp                   = linear
+## ระนาบเอียงรายวัน: ดู DERAMP
+mintpy.deramp                   = {DERAMP}
 mintpy.topographicResidual      = yes
 mintpy.save.kmz                 = no
 mintpy.compute.numWorker        = 4
 ''')
     app = ['smallbaselineApp.py', str(cfg), '--dir', str(run_dir)]
     subprocess.run(app + ['--end', 'correct_unwrap_error'], check=True)
-    if align_components(run_dir):          # ifg เปลี่ยน → ต้อง invert ใหม่
+    if ALIGN_COMPONENTS and align_components(run_dir):   # ifg เปลี่ยน → ต้อง invert ใหม่
         for f in run_dir.glob('timeseries*.h5'):
             f.unlink()
     subprocess.run(app + ['--start', 'invert_network'], check=True)
