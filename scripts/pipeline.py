@@ -57,10 +57,12 @@ PLATFORM_STEP = {}
 POST_END = {'asc_post': '20260324', 'desc_post': '20260409'}
 # เทอมรายปีใน velocity: ปิดทั้งสองช่วงให้โมเดลเดียวกัน (pre ~4 ปีเต็ม) — analyze รายงานผลแบบมีเทอมรายปีของ pre เทียบ
 ANNUAL = {'pre': False, 'post': False}
-# จุดอ้างอิง: pixel ใกล้หมุด GNSS CUSV (จุฬาฯ 13.7359N 100.5339E, pixel 321,701) ที่ coherence ต่ำสุดใน 4 stack
-# สูงสุดใน 5x5 (asc 0.81/0.85, desc 0.48/0.50; ที่ CUSV เอง 0.46) — ห่าง ~160 ม. ไปทางตะวันตก
-# แล้ว analyze บวกความเร็วแนวดิ่งของ CUSV (NGL IGS20) เข้า LOS ทุก pixel (แนวราบถือ 0, Sundaland-fixed)
-REF_YX = '321,699'
+# จุดอ้างอิงของ MintPy: pixel ที่ coherence ต่ำสุดใน 4 stack สูงสุดในรัศมี 1.5 กม. จากหมุด GNSS CUSV (จุฬาฯ 13.7359N
+# 100.5339E, pixel 321,701): asc 0.95/0.96, desc 0.82/0.84, ห่าง ~1.6 กม. — ใช้ pixel ข้างหมุดเอง (coherence desc
+# ~0.5) แล้ว desc_post temporal coherence ทั้งภาพ ~0.55 ถูก mask หมด เพราะสัญญาณรบกวนของจุดอ้างอิงเข้าทุก pixel
+# จากนั้น analyze ผูกกับ GNSS ที่ตัวหมุด: เลื่อนทั้งภาพให้ velocity ที่ pixel CUSV (median 11x11) เท่ากับ
+# ความเร็วแนวดิ่งของ CUSV (NGL IGS20) × องค์ประกอบ up ของ LOS (แนวราบถือ 0, Sundaland-fixed)
+REF_YX = '311,684'
 GNSS_REF = 'CUSV'
 # ชุดหลักคือ ERA5 + แก้ offset ราย burst ของ S1D เท่านั้น: ให้ r(asc, desc) ดีที่สุดเมื่อใช้ค่าตั้งเดียวกันทั้งสองช่วง
 # (pre 0.61 / post 0.71) ส่วนด้านล่างทดลองแล้วปิดไว้ — pre ดีขึ้น (r ~0.74) แต่ post ตกเหลือ ~0.4:
@@ -640,11 +642,15 @@ def analyze_run(out, gnss_ramp=False):
             atr = readfile.read_attribute(str(DATA / s / 'mintpy' / 'velocity.h5'))
             win = (atr['START_DATE'], atr['END_DATE'])
             unit = ut.get_unit_vector4component_of_interest(inc, az, comp='enu2los')
+            cusv = station_px(prof, GNSS_REF)
             tie = gnss_velocity(GNSS_REF, *win, ANNUAL[p])[0]['u'][0]
-            L[s].update(win=win, unit=unit, tie=tie, v=L[s]['v'] + tie * unit[2])
+            shift = tie * at(unit[2], cusv) - at(L[s]['v'], cusv, 5)
+            L[s].update(win=win, unit=unit, tie=tie, shift=shift, v=L[s]['v'] + shift)
             if (DATA / s / 'mintpy' / 'velocity_annual.h5').exists():
                 va, _ = export(s, 'velocity', src='velocity_annual.h5')
-                L[s]['v_annual'] = va * 1000 + gnss_velocity(GNSS_REF, *win, True)[0]['u'][0] * unit[2]
+                va = va * 1000
+                tie_a = gnss_velocity(GNSS_REF, *win, True)[0]['u'][0]
+                L[s]['v_annual'] = va + tie_a * at(unit[2], cusv) - at(va, cusv, 5)
             L[s]['check'] = station_check(L[s], prof)
             if gnss_ramp and p == 'post':
                 L[s]['ramp'] = remove_station_ramp(L[s], prof)
@@ -707,11 +713,11 @@ def analyze_run(out, gnss_ramp=False):
     lines += ['', '== Δv แยก track: (v_post − v_pre)/cos(inc) ==',
               f'r(Δv_asc, Δv_desc) = {np.corrcoef(dvt["asc"][ok], dvt["desc"][ok])[0, 1]:.2f} | '
               f'median asc {np.median(dvt["asc"][ok]):.1f} | desc {np.median(dvt["desc"][ok]):.1f} มม./ปี']
-    lines += ['', f'== อ้างอิง GNSS: pixel {REF_YX} ใกล้หมุด {GNSS_REF} (NGL IGS20) ==',
-              'LOS += U_gnss × (องค์ประกอบ up ของเวกเตอร์ LOS) ทุก pixel, แนวราบถือ 0 (Sundaland-fixed), '
+    lines += ['', f'== อ้างอิง GNSS ที่หมุด {GNSS_REF} (NGL IGS20); จุดอ้างอิง MintPy pixel {REF_YX} ห่าง ~1.6 กม. ==',
+              'เลื่อนทั้งภาพให้ LOS ที่ pixel CUSV (median 11x11) = U_gnss × องค์ประกอบ up ของ LOS, แนวราบถือ 0 (Sundaland-fixed), '
               'U_gnss ประมาณบนหน้าต่างเวลาเดียวกับ stack ด้วยโมเดลเดียวกัน (เชิงเส้น' + (' + รายปี' if any(ANNUAL.values()) else '') + ')']
     for s, d in L.items():
-        lines.append(f'{s:10s} {d["win"][0]}→{d["win"][1]}: U_{GNSS_REF} = {d["tie"]:5.1f} มม./ปี'
+        lines.append(f'{s:10s} {d["win"][0]}→{d["win"][1]}: U_{GNSS_REF} = {d["tie"]:5.1f} มม./ปี, เลื่อน LOS {d["shift"]:+.1f}'
                      + (f' | ramp GNSS ที่ลบ {d["ramp"]:+.1f} มม./ปี ต่อ 100 กม. (LOS)' if 'ramp' in d else ''))
     if any('ramp' in d for d in L.values()):
         lines.append('ramp บังคับให้ LOS ตรงกับ GNSS พอดีที่ 2 หมุด (CUSV, KMIT) — ไม่มีหมุดเหลือไว้ตรวจอิสระ; '
