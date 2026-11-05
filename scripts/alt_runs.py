@@ -80,8 +80,9 @@ def build(run):
             cross.append(p)
     first = out / picked[0].name
     for f in geom_src.iterdir():
-        if any(f.name.endswith(f'_{g}_clip.tif') for g in P.GEOMETRY) and not (first / f.name).exists():
-            (first / f.name).symlink_to(f.resolve())
+        name = picked[0].name + f.name[len(geom_src.name):]       # ชื่อต้องขึ้นต้นด้วย product ของโฟลเดอร์ (prep_hyp3 อ่าน .txt คู่กัน)
+        if any(f.name.endswith(f'_{g}_clip.tif') for g in P.GEOMETRY) and not (first / name).exists():
+            (first / name).symlink_to(f.resolve())
     info = {'run': run, 'pairs': len(picked), 'dates': len({d for pr in wanted for d in pr})}
     if saw:
         from sawtooth import burst_geometry, estimate_seam_shift, fix_sawtooth
