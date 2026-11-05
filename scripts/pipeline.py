@@ -51,7 +51,17 @@ PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 #   - step ราย pixel ที่วันเปลี่ยนดาวเทียม: หลัง step เหลือ 4–5 เดือน → r 0.61, −20.5, SD post 9 มม./ปี
 # วิธีที่ใช้: ให้ MintPy ประมาณ step ราย pixel ก่อน แล้ว fix_platform_offset() แทนด้วยค่ามัธยฐานต่อ burst
 # (offset ของดาวเทียมคงที่ทั้ง burst) ลบออกจาก time series แล้วประมาณ velocity ใหม่โดยไม่มี step
-PLATFORM_STEP = {'asc_post': '20260701', 'desc_post': '20260601'}
+# ชุดหลักใหม่: ช่วง post ใช้เฉพาะ Sentinel-1A ยาว ~12 เดือนพอดี (ตัดภาพ 1D ทั้งหมด) จึงไม่มี offset ราย burst
+# และไม่ประมาณเทอมรายปี (ครบรอบปีพอดี ผลของฤดูกาลหักล้างกัน) — PLATFORM_STEP/fix_platform_offset ไม่ใช้แล้ว
+PLATFORM_STEP = {}
+POST_END = {'asc_post': '20260324', 'desc_post': '20260409'}
+# เทอมรายปีใน velocity: ปิดทั้งสองช่วงให้โมเดลเดียวกัน (pre ~4 ปีเต็ม) — analyze รายงานผลแบบมีเทอมรายปีของ pre เทียบ
+ANNUAL = {'pre': False, 'post': False}
+# จุดอ้างอิง: pixel ใกล้หมุด GNSS CUSV (จุฬาฯ 13.7359N 100.5339E, pixel 321,701) ที่ coherence ต่ำสุดใน 4 stack
+# สูงสุดใน 5x5 (asc 0.81/0.85, desc 0.48/0.50; ที่ CUSV เอง 0.46) — ห่าง ~160 ม. ไปทางตะวันตก
+# แล้ว analyze บวกความเร็วแนวดิ่งของ CUSV (NGL IGS20) เข้า LOS ทุก pixel (แนวราบถือ 0, Sundaland-fixed)
+REF_YX = '321,699'
+GNSS_REF = 'CUSV'
 # ชุดหลักคือ ERA5 + แก้ offset ราย burst ของ S1D เท่านั้น: ให้ r(asc, desc) ดีที่สุดเมื่อใช้ค่าตั้งเดียวกันทั้งสองช่วง
 # (pre 0.61 / post 0.71) ส่วนด้านล่างทดลองแล้วปิดไว้ — pre ดีขึ้น (r ~0.74) แต่ post ตกเหลือ ~0.4:
 #   DERAMP = 'linear'                       pre 0.74 / post 0.42, ใกล้ GNSS ขึ้น (KMIT−CUSV +8.4 → +4.8, GNSS +1.0)
@@ -312,7 +322,7 @@ def era5_setup():
             f'mintpy.troposphericDelay.weatherDir = {weather}')
 
 
-def run_mintpy(stack, ref_yx):
+def run_mintpy(stack, ref_yx=None):
     d = DATA / stack / 'hyp3'
     run_dir = DATA / stack / 'mintpy'
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -339,12 +349,13 @@ mintpy.network.keepMinSpanTree  = yes
 mintpy.unwrapError.method       = {UNWRAP_METHOD[stack.split('_')[0]]}
 mintpy.unwrapError.bridgePtsRadius = {BRIDGE_RADIUS[stack.split('_')[0]]}
 mintpy.network.excludeDate      = {EXCLUDE_DATES.get(stack, 'auto')}
+mintpy.network.endDate          = {POST_END.get(stack, 'auto')}
 mintpy.timeFunc.stepDate        = {PLATFORM_STEP.get(stack, 'auto')}
-mintpy.reference.yx             = {ref_yx or 'auto'}
+mintpy.reference.yx             = {ref_yx or REF_YX}
 {tropo}
-## ประมาณ annual term ไปพร้อมความเร็ว: ช่วง post ไม่ครบรอบปี สัญญาณตามฤดูกาลจะ bias velocity
+## velocity เชิงเส้น; เทอมรายปีตาม ANNUAL
 mintpy.timeFunc.polynomial      = 1
-mintpy.timeFunc.periodic        = 1.0
+mintpy.timeFunc.periodic        = {'1.0' if ANNUAL[stack.split('_')[1]] else 'auto'}
 ## ระนาบเอียงรายวัน: ดู DERAMP
 mintpy.deramp                   = {DERAMP}
 mintpy.topographicResidual      = yes
@@ -359,6 +370,10 @@ mintpy.compute.numWorker        = 4
     subprocess.run(app + ['--start', 'invert_network'], check=True)
     if stack in PLATFORM_STEP:
         fix_platform_offset(stack)
+    if not ANNUAL[stack.split('_')[1]]:
+        # แบบมีเทอมรายปีไว้เทียบ (analyze รายงานความต่าง)
+        subprocess.run(['timeseries2velocity.py', str(final_timeseries(run_dir)), '--poly', '1', '--periodic', '1.0',
+                        '-o', str(run_dir / 'velocity_annual.h5')], check=True)
     return run_dir
 
 
@@ -484,16 +499,9 @@ def fix_platform_offset(stack):
 
 
 def mintpy(ref_yx=None):
-    """asc_pre เลือกจุดอ้างอิงอัตโนมัติ แล้วใช้ pixel เดียวกันกับอีก 3 ชุด (กริดเดียวกัน)"""
-    from mintpy.utils import readfile
-    stacks = [f'{t}_{p}' for t in TRACKS for p in PERIODS]
-    first = run_mintpy(stacks[0], ref_yx)
-    if ref_yx is None:
-        atr = readfile.read_attribute(str(first / 'velocity.h5'))
-        ref_yx = f"{atr['REF_Y']},{atr['REF_X']}"
-    print('จุดอ้างอิง (y,x):', ref_yx)
-    for s in stacks[1:]:
-        run_mintpy(s, ref_yx)
+    """ทุก stack ใช้จุดอ้างอิงเดียวกัน (REF_YX ใกล้หมุด CUSV) บนกริดเดียวกัน"""
+    for s in [f'{t}_{p}' for t in TRACKS for p in PERIODS]:
+        run_mintpy(s, ref_yx or REF_YX)
 
 
 # ---------------------------------------------------------------- analysis
@@ -507,11 +515,11 @@ def export(stack, dset, src='velocity.h5'):
         return s.read(1).astype('float64'), s.profile
 
 
-def write(arr, name, profile):
+def write(arr, name, profile, out=None):
     import rasterio
     p = profile.copy()
     p.update(dtype='float32', nodata=np.nan, compress='deflate')
-    with rasterio.open(RESULTS / f'{name}.tif', 'w', **p) as dst:
+    with rasterio.open((out or RESULTS) / f'{name}.tif', 'w', **p) as dst:
         dst.write(arr.astype('float32'), 1)
 
 
@@ -529,14 +537,93 @@ def decompose(a, d):
     return east, up, sd_east, sd_up
 
 
+STATIONS = {'CUSV': (13.7359, 100.5339), 'KMIT': (13.7278, 100.7724)}
+
+
+def station_px(prof, sta):
+    from pyproj import Transformer
+    lat, lon = STATIONS[sta]
+    x, y = Transformer.from_crs(4326, EPSG, always_xy=True).transform(lon, lat)
+    t = prof['transform']
+    return int((y - t.f) / t.e), int((x - t.c) / t.a), x, y
+
+
+def at(arr, rc, h=3):
+    return float(np.nanmedian(arr[rc[0] - h:rc[0] + h + 1, rc[1] - h:rc[1] + h + 1]))
+
+
+def station_check(d, prof, other='KMIT'):
+    """LOS ของ KMIT − CUSV จาก InSAR เทียบ GNSS (E/N/U ฉายลง LOS ที่ KMIT) บนหน้าต่างเวลาของ stack"""
+    from gnss_check import gnss_velocity
+    k, c = station_px(prof, other), station_px(prof, GNSS_REF)
+    gk = gnss_velocity(other, *d['win'], ANNUAL[d.get('period', 'post')])[0]
+    gc = gnss_velocity(GNSS_REF, *d['win'], ANNUAL[d.get('period', 'post')])[0]
+    u = [at(x, k) for x in d['unit']]
+    g = sum(u[i] * (gk[cmp][0] - gc[cmp][0]) for i, cmp in enumerate('enu'))
+    sg = np.sqrt(sum(u[i] ** 2 * (gk[cmp][1] ** 2 + gc[cmp][1] ** 2) for i, cmp in enumerate('enu')))
+    ins = at(d['v'], k) - at(d['v'], c)
+    si = np.hypot(at(d['sd'], k), at(d['sd'], c))
+    return {'insar': ins, 's_insar': si, 'gnss': g, 's_gnss': sg,
+            'pass': abs(ins - g) <= max(2, 2 * np.hypot(si, sg))}
+
+
+def vertical_check(r, L, prof, other='KMIT'):
+    """แนวดิ่ง decomposed ของ KMIT − CUSV เทียบ GNSS U บนช่วงที่ asc และ desc ซ้อนกัน"""
+    from gnss_check import gnss_velocity
+    win = (max(L['asc_post']['win'][0], L['desc_post']['win'][0]), min(L['asc_post']['win'][1], L['desc_post']['win'][1]))
+    k, c = station_px(prof, other), station_px(prof, GNSS_REF)
+    gk = gnss_velocity(other, *win, ANNUAL['post'])[0]['u']
+    gc = gnss_velocity(GNSS_REF, *win, ANNUAL['post'])[0]['u']
+    ins, si = at(r['vlm'], k) - at(r['vlm'], c), np.hypot(at(r['sd'], k), at(r['sd'], c))
+    g, sg = gk[0] - gc[0], np.hypot(gk[1], gc[1])
+    return {'insar': ins, 's_insar': si, 'gnss': g, 's_gnss': sg, 'win': f'{win[0]}→{win[1]}',
+            'pass': abs(ins - g) <= max(2, 2 * np.hypot(si, sg))}
+
+
+def remove_station_ramp(d, prof, other='KMIT'):
+    """ลบ ramp เชิงเส้นตามแนว CUSV→KMIT ให้ InSAR LOS ของ KMIT − CUSV เท่ากับ GNSS (CUSV คงที่) คืนความชันต่อ 100 กม."""
+    c = d['check']
+    _, _, xk, yk = station_px(prof, other)
+    _, _, xc, yc = station_px(prof, GNSS_REF)
+    dist = np.hypot(xk - xc, yk - yc)
+    t = prof['transform']
+    h, wd = d['v'].shape
+    yy, xx = np.mgrid[0:h, 0:wd]
+    x, y = t.c + (xx + 0.5) * t.a, t.f + (yy + 0.5) * t.e
+    proj = ((x - xc) * (xk - xc) + (y - yc) * (yk - yc)) / dist
+    slope = (c['insar'] - c['gnss']) / dist
+    d['v'] = d['v'] - slope * proj
+    return slope * 1e5
+
+
 def analyze():
+    """ผลหลักลง results/; ถ้า LOS ช่วง post ของ KMIT − CUSV ไม่ผ่านเกณฑ์ GNSS ให้ลบ ramp ที่ GNSS บังคับ
+    และเก็บผลแบบไม่ลบ ramp (vlm/dv + summary) ไว้ที่ results/no_ramp/"""
+    if analyze_run(RESULTS):
+        shutil.rmtree(RESULTS / 'no_ramp', ignore_errors=True)
+        return
+    nr = RESULTS / 'no_ramp'
+    shutil.rmtree(nr, ignore_errors=True)
+    nr.mkdir()
+    for f in ['summary.txt'] + [p.name for p in RESULTS.glob('vlm_*.tif')] + [p.name for p in RESULTS.glob('dv*.tif')]:
+        shutil.copy(RESULTS / f, nr / f)
+    analyze_run(RESULTS, gnss_ramp=True)
+
+
+def analyze_run(out, gnss_ramp=False):
+    """ผลทั้งชุดลง out; gnss_ramp: ลบ ramp เชิงเส้นตามแนว CUSV→KMIT ให้ LOS ช่วง post ตรงกับ GNSS ที่ทั้งสองหมุด"""
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.colors import ListedColormap
     from rasterio.features import rasterize
 
-    RESULTS.mkdir(exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
+    from mintpy.utils import readfile, utils as ut
+    from gnss_check import gnss_velocity
+
+    def w(arr, name, profile):
+        write(arr, name, profile, out)
     SCRATCH.mkdir(parents=True, exist_ok=True)
 
     # LOS velocity + geometry ของแต่ละ track/ช่วง (มม./ปี)
@@ -549,17 +636,29 @@ def analyze():
             inc, _ = export(s, 'incidenceAngle', src='inputs/geometryGeo.h5')
             az, _ = export(s, 'azimuthAngle', src='inputs/geometryGeo.h5')
             L[s] = {'v': v * 1000, 'sd': sd * 1000, 'inc': inc, 'az': az}
+            # ผูกกับ GNSS: จุดอ้างอิงอยู่ที่ CUSV → บวกความเร็วแนวดิ่งของ CUSV ในหน้าต่างเวลาเดียวกัน (แนวราบถือ 0)
+            atr = readfile.read_attribute(str(DATA / s / 'mintpy' / 'velocity.h5'))
+            win = (atr['START_DATE'], atr['END_DATE'])
+            unit = ut.get_unit_vector4component_of_interest(inc, az, comp='enu2los')
+            tie = gnss_velocity(GNSS_REF, *win, ANNUAL[p])[0]['u'][0]
+            L[s].update(win=win, unit=unit, tie=tie, v=L[s]['v'] + tie * unit[2])
+            if (DATA / s / 'mintpy' / 'velocity_annual.h5').exists():
+                va, _ = export(s, 'velocity', src='velocity_annual.h5')
+                L[s]['v_annual'] = va * 1000 + gnss_velocity(GNSS_REF, *win, True)[0]['u'][0] * unit[2]
+            L[s]['check'] = station_check(L[s], prof)
+            if gnss_ramp and p == 'post':
+                L[s]['ramp'] = remove_station_ramp(L[s], prof)
             # VLM จาก track เดียว (สมมติไม่มีการเคลื่อนตัวแนวราบ) ไว้เทียบ
-            write(L[s]['v'] / np.cos(np.deg2rad(inc)), f'vlm_{s}', prof)
+            w(L[s]['v'] / np.cos(np.deg2rad(inc)), f'vlm_{s}', prof)
 
     # decomposition → แนวดิ่ง (ผลหลัก) และแนวตะวันออก-ตะวันตก
     R = {}
     for p in PERIODS:
         east, up, sd_east, sd_up = decompose(L[f'asc_{p}'], L[f'desc_{p}'])
         R[p] = {'vlm': up, 'sd': sd_up, 'east': east, 'sd_east': sd_east}
-        write(up, f'vlm_{p}', prof)
-        write(sd_up, f'sd_{p}', prof)
-        write(east, f'east_{p}', prof)
+        w(up, f'vlm_{p}', prof)
+        w(sd_up, f'sd_{p}', prof)
+        w(east, f'east_{p}', prof)
 
     valid = np.isfinite(R['pre']['vlm']) & np.isfinite(R['post']['vlm'])
     dv = np.where(valid, R['post']['vlm'] - R['pre']['vlm'], np.nan)
@@ -568,8 +667,8 @@ def analyze():
     sig[valid] = 0
     sig[valid & (dv < -thr)] = -1   # ทรุดเร็วขึ้นอย่างมีนัยสำคัญ
     sig[valid & (dv > thr)] = 1     # ทรุดช้าลง / ยกตัวอย่างมีนัยสำคัญ
-    write(dv, 'dv', prof)
-    write(sig, 'dv_sig', prof)
+    w(dv, 'dv', prof)
+    w(sig, 'dv_sig', prof)
 
     # เฉพาะ pixel ในสามจังหวัด
     adm = gpd.read_file(DISTRICTS).to_crs(EPSG).reset_index(drop=True)
@@ -599,7 +698,44 @@ def analyze():
         ok = inside & np.isfinite(va) & np.isfinite(vd)
         lines.append(f'{p:5s} r = {np.corrcoef(va[ok], vd[ok])[0, 1]:.2f} | '
                      f'median(asc − desc) = {np.median(va[ok] - vd[ok]):.1f} มม./ปี')
-    (RESULTS / 'summary.txt').write_text('\n'.join(lines) + '\n')
+    # Δv แยก track (ไม่ต้องสมมติแนวราบ แต่ปนแนวราบใน LOS)
+    dvt = {}
+    for t in TRACKS:
+        dvt[t] = (L[f'{t}_post']['v'] - L[f'{t}_pre']['v']) / np.cos(np.deg2rad(L[f'{t}_post']['inc']))
+        w(dvt[t], f'dv_{t}', prof)
+    ok = inside & np.isfinite(dvt['asc']) & np.isfinite(dvt['desc'])
+    lines += ['', '== Δv แยก track: (v_post − v_pre)/cos(inc) ==',
+              f'r(Δv_asc, Δv_desc) = {np.corrcoef(dvt["asc"][ok], dvt["desc"][ok])[0, 1]:.2f} | '
+              f'median asc {np.median(dvt["asc"][ok]):.1f} | desc {np.median(dvt["desc"][ok]):.1f} มม./ปี']
+    lines += ['', f'== อ้างอิง GNSS: pixel {REF_YX} ใกล้หมุด {GNSS_REF} (NGL IGS20) ==',
+              'LOS += U_gnss × (องค์ประกอบ up ของเวกเตอร์ LOS) ทุก pixel, แนวราบถือ 0 (Sundaland-fixed), '
+              'U_gnss ประมาณบนหน้าต่างเวลาเดียวกับ stack ด้วยโมเดลเดียวกัน (เชิงเส้น' + (' + รายปี' if any(ANNUAL.values()) else '') + ')']
+    for s, d in L.items():
+        lines.append(f'{s:10s} {d["win"][0]}→{d["win"][1]}: U_{GNSS_REF} = {d["tie"]:5.1f} มม./ปี'
+                     + (f' | ramp GNSS ที่ลบ {d["ramp"]:+.1f} มม./ปี ต่อ 100 กม. (LOS)' if 'ramp' in d else ''))
+    if any('ramp' in d for d in L.values()):
+        lines.append('ramp บังคับให้ LOS ตรงกับ GNSS พอดีที่ 2 หมุด (CUSV, KMIT) — ไม่มีหมุดเหลือไว้ตรวจอิสระ; '
+                     'ช่วง pre ไม่ได้ลบ (KMIT มีข้อมูลแค่ เม.ย. 2567 → มี.ค. 2568 ไม่ครอบหน้าต่าง 4 ปี)')
+    if all('v_annual' in L[f'{t}_pre'] for t in TRACKS):
+        _, up_a, _, _ = decompose({**L['asc_pre'], 'v': L['asc_pre']['v_annual']},
+                                  {**L['desc_pre'], 'v': L['desc_pre']['v_annual']})
+        d = (R['pre']['vlm'] - up_a)[inside & np.isfinite(up_a)]
+        lines += ['', '== pre: ไม่มีเทอมรายปี (ผลหลัก) − มีเทอมรายปี (แนวดิ่ง) ==',
+                  f'median {np.median(d):+.2f} | median |diff| {np.median(np.abs(d)):.2f} | p95 |diff| '
+                  f'{np.percentile(np.abs(d), 95):.2f} มม./ปี']
+    lines += ['', f'== ตรวจกับ GNSS: KMIT − {GNSS_REF} ช่วง post (เกณฑ์ |InSAR − GNSS| ≤ 2 มม./ปี หรือ ≤ 2σ รวม) ==']
+    passed = True
+    for t in TRACKS:
+        c = L[f'{t}_post']['check']
+        lines.append(f'LOS {t:4s}: InSAR {c["insar"]:6.1f} ± {c["s_insar"]:.1f} | GNSS {c["gnss"]:6.1f} ± {c["s_gnss"]:.1f} '
+                     f'| ต่าง {c["insar"] - c["gnss"]:+.1f} → {"ผ่าน" if c["pass"] else "ไม่ผ่าน"}')
+        passed &= c['pass']
+    vc = vertical_check(R['post'], L, prof)
+    lines.append(f'แนวดิ่ง (decomposed): InSAR {vc["insar"]:6.1f} ± {vc["s_insar"]:.1f} | GNSS {vc["gnss"]:6.1f} ± '
+                 f'{vc["s_gnss"]:.1f} ({vc["win"]}) | ต่าง {vc["insar"] - vc["gnss"]:+.1f} → {"ผ่าน" if vc["pass"] else "ไม่ผ่าน"}')
+    lines.append('ผล: ' + ('ผ่าน' if passed else 'ไม่ผ่าน') + ' (เกณฑ์ใช้ LOS ทั้ง asc และ desc)'
+                 + (' — ค่าหลังลบ ramp ตรงกับ GNSS โดยการบังคับ ไม่ใช่การตรวจอิสระ' if gnss_ramp else ''))
+    (out / 'summary.txt').write_text('\n'.join(lines) + '\n')
     print('\n'.join(lines))
 
     t = prof['transform']
@@ -609,7 +745,7 @@ def analyze():
         for ax in np.ravel(axs):
             adm.boundary.plot(ax=ax, color='k', lw=.3)
             ax.set_xlim(ext[:2]); ax.set_ylim(ext[2:])
-        fig.savefig(RESULTS / name, dpi=200)
+        fig.savefig(out / name, dpi=200)
         plt.close(fig)
 
     # แผนที่หลัก: แนวดิ่ง ก่อน/หลัง, Δv, นัยสำคัญ
@@ -650,7 +786,7 @@ def analyze():
     ax.plot([-40, 15], [-40, 15], 'r--', lw=1, label='1:1')
     ax.set_xlabel('Vertical velocity pre (mm/yr)'); ax.set_ylabel('Vertical velocity post (mm/yr)')
     ax.legend(); fig.colorbar(hb, label='log10(pixel)')
-    fig.savefig(RESULTS / 'scatter_pre_post.png', dpi=200)
+    fig.savefig(out / 'scatter_pre_post.png', dpi=200)
     plt.close(fig)
 
     # สถิติรายเขต/อำเภอ
@@ -671,8 +807,9 @@ def analyze():
     })
     table.index -= 1
     table = adm[['adm1_name', 'adm2_name', 'adm2_name1']].join(table).sort_values('vlm_post_median')
-    table.round(2).to_csv(RESULTS / 'district_stats.csv', index=False, encoding='utf-8-sig')
+    table.round(2).to_csv(out / 'district_stats.csv', index=False, encoding='utf-8-sig')
     print(table.round(1).head(15).to_string())
+    return passed
 
 
 def coseismic():

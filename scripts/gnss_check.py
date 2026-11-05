@@ -38,18 +38,29 @@ def period_window(p):
     return pd.Timestamp(start), pd.Timestamp(end)
 
 
-def rate(t, y):
-    """ความเร็วเชิงเส้น (มม./ปี) และ 1σ — ประมาณเทอมรายปีไปด้วยเหมือน MintPy (timeFunc.periodic = 1)
-    ข้อมูลไม่ถึง 1 ปีแยกฤดูกาลออกไม่ได้ จึงไม่คำนวณ (กรุงเทพฯ ขึ้นลงตามฤดูกาลหลาย ซม.)"""
+def rate(t, y, annual=True):
+    """ความเร็วเชิงเส้น (มม./ปี) และ 1σ — annual: ประมาณเทอมรายปีไปด้วยเหมือน MintPy (timeFunc.periodic = 1)
+    ข้อมูลสั้นกว่า ~1 ปีแยกฤดูกาลออกไม่ได้ จึงไม่คำนวณ (กรุงเทพฯ ขึ้นลงตามฤดูกาลหลาย ซม.); ไม่มีเทอมรายปีต้องครบ ~1 ปี
+    (≥ 0.9 ปี) ให้ผลของฤดูกาลหักล้างกัน"""
     ok = np.isfinite(y)
     t, y = t[ok], y[ok]
-    if len(t) < 6 or t.max() - t.min() < 1.0:
+    if len(t) < 6 or t.max() - t.min() < (1.0 if annual else 0.9):
         return np.nan, np.nan
     w = 2 * np.pi * t
-    A = np.c_[t - t.mean(), np.ones_like(t), np.sin(w), np.cos(w)]
+    A = np.c_[t - t.mean(), np.ones_like(t)]
+    if annual:
+        A = np.c_[A, np.sin(w), np.cos(w)]
     x, res, *_ = np.linalg.lstsq(A, y, rcond=None)
-    s2 = res[0] / (len(t) - 2) if len(res) else np.nan
+    s2 = res[0] / (len(t) - A.shape[1]) if len(res) else np.nan
     return x[0], np.sqrt(s2 * np.linalg.inv(A.T @ A)[0, 0])
+
+
+def gnss_velocity(sta, start, end, annual=False):
+    """ความเร็ว E/N/U (มม./ปี) และ 1σ ของหมุดในช่วง start–end (วันที่ YYYYMMDD หรือ Timestamp)"""
+    g, lat, lon = load_gnss(sta)
+    gg = g.loc[pd.Timestamp(start):pd.Timestamp(end)]
+    t = years(gg.index)
+    return {c: rate(t, gg[c].values, annual) for c in 'enu'}, lat, lon
 
 
 def years(idx):
