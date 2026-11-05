@@ -63,6 +63,7 @@ ANNUAL = {'pre': False, 'post': False}
 # จากนั้น analyze ผูกกับ GNSS ที่ตัวหมุด: เลื่อนทั้งภาพให้ velocity ที่ pixel CUSV (median 11x11) เท่ากับ
 # ความเร็วแนวดิ่งของ CUSV (NGL IGS20) × องค์ประกอบ up ของ LOS (แนวราบถือ 0, Sundaland-fixed)
 REF_YX = '311,684'
+STACK_DIRS = {}             # stack → โฟลเดอร์ MintPy แทนค่าเริ่มต้น (ชุดทดลอง)
 GNSS_REF = 'CUSV'
 # ชุดหลักคือ ERA5 + แก้ offset ราย burst ของ S1D เท่านั้น: ให้ r(asc, desc) ดีที่สุดเมื่อใช้ค่าตั้งเดียวกันทั้งสองช่วง
 # (pre 0.61 / post 0.71) ส่วนด้านล่างทดลองแล้วปิดไว้ — pre ดีขึ้น (r ~0.74) แต่ post ตกเหลือ ~0.4:
@@ -324,9 +325,15 @@ def era5_setup():
             f'mintpy.troposphericDelay.weatherDir = {weather}')
 
 
-def run_mintpy(stack, ref_yx=None):
-    d = DATA / stack / 'hyp3'
-    run_dir = DATA / stack / 'mintpy'
+def mintpy_dir(stack):
+    """โฟลเดอร์ผล MintPy ของ stack (STACK_DIRS ใช้ชี้ไปชุดทดลอง เช่น data/alt/alt1/asc_post/mintpy)"""
+    return STACK_DIRS.get(stack, DATA / stack / 'mintpy')
+
+
+def run_mintpy(stack, ref_yx=None, hyp3_dir=None, run_dir=None, end='default'):
+    d = hyp3_dir or DATA / stack / 'hyp3'
+    run_dir = run_dir or DATA / stack / 'mintpy'
+    end = POST_END.get(stack, 'auto') if end == 'default' else end
     run_dir.mkdir(parents=True, exist_ok=True)
     make_conncomp(d)
     tropo = era5_setup()
@@ -351,7 +358,7 @@ mintpy.network.keepMinSpanTree  = yes
 mintpy.unwrapError.method       = {UNWRAP_METHOD[stack.split('_')[0]]}
 mintpy.unwrapError.bridgePtsRadius = {BRIDGE_RADIUS[stack.split('_')[0]]}
 mintpy.network.excludeDate      = {EXCLUDE_DATES.get(stack, 'auto')}
-mintpy.network.endDate          = {POST_END.get(stack, 'auto')}
+mintpy.network.endDate          = {end}
 mintpy.timeFunc.stepDate        = {PLATFORM_STEP.get(stack, 'auto')}
 mintpy.reference.yx             = {ref_yx or REF_YX}
 {tropo}
@@ -461,7 +468,7 @@ def fix_platform_offset(stack):
     """แทน step ราย pixel ด้วยค่ามัธยฐานต่อ burst → ลบออกจาก time series ตั้งแต่วันเปลี่ยนดาวเทียม → velocity ใหม่"""
     import h5py
     from mintpy.utils import readfile, writefile
-    m = DATA / stack / 'mintpy'
+    m = mintpy_dir(stack)
     ts_file, vel = final_timeseries(m), m / 'velocity.h5'
     step_ds = f'step{PLATFORM_STEP[stack]}'
     with h5py.File(vel, 'r') as f:
@@ -509,7 +516,7 @@ def mintpy(ref_yx=None):
 # ---------------------------------------------------------------- analysis
 def export(stack, dset, src='velocity.h5'):
     import rasterio
-    m = DATA / stack / 'mintpy'
+    m = mintpy_dir(stack)
     dst = SCRATCH / f'{dset}_{stack}.tif'
     subprocess.run(['save_gdal.py', str(m / src), '-d', dset, '-o', str(dst),
                     '-m', str(m / 'maskTempCoh.h5')], check=True)
@@ -639,14 +646,14 @@ def analyze_run(out, gnss_ramp=False):
             az, _ = export(s, 'azimuthAngle', src='inputs/geometryGeo.h5')
             L[s] = {'v': v * 1000, 'sd': sd * 1000, 'inc': inc, 'az': az}
             # ผูกกับ GNSS: จุดอ้างอิงอยู่ที่ CUSV → บวกความเร็วแนวดิ่งของ CUSV ในหน้าต่างเวลาเดียวกัน (แนวราบถือ 0)
-            atr = readfile.read_attribute(str(DATA / s / 'mintpy' / 'velocity.h5'))
+            atr = readfile.read_attribute(str(mintpy_dir(s) / 'velocity.h5'))
             win = (atr['START_DATE'], atr['END_DATE'])
             unit = ut.get_unit_vector4component_of_interest(inc, az, comp='enu2los')
             cusv = station_px(prof, GNSS_REF)
             tie = gnss_velocity(GNSS_REF, *win, ANNUAL[p])[0]['u'][0]
             shift = tie * at(unit[2], cusv) - at(L[s]['v'], cusv, 5)
             L[s].update(win=win, unit=unit, tie=tie, shift=shift, v=L[s]['v'] + shift)
-            if (DATA / s / 'mintpy' / 'velocity_annual.h5').exists():
+            if (mintpy_dir(s) / 'velocity_annual.h5').exists():
                 va, _ = export(s, 'velocity', src='velocity_annual.h5')
                 va = va * 1000
                 tie_a = gnss_velocity(GNSS_REF, *win, True)[0]['u'][0]
