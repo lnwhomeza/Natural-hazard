@@ -12,7 +12,7 @@ import h5py
 import numpy as np
 import pandas as pd
 
-from pipeline import DATA, EQ_DATE, EPSG, PERIODS, RESULTS, TRACKS, final_timeseries
+from pipeline import ANNUAL, DATA, EQ_DATE, EPSG, PERIODS, RESULTS, TRACKS, final_timeseries
 
 STATIONS = {'CUSV': 'จุฬาฯ ปทุมวัน', 'KMIT': 'สจล. ลาดกระบัง'}
 PAIR = ('KMIT', 'CUSV')
@@ -133,8 +133,9 @@ def main():
             di = los[PAIR[0]] - los[PAIR[1]]
             dg = gl[PAIR[0]] - gl[PAIR[1]]
             ok = di.notna() & dg.notna()
-            vi, si = rate(years(di.index[ok]), di[ok].values)
-            vg, sg = rate(years(dg.index[ok]), dg[ok].values)
+            # โมเดลเดียวกับ velocity ของ MintPy (ANNUAL)
+            vi, si = rate(years(di.index[ok]), di[ok].values, ANNUAL[p])
+            vg, sg = rate(years(dg.index[ok]), dg[ok].values, ANNUAL[p])
             # ช่วงสั้นกว่า 1 ปีเทียบความเร็วไม่ได้ จึงเทียบรูปอนุกรมเวลา (ตัดค่าเฉลี่ย) แทน
             a, b = di[ok] - di[ok].mean(), dg[ok] - dg[ok].mean()
             lines.append(f'{stack:10s} InSAR {vi:6.1f} ± {si:3.1f} | GNSS {vg:6.1f} ± {sg:3.1f} | '
