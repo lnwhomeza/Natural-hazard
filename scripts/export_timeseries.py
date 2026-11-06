@@ -43,7 +43,18 @@ def write(path, bands, atr, names=None, units=None):
 def platforms(stack):
     """วันที่ → ดาวเทียม จาก ASF (granule ใน stacks.json)"""
     import asf_search as asf
-    pairs = load_stacks()[stack]['pairs']
+    import json
+    stacks = load_stacks()
+    if stack in stacks:
+        pairs = stacks[stack]['pairs']
+    else:   # ชุดทดลอง (เช่น asc_full): รวม granule ของ track เดียวกันจากทุกแผน
+        track = stack.split('_')[0]
+        pairs = [p for k, v in stacks.items() if k.startswith(track) for p in v['pairs']]
+        for f in ['alt_stacks.json', 'full_bridge.json']:
+            if (DATA / f).exists():
+                d = json.loads((DATA / f).read_text())
+                pairs += (d.get(track, []) if f == 'full_bridge.json' else
+                          [p for a in d.values() for k, v in a.items() if k.startswith(track) for p in v['pairs']])
     names = sorted({g if isinstance(g, str) else g[0] for p in pairs for g in p})
     return {r.properties['startTime'][:10].replace('-', ''): r.properties['platform']
             for r in asf.granule_search(names)}
