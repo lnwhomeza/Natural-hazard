@@ -11,7 +11,7 @@ import pandas as pd
 import rasterio
 from rasterio.transform import from_origin
 
-from pipeline import DATA, EPSG, PIXEL, RESULTS, TRACKS, PERIODS, WAVELENGTH, final_timeseries, load_stacks
+from pipeline import DATA, EPSG, mintpy_dir, PIXEL, RESULTS, TRACKS, PERIODS, WAVELENGTH, final_timeseries, load_stacks
 
 OUT = RESULTS / 'timeseries'
 MAX_BYTES = 90e6          # GitHub จำกัด 100 MB/ไฟล์
@@ -49,9 +49,10 @@ def platforms(stack):
             for r in asf.granule_search(names)}
 
 
-def export_stack(stack):
+def export_stack(stack, out=None):
+    out = out or OUT
     from mintpy.utils import readfile
-    m = DATA / stack / 'mintpy'
+    m = mintpy_dir(stack)
     ts_file = final_timeseries(m)
     if ts_file.with_name(ts_file.stem + '_burstFix.h5').exists():      # post: แก้ offset ราย burst ของ S1D แล้ว
         ts_file = ts_file.with_name(ts_file.stem + '_burstFix.h5')
@@ -64,12 +65,12 @@ def export_stack(stack):
     ts = np.round(ts, DECIMALS)
     files = {}
 
-    size = write(OUT / f'{stack}_timeseries.tif', ts, atr, dates, 'mm')
+    size = write(out / f'{stack}_timeseries.tif', ts, atr, dates, 'mm')
     if size > MAX_BYTES:
-        (OUT / f'{stack}_timeseries.tif').unlink()
+        (out / f'{stack}_timeseries.tif').unlink()
         for year in sorted({d[:4] for d in dates}):
             idx = [i for i, d in enumerate(dates) if d[:4] == year]
-            p = OUT / f'{stack}_timeseries_{year}.tif'
+            p = out / f'{stack}_timeseries_{year}.tif'
             files[p.name] = write(p, ts[idx], atr, [dates[i] for i in idx], 'mm')
     else:
         files[f'{stack}_timeseries.tif'] = size
@@ -83,11 +84,11 @@ def export_stack(stack):
         a = readfile.read(str(m / src), datasetName=ds)[0].astype('float64') * scale
         if masked:
             a[~mask] = np.nan
-        p = OUT / f'{stack}_{name}.tif'
+        p = out / f'{stack}_{name}.tif'
         files[p.name] = write(p, a, atr, [name], unit)
 
     plat = platforms(stack)
-    p = OUT / f'{stack}_dates.csv'
+    p = out / f'{stack}_dates.csv'
     pd.DataFrame({'date': dates, 'platform': [plat.get(d, '') for d in dates]}).to_csv(p, index=False)
     files[p.name] = p.stat().st_size
     return files, atr, len(dates), ts_file.name

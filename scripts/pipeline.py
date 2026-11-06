@@ -56,7 +56,7 @@ PLATFORMS = ['SENTINEL-1A', 'SENTINEL-1D']
 PLATFORM_STEP = {}
 POST_END = {'asc_post': '20260324', 'desc_post': '20260409'}
 # เทอมรายปีใน velocity: ปิดทั้งสองช่วงให้โมเดลเดียวกัน (pre ~4 ปีเต็ม) — analyze รายงานผลแบบมีเทอมรายปีของ pre เทียบ
-ANNUAL = {'pre': False, 'post': False}
+ANNUAL = {'pre': False, 'post': False, 'full': False}
 # จุดอ้างอิงของ MintPy: pixel ที่ coherence ต่ำสุดใน 4 stack สูงสุดในรัศมี 1.5 กม. จากหมุด GNSS CUSV (จุฬาฯ 13.7359N
 # 100.5339E, pixel 321,701): asc 0.95/0.96, desc 0.82/0.84, ห่าง ~1.6 กม. — ใช้ pixel ข้างหมุดเอง (coherence desc
 # ~0.5) แล้ว desc_post temporal coherence ทั้งภาพ ~0.55 ถูก mask หมด เพราะสัญญาณรบกวนของจุดอ้างอิงเข้าทุก pixel
@@ -260,12 +260,13 @@ def clip_product(prod_dir, out_dir, bounds):
             print(f'  ไม่มี {src.name}')
 
 
-def download():
+def download(stacks=None):
+    """stacks: ชื่อ stack (job name = bkk_subs_<stack>) ค่าเริ่มต้นคือทุก stack ใน stacks.json"""
     import hyp3_sdk as sdk
     hyp3 = hyp3_client()
     bounds = clip_bounds()
     SCRATCH.mkdir(parents=True, exist_ok=True)
-    for stack in load_stacks():
+    for stack in ([stacks] if isinstance(stacks, str) else stacks or load_stacks()):
         out_root = DATA / stack / 'hyp3'
         jobs = [j for j in hyp3.find_jobs(name=job_name(stack)) if j.succeeded() and not j.expired()]
         # คู่เดียวกันอาจมีหลาย job (ส่งซ้ำตอนคิวช้า) ชื่อ product ต่างกันแค่รหัสท้าย → เอาคู่ละชุดเดียว
