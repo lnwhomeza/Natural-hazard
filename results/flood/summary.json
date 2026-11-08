@@ -1,0 +1,13 @@
+{
+ "event_date": "20261021",
+ "reference_dates": [
+  "20260228",
+  "20260312",
+  "20260324"
+ ],
+ "water_threshold_db": -14.0,
+ "drop_db": 3.0,
+ "flood_km2": 100.5,
+ "permanent_water_km2": 380.4,
+ "study_land_km2": 2991.4
+}
