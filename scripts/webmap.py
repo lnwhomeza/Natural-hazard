@@ -9,6 +9,7 @@
 - districts.geojson    59 เขต/อำเภอ + ค่ามัธยฐาน
 - series.json          การทรุดสะสมรายเดือนเฉลี่ยรายเขต (asc+desc แปลงเป็นแนวดิ่ง, ผูก GNSS แล้ว)
 - rail.geojson         แนวราง ช่วงละ 200 ม. พร้อมอัตราทรุด
+- flood.png            พื้นที่น้ำท่วมจากภาพเรดาร์ (ถ้ามี results/flood/ จาก scripts/flood.py)
 """
 import argparse
 import json
@@ -92,8 +93,25 @@ def raster_layers(full):
     return v, tr, image, grid
 
 
+def flood_layer(flood_tif):
+    """พื้นที่น้ำท่วมจาก SAR (results/flood/flood_*.tif: 1 = น้ำท่วม) → flood.png บน EPSG:3857"""
+    from PIL import Image
+    with rasterio.open(flood_tif) as s:
+        c = s.read(1); tr, crs = s.transform, s.crs
+        b = s.bounds
+    dt, dw, dh = calculate_default_transform(crs, 'EPSG:3857', s.width, s.height, *b)
+    m = np.zeros((dh, dw), 'uint8')
+    reproject(c, m, src_transform=tr, src_crs=crs, src_nodata=255, dst_transform=dt, dst_crs='EPSG:3857',
+              dst_nodata=0, resampling=Resampling.nearest)
+    rgba = np.zeros((dh, dw, 4), 'uint8')
+    rgba[m == 1] = [0x21, 0x66, 0xac, 230]
+    Image.fromarray(rgba).save(SITE / 'flood.png', optimize=True)
+    x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
+    return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
+
+
 # ---------------------------------------------------------------- districts + time series
-def district_layer(v, tr):
+def district_layer(v, tr, flood_csv=None):
     adm = districts()
     zone = rasterize(zip(adm.geometry, adm.index + 1), out_shape=v.shape, transform=tr, fill=0)
     ok = np.isfinite(v) & (zone > 0)
@@ -105,6 +123,10 @@ def district_layer(v, tr):
     out['pct10'] = rnd((s.apply(lambda x: 100 * np.mean(x < -10))).reindex(adm.index), 0)
     out['rank'] = med.rank(method='min').astype('Int64').tolist()
     out['i'] = out.index
+    if flood_csv and Path(flood_csv).exists():
+        fl = pd.read_csv(flood_csv).set_index('adm2_name')
+        out['fl_km2'] = rnd(out.adm2_name.map(fl.flood_km2), 2)
+        out['fl_pct'] = rnd(out.adm2_name.map(fl.flood_pct), 1)
     o = out.to_crs(4326)
     o['geometry'] = o.geometry.simplify(0.0002)
     o.to_file(SITE / 'districts.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
@@ -217,13 +239,17 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--full', type=Path, default=ROOT / 'results' / 'full')
     ap.add_argument('--skip-buildings', action='store_true')
+    ap.add_argument('--flood', type=Path, default=ROOT / 'results' / 'flood')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
     v, tr, image, grid = raster_layers(a.full)
-    adm = district_layer(v, tr)
+    adm = district_layer(v, tr, a.flood / 'flood_districts.csv')
     district_series(a.full, adm)
     rail(v, tr)
     meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES]}
+    ft = sorted(a.flood.glob('flood_*.tif')) if a.flood.exists() else []
+    if ft:
+        meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
     old = SITE / 'meta.json'
     meta['buildings'] = (json.loads(old.read_text()).get('buildings', []) if a.skip_buildings and old.exists()
                          else buildings(v, tr))
