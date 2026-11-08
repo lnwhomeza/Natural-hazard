@@ -139,8 +139,8 @@ const I18N = {
     legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
     lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
     lFlood: 'น้ำท่วม 21 ต.ค. 2569 (ภาพเรดาร์)', lGfm: 'น้ำท่วม 21 ต.ค. 2569 จาก Copernicus GFM (เทียบ)', flood: 'พื้นที่น้ำท่วมของเขต (21 ต.ค. 2569)', km2: 'ตร.กม.',
-    lRisk: 'ดัชนีความเสี่ยงรายเขต (ภัย × การสัมผัส × ความเปราะบาง)', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
-    risk: 'ความเสี่ยงของเขต', riskOf: 'จาก 59', rH: 'ภัย', rE: 'การสัมผัส', rV: 'ความเปราะบาง',
+    lRisk: 'แผนที่ความเสี่ยง (ภัย × การสัมผัส × ความเปราะบาง)', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
+    risk: 'ความเสี่ยงที่จุดนี้', riskOf: 'จาก 59', rH: 'ภัย', rE: 'การสัมผัส', rV: 'ความเปราะบาง',
     hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
     cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
     rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
@@ -161,8 +161,8 @@ const I18N = {
     legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
     lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
     lFlood: 'Flooding on 21 Oct 2026 (radar)', lGfm: 'Flooding on 21 Oct 2026 from Copernicus GFM (compare)', flood: 'Flooded area in the district (21 Oct 2026)', km2: 'km²',
-    lRisk: 'District risk index (hazard × exposure × vulnerability)', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
-    risk: 'District risk', riskOf: 'of 59', rH: 'hazard', rE: 'exposure', rV: 'vulnerability',
+    lRisk: 'Risk map (hazard × exposure × vulnerability)', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
+    risk: 'Risk at this spot', riskOf: 'of 59', rH: 'hazard', rE: 'exposure', rV: 'vulnerability',
     hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
     cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
     rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
@@ -194,13 +194,13 @@ const ABOUT = {
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าของแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li></ul>
     <h4>แหล่งข้อมูล</h4>
-    <h4>ดัชนีความเสี่ยงรายเขต</h4>
-    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณรายเขต/อำเภอ แต่ละส่วนปรับเป็น 0–1 เทียบกันระหว่าง 59 เขต แล้วแบ่งเป็น 5 ระดับเท่า ๆ กัน (ระดับละราว 12 เขต) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
-    <ul><li><b>ภัย</b>: อัตราทรุดกลางของเขต, % พื้นที่ทรุดเกิน 10 มม./ปี, % พื้นที่ที่ทรุดไม่เท่ากันจนอาจกระทบอาคาร (angular distortion ≥ 1/3000), % พื้นที่น้ำท่วม 21 ต.ค. 2569</li>
-    <li><b>การสัมผัสภัย</b>: จำนวนประชากร อาคาร และสถานที่สำคัญ (โรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ) ในพื้นที่ทรุดเกิน 10 มม./ปี</li>
-    <li><b>ความเปราะบาง</b>: % ผู้สูงอายุ 65 ปีขึ้นไป, % เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), % อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น), ระยะทางเฉลี่ยถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
-    <p>เมื่อสุ่มน้ำหนักตัวชี้วัดและวิธีรวม 2,000 แบบ บางบ่อ บ้านแพ้ว หนองจอก ลาดกระบัง บางเสาธง เมืองสมุทรสาคร และพระสมุทรเจดีย์ ยังอยู่ใน 10 อันดับแรกเกือบทุกครั้ง</p>
-    <p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · น้ำท่วมเทียบ: Copernicus GFM (CEMS) · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <h4>แผนที่ความเสี่ยง</h4>
+    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องกริดขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
+    <ul><li><b>ภัย</b>: อัตราทรุด, การทรุดไม่เท่ากันที่อาจกระทบอาคาร (angular distortion), น้ำท่วม 21 ต.ค. 2569 บริเวณใกล้เคียง</li>
+    <li><b>การสัมผัสภัย</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ ในรัศมี 500 ม.</li>
+    <li><b>ความเปราะบาง</b> (คิดในรัศมี 500 ม.): % ผู้สูงอายุ 65 ปีขึ้นไป, % เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), % อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น), ระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
+    <p>ความเสี่ยงสูงกระจุกในพื้นที่ชานเมืองด้านตะวันออก (ลาดกระบัง หนองจอก คลองสามวา บางพลี บางเสาธง บางบ่อ) และตะวันตกเฉียงใต้ (บ้านแพ้ว เมืองสมุทรสาคร) ส่วนเขตชั้นในแม้คนหนาแน่นแต่ทรุดช้าจึงเสี่ยงต่ำกว่า</p>
+<p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · น้ำท่วมเทียบ: Copernicus GFM (CEMS) · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">ปิด</button></p>`,
   en: `<h3>About the data</h3>
     <p>This map shows how fast the ground surface sinks on average each year, measured from Sentinel-1 satellite radar on ascending and descending orbits (157 acquisitions each) between April 2021 and October 2026, using SBAS InSAR at about 80 m resolution.</p>
@@ -217,17 +217,17 @@ const ABOUT = {
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li></ul>
     <h4>Sources</h4>
-    <h4>District risk index</h4>
-    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed per district. Each part is scaled 0–1 across the 59 districts and the result is split into 5 equal-sized classes (about 12 districts each), so it shows <b>relative risk</b>, not a probability of damage.</p>
-    <ul><li><b>Hazard</b>: district median rate, % of area sinking faster than 10 mm/yr, % of area with uneven sinking that can affect buildings (angular distortion ≥ 1/3000), % of area flooded on 21 Oct 2026</li>
-    <li><b>Exposure</b>: people, buildings and key facilities (schools, hospitals, fire and police stations, rail stations) where the ground sinks faster than 10 mm/yr</li>
-    <li><b>Vulnerability</b>: % aged 65+, % under 5 (WorldPop 2025), % low buildings up to 6 m (houses often on short piles), average distance to the nearest hospital</li></ul>
-    <p>Across 2,000 random choices of indicator weights and combination method, Bang Bo, Ban Phaeo, Nong Chok, Lat Krabang, Bang Sao Thong, Mueang Samut Sakhon and Phra Samut Chedi stay in the top 10 almost every time.</p>
-    <p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Comparison flood map: Copernicus GFM (CEMS) · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <h4>Risk map</h4>
+    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m grid cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage.</p>
+    <ul><li><b>Hazard</b>: sinking rate, uneven sinking that can affect buildings (angular distortion), flooding nearby on 21 Oct 2026</li>
+    <li><b>Exposure</b>: people and building floor area in the cell, schools, hospitals, fire and police stations and rail stations within 500 m</li>
+    <li><b>Vulnerability</b> (within 500 m): % aged 65+, % under 5 (WorldPop 2025), % low buildings up to 6 m (houses often on short piles), distance to the nearest hospital</li></ul>
+    <p>High risk clusters in the eastern suburbs (Lat Krabang, Nong Chok, Khlong Sam Wa, Bang Phli, Bang Sao Thong, Bang Bo) and the south-west (Ban Phaeo, Mueang Samut Sakhon). The inner city is crowded but sinks slowly, so its risk is lower.</p>
+<p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Comparison flood map: Copernicus GFM (CEMS) · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null;
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null;
 const T = k => I18N[lang][k];
 const $ = id => document.getElementById(id);
 
@@ -261,6 +261,13 @@ function gridValue(lng, lat) {
   const q = grid.data[r * grid.w + c];
   return q === -32768 ? null : q / 10;
 }
+function riskAt(lng, lat) {
+  if (!riskGrid) return null;
+  const g = riskGrid, c = Math.floor((lng - g.x0) / g.dx), r = Math.floor((lat - g.y0) / g.dy);
+  if (c < 0 || r < 0 || c >= g.w || r >= g.h) return null;
+  const k = (r * g.w + c) * 4;
+  return g.data[k] === 255 ? null : [g.data[k], g.data[k + 1], g.data[k + 2], g.data[k + 3]];
+}
 function inRing(x, y, ring) {
   let ins = false;
   for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
@@ -279,6 +286,7 @@ function districtAt(lng, lat) {
 
 function showCard(info) {
   last = info;
+  if (info.lnglat && info.risk === undefined) info.risk = riskAt(...info.lnglat);
   const d = info.district, v = info.v, cl = classOf(v);
   const name = d ? (lang === 'th' ? `${d.adm2_name1}, ${d.adm1_name1}` : `${d.adm2_name}, ${d.adm1_name}`) : T('outside');
   $('cPlace').textContent = (info.h ? `${T('building')} ${info.h} ${T('m')} · ` : info.rail ? `${T('rail')} · ` : '') + name;
@@ -292,7 +300,7 @@ function showCard(info) {
   }
   if (d) {
     $('cStats').innerHTML = `${T('median')}: <b>${Math.abs(d.med).toFixed(1)} ${T('unit')}</b> · ${T('rank')} ${d.rank} ${T('of')}<br>${T('pct')}: ${d.pct10}%` + (d.fl_km2 !== undefined && d.fl_km2 !== null ? `<br>${T('flood')}: ${d.fl_km2.toFixed(1)} ${T('km2')} (${d.fl_pct.toFixed(1)}%)` : '')
-      + (d.rk !== undefined && d.rk !== null ? `<br>${T('risk')}: <b style="color:${RISK_COLORS[Math.max(d.rc, 2)]}">${T('rcls')[d.rc]}</b> · ${T('rank')} ${d.rk} ${T('riskOf')}<br><small>${T('rH')} ${d.rH.toFixed(2)} · ${T('rE')} ${d.rE.toFixed(2)} · ${T('rV')} ${d.rV.toFixed(2)} (0–1)</small>` : '');
+      + (info.risk ? `<br>${T('risk')}: <b style="color:${RISK_COLORS[Math.max(info.risk[0], 2)]}">${T('rcls')[info.risk[0]]}</b><br><small>${T('rH')} ${(info.risk[1] / 100).toFixed(2)} · ${T('rE')} ${(info.risk[2] / 100).toFixed(2)} · ${T('rV')} ${(info.risk[3] / 100).toFixed(2)} (0–1)</small>` : '');
     $('cChartT').textContent = T('chartT');
     $('chart').style.display = '';
     drawChart(d);
@@ -366,8 +374,10 @@ map.on('load', async () => {
   }
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
   if (meta.risk) {
-    map.addLayer({ id: 'ss-risk', type: 'fill', source: 'ss-dist', layout: { visibility: 'none' },
-      paint: { 'fill-color': ['match', ['get', 'rc'], ...RISK_COLORS.flatMap((c, i) => [i, c]), '#ccc'], 'fill-opacity': .78 } }, firstSymbol);
+    map.addSource('ss-risk', { type: 'image', url: 'risk.png', coordinates: meta.risk.image });
+    map.addLayer({ id: 'ss-risk', type: 'raster', source: 'ss-risk', layout: { visibility: 'none' },
+      paint: { 'raster-opacity': .85, 'raster-resampling': 'nearest' } }, firstSymbol);
+    riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
     $('riskRow').hidden = false;
   }
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
@@ -390,11 +400,11 @@ map.on('load', async () => {
     const district = districtAt(lng, lat);
     if (f && f.layer.id.startsWith('ss-bld')) {
       const p = f.properties;
-      showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district });
+      showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district, lnglat: [lng, lat] });
     } else if (f && f.layer.id === 'ss-rail') {
-      showCard({ v: f.properties.v ?? null, rail: true, district });
+      showCard({ v: f.properties.v ?? null, rail: true, district, lnglat: [lng, lat] });
     } else {
-      showCard({ v: gridValue(lng, lat), district });
+      showCard({ v: gridValue(lng, lat), district, lnglat: [lng, lat] });
     }
   });
   map.on('mousemove', e => {
