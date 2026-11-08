@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แผ่นดินทรุด กรุงเทพฯ–ปริมณฑล | Bangkok Land Subsidence</title>
+<meta name="description" content="แผนที่อัตราการทรุดตัวของแผ่นดิน กรุงเทพฯ สมุทรปราการ สมุทรสาคร จากดาวเทียม Sentinel-1 พ.ศ. 2564–2569">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1c1c1e; --muted: #626268; --line: #e2e2e6; --panel: rgba(255,255,255,.97);
+    --accent: #cb181d; --shadow: 0 6px 24px rgba(0,0,0,.14);
+    --c0: #fcbba1; --c1: #fb6a4a; --c2: #cb181d; --c3: #67000d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161618; --fg: #ececf0; --muted: #a2a2aa; --line: #2f2f35; --panel: rgba(30,30,33,.97);
+      --accent: #fb6a4a; --shadow: 0 6px 24px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161618; --fg: #ececf0; --muted: #a2a2aa; --line: #2f2f35; --panel: rgba(30,30,33,.97);
+    --accent: #fb6a4a; --shadow: 0 6px 24px rgba(0,0,0,.5);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+    font: 15px/1.5 "IBM Plex Sans Thai", system-ui, sans-serif; }
+  #map { position: absolute; inset: 0; }
+  button { font: inherit; color: inherit; }
+
+  .panel { position: absolute; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow); }
+  #side { top: 12px; left: 12px; width: 330px; max-height: calc(100% - 24px); overflow: auto; padding: 16px 18px; }
+  #side h1 { font-size: 18px; line-height: 1.35; margin: 0 0 4px; }
+  #side .sub { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .chip { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 4px 12px;
+    cursor: pointer; font-size: 14px; }
+  .chip:hover { border-color: var(--fg); }
+  h2 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 16px 0 8px; letter-spacing: .02em; }
+  .legend { display: grid; gap: 6px; }
+  .legend div { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 10px; font-size: 14px; }
+  .sw { width: 22px; height: 14px; border-radius: 3px; }
+  .legend .rng { color: var(--muted); font-variant-numeric: tabular-nums; }
+  label.chk { display: flex; align-items: center; gap: 10px; margin: 6px 0; cursor: pointer; font-size: 14px; }
+  label.chk input { width: 16px; height: 16px; accent-color: var(--accent); }
+  .hint { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+  #card { right: 12px; bottom: 28px; width: 360px; max-height: calc(100% - 120px); overflow: auto; padding: 16px 18px;
+    display: none; }
+  #card.open { display: block; }
+  #card .close { position: absolute; top: 8px; right: 10px; border: 0; background: none; font-size: 22px;
+    cursor: pointer; color: var(--muted); line-height: 1; padding: 4px; }
+  #card .rate { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; margin: 2px 0; }
+  #card .rate small { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; color: #fff; }
+  #card .place { font-size: 14px; color: var(--muted); margin-bottom: 6px; padding-right: 24px; }
+  #card .expl { font-size: 14px; margin: 8px 0 4px; }
+  #card .stats { font-size: 13px; color: var(--muted); margin: 8px 0; }
+  #card canvas { width: 100% !important; height: 190px !important; }
+  #card .chart-t { font-size: 13px; font-weight: 600; margin: 10px 0 4px; }
+
+  #about { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center;
+    justify-content: center; padding: 16px; z-index: 10; }
+  #about.open { display: flex; }
+  #about .box { max-width: 640px; max-height: 88vh; overflow: auto; background: var(--bg); color: var(--fg);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
+  #about h3 { margin: 0 0 8px; font-size: 19px; }
+  #about h4 { margin: 16px 0 4px; font-size: 15px; }
+  #about p, #about li { font-size: 14.5px; }
+  #about ul { padding-left: 20px; margin: 4px 0; }
+
+  #toggle { display: none; position: absolute; top: 12px; left: 12px; z-index: 3; padding: 8px 14px; }
+  .maplibregl-popup-content { background: var(--panel); color: var(--fg); }
+
+  @media (max-width: 700px) {
+    #side { width: auto; right: 12px; top: 58px; max-height: 60%; }
+    #side.hidden { display: none; }
+    #toggle { display: block; }
+    #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 58%; }
+  }
+</style>
+</head>
+<body>
+<div id="map" role="application" aria-label="map"></div>
+<button id="toggle" class="panel chip" data-i18n="menu">☰ เมนู</button>
+
+<aside id="side" class="panel">
+  <script>if (matchMedia('(max-width: 700px)').matches) document.currentScript.parentElement.classList.add('hidden');</script>
+  <div class="row" style="margin-bottom:6px">
+    <button class="chip" id="lang" aria-label="language">English</button>
+    <button class="chip" id="aboutBtn" data-i18n="about">เกี่ยวกับข้อมูล</button>
+  </div>
+  <h1 data-i18n="title">แผ่นดินทรุด กรุงเทพฯ สมุทรปราการ สมุทรสาคร</h1>
+  <p class="sub" data-i18n="sub">อัตราการทรุดตัวเฉลี่ยต่อปี จากดาวเทียม Sentinel-1 ช่วง เม.ย. 2564 – ต.ค. 2569</p>
+
+  <h2 data-i18n="legendT">ระดับการทรุด (มิลลิเมตรต่อปี)</h2>
+  <div class="legend" id="legend"></div>
+
+  <h2 data-i18n="layersT">ชั้นข้อมูล</h2>
+  <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ (ซูมเข้าใกล้)</span></label>
+  <label class="chk"><input type="checkbox" id="l-img" checked> <span data-i18n="lImg">แผนที่อัตราการทรุด</span></label>
+  <label class="chk"><input type="checkbox" id="l-rail" checked> <span data-i18n="lRail">แนวรถไฟฟ้า / รถไฟ</span></label>
+  <label class="chk"><input type="checkbox" id="l-dist" checked> <span data-i18n="lDist">ขอบเขตเขต/อำเภอ</span></label>
+
+  <p class="hint" data-i18n="hint">แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ</p>
+</aside>
+
+<section id="card" class="panel" aria-live="polite">
+  <button class="close" id="cardClose" aria-label="close">×</button>
+  <div class="place" id="cPlace"></div>
+  <div class="rate" id="cRate"></div>
+  <div id="cBadge"></div>
+  <div class="expl" id="cExpl"></div>
+  <div class="stats" id="cStats"></div>
+  <div class="chart-t" id="cChartT"></div>
+  <canvas id="chart" aria-label="chart"></canvas>
+</section>
+
+<div id="about" role="dialog" aria-modal="true">
+  <div class="box" id="aboutBox"></div>
+</div>
+
+<script>
+const I18N = {
+  th: {
+    menu: '☰ เมนู', about: 'เกี่ยวกับข้อมูล', title: 'แผ่นดินทรุด กรุงเทพฯ สมุทรปราการ สมุทรสาคร',
+    sub: 'อัตราการทรุดตัวเฉลี่ยต่อปี จากดาวเทียม Sentinel-1 ช่วง เม.ย. 2564 – ต.ค. 2569',
+    legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
+    lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
+    hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
+    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
+    rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
+    expl: [
+      'แผ่นดินบริเวณนี้ทรุดช้า ใกล้เคียงกับใจกลางกรุงเทพฯ',
+      'ทรุดราว 5–10 มม. ต่อปี หรือประมาณ 5–10 ซม. ใน 10 ปี',
+      'ทรุดเร็ว ราว 10–20 มม. ต่อปี หรือประมาณ 10–20 ซม. ใน 10 ปี',
+      'ทรุดเร็วมาก มากกว่า 20 มม. ต่อปี หรือมากกว่า 20 ซม. ใน 10 ปี'],
+    unit: 'มม./ปี', sink: 'ทรุด', rise: 'ยกตัว', nodata: 'ไม่มีข้อมูลที่จุดนี้ (พื้นที่ที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว แหล่งน้ำ)',
+    building: 'อาคาร สูงราว', m: 'ม.', median: 'ค่ากลางของเขต', rank: 'อันดับ', of: 'จาก 59 เขต/อำเภอ (1 = ทรุดมากที่สุด)',
+    pct: 'พื้นที่ที่ทรุดเกิน 10 มม./ปี', chartT: 'การทรุดสะสมเฉลี่ยของเขต (มม.) เทียบกับต้นปี 2564',
+    monthly: 'รายเดือน', trend: 'แนวโน้ม', eq: 'แผ่นดินไหวเมียนมา 28 มี.ค. 2568', rail: 'แนวราง',
+    outside: 'อยู่นอกพื้นที่ศึกษา (กรุงเทพฯ สมุทรปราการ สมุทรสาคร)',
+  },
+  en: {
+    menu: '☰ Menu', about: 'About the data', title: 'Land subsidence in Bangkok, Samut Prakan and Samut Sakhon',
+    sub: 'Average yearly ground sinking from Sentinel-1 satellite radar, Apr 2021 – Oct 2026',
+    legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
+    lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
+    hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
+    cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
+    rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
+    expl: [
+      'The ground here sinks slowly, similar to central Bangkok.',
+      'Sinking about 5–10 mm a year, roughly 5–10 cm in 10 years.',
+      'Sinking fast, about 10–20 mm a year, roughly 10–20 cm in 10 years.',
+      'Sinking very fast, more than 20 mm a year, over 20 cm in 10 years.'],
+    unit: 'mm/yr', sink: 'sinking', rise: 'uplift', nodata: 'No data here (the satellite cannot measure reliably, e.g. rice fields or water)',
+    building: 'Building, about', m: 'm tall', median: 'District median', rank: 'Rank', of: 'of 59 districts (1 = fastest sinking)',
+    pct: 'Area sinking faster than 10 mm/yr', chartT: 'Average cumulative sinking in the district (mm) since early 2021',
+    monthly: 'Monthly', trend: 'Trend', eq: 'Myanmar earthquake, 28 Mar 2025', rail: 'Rail line',
+    outside: 'Outside the study area (Bangkok, Samut Prakan, Samut Sakhon)',
+  },
+};
+const ABOUT = {
+  th: `<h3>เกี่ยวกับข้อมูล</h3>
+    <p>แผนที่นี้แสดงอัตราที่ผิวดินทรุดลงโดยเฉลี่ยต่อปี วัดจากภาพเรดาร์ของดาวเทียม Sentinel-1 ทั้งวงโคจรขาขึ้นและขาลง รวม 157 วันถ่ายภาพต่อวงโคจร ระหว่างเมษายน 2564 ถึงตุลาคม 2569 ด้วยเทคนิค SBAS InSAR ความละเอียดราว 80 เมตร</p>
+    <h4>อ่านค่าอย่างไร</h4>
+    <ul><li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม./ปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
+    <li>สีบอกระดับการทรุด ไม่ได้บอกว่าอาคารจะเสียหาย ความเสียหายขึ้นกับฐานรากและการทรุดที่ไม่เท่ากันในระยะสั้นๆ</li>
+    <li>พื้นที่ที่ไม่มีสี คือที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ</li>
+    <li>สีของอาคารมาจากอัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li></ul>
+    <h4>ข้อจำกัด</h4>
+    <ul><li>ค่าทั้งหมดผูกกับสถานี GNSS ที่จุฬาลงกรณ์มหาวิทยาลัย ซึ่งเองก็ทรุดราว 4 มม./ปี ความคลาดเคลื่อนของสถานีนี้มีผลกับทั้งแผนที่</li>
+    <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าของแต่ละเดือน</li>
+    <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li></ul>
+    <h4>แหล่งข้อมูล</h4>
+    <p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <p style="text-align:right"><button class="chip" id="aboutClose">ปิด</button></p>`,
+  en: `<h3>About the data</h3>
+    <p>This map shows how fast the ground surface sinks on average each year, measured from Sentinel-1 satellite radar on ascending and descending orbits (157 acquisitions each) between April 2021 and October 2026, using SBAS InSAR at about 80 m resolution.</p>
+    <h4>How to read it</h4>
+    <ul><li>Values are millimetres per year. 15 mm/yr means about 15 cm lower after 10 years if the rate continues.</li>
+    <li>Colours show how fast the ground sinks, not whether buildings will be damaged. Damage depends on foundations and on uneven sinking over short distances.</li>
+    <li>Uncoloured areas could not be measured reliably, such as rice fields, fish ponds and water.</li>
+    <li>Building colours come from the rate of the surrounding 80 m cell, not from each building itself.</li></ul>
+    <h4>Limitations</h4>
+    <ul><li>All values are tied to the GNSS station at Chulalongkorn University, which itself sinks about 4 mm/yr; any error there shifts the whole map.</li>
+    <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
+    <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li></ul>
+    <h4>Sources</h4>
+    <p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <p style="text-align:right"><button class="chip" id="aboutClose">Close</button></p>`,
+};
+
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null;
+const T = k => I18N[lang][k];
+const $ = id => document.getElementById(id);
+
+function classOf(v) {
+  if (v === null || v === undefined || !isFinite(v)) return -1;
+  return v < -20 ? 3 : v < -10 ? 2 : v < -5 ? 1 : 0;
+}
+function colorExpr(prop) {
+  return ['match', ['get', prop], 0, meta.colors[0], 1, meta.colors[1], 2, meta.colors[2], 3, meta.colors[3], '#c8c8c8'];
+}
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = T(e.dataset.i18n));
+  $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
+  $('legend').innerHTML = [0, 1, 2, 3].map(i =>
+    `<div><span class="sw" style="background:${meta.colors[i]}"></span><span>${T('cls')[i]}</span><span class="rng">${T('rng')[i]}</span></div>`).join('')
+    + `<div><span class="sw" style="background:#c8c8c8"></span><span>${T('nod')}</span><span class="rng"></span></div>`;
+  $('aboutBox').innerHTML = ABOUT[lang];
+  $('aboutClose').onclick = () => $('about').classList.remove('open');
+  if (last) showCard(last);
+}
+
+// ---- value lookup from the int16 grid (0.1 mm/yr) ----
+function gridValue(lng, lat) {
+  const c = Math.floor((lng - grid.x0) / grid.dx), r = Math.floor((lat - grid.y0) / grid.dy);
+  if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
+  const q = grid.data[r * grid.w + c];
+  return q === -32768 ? null : q / 10;
+}
+function inRing(x, y, ring) {
+  let ins = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) ins = !ins;
+  }
+  return ins;
+}
+function districtAt(lng, lat) {
+  for (const f of districtsGeo.features) {
+    const g = f.geometry, polys = g.type === 'Polygon' ? [g.coordinates] : g.coordinates;
+    for (const p of polys) if (inRing(lng, lat, p[0]) && !p.slice(1).some(h => inRing(lng, lat, h))) return f.properties;
+  }
+  return null;
+}
+
+function showCard(info) {
+  last = info;
+  const d = info.district, v = info.v, cl = classOf(v);
+  const name = d ? (lang === 'th' ? `${d.adm2_name1}, ${d.adm1_name1}` : `${d.adm2_name}, ${d.adm1_name}`) : T('outside');
+  $('cPlace').textContent = (info.h ? `${T('building')} ${info.h} ${T('m')} · ` : info.rail ? `${T('rail')} · ` : '') + name;
+  if (cl < 0) {
+    $('cRate').innerHTML = ''; $('cBadge').innerHTML = ''; $('cExpl').textContent = T('nodata');
+  } else {
+    const word = v <= 0 ? T('sink') : T('rise');
+    $('cRate').innerHTML = `${Math.abs(v).toFixed(1)} <small>${T('unit')} · ${word}</small>`;
+    $('cBadge').innerHTML = `<span class="badge" style="background:${meta.colors[cl]};color:${cl === 0 ? '#5a1a10' : '#fff'}">${T('cls')[cl]}</span>`;
+    $('cExpl').textContent = T('expl')[cl];
+  }
+  if (d) {
+    $('cStats').innerHTML = `${T('median')}: <b>${Math.abs(d.med).toFixed(1)} ${T('unit')}</b> · ${T('rank')} ${d.rank} ${T('of')}<br>${T('pct')}: ${d.pct10}%`;
+    $('cChartT').textContent = T('chartT');
+    $('chart').style.display = '';
+    drawChart(d);
+  } else {
+    $('cStats').textContent = ''; $('cChartT').textContent = ''; $('chart').style.display = 'none';
+  }
+  $('card').classList.add('open');
+}
+
+function drawChart(d) {
+  const s = series.districts[d.i] || [], months = series.months;
+  const x = months.map(m => { const [y, mo] = m.split('-').map(Number); return y + (mo - 0.5) / 12; });
+  const ok = s.map((v, i) => v === null ? null : i).filter(i => i !== null);
+  const n = ok.length, mx = ok.reduce((a, i) => a + x[i], 0) / n, my = ok.reduce((a, i) => a + s[i], 0) / n;
+  const b = ok.reduce((a, i) => a + (x[i] - mx) * (s[i] - my), 0) / ok.reduce((a, i) => a + (x[i] - mx) ** 2, 0);
+  const trend = x.map(t => my + b * (t - mx));
+  const col = getComputedStyle(document.documentElement);
+  const fg = col.getPropertyValue('--muted').trim(), accent = meta.colors[Math.max(classOf(d.med), 1)];
+  const labels = months.map(m => { const [y, mo] = m.split('-'); return lang === 'th' ? `${mo}/${+y + 543}` : `${mo}/${y}`; });
+  const eqIndex = months.indexOf('2025-03') + 0.9;
+  const data = {
+    labels, datasets: [
+      { label: T('monthly'), data: s, showLine: false, pointRadius: 2.2, backgroundColor: fg + '99', borderColor: fg + '99' },
+      { label: T('trend'), data: trend, pointRadius: 0, borderColor: accent, borderWidth: 2.5 },
+    ]};
+  const eqLine = { id: 'eq', afterDraw(c) {
+    const xs = c.scales.x, ys = c.scales.y, px = xs.getPixelForValue(eqIndex), g = c.ctx;
+    g.save(); g.strokeStyle = fg; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(px, ys.top); g.lineTo(px, ys.bottom); g.stroke();
+    g.setLineDash([]); g.fillStyle = fg; g.font = '11px "IBM Plex Sans Thai"'; g.textAlign = 'right'; g.fillText(T('eq'), px - 4, ys.bottom - 6); g.restore();
+  }};
+  if (chart) chart.destroy();
+  chart = new Chart($('chart'), { type: 'line', data, plugins: [eqLine], options: {
+    animation: false, maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { color: fg, boxWidth: 12, font: { family: 'IBM Plex Sans Thai', size: 12 } } },
+      tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(0)} mm` } } },
+    scales: { x: { ticks: { color: fg, maxTicksLimit: 6, font: { size: 11 } }, grid: { display: false } },
+      y: { ticks: { color: fg, font: { size: 11 } }, grid: { color: fg + '22' } } } } });
+}
+
+// ---- map ----
+const protocol = new pmtiles.Protocol();
+maplibregl.addProtocol('pmtiles', protocol.tile);
+const map = new maplibregl.Map({
+  container: 'map', style: 'https://tiles.openfreemap.org/styles/positron',
+  center: [100.55, 13.68], zoom: 9.8, pitch: 0, maxPitch: 70, hash: true,
+  attributionControl: { compact: true },
+});
+map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
+map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), 'top-right');
+map.addControl(new maplibregl.ScaleControl(), 'bottom-left');
+
+map.on('load', async () => {
+  [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f).then(r => r.json())));
+  const buf = await fetch('grid.bin').then(r => r.arrayBuffer());
+  grid = { ...meta.grid, data: new Int16Array(buf) };
+  applyLang();
+
+  const firstSymbol = map.getStyle().layers.find(l => l.type === 'symbol')?.id;
+  map.addSource('ss-img', { type: 'image', url: 'vlm.png', coordinates: meta.image });
+  map.addLayer({ id: 'ss-img', type: 'raster', source: 'ss-img',
+    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.85, 14.5, 0.35], 'raster-resampling': 'nearest' } }, firstSymbol);
+  map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
+  map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
+    paint: { 'line-color': '#444', 'line-opacity': .6, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.4] } }, firstSymbol);
+  meta.buildings.forEach((f, i) => {
+    map.addSource(`ss-b${i}`, { type: 'vector', url: `pmtiles://${new URL(f, location.href)}` });
+    map.addLayer({ id: `ss-bld${i}`, type: 'fill-extrusion', source: `ss-b${i}`, 'source-layer': 'buildings', minzoom: 13,
+      paint: { 'fill-extrusion-color': colorExpr('c'), 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .93 } });
+  });
+  map.addSource('ss-rail', { type: 'geojson', data: 'rail.geojson' });
+  map.addLayer({ id: 'ss-rail-case', type: 'line', source: 'ss-rail',
+    paint: { 'line-color': '#222', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2.6, 15, 8] } });
+  map.addLayer({ id: 'ss-rail', type: 'line', source: 'ss-rail',
+    paint: { 'line-color': colorExpr('c'), 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.4, 15, 5] } });
+
+  map.on('click', e => {
+    const { lng, lat } = e.lngLat;
+    const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'].filter(l => map.getLayoutProperty(l, 'visibility') !== 'none');
+    const f = map.queryRenderedFeatures(e.point, { layers })[0];
+    const district = districtAt(lng, lat);
+    if (f && f.layer.id.startsWith('ss-bld')) {
+      const p = f.properties;
+      showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district });
+    } else if (f && f.layer.id === 'ss-rail') {
+      showCard({ v: f.properties.v ?? null, rail: true, district });
+    } else {
+      showCard({ v: gridValue(lng, lat), district });
+    }
+  });
+  map.on('mousemove', e => {
+    const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'];
+    map.getCanvas().style.cursor = map.queryRenderedFeatures(e.point, { layers }).length ? 'pointer' : '';
+  });
+
+  const vis = (ids, on) => ids.forEach(id => map.getLayer(id) && map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+  $('l-bld').onchange = e => vis(meta.buildings.map((_, i) => `ss-bld${i}`), e.target.checked);
+  $('l-img').onchange = e => vis(['ss-img'], e.target.checked);
+  $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
+  $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
+});
+
+map.on('zoomend', () => { if (map.getZoom() >= 13 && map.getPitch() < 20) map.easeTo({ pitch: 50, duration: 600 }); });
+$('lang').onclick = () => { lang = lang === 'th' ? 'en' : 'th'; applyLang(); };
+$('aboutBtn').onclick = () => $('about').classList.add('open');
+$('about').onclick = e => { if (e.target.id === 'about') $('about').classList.remove('open'); };
+$('cardClose').onclick = () => { $('card').classList.remove('open'); last = null; };
+$('toggle').onclick = () => $('side').classList.toggle('hidden');
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('about').classList.remove('open'); $('card').classList.remove('open'); } });
+</script>
+</body>
+</html>
