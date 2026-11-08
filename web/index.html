@@ -105,6 +105,7 @@
 
   <h2 data-i18n="layersT">ชั้นข้อมูล</h2>
   <label class="chk" id="floodRow" hidden><input type="checkbox" id="l-flood" checked> <span class="sw" style="background:#2166ac;width:16px;height:12px"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
+  <label class="chk" id="gfmRow" hidden><input type="checkbox" id="l-gfm"> <span class="sw" style="background:#e84c78;width:16px;height:12px"></span> <span data-i18n="lGfm">น้ำท่วมจาก Copernicus GFM</span></label>
   <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ (ซูมเข้าใกล้)</span></label>
   <label class="chk"><input type="checkbox" id="l-img" checked> <span data-i18n="lImg">แผนที่อัตราการทรุด</span></label>
   <label class="chk"><input type="checkbox" id="l-rail" checked> <span data-i18n="lRail">แนวรถไฟฟ้า / รถไฟ</span></label>
@@ -135,7 +136,7 @@ const I18N = {
     sub: 'อัตราการทรุดตัวเฉลี่ยต่อปี จากดาวเทียม Sentinel-1 ช่วง เม.ย. 2564 – ต.ค. 2569',
     legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
     lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
-    lFlood: 'น้ำท่วม 21 ต.ค. 2569 (ภาพเรดาร์)', flood: 'พื้นที่น้ำท่วมของเขต (21 ต.ค. 2569)', km2: 'ตร.กม.',
+    lFlood: 'น้ำท่วม 21 ต.ค. 2569 (ภาพเรดาร์)', lGfm: 'น้ำท่วม 21 ต.ค. 2569 จาก Copernicus GFM (เทียบ)', flood: 'พื้นที่น้ำท่วมของเขต (21 ต.ค. 2569)', km2: 'ตร.กม.',
     hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
     cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
     rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
@@ -155,7 +156,7 @@ const I18N = {
     sub: 'Average yearly ground sinking from Sentinel-1 satellite radar, Apr 2021 – Oct 2026',
     legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
     lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
-    lFlood: 'Flooding on 21 Oct 2026 (radar)', flood: 'Flooded area in the district (21 Oct 2026)', km2: 'km²',
+    lFlood: 'Flooding on 21 Oct 2026 (radar)', lGfm: 'Flooding on 21 Oct 2026 from Copernicus GFM (compare)', flood: 'Flooded area in the district (21 Oct 2026)', km2: 'km²',
     hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
     cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
     rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
@@ -181,12 +182,13 @@ const ABOUT = {
     <li>สีของอาคารมาจากอัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li></ul>
     <h4>ชั้นข้อมูลน้ำท่วม</h4>
     <p>พื้นที่น้ำท่วมมาจากภาพเรดาร์ Sentinel-1 วันที่ 21 ต.ค. 2569 (สองวันหลัง 19 ต.ค.) เทียบกับภาพหน้าแล้ง ก.พ.–มี.ค. 2569 ของวงโคจรเดียวกัน พื้นที่ที่ภาพมืดลงชัดเจนเพราะมีน้ำนิ่งปกคลุมถูกจัดเป็นน้ำท่วม แหล่งน้ำถาวรไม่แสดง <b>เรดาร์มองน้ำท่วมในเขตเมืองที่มีตึกหนาแน่นได้ไม่ดี</b> จึงอาจขาดพื้นที่น้ำท่วมตามถนนและชุมชน ส่วนนาข้าวหรือบ่อที่ปล่อยน้ำเข้าตามฤดูกาลอาจถูกนับรวมด้วย</p>
+    <p>ชั้น <b>Copernicus GFM</b> (สีชมพู) เป็นแผนที่น้ำท่วมอัตโนมัติของ Copernicus Emergency Management Service จากภาพ Sentinel-1 วันเดียวกันแต่คนละวิธี ใช้เพื่อเปรียบเทียบ GFM จับได้ 45 ตร.กม. ในสามจังหวัด ส่วนแผนที่ของเราจับได้ 100 ตร.กม. พื้นที่ 84% ของ GFM อยู่ในแผนที่ของเรา และเขตที่ท่วมมากที่สุดเรียงลำดับเหมือนกัน</p>
     <h4>ข้อจำกัด</h4>
     <ul><li>ค่าทั้งหมดผูกกับสถานี GNSS ที่จุฬาลงกรณ์มหาวิทยาลัย ซึ่งเองก็ทรุดราว 4 มม./ปี ความคลาดเคลื่อนของสถานีนี้มีผลกับทั้งแผนที่</li>
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าของแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li></ul>
     <h4>แหล่งข้อมูล</h4>
-    <p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · น้ำท่วมเทียบ: Copernicus GFM (CEMS) · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">ปิด</button></p>`,
   en: `<h3>About the data</h3>
     <p>This map shows how fast the ground surface sinks on average each year, measured from Sentinel-1 satellite radar on ascending and descending orbits (157 acquisitions each) between April 2021 and October 2026, using SBAS InSAR at about 80 m resolution.</p>
@@ -197,12 +199,13 @@ const ABOUT = {
     <li>Building colours come from the rate of the surrounding 80 m cell, not from each building itself.</li></ul>
     <h4>Flood layer</h4>
     <p>Flooded areas come from Sentinel-1 radar on 21 Oct 2026 (two days after 19 Oct), compared with dry-season images from Feb–Mar 2026 on the same orbit. Land that turned clearly darker because still water covered it is mapped as flooded; permanent water is not shown. <b>Radar sees flooding in dense built-up areas poorly</b>, so street and neighbourhood flooding may be missing, while seasonally filled rice fields or ponds may be included.</p>
+    <p>The <b>Copernicus GFM</b> layer (pink) is the automatic flood map of the Copernicus Emergency Management Service from the same Sentinel-1 image with a different method, shown for comparison. GFM maps 45 km² in the three provinces, our map 100 km²; 84% of the GFM area lies inside ours and the most-flooded districts rank the same.</p>
     <h4>Limitations</h4>
     <ul><li>All values are tied to the GNSS station at Chulalongkorn University, which itself sinks about 4 mm/yr; any error there shifts the whole map.</li>
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li></ul>
     <h4>Sources</h4>
-    <p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
+    <p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Comparison flood map: Copernicus GFM (CEMS) · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">Close</button></p>`,
 };
 
@@ -334,6 +337,11 @@ map.on('load', async () => {
     map.addLayer({ id: 'ss-flood', type: 'raster', source: 'ss-flood', paint: { 'raster-opacity': .85, 'raster-resampling': 'nearest' } }, firstSymbol);
     $('floodRow').hidden = false;
   }
+  if (meta.gfm) {
+    map.addSource('ss-gfm', { type: 'image', url: 'gfm.png', coordinates: meta.gfm.image });
+    map.addLayer({ id: 'ss-gfm', type: 'raster', source: 'ss-gfm', layout: { visibility: 'none' }, paint: { 'raster-opacity': .9, 'raster-resampling': 'nearest' } }, firstSymbol);
+    $('gfmRow').hidden = false;
+  }
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
     paint: { 'line-color': '#444', 'line-opacity': .6, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.4] } }, firstSymbol);
@@ -373,6 +381,7 @@ map.on('load', async () => {
   $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
   $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
   $('l-flood').onchange = e => vis(['ss-flood'], e.target.checked);
+  $('l-gfm').onchange = e => vis(['ss-gfm'], e.target.checked);
 });
 
 map.on('zoomend', () => { if (map.getZoom() >= 13 && map.getPitch() < 20) map.easeTo({ pitch: 50, duration: 600 }); });

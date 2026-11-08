@@ -10,6 +10,7 @@
 - series.json          การทรุดสะสมรายเดือนเฉลี่ยรายเขต (asc+desc แปลงเป็นแนวดิ่ง, ผูก GNSS แล้ว)
 - rail.geojson         แนวราง ช่วงละ 200 ม. พร้อมอัตราทรุด
 - flood.png            พื้นที่น้ำท่วมจากภาพเรดาร์ (ถ้ามี results/flood/ จาก scripts/flood.py)
+- gfm.png              พื้นที่น้ำท่วมจาก Copernicus GFM (WMS observed_flood_extent) ไว้เปรียบเทียบ
 """
 import argparse
 import json
@@ -93,8 +94,8 @@ def raster_layers(full):
     return v, tr, image, grid
 
 
-def flood_layer(flood_tif):
-    """พื้นที่น้ำท่วมจาก SAR (results/flood/flood_*.tif: 1 = น้ำท่วม) → flood.png บน EPSG:3857"""
+def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
+    """พื้นที่น้ำท่วม (raster ค่า 1 = น้ำท่วม) → PNG บน EPSG:3857 เฉพาะในสามจังหวัด"""
     from PIL import Image
     with rasterio.open(flood_tif) as s:
         c = s.read(1); tr, crs = s.transform, s.crs
@@ -104,8 +105,9 @@ def flood_layer(flood_tif):
     reproject(c, m, src_transform=tr, src_crs=crs, src_nodata=255, dst_transform=dt, dst_crs='EPSG:3857',
               dst_nodata=0, resampling=Resampling.nearest)
     rgba = np.zeros((dh, dw, 4), 'uint8')
-    rgba[m == 1] = [0x21, 0x66, 0xac, 230]
-    Image.fromarray(rgba).save(SITE / 'flood.png', optimize=True)
+    inside = ~geometry_mask([districts().to_crs(3857).union_all()], m.shape, dt)
+    rgba[(m == 1) & inside] = [*color, 230]
+    Image.fromarray(rgba).save(SITE / out_name, optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
 
@@ -240,6 +242,7 @@ def main():
     ap.add_argument('--full', type=Path, default=ROOT / 'results' / 'full')
     ap.add_argument('--skip-buildings', action='store_true')
     ap.add_argument('--flood', type=Path, default=ROOT / 'results' / 'flood')
+    ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
     v, tr, image, grid = raster_layers(a.full)
@@ -250,6 +253,8 @@ def main():
     ft = sorted(a.flood.glob('flood_*.tif')) if a.flood.exists() else []
     if ft:
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
+    if a.gfm.exists():
+        meta['gfm'] = {'image': flood_layer(a.gfm, 'gfm.png', (0xe8, 0x4c, 0x78)), 'date': a.gfm.stem.split('_')[-1]}
     old = SITE / 'meta.json'
     meta['buildings'] = (json.loads(old.read_text()).get('buildings', []) if a.skip_buildings and old.exists()
                          else buildings(v, tr))
