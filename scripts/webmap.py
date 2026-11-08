@@ -1,86 +1,178 @@
-"""สร้างเว็บแมป 3D (MapLibre GL + PMTiles) จากผลใน results/ → data/web/site/
+"""สร้างเว็บแมปสาธารณะ (MapLibre GL + PMTiles) จากอัตราทรุดชุด full → data/web/site/
 
-    python scripts/webmap.py          # สร้างทุกชั้นข้อมูล
-    python -m http.server -d data/web/site 8000   # ดูในเครื่อง
+    python scripts/webmap.py --full results/full
+    pip install rangehttpserver && python -m RangeHTTPServer 8000   # ดูในเครื่อง (ใน data/web/site)
 
 ชั้นข้อมูล:
-- buildings_*.pmtiles  อาคาร GBA ยกสูงตามความสูง ระบายสีตาม VLM ก่อน/หลัง หรือ Δv
-                       (แบ่งเป็นแถบตามแนวตะวันออก-ตะวันตก ให้แต่ละไฟล์ < 100 MB ตามข้อจำกัดของ GitHub)
-- vlm_*.png            ภาพ VLM สำหรับซูมไกล (EPSG:3857)
-- districts.geojson    ขอบเขต 59 เขต/อำเภอ + สถิติ exposure
-- facilities.geojson   สถานที่สำคัญ + VLM ถ่วงน้ำหนัก
-- rail.geojson         แนวราง แบ่งช่วงละ 200 ม. พร้อม VLM
+- vlm.png / grid.bin   ภาพระดับการทรุด 4 ระดับ (EPSG:3857) และกริดค่า (int16, 0.1 มม./ปี, lon/lat) สำหรับคลิกดูค่า
+- buildings_*.pmtiles  อาคาร GBA ยกสูงตามความสูง ระบายสีตามอัตราทรุด (แต่ละไฟล์ < 100 MB ตามข้อจำกัดของ GitHub)
+- districts.geojson    59 เขต/อำเภอ + ค่ามัธยฐาน
+- series.json          การทรุดสะสมรายเดือนเฉลี่ยรายเขต (asc+desc แปลงเป็นแนวดิ่ง, ผูก GNSS แล้ว)
+- rail.geojson         แนวราง ช่วงละ 200 ม. พร้อมอัตราทรุด
 """
+import argparse
 import json
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
-
-sys.path.insert(0, str(Path(__file__).parent))
-import exposure as E  # noqa: E402
+import rasterio
+from rasterio.features import geometry_mask, rasterize
+from rasterio.warp import Resampling, calculate_default_transform, reproject, transform_bounds
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'data' / 'web' / 'site'
 WORK = ROOT / 'data' / 'web' / 'work'
+EXP = ROOT / 'data' / 'exposure'
+DISTRICTS = ROOT / 'boundaries' / 'districts_bmr.gpkg'
 TEMPLATE = ROOT / 'web' / 'index.html'
 MAX_TILE_MB = 95
-RAIL_PIECE = 200            # ม.
-# สีเดียวกับหน้าเว็บ (VLM มม./ปี): ทรุดมาก = แดง → คงที่ = เหลืองอ่อน → ยก = น้ำเงิน
-VLM_STOPS = [(-30, '#67001f'), (-20, '#b2182b'), (-10, '#ef8a62'), (-5, '#fddbc7'),
-             (0, '#f7f7f7'), (5, '#92c5de'), (10, '#2166ac')]
-DV_STOPS = [(-10, '#b2182b'), (-3, '#ef8a62'), (0, '#f7f7f7'), (3, '#67a9cf'), (10, '#2166ac')]
+RAIL_PIECE = 200
+MIN_TEMP_COH = 0.7
+# ระดับการทรุด (มม./ปี): ขอบบนของแต่ละระดับ; ค่าบวกนับเป็น "น้อย"
+CLASSES = [(-5, '#fcbba1'), (-10, '#fb6a4a'), (-20, '#cb181d'), (-np.inf, '#67000d')]
+EDGES = [0, -5, -10, -20]
+# ค่าเลื่อน LOS (มม./ปี) ที่ analyze ใช้ผูกภาพกับ GNSS ที่ CUSV (จาก results/full/summary.txt)
+TIE_LOS = {'asc': -2.9, 'desc': -2.1}
 
 
 def rnd(a, k=1):
-    """ปัดค่าเพื่อลดขนาดไฟล์; NaN → None (ไม่ใส่ใน tile)"""
     a = np.round(np.asarray(a, dtype=float), k)
     return [None if not np.isfinite(x) else float(x) for x in a]
 
 
-def rasters():
-    R = {}
-    for p in E.PERIODS:
-        R[f'v_{p}'], prof = E.read(E.RESULTS / f'vlm_{p}.tif')
-        R[f's_{p}'], _ = E.read(E.RESULTS / f'sd_{p}.tif')
-    R['dv'], _ = E.read(E.RESULTS / 'dv.tif')
-    R['sig'], _ = E.read(E.RESULTS / 'dv_sig.tif')
-    return R, prof
+def classify(v):
+    v = np.asarray(v, float)
+    out = np.full(v.shape, -1, 'int8')
+    ok = np.isfinite(v)
+    out[ok] = 0
+    for i, e in enumerate(EDGES[1:], start=1):
+        out[ok & (v < e)] = i
+    return out
+
+
+def districts():
+    return gpd.read_file(DISTRICTS).to_crs(32647).reset_index(drop=True)
+
+
+# ---------------------------------------------------------------- raster
+def raster_layers(full):
+    from PIL import Image
+    with rasterio.open(full / 'vlm_full.tif') as s:
+        v = s.read(1).astype('float32'); tr, crs = s.transform, s.crs
+    adm = districts()
+    v[geometry_mask([adm.union_all()], v.shape, tr)] = np.nan
+
+    # ภาพ 4 ระดับ บน EPSG:3857
+    h, w = v.shape
+    b = rasterio.transform.array_bounds(h, w, tr)
+    dt, dw, dh = calculate_default_transform(crs, 'EPSG:3857', w, h, *b)
+    m = np.full((dh, dw), np.nan, 'float32')
+    reproject(v, m, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=dt, dst_crs='EPSG:3857',
+              dst_nodata=np.nan, resampling=Resampling.nearest)
+    cls = classify(m)
+    rgba = np.zeros((*m.shape, 4), 'uint8')
+    for i, (_, col) in enumerate(CLASSES):
+        rgba[cls == i] = [int(col[k:k + 2], 16) for k in (1, 3, 5)] + [215]
+    Image.fromarray(rgba).save(SITE / 'vlm.png', optimize=True)
+    x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
+    image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
+
+    # กริดค่าบน lon/lat สำหรับคลิกดูค่า (int16 = 0.1 มม./ปี, -32768 = ไม่มีข้อมูล)
+    gt, gw, gh = calculate_default_transform(crs, 'EPSG:4326', w, h, *b)
+    g = np.full((gh, gw), np.nan, 'float32')
+    reproject(v, g, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=gt, dst_crs='EPSG:4326',
+              dst_nodata=np.nan, resampling=Resampling.nearest)
+    q = np.where(np.isfinite(g), np.round(g * 10), -32768).astype('<i2')
+    q.tofile(SITE / 'grid.bin')
+    grid = {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e}
+    return v, tr, image, grid
+
+
+# ---------------------------------------------------------------- districts + time series
+def district_layer(v, tr):
+    adm = districts()
+    zone = rasterize(zip(adm.geometry, adm.index + 1), out_shape=v.shape, transform=tr, fill=0)
+    ok = np.isfinite(v) & (zone > 0)
+    s = pd.DataFrame({'z': zone[ok] - 1, 'v': v[ok]}).groupby('z').v
+    med = s.median().reindex(adm.index)
+    out = adm[['adm1_name', 'adm1_name1', 'adm2_name', 'adm2_name1', 'geometry']].copy()
+    out['med'] = rnd(med)
+    out['cls'] = classify(med.values).tolist()
+    out['pct10'] = rnd((s.apply(lambda x: 100 * np.mean(x < -10))).reindex(adm.index), 0)
+    out['rank'] = med.rank(method='min').astype('Int64').tolist()
+    out['i'] = out.index
+    o = out.to_crs(4326)
+    o['geometry'] = o.geometry.simplify(0.0002)
+    o.to_file(SITE / 'districts.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
+    return adm
+
+
+def district_series(full, adm):
+    """การทรุดสะสมรายเดือนเฉลี่ยรายเขต: ทุก track แปลง LOS → แนวดิ่ง (/cos inc) + ค่าเลื่อนผูก GNSS
+    แล้วเฉลี่ยรายเดือน เฉลี่ยสอง track ตั้งค่าเฉลี่ย 3 เดือนแรกเป็น 0"""
+    ts = full / 'timeseries'
+    per_track = {}
+    for trk in ['asc', 'desc']:
+        dates = pd.to_datetime(pd.read_csv(ts / f'{trk}_full_dates.csv', dtype=str).date)
+        years = ((dates - dates[0]).dt.days / 365.25).values
+        with rasterio.open(ts / f'{trk}_full_incidenceAngle.tif') as s:
+            inc = s.read(1); tr = s.transform
+        with rasterio.open(ts / f'{trk}_full_temporalCoherence.tif') as s:
+            coh = s.read(1)
+        zone = rasterize(zip(adm.geometry, adm.index + 1), out_shape=inc.shape, transform=tr, fill=0)
+        m = (zone > 0) & (coh >= MIN_TEMP_COH) & np.isfinite(inc)
+        z = zone[m] - 1
+        cos = np.cos(np.deg2rad(inc[m]))
+        rows, k = [], 0
+        for f in sorted(ts.glob(f'{trk}_full_timeseries_*.tif')):
+            with rasterio.open(f) as s:
+                for band in range(1, s.count + 1):
+                    a = s.read(band)[m]
+                    up = (a + TIE_LOS[trk] * years[k]) / cos
+                    rows.append(pd.Series(up).groupby(z).median().rename(dates[k]))
+                    k += 1
+        df = pd.DataFrame(rows)                     # index = วันที่, columns = เขต
+        per_track[trk] = df.groupby(df.index.to_period('M')).mean()
+    both = pd.concat(per_track.values()).groupby(level=0).mean().sort_index()
+    both = both - both.iloc[:3].mean()       # ใช้ค่าเฉลี่ย 3 เดือนแรกเป็นศูนย์ ลดผล noise ของวันแรก
+    out = {'months': [str(p) for p in both.index],
+           'districts': {int(c): rnd(both[c].values) for c in both.columns}}
+    (SITE / 'series.json').write_text(json.dumps(out, separators=(',', ':')))
 
 
 # ---------------------------------------------------------------- buildings
-def buildings(R, prof):
-    g = gpd.read_parquet(E.EXP / 'gba_bmr.parquet')[['height', 'geometry']]
-    b = pd.read_parquet(E.EXP / 'buildings_bmr.parquet')     # จุดตัวแทนใน UTM ลำดับเดียวกัน
-    tr = prof['transform']
-    vals = {k: E.sample(R[k], tr, b.x.values, b.y.values) for k in ['v_pre', 'v_post', 'dv', 'sig']}
-    g = g.assign(h=np.round(g.height.clip(lower=1), 0).astype(int),
-                 a=rnd(vals['v_pre']), b=rnd(vals['v_post']), d=rnd(vals['dv']),
-                 s=[None if not np.isfinite(x) else int(x) for x in vals['sig']])
-    g = g.drop(columns='height')
+def buildings(v, tr):
+    from rasterio.transform import rowcol
+    g = gpd.read_parquet(EXP / 'gba_bmr.parquet')[['height', 'adm2_pcode', 'geometry']]
+    b = pd.read_parquet(EXP / 'buildings_bmr.parquet')          # จุดตัวแทน UTM ลำดับเดียวกับ gba_bmr
+    r, c = rowcol(tr, b.x.values, b.y.values)
+    r, c = np.asarray(r), np.asarray(c)
+    ok = (r >= 0) & (r < v.shape[0]) & (c >= 0) & (c < v.shape[1])
+    val = np.full(len(b), np.nan); val[ok] = v[r[ok], c[ok]]
+    adm = districts()
+    di = g.adm2_pcode.map(dict(zip(adm.adm2_pcode, adm.index)))
+    g = gpd.GeoDataFrame({'h': np.round(g.height.clip(lower=2)).astype(int),
+                          'v': rnd(val), 'c': classify(val).astype(int), 'd': di.astype('Int64')},
+                         geometry=g.geometry, crs=g.crs)
     x = b.x.values
     WORK.mkdir(parents=True, exist_ok=True)
     for old in SITE.glob('buildings_*.pmtiles'):
         old.unlink()
-    # เพิ่มจำนวนแถบจนทุกไฟล์ < MAX_TILE_MB
     for n in range(1, 9):
-        edges = np.quantile(x, np.linspace(0, 1, n + 1))
-        edges[-1] += 1
+        edges = np.quantile(x, np.linspace(0, 1, n + 1)); edges[-1] += 1
         files = []
         for i in range(n):
-            part = g[(x >= edges[i]) & (x < edges[i + 1])]
             src = WORK / f'b{i}.geojsonseq'
-            part.to_file(src, driver='GeoJSONSeq', COORDINATE_PRECISION=6)
+            g[(x >= edges[i]) & (x < edges[i + 1])].to_file(src, driver='GeoJSONSeq', COORDINATE_PRECISION=6)
             out = WORK / f'buildings_{i}.pmtiles'
             subprocess.run(['tippecanoe', '-o', str(out), '-l', 'buildings', '-Z13', '-z15',
                             '--drop-densest-as-needed', '--extend-zooms-if-still-dropping',
                             '-P', '--force', '-q', str(src)], check=True)
-            src.unlink()
-            files.append(out)
+            src.unlink(); files.append(out)
         sizes = [f.stat().st_size / 1e6 for f in files]
         print(f'{n} แถบ: {", ".join(f"{s:.0f}" for s in sizes)} MB')
         if max(sizes) < MAX_TILE_MB:
@@ -92,122 +184,53 @@ def buildings(R, prof):
     return [f.name for f in files]
 
 
-# ---------------------------------------------------------------- raster overlays
-def colorize(arr, stops, alpha=200):
-    xs = np.array([s[0] for s in stops], float)
-    rgb = np.array([[int(c[i:i + 2], 16) for i in (1, 3, 5)] for _, c in stops], float)
-    out = np.zeros((*arr.shape, 4), np.uint8)
-    ok = np.isfinite(arr)
-    v = np.clip(arr[ok], xs[0], xs[-1])
-    for ch in range(3):
-        out[..., ch][ok] = np.interp(v, xs, rgb[:, ch])
-    out[..., 3][ok] = alpha
-    return out
-
-
-def overlays(R, prof):
-    """ภาพสี VLM บน EPSG:3857 (เฉพาะในสามจังหวัด) + พิกัดมุม (lon/lat) สำหรับ image source ของ MapLibre"""
-    import rasterio
-    from PIL import Image
-    from rasterio.features import geometry_mask
-    from rasterio.warp import calculate_default_transform, reproject, Resampling, transform_bounds
-    src_crs, tr = prof['crs'], prof['transform']
-    h, w = R['dv'].shape
-    outside = geometry_mask([E.districts().union_all()], out_shape=(h, w), transform=tr)
-    bounds = rasterio.transform.array_bounds(h, w, tr)
-    dt, dw, dh = calculate_default_transform(src_crs, 'EPSG:3857', w, h, *bounds)
-    meta = {}
-    for key, stops in [('v_pre', VLM_STOPS), ('v_post', VLM_STOPS), ('dv', DV_STOPS)]:
-        dst = np.full((dh, dw), np.nan, np.float32)
-        reproject(np.where(outside, np.nan, R[key]).astype(np.float32), dst, src_transform=tr, src_crs=src_crs, src_nodata=np.nan,
-                  dst_transform=dt, dst_crs='EPSG:3857', dst_nodata=np.nan, resampling=Resampling.nearest)
-        Image.fromarray(colorize(dst, stops)).save(SITE / f'{key}.png', optimize=True)
-    x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
-    meta['image_coords'] = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
-    return meta
-
-
-# ---------------------------------------------------------------- vectors
-def districts():
-    adm = E.districts()
-    out = adm[['adm1_name', 'adm1_name1', 'adm2_name', 'adm2_name1', 'geometry']].copy()
-    f = E.OUT / 'exposure_districts.csv'
-    if f.exists():
-        t = pd.read_csv(f)
-        t = t[t.bound == 'median']
-        for p in E.PERIODS:
-            for th in E.THRESHOLDS:
-                d = t[(t.period == p) & (t.threshold == th)].set_index('district')
-                k = f'{p}_{abs(th)}'
-                out[f'pa_{k}'] = rnd(d.pct_area.reindex(out.index), 1)
-                out[f'pop_{k}'] = rnd(d.population.reindex(out.index), 0)
-                out[f'bld_{k}'] = rnd(d.buildings.reindex(out.index), 0)
-    s = E.RESULTS / 'district_stats.csv'
-    if s.exists():
-        st = pd.read_csv(s).set_index('adm2_name')
-        for c in ['vlm_pre_median', 'vlm_post_median', 'dv_median', 'pct_faster']:
-            out[c] = rnd(out.adm2_name.map(st[c]))
-    out = out.to_crs(4326)
-    out['geometry'] = out.geometry.simplify(0.0002)
-    out.to_file(SITE / 'districts.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
-
-
-def facilities():
-    f = E.OUT / 'facilities.gpkg'
-    if not f.exists():
-        print('ยังไม่มี facilities.gpkg (รัน exposure.py infra ก่อน) — ข้าม')
-        return
-    g = gpd.read_file(f)
-    # exposure.infra เขียน facility ชุดเดียวกันซ้ำต่อช่วง ในลำดับเดิม
-    per = {p: g[g.period == p].reset_index(drop=True) for p in E.PERIODS}
-    base = per[E.PERIODS[0]]
-    out = gpd.GeoDataFrame(base[['ftype', 'name']], geometry=base.geometry.representative_point(), crs=g.crs)
-    for p in E.PERIODS:
-        out[p] = rnd(per[p]['median'])
-    out.to_crs(4326).to_file(SITE / 'facilities.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
-
-
-def rail(R, prof):
+# ---------------------------------------------------------------- rail
+def rail(v, tr):
     from shapely.geometry import LineString
     from shapely.ops import substring
-    g = E.infra_layer('rail')
-    prov = E.districts().union_all()
-    g = g[g.intersects(prov)].copy()
-    g['geometry'] = g.intersection(prov)
+    from rasterio.transform import rowcol
+    g = gpd.read_file(EXP / 'infra_bmr.gpkg', layer='rail')
+    prov = districts().union_all()
+    g = g[g.intersects(prov)].copy(); g['geometry'] = g.intersection(prov)
     rows = []
-    for name, cls, geom in zip(g.name, g['class'], g.geometry):
+    for name, geom in zip(g.name, g.geometry):
         for part in getattr(geom, 'geoms', [geom]):
+            if part.length == 0:
+                continue
             n = max(int(part.length // RAIL_PIECE), 1)
             for i in range(n):
                 seg = substring(part, i * part.length / n, (i + 1) * part.length / n)
                 if not isinstance(seg, LineString):
                     continue
-                m = seg.interpolate(.5, normalized=True)
-                rows.append({'name': name, 'class': cls, 'geometry': seg,
-                             **{k: E.sample(R[k], prof['transform'], [m.x], [m.y])[0]
-                                for k in ['v_pre', 'v_post', 'dv']}})
-    out = gpd.GeoDataFrame(rows, crs=E.EPSG)
-    for k in ['v_pre', 'v_post', 'dv']:
-        out[k] = rnd(out[k])
+                pts = [seg.interpolate(f, normalized=True) for f in (0.1, 0.5, 0.9)]
+                rr, cc = rowcol(tr, [p.x for p in pts], [p.y for p in pts])
+                vals = [v[a, b] for a, b in zip(rr, cc) if 0 <= a < v.shape[0] and 0 <= b < v.shape[1]]
+                val = np.nanmedian(vals) if np.isfinite(vals).any() else np.nan
+                rows.append({'name': name, 'geometry': seg, 'v': val})
+    out = gpd.GeoDataFrame(rows, crs=32647)
+    out['c'] = classify(out.v.values).astype(int)
+    out['v'] = rnd(out.v)
     out.to_crs(4326).to_file(SITE / 'rail.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--full', type=Path, default=ROOT / 'results' / 'full')
+    ap.add_argument('--skip-buildings', action='store_true')
+    a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
-    R, prof = rasters()
-    meta = overlays(R, prof)
-    districts()
-    facilities()
-    rail(R, prof)
-    meta['buildings'] = buildings(R, prof)
-    meta['thresholds'] = E.THRESHOLDS
-    meta['vlm_stops'] = VLM_STOPS
-    meta['dv_stops'] = DV_STOPS
+    v, tr, image, grid = raster_layers(a.full)
+    adm = district_layer(v, tr)
+    district_series(a.full, adm)
+    rail(v, tr)
+    meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES]}
+    old = SITE / 'meta.json'
+    meta['buildings'] = (json.loads(old.read_text()).get('buildings', []) if a.skip_buildings and old.exists()
+                         else buildings(v, tr))
     (SITE / 'meta.json').write_text(json.dumps(meta))
     shutil.copy(TEMPLATE, SITE / 'index.html')
     (SITE / '.nojekyll').touch()
-    total = sum(f.stat().st_size for f in SITE.iterdir()) / 1e6
-    print(f'site: {SITE} ({total:.0f} MB)')
+    print(f'site: {SITE} ({sum(f.stat().st_size for f in SITE.iterdir()) / 1e6:.0f} MB)')
 
 
 if __name__ == '__main__':
