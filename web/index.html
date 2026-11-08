@@ -91,6 +91,7 @@
 <button id="toggle" class="panel chip" data-i18n="menu">☰ เมนู</button>
 
 <aside id="side" class="panel">
+  <script>if (matchMedia('(max-width: 700px)').matches) document.currentScript.parentElement.classList.add('hidden');</script>
   <div class="row" style="margin-bottom:6px">
     <button class="chip" id="lang" aria-label="language">English</button>
     <button class="chip" id="aboutBtn" data-i18n="about">เกี่ยวกับข้อมูล</button>
@@ -133,7 +134,7 @@ const I18N = {
     legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
     lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
     hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
-    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
+    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
     rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
     expl: [
       'แผ่นดินบริเวณนี้ทรุดช้า ใกล้เคียงกับใจกลางกรุงเทพฯ',
@@ -152,7 +153,7 @@ const I18N = {
     legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
     lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
     hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
-    cls: ['Low', 'Moderate', 'High', 'Very high'],
+    cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
     rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
     expl: [
       'The ground here sinks slowly, similar to central Bangkok.',
@@ -214,7 +215,8 @@ function applyLang() {
   document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = T(e.dataset.i18n));
   $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
   $('legend').innerHTML = [0, 1, 2, 3].map(i =>
-    `<div><span class="sw" style="background:${meta.colors[i]}"></span><span>${T('cls')[i]}</span><span class="rng">${T('rng')[i]}</span></div>`).join('');
+    `<div><span class="sw" style="background:${meta.colors[i]}"></span><span>${T('cls')[i]}</span><span class="rng">${T('rng')[i]}</span></div>`).join('')
+    + `<div><span class="sw" style="background:#c8c8c8"></span><span>${T('nod')}</span><span class="rng"></span></div>`;
   $('aboutBox').innerHTML = ABOUT[lang];
   $('aboutClose').onclick = () => $('about').classList.remove('open');
   if (last) showCard(last);
@@ -286,12 +288,12 @@ function drawChart(d) {
   const eqLine = { id: 'eq', afterDraw(c) {
     const xs = c.scales.x, ys = c.scales.y, px = xs.getPixelForValue(eqIndex), g = c.ctx;
     g.save(); g.strokeStyle = fg; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(px, ys.top); g.lineTo(px, ys.bottom); g.stroke();
-    g.setLineDash([]); g.fillStyle = fg; g.font = '11px "IBM Plex Sans Thai"'; g.textAlign = 'right'; g.fillText(T('eq'), px - 4, ys.top + 11); g.restore();
+    g.setLineDash([]); g.fillStyle = fg; g.font = '11px "IBM Plex Sans Thai"'; g.textAlign = 'right'; g.fillText(T('eq'), px - 4, ys.bottom - 6); g.restore();
   }};
   if (chart) chart.destroy();
   chart = new Chart($('chart'), { type: 'line', data, plugins: [eqLine], options: {
     animation: false, maintainAspectRatio: false,
-    plugins: { legend: { labels: { color: fg, boxWidth: 12, font: { family: 'IBM Plex Sans Thai', size: 12 } } },
+    plugins: { legend: { position: 'bottom', labels: { color: fg, boxWidth: 12, font: { family: 'IBM Plex Sans Thai', size: 12 } } },
       tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(0)} mm` } } },
     scales: { x: { ticks: { color: fg, maxTicksLimit: 6, font: { size: 11 } }, grid: { display: false } },
       y: { ticks: { color: fg, font: { size: 11 } }, grid: { color: fg + '22' } } } } });
