@@ -346,7 +346,7 @@ def ecdf():
     plt.close(fig)
 
     # boxplot 20 เขตที่ทรุดเร็วที่สุด (median ช่วง post)
-    d = data_box['post']
+    d = data_box[PERIODS[-1]]
     order = d.groupby('zone').vlm.median().sort_values().index[:20]
     fig, ax = plt.subplots(figsize=(12, 5), constrained_layout=True)
     for k, p in enumerate(PERIODS):

@@ -1,0 +1,1539 @@
+﻿period,ftype,name,adm1_name,adm2_name,lower,median,upper,class_median,beta,beta_class
+full,school,โรงเรียนบ้านวังจรเข้,Samut Sakhon,Ban Phaeo,-26.19628,-27.11661,-28.03694,< -20,0.00032,low
+full,school,โรงเรียนทํานบแพ้ว,Samut Sakhon,Ban Phaeo,-26.10031,-27.03398,-27.96765,< -20,0.00026,low
+full,school,โรงเรียนวัดราษฎร์ศรัทธากะยาราม,Samut Sakhon,Ban Phaeo,-25.0322,-25.93195,-26.8317,< -20,6e-05,low
+full,rail_station,เขตเมือง,Samut Sakhon,Mueang Samut Sakhon,-24.19938,-25.24223,-26.28508,< -20,0.00028,low
+full,school,โรงเรียนวัดยกกระบัตร,Samut Sakhon,Ban Phaeo,-23.95165,-24.87435,-25.79705,< -20,0.00011,low
+full,school,โรงเรียนอนุบาลบ้านแพ้ว (วันครู2500),Samut Sakhon,Ban Phaeo,-22.72268,-23.65429,-24.58589,< -20,0.00014,low
+full,school,โรงเรียนวัดธรรมโชติ,Samut Sakhon,Ban Phaeo,-22.60449,-23.55687,-24.50926,< -20,0.00024,low
+full,school,โรงเรียนบ้านนาโคก,Samut Sakhon,Mueang Samut Sakhon,-22.42205,-23.38352,-24.34499,< -20,0.00011,low
+full,school,โรงเรียนบ้านขุนสมุทรไทย,Samut Prakan,Phra Samut Chedi,-22.7353,-23.36592,-23.99654,< -20,8e-05,low
+full,fire_station,สถานีดับเพลิงและกู้ภัย อบต.บางเพรียง,Samut Prakan,Bang Bo,-22.49926,-23.31594,-24.13263,< -20,0.0003,low
+full,school,โรงเรียนวัดหนองบัว,Samut Sakhon,Ban Phaeo,-22.35406,-23.27623,-24.1984,< -20,0.00048,medium
+full,school,โรงเรียนวัดหลักสองราษฎร์บํารุง,Samut Sakhon,Ban Phaeo,-22.33145,-23.19772,-24.06399,< -20,0.00031,low
+full,school,โรงเรียนไทยรัฐวิทยา 9,Samut Sakhon,Ban Phaeo,-21.84966,-22.78682,-23.72399,< -20,0.00016,low
+full,school,โรงเรียนวัดชัยมงคล,Samut Sakhon,Ban Phaeo,-21.77729,-22.62942,-23.48155,< -20,0.00018,low
+full,school,โรงเรียนสารสาส์สบ้านแพ้ว,Samut Sakhon,Ban Phaeo,-21.69214,-22.60743,-23.52271,< -20,0.00022,low
+full,school,โรงเรียนบ้านโรงเข้,Samut Sakhon,Ban Phaeo,-21.35719,-22.37192,-23.38665,< -20,0.00069,high
+full,police,สภอ.บางโทรัด,Samut Sakhon,Mueang Samut Sakhon,-21.22378,-22.10429,-22.9848,< -20,0.00032,low
+full,police,สถานีตำรวจภูธรบางโทรัด,Samut Sakhon,Mueang Samut Sakhon,-21.20859,-22.08909,-22.9696,< -20,0.00032,low
+full,school,โรงเรียนวัดบางพลี,Samut Sakhon,Mueang Samut Sakhon,-21.12362,-22.02473,-22.92583,< -20,0.00012,low
+full,police,สภ.สาขลา จว.สมุทรปราการ,Samut Prakan,Phra Samut Chedi,-21.35969,-21.98742,-22.61516,< -20,0.00091,high
+full,school,โรงเรียนบ้านรางสายบัว,Samut Sakhon,Ban Phaeo,-21.04806,-21.8786,-22.70914,< -20,0.00034,medium
+full,school,โรงเรียนวัดกระโจมทอง,Samut Sakhon,Ban Phaeo,-20.94699,-21.86101,-22.77502,< -20,0.00028,low
+full,school,โรงเรียนวัดธรรมเจดีย์ศรีพิพัฒน์,Samut Sakhon,Ban Phaeo,-20.97642,-21.8544,-22.73239,< -20,0.00036,medium
+full,school,โรงเรียนวัดขุมทอง,Bangkok,Lat Krabang,-21.03444,-21.84572,-22.65699,< -20,0.00057,medium
+full,school,โรงเรียนบ้านเจริญสุข,Samut Sakhon,Ban Phaeo,-21.01341,-21.84164,-22.66987,< -20,0.00067,high
+full,police,สถานีตำรวจภูธรบ้านคลองสวน,Samut Prakan,Phra Samut Chedi,-21.17426,-21.8021,-22.42995,< -20,0.00091,high
+full,rail_station,บางกระเจ้า,Samut Sakhon,Mueang Samut Sakhon,-20.75849,-21.65651,-22.55453,< -20,0.00055,medium
+full,police,สถานีตำรวจภูธรเปร็ง | Preng,Samut Prakan,Bang Bo,-20.8432,-21.64481,-22.44643,< -20,0.00058,medium
+full,rail_station,บ้านนาขวาง,Samut Sakhon,Mueang Samut Sakhon,-20.4291,-21.38987,-22.35064,< -20,0.00024,low
+full,school,โรงเรียนสมุทรมณีรัตน์,Samut Sakhon,Mueang Samut Sakhon,-20.50465,-21.31552,-22.12639,< -20,0.00026,low
+full,rail_station,บ้านนาโคก,Samut Sakhon,Mueang Samut Sakhon,-20.29901,-21.26025,-22.22149,< -20,0.00015,low
+full,school,โรงเรียนบ้านคลองซื่อ,Samut Sakhon,Mueang Samut Sakhon,-20.18733,-21.03684,-21.88635,< -20,0.00018,low
+full,school,โรงเรียนวัดราษฎร์ธรรมาราม,Samut Sakhon,Mueang Samut Sakhon,-19.95053,-20.96845,-21.98636,< -20,0.0002,low
+full,school,โรงเรียนบ้านดําเนินสะดวก,Samut Sakhon,Ban Phaeo,-20.02474,-20.83338,-21.64201,< -20,0.00017,low
+full,rail_station,บ้านกาหลง,Samut Sakhon,Mueang Samut Sakhon,-19.89336,-20.81886,-21.74436,< -20,0.00016,low
+full,fire_station,สถานีดับเพลิงเทศบาลตำบลบ้านแพ้ว,Samut Sakhon,Ban Phaeo,-19.85086,-20.77023,-21.6896,< -20,,
+full,school,โรงเรียนวัดศรีวนาราม,Samut Sakhon,Mueang Samut Sakhon,-19.90787,-20.76748,-21.62709,< -20,0.00067,high
+full,school,ศูนย์เด็กเล็กบ้านแพ้ว,Samut Sakhon,Ban Phaeo,-19.75464,-20.67389,-21.59315,< -20,,
+full,school,โรงเรียนวัดบางกระเจ้า,Samut Sakhon,Mueang Samut Sakhon,-19.64269,-20.52345,-21.40421,< -20,0.00021,low
+full,school,โรงเรียนบ้านชายทะเลบางกระเจ้า,Samut Sakhon,Mueang Samut Sakhon,-19.48206,-20.44011,-21.39816,< -20,0.00022,low
+full,school,โรงเรียนวัดใต้บ้านบ่อ,Samut Sakhon,Mueang Samut Sakhon,-19.53518,-20.43048,-21.32578,< -20,0.00026,low
+full,school,โรงเรียนบ้านดอนไผ่,Samut Sakhon,Ban Phaeo,-19.31871,-20.2789,-21.23909,< -20,0.00019,low
+full,police,เรือนจำกลางสมุทรปราการ,Samut Prakan,Bang Bo,-19.17974,-20.00037,-20.821,< -20,0.00014,low
+full,school,โรงเรียนหมู่บ้านเกาะโพธิ์,Bangkok,Bang Khun Thian,-19.14753,-19.782,-20.41647,-10 to -20,0.00021,low
+full,school,โรงเรียนวัดแจ่มราษฎร์ศรัทธาธรรม,Samut Prakan,Bang Bo,-18.82421,-19.66605,-20.50788,-10 to -20,0.00031,low
+full,police,สภอ.บ้านแพ้ว,Samut Sakhon,Ban Phaeo,-18.71509,-19.62072,-20.52634,-10 to -20,0.00011,low
+full,police,สถานีตำรวจภูธรอำเภอบ้านแพ้ว,Samut Sakhon,Ban Phaeo,-18.71601,-19.62071,-20.52542,-10 to -20,0.00011,low
+full,police,รพ.สต.นาโคก,Samut Sakhon,Mueang Samut Sakhon,-18.56886,-19.52979,-20.49071,-10 to -20,0.00026,low
+full,school,โรงเรียนวัดปัจจันตาราม,Samut Sakhon,Mueang Samut Sakhon,-18.49534,-19.47484,-20.45434,-10 to -20,0.00012,low
+full,school,โรงเรียนวัดนิยมยาตรา,Samut Prakan,Bang Bo,-18.52907,-19.4097,-20.29033,-10 to -20,0.00062,medium
+full,school,วัดโรงเข้,Samut Sakhon,Ban Phaeo,-18.31688,-19.29492,-20.27295,-10 to -20,0.00033,medium
+full,school,โรงเรียนวัดกาหลง,Samut Sakhon,Mueang Samut Sakhon,-18.17719,-19.09628,-20.01537,-10 to -20,0.00013,low
+full,school,โรงเรียนวัดกระซ้าขาว,Samut Sakhon,Mueang Samut Sakhon,-17.91438,-18.88487,-19.85536,-10 to -20,0.00019,low
+full,school,โรงเรียนสหกรณ์กสิกรรมชายทะเล,Samut Sakhon,Mueang Samut Sakhon,-18.11588,-18.86984,-19.62381,-10 to -20,0.00017,low
+full,rail_station,บ้านบ่อ,Samut Sakhon,Mueang Samut Sakhon,-17.78705,-18.70242,-19.61779,-10 to -20,0.00012,low
+full,school,โรงเรียนวัดสุคันธาวาส,Samut Prakan,Bang Bo,-17.86688,-18.68639,-19.50591,-10 to -20,0.00023,low
+full,school,โรงเรียนวัดราชโกษา,Bangkok,Lat Krabang,-17.71359,-18.51119,-19.30878,-10 to -20,0.00019,low
+full,school,โรงเรียนวัดบางกระเจ้า,Samut Sakhon,Mueang Samut Sakhon,-17.61669,-18.4462,-19.27571,-10 to -20,0.00041,medium
+full,police,รพ.สต.บ้านบ่อ สมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-17.48086,-18.39434,-19.30782,-10 to -20,0.00018,low
+full,school,โรงเรียนวัดเกาะแก้ว,Samut Prakan,Bang Bo,-17.52559,-18.38574,-19.24589,-10 to -20,0.00014,low
+full,school,โรงเรียนคลองบางปู,Samut Prakan,Mueang Samut Prakan,-17.59621,-18.38476,-19.17332,-10 to -20,0.00029,low
+full,school,โรงเรียนวัดบางบ่อ,Samut Prakan,Bang Bo,-17.22304,-18.06075,-18.89847,-10 to -20,0.00016,low
+full,school,โรงเรียนบางบ่อวิทยาคม,Samut Prakan,Bang Bo,-17.1944,-18.03395,-18.8735,-10 to -20,0.00033,low
+full,school,โรงเรียนวัดบางขุด,Samut Sakhon,Mueang Samut Sakhon,-17.06849,-18.01231,-18.95614,-10 to -20,0.00025,low
+full,police,สถานีตำรวจนครบาลเทียนทะเล,Bangkok,Bang Khun Thian,-17.36042,-18.00801,-18.6556,-10 to -20,0.0003,low
+full,school,โรงเรียนวัดคลองตันราษฎร์บํารุง,Samut Sakhon,Ban Phaeo,-17.03841,-17.83942,-18.64043,-10 to -20,4e-05,low
+full,school,โรงเรียนวัดกาหลง,Samut Prakan,Bang Bo,-16.99746,-17.80115,-18.60484,-10 to -20,0.00045,medium
+full,school,โรงเรียนวัดสวนส้ม,Samut Sakhon,Ban Phaeo,-16.90341,-17.67128,-18.43916,-10 to -20,0.00016,low
+full,school,โรงเรียนบ้านคลองหลวง,Samut Sakhon,Ban Phaeo,-16.77621,-17.55299,-18.32977,-10 to -20,0.00025,low
+full,school,โรงเรียนวัดบางหญ้าแพรก,Samut Sakhon,Mueang Samut Sakhon,-16.76071,-17.53242,-18.30414,-10 to -20,0.0003,low
+full,school,โรงเรียนวัดมงคลโคธาวาส,Samut Prakan,Bang Bo,-16.65711,-17.48529,-18.31348,-10 to -20,0.00031,low
+full,school,โรงเรียนนวมินทราชินูทิศ สวนกุหลาบวิทยาลัย สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-16.6131,-17.3884,-18.16369,-10 to -20,0.00119,high
+full,school,โรงเรียนวัดใหญ่บ้านบ่อ,Samut Sakhon,Mueang Samut Sakhon,-16.39547,-17.29554,-18.1956,-10 to -20,0.0003,low
+full,school,โรงเรียนวัดสาขลา,Samut Prakan,Phra Samut Chedi,-16.61923,-17.26962,-17.92001,-10 to -20,0.00037,medium
+full,hospital,โรงพยาบาลพระจอมเกล้าเจ้าคุณทหาร,Bangkok,Lat Krabang,-16.53589,-17.25982,-17.98375,-10 to -20,0.00068,high
+full,hospital,โรงพยาบาลบ้านแพ้ว,Samut Sakhon,Ban Phaeo,-16.32873,-17.2406,-18.15247,-10 to -20,0.00034,medium
+full,school,โรงเรียนวัดบางน้ำวน,Samut Sakhon,Mueang Samut Sakhon,-16.17172,-17.07032,-17.96891,-10 to -20,0.00028,low
+full,school,โรงเรียนวัดใหม่กระทุ่มล้ม,Bangkok,Nong Chok,-16.2184,-17.01595,-17.8135,-10 to -20,1e-05,low
+full,school,โรงเรียนวัดเกตุมดีศรีวราราม,Samut Sakhon,Mueang Samut Sakhon,-16.09554,-16.97978,-17.86402,-10 to -20,0.00012,low
+full,school,โรงเรียนวัดลำต้อยติ่ง,Bangkok,Nong Chok,-16.17561,-16.9737,-17.7718,-10 to -20,0.0005,medium
+full,rail_station,บางโทรัด,Samut Sakhon,Mueang Samut Sakhon,-16.03538,-16.94352,-17.85166,-10 to -20,0.00016,low
+full,school,โรงเรัยนขุมทอง,Bangkok,Lat Krabang,-16.16254,-16.93184,-17.70113,-10 to -20,0.00034,medium
+full,airport,เบสท์โอเชียน แอร์พาร์ค,Samut Sakhon,Mueang Samut Sakhon,-16.23017,-16.92845,-17.62672,-10 to -20,0.00036,medium
+full,school,โรงเรียนเมืองสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-15.84362,-16.74843,-17.65324,-10 to -20,0.00031,low
+full,school,โรงเรียนวัดลาดหวาย,Samut Prakan,Bang Bo,-15.81878,-16.57622,-17.33366,-10 to -20,0.00029,low
+full,school,โรงเรียนวัดหนองนกไข่,Samut Sakhon,Krathum Baen,-15.4207,-16.16827,-16.91584,-10 to -20,0.00046,medium
+full,school,โรงเรียนวัดบัวโรย (เฉลิมราษฎร์วิทยาคาร),Samut Prakan,Bang Sao Thong,-15.2974,-16.08449,-16.87157,-10 to -20,,
+full,rail_station,คลองมอญ,Bangkok,Lat Krabang,-15.23851,-15.97703,-16.71555,-10 to -20,7e-05,low
+full,hospital,ศูนย์บริการสาธารณสุข 46 สาขาขุมทอง,Bangkok,Lat Krabang,-15.11191,-15.9011,-16.69029,-10 to -20,0.00056,medium
+full,hospital,โรงพยาบาลบ้านแพ้ว สาขาเกษตรพัฒนา,Samut Sakhon,Ban Phaeo,-15.10289,-15.86865,-16.63441,-10 to -20,0.00044,medium
+full,police,สถานีตำรวจภูธรโคกขาม,Samut Sakhon,Mueang Samut Sakhon,-15.0579,-15.84788,-16.63787,-10 to -20,0.00017,low
+full,school,โรงเรียนเทพศิรินทร์ร่มเกล้า,Bangkok,Lat Krabang,-15.15174,-15.7964,-16.44106,-10 to -20,0.00036,medium
+full,police,สถานีตำรวจนครบาลนิมิตรใหม่,Bangkok,Khlong Sam Wa,-15.06821,-15.77419,-16.48018,-10 to -20,0.00049,medium
+full,school,โรงเรียนวังนกไข่,Samut Sakhon,Krathum Baen,-14.95405,-15.73812,-16.52219,-10 to -20,0.00021,low
+full,school,โรงเรียนวัดดอนโฆสิตาราม,Samut Sakhon,Ban Phaeo,-14.83648,-15.73487,-16.63326,-10 to -20,0.00032,low
+full,police,สถานีตำรวจชุมชนวัดศรีวารีน้อย,Samut Prakan,Bang Sao Thong,-14.94802,-15.7069,-16.46577,-10 to -20,0.00045,medium
+full,school,โรงเรียนวัดคลองสวน (พรหมอุทิศวิทยาคาร),Samut Prakan,Phra Samut Chedi,-14.74748,-15.34064,-15.93381,-10 to -20,0.00013,low
+full,rail_station,บ้านชีผ้าขาว,Samut Sakhon,Mueang Samut Sakhon,-14.53246,-15.31584,-16.09922,-10 to -20,0.00034,medium
+full,school,โรงเรียน วัด สร่าง โศก,Samut Prakan,Bang Bo,-14.48299,-15.30347,-16.12395,-10 to -20,0.00016,low
+full,school,โรงเรียนบ้านคลองตัน,Samut Sakhon,Ban Phaeo,-14.27743,-15.11892,-15.9604,-10 to -20,0.00018,low
+full,school,โรงเรียนวัดหนองสองห้อง,Samut Sakhon,Ban Phaeo,-14.18876,-15.08594,-15.98312,-10 to -20,0.00026,low
+full,police,จุดบริการประชาชน สภ.สาขลา,Samut Prakan,Phra Samut Chedi,-14.34447,-14.94666,-15.54885,-10 to -20,0.00036,medium
+full,school,โรงเรียนวัดปากบ่อ,Samut Sakhon,Mueang Samut Sakhon,-14.06521,-14.91434,-15.76347,-10 to -20,0.00018,low
+full,school,โรงเรียนวัดประชาบำรุง,Bangkok,Bang Khun Thian,-14.17502,-14.80043,-15.42584,-10 to -20,0.00027,low
+full,school,โรงเรียนวัดบำรุงรื่น,Bangkok,Lat Krabang,-14.1439,-14.78317,-15.42245,-10 to -20,0.00028,low
+full,school,โรงเรียนพันท้ายนรสิงห์วิทยา,Samut Sakhon,Mueang Samut Sakhon,-13.93139,-14.7068,-15.48221,-10 to -20,0.00019,low
+full,police,สถานีตำรวจนครบาลลำผักชี,Bangkok,Nong Chok,-13.82387,-14.5723,-15.32073,-10 to -20,0.00046,medium
+full,rail_station,คลองหลวงแพ่ง,Bangkok,Lat Krabang,-13.19985,-13.99728,-14.79471,-10 to -20,0.00053,medium
+full,school,โรงเรียนบ้านคลองสําโรง,Samut Sakhon,Ban Phaeo,-13.19727,-13.9506,-14.70393,-10 to -20,0.00011,low
+full,police,สภ.บางพลีน้อย,Samut Prakan,Bang Bo,-13.07522,-13.91653,-14.75783,-10 to -20,0.00015,low
+full,police,สถานีตำรวจทางหลวง1 กก.8 บก.ทล.,Bangkok,Lat Krabang,-13.02016,-13.78953,-14.55889,-10 to -20,0.00013,low
+full,police,พิสูจน์หลักฐาน,Samut Sakhon,Mueang Samut Sakhon,-13.003,-13.78069,-14.55837,-10 to -20,0.00035,medium
+full,school,โรงเรียนเตรียมอุดมศึกษาพัฒนาการสุวรรณภูมิ,Bangkok,Lat Krabang,-13.06977,-13.69614,-14.32252,-10 to -20,0.00043,medium
+full,school,โรงเรียนบ้านโคก,Samut Sakhon,Mueang Samut Sakhon,-12.99559,-13.65273,-14.30986,-10 to -20,0.00011,low
+full,rail_station,บางสีคต,Samut Sakhon,Mueang Samut Sakhon,-12.7841,-13.59422,-14.40433,-10 to -20,,
+full,school,โรงเรียนยอดดวงใจ,Bangkok,Lat Krabang,-12.93998,-13.57832,-14.21667,-10 to -20,0.0002,low
+full,hospital,โรงพยาบาลคลองสามวา,Bangkok,Khlong Sam Wa,-12.85874,-13.57649,-14.29424,-10 to -20,0.00034,medium
+full,school,โรงเรียนเทวะคลองตรง,Samut Prakan,Bang Phli,-12.76669,-13.41367,-14.06065,-10 to -20,,
+full,school,โรงเรียนวัดศิริมงคล,Samut Sakhon,Mueang Samut Sakhon,-12.4483,-13.17455,-13.9008,-10 to -20,0.00028,low
+full,police,สภ.โคกขาม,Samut Sakhon,Mueang Samut Sakhon,-12.38324,-13.15811,-13.93297,-10 to -20,8e-05,low
+full,police,Prachasamran Police Station,Bangkok,Nong Chok,-12.33873,-13.14324,-13.94775,-10 to -20,0.00024,low
+full,school,โรงเรียนวัดชีผ้าขาว,Samut Sakhon,Mueang Samut Sakhon,-12.31684,-13.08852,-13.8602,-10 to -20,0.00014,low
+full,school,โรงเรียนวัดแหลมฟ้าผ่า,Samut Prakan,Phra Samut Chedi,-12.40966,-13.00682,-13.60397,-10 to -20,0.00025,low
+full,police,สถานีตำรวจภูธรบางบ่อ,Samut Prakan,Bang Bo,-11.93665,-12.75501,-13.57338,-10 to -20,0.00015,low
+full,police,สถานีตำรวจนครบาลสุวินทวงศ์,Bangkok,Nong Chok,-11.97898,-12.72167,-13.46435,-10 to -20,0.00017,low
+full,school,โรงเรียนวัดบางยาง,Samut Sakhon,Krathum Baen,-11.96628,-12.69263,-13.41898,-10 to -20,0.0001,low
+full,police,RTP Cyber Village สน.สุวินทวงศ์,Bangkok,Nong Chok,-11.88281,-12.68257,-13.48234,-10 to -20,,
+full,police,โรงพัก บางบ่อ,Samut Prakan,Bang Bo,-11.86001,-12.67757,-13.49514,-10 to -20,0.00015,low
+full,police,สภ. บางบ่อ,Samut Prakan,Bang Bo,-11.82444,-12.64202,-13.45961,-10 to -20,0.00015,low
+full,police,สำนักงานสภาเกษตรกรจังหวัดสมุทรปราการ,Samut Prakan,Bang Bo,-11.70561,-12.52191,-13.33821,-10 to -20,0.00011,low
+full,university,มหาวิทยาลัยราชภัฏธนบุรี สมุทรปราการ,Samut Prakan,Bang Phli,-11.7505,-12.50416,-13.25782,-10 to -20,0.00117,high
+full,airport,ท่าอากาศยานสุวรรณภูมิ,Samut Prakan,Bang Phli,-11.82008,-12.47332,-13.12656,-10 to -20,0.00066,medium
+full,school,โรงเรียนวัดคลองมอญ (บัญญัติราษฎร์บำรุง),Samut Prakan,Phra Samut Chedi,-11.81744,-12.42027,-13.0231,-10 to -20,0.0001,low
+full,school,โรงเรียนวัดบางพลีน้อย,Samut Prakan,Bang Bo,-11.48877,-12.32855,-13.16833,-10 to -20,0.00024,low
+full,university,วิทยาลัยเทคโนโลยีปทีปพลีผล,Bangkok,Bang Khun Thian,-11.80609,-12.32087,-12.83564,-10 to -20,0.00039,medium
+full,police,สถานีตำรวจนครบาลสุวินทวงศ์,Bangkok,Nong Chok,-11.4529,-12.25366,-13.05442,-10 to -20,,
+full,school,โรงเรียนวัดศรีเมือง,Samut Sakhon,Mueang Samut Sakhon,-11.52618,-12.25152,-12.97686,-10 to -20,0.00042,medium
+full,school,โรงเรียนอัสสัมชัญหลักสูตรภาษาอังกฤษ,Samut Sakhon,Mueang Samut Sakhon,-11.57628,-12.21901,-12.86175,-10 to -20,0.00016,low
+full,school,โรงเรียนสวนกุหลาบวิทยาลัย ธนบุรี,Bangkok,Bang Khun Thian,-11.70763,-12.21206,-12.7165,-10 to -20,0.00019,low
+full,school,โรงเรียนสหกรณ์นิคมเกลือ,Samut Sakhon,Mueang Samut Sakhon,-11.42511,-12.19712,-12.96912,-10 to -20,0.00029,low
+full,school,โรงเรียนวัดหัวคู้,Samut Prakan,Bang Sao Thong,-11.43964,-12.17503,-12.91042,-10 to -20,0.00028,low
+full,police,ศูนย์บริการประชาชนสถานีตำรวจภูธรบางพลีน้อย,Samut Prakan,Bang Bo,-11.32655,-12.1607,-12.99486,-10 to -20,0.00032,low
+full,fire_station,ศูนย์กู้ชีพ อบต.โคกขาม,Samut Sakhon,Mueang Samut Sakhon,-11.37668,-12.14745,-12.91821,-10 to -20,0.00018,low
+full,school,โรงเรียนแพรกษาวิเทศศึกษา,Samut Prakan,Mueang Samut Prakan,-11.47758,-12.09786,-12.71815,-10 to -20,0.00018,low
+full,school,โรงเรียนวัดเกาะ (สำลีราษฎร์อุปถัมภ์),Samut Sakhon,Ban Phaeo,-11.3575,-12.09191,-12.82632,-10 to -20,0.00015,low
+full,police,สถานีตำรวจนครบาลลำหิน,Bangkok,Nong Chok,-11.30671,-12.09126,-12.87582,-10 to -20,0.00051,medium
+full,police,สน. ลำหิน,Bangkok,Nong Chok,-11.22419,-12.0087,-12.79322,-10 to -20,0.00051,medium
+full,school,,Bangkok,Bang Khun Thian,-11.39587,-12.00401,-12.61216,-10 to -20,,
+full,school,โรงเรียนพิทยาลงกรณ์พิทยาคม,Bangkok,Bang Khun Thian,-11.18369,-11.95053,-12.71737,-10 to -20,0.0002,low
+full,university,วิทยาลัยอุตสาหกรรมการบินนานาชาติ,Bangkok,Lat Krabang,-11.20765,-11.90701,-12.60637,-10 to -20,0.00038,medium
+full,school,โรงเรียนคลองพิทยาลงกรณ์,Bangkok,Bang Khun Thian,-11.08832,-11.8497,-12.61108,-10 to -20,0.00018,low
+full,police,สถานีตำรวจนครบาลฉลองกรุง,Bangkok,Min Buri,-11.06589,-11.74474,-12.42358,-10 to -20,0.00014,low
+full,school,โรงเรียนปทุมคงคา สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-11.06427,-11.71999,-12.37571,-10 to -20,0.0004,medium
+full,school,โรงเรียนวัดเจริญสุขาราม,Samut Sakhon,Mueang Samut Sakhon,-10.90776,-11.68344,-12.45913,-10 to -20,0.00013,low
+full,school,โรงเรียนวัดวัดพันธุวงษ์ - ปรีชาเลี่ยมราษฎร์บำรุง,Samut Sakhon,Mueang Samut Sakhon,-10.92806,-11.63458,-12.34111,-10 to -20,0.00012,low
+full,rail_station,คลองนกเล็ก,Samut Sakhon,Mueang Samut Sakhon,-10.7749,-11.57873,-12.38255,-10 to -20,,
+full,police,สถานีตำรวจภูธรบางเสาธง,Samut Prakan,Bang Sao Thong,-10.69976,-11.55462,-12.40949,-10 to -20,0.00021,low
+full,police,สถานีตำรวจลาดกระบัง,Bangkok,Lat Krabang,-10.88327,-11.48143,-12.07958,-10 to -20,0.00034,medium
+full,police,สถานีตำรวจภูธรบางเสาธง,Samut Prakan,Bang Sao Thong,-10.6173,-11.47276,-12.32822,-10 to -20,0.00016,low
+full,school,สารสาสน์วิเทศ สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-10.84463,-11.46864,-12.09265,-10 to -20,0.00021,low
+full,school,โรงเรียนวัดแสมดำ,Bangkok,Bang Khun Thian,-10.83144,-11.40976,-11.98808,-10 to -20,0.00026,low
+full,school,โรงเรียนวัดราษฎร์นิยมธรรม,Samut Prakan,Bang Phli,-10.65524,-11.40758,-12.15992,-10 to -20,0.00042,medium
+full,school,โรงเรียนบ้านอ้อมโรงหีบ,Samut Sakhon,Mueang Samut Sakhon,-10.63805,-11.40679,-12.17553,-10 to -20,0.00023,low
+full,school,โรงเรียนวัดสุนทรสถิต,Samut Sakhon,Ban Phaeo,-10.50269,-11.25865,-12.01461,-10 to -20,0.00014,low
+full,school,โรงเรียนบ้านปล่องเหลี่ยม,Samut Sakhon,Krathum Baen,-10.59967,-11.23305,-11.86643,-10 to -20,0.00011,low
+full,university,มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี (บางขุนเทียน),Bangkok,Bang Khun Thian,-10.52641,-11.1145,-11.70259,-10 to -20,0.00045,medium
+full,school,โรงเรียนบ้านยกกระบัตร,Samut Sakhon,Mueang Samut Sakhon,-10.34489,-11.11421,-11.88353,-10 to -20,0.00021,low
+full,school,โรงเรียนคลองเสาธง,Samut Prakan,Mueang Samut Prakan,-10.39384,-11.1113,-11.82875,-10 to -20,0.00025,low
+full,school,โรงเรียนวัดบางโฉลงนอก (ประสิทธิ์บำรุง),Samut Prakan,Bang Phli,-10.3011,-10.99576,-11.69042,-10 to -20,0.00016,low
+full,school,โรงเรียนวัดพลมาณีย์,Bangkok,Lat Krabang,-10.26712,-10.99373,-11.72034,-10 to -20,0.00027,low
+full,fire_station,สถานีดับเพลิง1ท่าอากาศยานดอนเมือง,Bangkok,Don Mueang,-10.25456,-10.89184,-11.52911,-10 to -20,0.00039,medium
+full,school,โรงเรียนบ้านสันดาบ,Samut Sakhon,Mueang Samut Sakhon,-10.17827,-10.87569,-11.57311,-10 to -20,1e-05,low
+full,hospital,โรงพยาบาลบางปะกอก 8,Bangkok,Bang Bon,-10.39269,-10.82055,-11.24841,-10 to -20,0.00018,low
+full,school,โรงเรียนวัดอ่างทอง,Samut Sakhon,Krathum Baen,-10.00211,-10.70667,-11.41123,-10 to -20,0.00011,low
+full,police,สภ.สุวรรณภูมิ,Samut Prakan,Bang Phli,-9.94988,-10.63723,-11.32458,-10 to -20,,
+full,school,โรงเรียนวัดหัวกระบือ,Bangkok,Bang Khun Thian,-10.12977,-10.63153,-11.13329,-10 to -20,0.00027,low
+full,fire_station,งานป้องกันและบรรเทาสาธารณภัย อบต.บางปลา จ.สมุทรปราการ,Samut Prakan,Bang Phli,-9.85373,-10.57434,-11.29496,-10 to -20,0.00026,low
+full,police,ถนนตัดใหม่แยกเจ้าคุณทหาร,Bangkok,Lat Krabang,-9.94117,-10.54325,-11.14533,-10 to -20,0.00026,low
+full,hospital,โรงพยาบาลผู้สูงอายุบางขุนเทียน,Bangkok,Bang Khun Thian,-9.9244,-10.52583,-11.12725,-10 to -20,0.00072,high
+full,police,สถานีตำรวจภูธรท่าอากาศยานสุวรรณภูมิ,Samut Prakan,Bang Phli,-9.81479,-10.50154,-11.18828,-10 to -20,,
+full,school,โรงเรียนบ้านบางนํ้าจืด,Samut Sakhon,Mueang Samut Sakhon,-9.9378,-10.50096,-11.06413,-10 to -20,0.00014,low
+full,airport,ท่าอากาศยานดอนเมือง,Bangkok,Don Mueang,-9.82634,-10.46316,-11.09998,-10 to -20,0.00047,medium
+full,school,วัดศรีสุทธาราม,Samut Sakhon,Mueang Samut Sakhon,-9.7202,-10.46244,-11.20467,-10 to -20,0.00015,low
+full,rail_station,สามแยก,Bangkok,Bang Khun Thian,-9.95374,-10.45956,-10.96538,-10 to -20,0.00016,low
+full,school,Korean International School of Bangkok,Bangkok,Nong Chok,-9.61828,-10.34016,-11.06204,-10 to -20,0.00029,low
+full,school,โรงเรียนนานาชาติไบรท์ตันคอลเลจ กรุงเทพฯ,Bangkok,Bang Kapi,-9.78745,-10.29613,-10.80481,-10 to -20,0.0002,low
+full,fire_station,Suvarnabhumi Airport Fire and Rescue,Samut Prakan,Bang Phli,-9.60162,-10.26066,-10.9197,-10 to -20,,
+full,school,โรงเรียนบูรณะศึกษา,Bangkok,Thung Khru,-9.76198,-10.25682,-10.75167,-10 to -20,7e-05,low
+full,school,โรงเรียนสารสาสน์วิเทศศึกษา,Bangkok,Thung Khru,-9.64997,-10.20878,-10.76759,-10 to -20,0.00015,low
+full,school,โรงเรียนเทศบาล 3 ท้ายบ้านใหม่,Samut Prakan,Mueang Samut Prakan,-9.57897,-10.2077,-10.83643,-10 to -20,0.00028,low
+full,police,สน.ฉลองกรุง,Bangkok,Lat Krabang,-9.50845,-10.18196,-10.85548,-10 to -20,0.00018,low
+full,school,Tippawas School Playground,Bangkok,Lat Krabang,-9.44442,-10.14909,-10.85377,-10 to -20,0.00013,low
+full,school,บ้านท้องคุ้ง,Samut Sakhon,Krathum Baen,-9.37738,-10.13001,-10.88264,-10 to -20,0.0002,low
+full,school,โรงเรียนมาเรียลัย,Bangkok,Lat Krabang,-9.38118,-10.09391,-10.80664,-10 to -20,9e-05,low
+full,police,สน.ลาดกระบัง,Bangkok,Lat Krabang,-9.42689,-10.07615,-10.72541,-10 to -20,6e-05,low
+full,rail_station,บางน้ำจืด,Samut Sakhon,Mueang Samut Sakhon,-9.45834,-10.02234,-10.58634,-10 to -20,0.00014,low
+full,school,โรงเรียนนวมินทราชินูทิศ เบญจมราชาลัย,Bangkok,Khlong Sam Wa,-9.27672,-9.90825,-10.53977,-5 to -10,0.00014,low
+full,school,โรงเรียนวัดลาดกระบัง,Bangkok,Lat Krabang,-9.20767,-9.82327,-10.43886,-5 to -10,0.00012,low
+full,school,โรงเรียนนวมินทราชินูทิศ เตรียมอุดมศึกษาน้อมเกล้า,Bangkok,Saphan Sung,-9.25588,-9.76708,-10.27828,-5 to -10,8e-05,low
+full,school,โรงเรียนอยู่เย็นวิทยา,Bangkok,Taling Chan,-9.38111,-9.74323,-10.10536,-5 to -10,0.00019,low
+full,school,โรงเรียนนานาชาตินอริช กรุงเทพ,Samut Sakhon,Mueang Samut Sakhon,-9.18344,-9.73655,-10.28966,-5 to -10,9e-05,low
+full,university,มหาวิทยาลัยเกษมบัณฑิต วิทยาเขตร่มเกล้า,Bangkok,Min Buri,-9.11059,-9.70679,-10.303,-5 to -10,0.00031,low
+full,school,โรงเรียนคลองมหาสวัสดิ์,Bangkok,Thawi Watthana,-9.17671,-9.70135,-10.22598,-5 to -10,0.00013,low
+full,police,สน.หนองค้างพลู,Bangkok,Nong Khaem,-9.18872,-9.67475,-10.16078,-5 to -10,0.00015,low
+full,hospital,ศูนย์บริการสาธารณสุข 42 พิทยาลงกรณ์,Bangkok,Bang Khun Thian,-8.92855,-9.67299,-10.41743,-5 to -10,0.00029,low
+full,rail_station,ทุ่งสีทอง,Samut Sakhon,Mueang Samut Sakhon,-9.11084,-9.65156,-10.19229,-5 to -10,0.00017,low
+full,school,โรงเรียนนานาชาติเวลลิงตันคอลเลจ,Bangkok,Saphan Sung,-9.09804,-9.59581,-10.09359,-5 to -10,0.0003,low
+full,rail_station,ลาดกระบัง,Bangkok,Lat Krabang,-8.97888,-9.58924,-10.19959,-5 to -10,0.00038,medium
+full,rail_station,ลาดกระบัง,Bangkok,Lat Krabang,-8.96021,-9.57049,-10.18076,-5 to -10,0.00038,medium
+full,police,สภ.เมืองสมุทสาคร,Samut Sakhon,Mueang Samut Sakhon,-8.99815,-9.56484,-10.13154,-5 to -10,0.00017,low
+full,university,วิทยาลัยเทคโนโลยีสารสาสน์,Bangkok,Thung Khru,-9.0122,-9.55955,-10.1069,-5 to -10,0.00018,low
+full,rail_station,หัวตะเข้,Bangkok,Lat Krabang,-8.86908,-9.54922,-10.22935,-5 to -10,0.0001,low
+full,school,โรงเรียนบ้านท่าทราย,Samut Sakhon,Mueang Samut Sakhon,-8.80018,-9.54273,-10.28529,-5 to -10,0.00028,low
+full,school,โรงเรียนวัดบางกระดี่,Bangkok,Bang Khun Thian,-8.97911,-9.50516,-10.0312,-5 to -10,0.00011,low
+full,school,โรงเรียนวัดปลูกศรัทธา,Bangkok,Lat Krabang,-8.81541,-9.45573,-10.09604,-5 to -10,0.00016,low
+full,school,โรงเรียนสารสาสน์ประชาอุทิศพิทยาคาร,Bangkok,Thung Khru,-8.8787,-9.42836,-9.97803,-5 to -10,8e-05,low
+full,school,,Bangkok,Saphan Sung,-8.87166,-9.37954,-9.88742,-5 to -10,0.00013,low
+full,hospital,โรงพยาบาล เปาโลพระประแดง,Samut Prakan,Phra Samut Chedi,-8.81453,-9.36375,-9.91298,-5 to -10,0.0005,medium
+full,school,American School of Bangkok - Bangna Campus,Samut Prakan,Bang Phli,-8.6948,-9.35045,-10.0061,-5 to -10,0.00015,low
+full,school,โรงเรียนสารสาสน์วิเทศศึกษา (แผนก IEP),Bangkok,Thung Khru,-8.78462,-9.33822,-9.89182,-5 to -10,0.00018,low
+full,school,บ้านปลายคลองน้อย,Samut Sakhon,Krathum Baen,-8.66356,-9.31793,-9.9723,-5 to -10,0.0001,low
+full,school,โรงเรียนเทศบาลวัดช่องลม (เปี่ยมวิทยาคม),Samut Sakhon,Mueang Samut Sakhon,-8.56231,-9.303,-10.04369,-5 to -10,4e-05,low
+full,school,โรงเรียนอันนาลัย,Samut Sakhon,Mueang Samut Sakhon,-8.56492,-9.30261,-10.0403,-5 to -10,,
+full,police,สถานีตำรวจภูธรบางปู,Samut Prakan,Mueang Samut Prakan,-8.53446,-9.24851,-9.96257,-5 to -10,0.00021,low
+full,school,โรงเรียนสุเหร่าแสนแสบ,Bangkok,Khlong Sam Wa,-8.59554,-9.21329,-9.83104,-5 to -10,0.0002,low
+full,rail_station,มีนบุรี,Bangkok,Min Buri,-8.61814,-9.20921,-9.80028,-5 to -10,0.00043,medium
+full,school,โรงเรียนพรหมราษฎร์รังสรรค์,Bangkok,Bang Bon,-8.69701,-9.16547,-9.63394,-5 to -10,0.00037,medium
+full,hospital,โรงพยาบาลนครธน 2,Bangkok,Bang Bon,-8.71334,-9.15789,-9.60244,-5 to -10,0.0001,low
+full,police,สถานีตำรวจภูธรบางปู (Bangpoo Sub-Police Station),Samut Prakan,Mueang Samut Prakan,-8.44341,-9.15696,-9.87052,-5 to -10,0.00021,low
+full,police,สถานีตำรวจคลองตัน,Bangkok,Lat Krabang,-8.49773,-9.1425,-9.78726,-5 to -10,0.00013,low
+full,police,หน่วยบริการประชาชนตำรวจทางหลวง บางปู สถานีตำรวจทางหลวง 1 กองกำกับการ 3,Samut Prakan,Mueang Samut Prakan,-8.41893,-9.14236,-9.8658,-5 to -10,0.00031,low
+full,rail_station,คอกควาย,Samut Sakhon,Mueang Samut Sakhon,-8.50848,-9.12464,-9.7408,-5 to -10,0.00022,low
+full,school,โรงเรียนวัดโคกขาม,Samut Sakhon,Mueang Samut Sakhon,-8.44112,-9.08699,-9.73287,-5 to -10,0.00018,low
+full,school,โรงเรียน พิทยาพัฒน์ศึกษา,Bangkok,Khlong Sam Wa,-8.41421,-9.068,-9.72178,-5 to -10,0.00014,low
+full,school,โรงเรียนสมโภชกรุงอนุสรณ์ (200 ปี),Bangkok,Saphan Sung,-8.55979,-9.05901,-9.55823,-5 to -10,0.00016,low
+full,school,โรงเรียนพรตพิทยพยัต,Bangkok,Lat Krabang,-8.36038,-9.05413,-9.74789,-5 to -10,6e-05,low
+full,hospital,โรงพยาบาลพานาซีพระราม 2,Samut Sakhon,Mueang Samut Sakhon,-8.46059,-9.01114,-9.5617,-5 to -10,0.00017,low
+full,school,engzci,Bangkok,Saphan Sung,-8.29229,-8.79451,-9.29673,-5 to -10,0.00019,low
+full,hospital,โรงพยาบาลบุษราคัมจิตการุณย์,Bangkok,Sai Mai,-8.13721,-8.76128,-9.38534,-5 to -10,0.00022,low
+full,school,Nong Ngu Hao Sat Prasert School,Samut Prakan,Bang Phli,-8.1066,-8.75546,-9.40432,-5 to -10,0.00035,medium
+full,school,,Samut Prakan,Bang Phli,-8.06018,-8.75417,-9.44817,-5 to -10,0.00015,low
+full,university,สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง,Bangkok,Lat Krabang,-8.08709,-8.74963,-9.41218,-5 to -10,0.00045,medium
+full,school,โรงเรียนเทศบาลนาดี,Samut Sakhon,Mueang Samut Sakhon,-8.1023,-8.74805,-9.3938,-5 to -10,0.00011,low
+full,school,โรงเรียนวัดตะล่อม,Bangkok,Phasi Charoen,-8.37637,-8.72015,-9.06394,-5 to -10,0.00012,low
+full,university,โรงเรียนฝึกอาชีพกรุงเทพมหานคร (หนองจอก),Bangkok,Nong Chok,-7.94284,-8.69427,-9.4457,-5 to -10,0.00026,low
+full,school,โรงเรียนเชิดเจิมศิลป์,Bangkok,Lat Krabang,-7.97269,-8.66744,-9.36219,-5 to -10,0.00018,low
+full,school,โรงเรียนบ้านชายทะเลโคกขามมิตรภาพที่ 95,Samut Sakhon,Mueang Samut Sakhon,-7.92646,-8.66709,-9.40772,-5 to -10,,
+full,hospital,โรงพยาบาลสิรินธร,Bangkok,Prawet,-8.08371,-8.64512,-9.20653,-5 to -10,0.00021,low
+full,school,ศูนย์การเรียนรู้ระดับแขวงลาดกระบัง,Bangkok,Lat Krabang,-8.03995,-8.63967,-9.23939,-5 to -10,0.00019,low
+full,school,โรงเรียนวัดศรีนวลธรรมวิมล,Bangkok,Nong Khaem,-8.12245,-8.61942,-9.1164,-5 to -10,6e-05,low
+full,rail_station,ท่าฉลอม,Samut Sakhon,Mueang Samut Sakhon,-7.84087,-8.57359,-9.30631,-5 to -10,6e-05,low
+full,school,โรงเรียนนานาชาติแมนดาริน,Bangkok,Bang Kapi,-8.09394,-8.5609,-9.02787,-5 to -10,8e-05,low
+full,school,โรงเรียนบ้านบางปิ้ง,Samut Sakhon,Mueang Samut Sakhon,-7.91857,-8.5291,-9.13963,-5 to -10,5e-05,low
+full,school,โรงเรียนสารสาสน์วิเทศนิมิตใหม่,Bangkok,Khlong Sam Wa,-7.85495,-8.50475,-9.15456,-5 to -10,0.00017,low
+full,school,โรงเรียนวัดสามัคคีศรัทธาราม,Samut Sakhon,Mueang Samut Sakhon,-7.76745,-8.48487,-9.2023,-5 to -10,8e-05,low
+full,school,โรงเรียนเทศบาลวัดเจษฎาราม (เชยวิทยาทาน),Samut Sakhon,Mueang Samut Sakhon,-7.77584,-8.48149,-9.18714,-5 to -10,0.00023,low
+full,school,โรงเรียนวัดสุทธิสะอาด,Bangkok,Khlong Sam Wa,-7.81506,-8.46138,-9.10771,-5 to -10,0.0001,low
+full,school,โรงเรียนวัดพรพระร่วงประสิทธิ์,Bangkok,Sai Mai,-7.84388,-8.45649,-9.06909,-5 to -10,0.00011,low
+full,school,โรงเรียนเตรียทปริญญานุสรณ์,Samut Prakan,Bang Phli,-7.82599,-8.42329,-9.02058,-5 to -10,0.0001,low
+full,police,สน.ประเวศ,Bangkok,Prawet,-7.83914,-8.3796,-8.92007,-5 to -10,,
+full,police,สถานีตำรวจนครบาลประเวศ,Bangkok,Prawet,-7.83151,-8.37158,-8.91165,-5 to -10,,
+full,police,สถานีตำรวจภูธรบางแก้ว สมุทรปราการ,Samut Prakan,Bang Phli,-7.82357,-8.3471,-8.87063,-5 to -10,0.00011,low
+full,school,โรงเรียนบ้านเจียรดับ,Bangkok,Nong Chok,-7.57911,-8.32627,-9.07343,-5 to -10,1e-05,low
+full,airport,สนามบินเล็ก,Bangkok,Don Mueang,-7.62911,-8.31231,-8.9955,-5 to -10,0.00017,low
+full,school,โรงเรียนพระราม 9 กาญจนาภิเษก,Bangkok,Huai Khwang,-7.95368,-8.27811,-8.60255,-5 to -10,0.00023,low
+full,police,สน. มีนบุรี,Bangkok,Min Buri,-7.67656,-8.27572,-8.87487,-5 to -10,0.00018,low
+full,police,กองบังคับการตำรวจนครบาล ๓ (บก.น.3) Metropolitan Police Division 3,Bangkok,Min Buri,-7.67352,-8.27174,-8.86996,-5 to -10,8e-05,low
+full,rail_station,พระจอมเกล้า,Bangkok,Lat Krabang,-7.60615,-8.26196,-8.91777,-5 to -10,0.00014,low
+full,school,โรงเรียนสารสาสน์วิเทศร่มเกล้า,Bangkok,Lat Krabang,-7.63731,-8.23533,-8.83335,-5 to -10,7e-05,low
+full,police,กองร้อยปฏิบัติการส่ือสาร กองบัญชาการส่วนหลัง,Bangkok,Don Mueang,-7.57862,-8.22939,-8.88017,-5 to -10,8e-05,low
+full,school,โรงเรียนวัดพุทธบูชา,Bangkok,Thung Khru,-7.74113,-8.22557,-8.71,-5 to -10,6e-05,low
+full,rail_station,พรมแดน,Bangkok,Bang Khun Thian,-7.70479,-8.22029,-8.73578,-5 to -10,5e-05,low
+full,rail_station,บางบอน,Bangkok,Bang Bon,-7.75687,-8.20807,-8.65927,-5 to -10,0.00015,low
+full,school,โรงเรียนสารสาสน์วิเทศน์เอกชัย,Samut Sakhon,Mueang Samut Sakhon,-7.66745,-8.19352,-8.71959,-5 to -10,0.0001,low
+full,school,โรงเรียนสารสาสน์วิเทศหนองแขม,Bangkok,Nong Khaem,-7.70311,-8.1866,-8.67009,-5 to -10,0.00024,low
+full,school,โรงเรียนสมาคมไทย-ญี่ปุ่น,Bangkok,Huai Khwang,-7.85212,-8.17704,-8.50197,-5 to -10,6e-05,low
+full,police,สถานีตำรวจนครบาลมีนบุรี,Bangkok,Min Buri,-7.57076,-8.16986,-8.76897,-5 to -10,8e-05,low
+full,police,ป้อมตำรวจเทคนิค จ.สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-7.53075,-8.16629,-8.80182,-5 to -10,8e-05,low
+full,police,Minburi Police Station,Bangkok,Min Buri,-7.56059,-8.15961,-8.75862,-5 to -10,9e-05,low
+full,school,โรงเรียนสิริเบญญาลัย,Samut Prakan,Phra Pradaeng,-7.68893,-8.14943,-8.60993,-5 to -10,0.00021,low
+full,police,สถานีตำรวจนครบาลประชาสำราญ,Bangkok,Nong Chok,-7.3974,-8.1444,-8.8914,-5 to -10,0.00015,low
+full,hospital,โรงพยาบาลวิภาราม สมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-7.35082,-8.13215,-8.91347,-5 to -10,0.00017,low
+full,school,BASIS International School Bangkok,Bangkok,Bang Khun Thian,-7.67226,-8.12619,-8.58013,-5 to -10,0.00015,low
+full,school,โรงเรียนนาคดีอนุสรณ์,Samut Prakan,Mueang Samut Prakan,-7.51059,-8.10566,-8.70074,-5 to -10,0.0001,low
+full,fire_station,ศูนย์ป้องกันและบรรเทาสาธารณภัย เทศบาลตำบลแพรกษา Phraek Kasa Subdistrict Municipality Disaster Prevention And Mitigation Center,Samut Prakan,Mueang Samut Prakan,-7.48961,-8.10533,-8.72104,-5 to -10,6e-05,low
+full,school,โรงเรียนสตรีเศรษฐบุตรบำเพ็ญ,Bangkok,Min Buri,-7.47525,-8.07091,-8.66657,-5 to -10,5e-05,low
+full,school,โรงเรียนเทศบาลวัดโกรกกราก(กรับวิทยาทาน),Samut Sakhon,Mueang Samut Sakhon,-7.33939,-8.06238,-8.78538,-5 to -10,9e-05,low
+full,school,โรงเรียนอนุบาลช้างน้อย,Samut Sakhon,Mueang Samut Sakhon,-7.31161,-8.05851,-8.80541,-5 to -10,6e-05,low
+full,school,โรงเรียนนานาชาติเพ็ญสมิทธ์,Bangkok,Bang Kapi,-7.58768,-8.05706,-8.52643,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลแสมดำ,Bangkok,Bang Bon,-7.58057,-8.05596,-8.53136,-5 to -10,0.00011,low
+full,school,โรงเรียนพูลเจริญวิทยาคม,Samut Prakan,Bang Phli,-7.37766,-8.03694,-8.69621,-5 to -10,0.00022,low
+full,hospital,โรงพยาบาลท่าฉลอม,Samut Sakhon,Mueang Samut Sakhon,-7.30847,-8.01858,-8.72868,-5 to -10,0.00014,low
+full,university,วิทยาลัยช่างศิลป,Bangkok,Lat Krabang,-7.30495,-8.01116,-8.71738,-5 to -10,0.00018,low
+full,school,โรงเรียนฐานเทคโนโลยี,Bangkok,Bang Bon,-7.48349,-8.00181,-8.52014,-5 to -10,0.00016,low
+full,university,วิทยาลัยเทคนิคดอนเมือง,Bangkok,Don Mueang,-7.33282,-7.97338,-8.61393,-5 to -10,0.00022,low
+full,rail_station,ศาลาธรรมสพน์,Bangkok,Thawi Watthana,-7.46964,-7.97228,-8.47492,-5 to -10,0.00015,low
+full,university,วิทยาลัยเทคนิคสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-7.33645,-7.97098,-8.60551,-5 to -10,0.00025,low
+full,rail_station,โรงพยาบาลท่าฉลอม,Samut Sakhon,Mueang Samut Sakhon,-7.23988,-7.95401,-8.66814,-5 to -10,0.00014,low
+full,hospital,โรงพยาบาล รามคำแหง,Bangkok,Bang Kapi,-7.55466,-7.93672,-8.31879,-5 to -10,0.00017,low
+full,hospital,ศูนย์บริการสาธารณสุข 59 ทุ่งครุ,Bangkok,Thung Khru,-7.38268,-7.93139,-8.48011,-5 to -10,0.00014,low
+full,rail_station,บ้านทับช้าง,Bangkok,Prawet,-7.42436,-7.92819,-8.43202,-5 to -10,0.00021,low
+full,fire_station,สถานีดับพลิงและกู้ภัยประเวศ,Bangkok,Prawet,-7.38009,-7.91052,-8.44094,-5 to -10,9e-05,low
+full,rail_station,รางโพธิ์,Bangkok,Bang Khun Thian,-7.43212,-7.90462,-8.37711,-5 to -10,0.0002,low
+full,school,โรงเรียนวัดเลา,Bangkok,Bang Khun Thian,-7.44312,-7.89683,-8.35053,-5 to -10,0.00021,low
+full,school,โรงเรียนสุขเจริญผลแพรกษา,Samut Prakan,Mueang Samut Prakan,-7.29661,-7.89171,-8.48681,-5 to -10,0.00018,low
+full,school,โรงเรียนนานาชาติคอนคอร์เดียน,Samut Prakan,Bang Phli,-7.35165,-7.89128,-8.4309,-5 to -10,0.00022,low
+full,school,โรงเรียนรัตนโกสินทร์สมโภชบางขุนเทียน,Bangkok,Bang Khun Thian,-7.4257,-7.87625,-8.32681,-5 to -10,4e-05,low
+full,police,สถานีตำรวจนครบาลท่าข้าม,Bangkok,Bang Khun Thian,-7.38516,-7.87547,-8.36577,-5 to -10,0.0001,low
+full,school,โรงเรียนวัดบางปิ้ง,Samut Sakhon,Mueang Samut Sakhon,-7.20298,-7.84669,-8.49039,-5 to -10,0.00011,low
+full,school,โรงเรียนวัดบางปลา,Samut Sakhon,Mueang Samut Sakhon,-7.12898,-7.82369,-8.51841,-5 to -10,0.0001,low
+full,police,สถานีตำรวจนครบาลสายไหม,Bangkok,Sai Mai,-7.1486,-7.81616,-8.48372,-5 to -10,0.00017,low
+full,rail_station,ศรีกรีฑา,Bangkok,Bang Kapi,-7.40476,-7.8043,-8.20385,-5 to -10,8e-05,low
+full,hospital,โรงพยาบาลสมเด็จพระมหารัชมังคลาจารย์ วรปุญญมหาเถระ,Bangkok,Don Mueang,-7.09561,-7.76409,-8.43257,-5 to -10,0.00019,low
+full,police,ตรวจคนเข้าเมือง,Samut Sakhon,Mueang Samut Sakhon,-7.22579,-7.757,-8.2882,-5 to -10,8e-05,low
+full,school,โรงเรียนนานาชาติ ไทย-จีน,Samut Prakan,Bang Phli,-7.10797,-7.7016,-8.29524,-5 to -10,0.0002,low
+full,school,โรงเรียนนานาชาติเซ็นทรัล,Bangkok,Huai Khwang,-7.37252,-7.64599,-7.91947,-5 to -10,0.00016,low
+full,school,โรงเรียนเซนต์ปีเตอร์ ธนบุรี,Bangkok,Phasi Charoen,-7.27449,-7.61741,-7.96033,-5 to -10,9e-05,low
+full,hospital,โรงพยาบาลสายไหม,Bangkok,Sai Mai,-6.9413,-7.60021,-8.25912,-5 to -10,0.00013,low
+full,school,โรงเรียนวัดสุวรรณรัตนาราม,Samut Sakhon,Krathum Baen,-7.02155,-7.5941,-8.16666,-5 to -10,0.00013,low
+full,school,โรงเรียนดอนเมืองจาตุรจินดา,Bangkok,Don Mueang,-6.96193,-7.58702,-8.2121,-5 to -10,9e-05,low
+full,school,โรงเรียนศึกษานารีวิทยา(บางบอน),Bangkok,Bang Bon,-7.0727,-7.57317,-8.07364,-5 to -10,9e-05,low
+full,school,โรงเรียนนานาชาติรอยส์รอยัล,Bangkok,Bang Khun Thian,-7.04584,-7.57013,-8.09441,-5 to -10,4e-05,low
+full,school,โรงเรียนสาธิตบางแก้ว(ประถม),Samut Prakan,Bang Phli,-7.03859,-7.56473,-8.09087,-5 to -10,,
+full,police,โรงพักบางปู,Samut Prakan,Mueang Samut Prakan,-6.89001,-7.54993,-8.20984,-5 to -10,5e-05,low
+full,university,วิทยาลัยเทคโนโลยีธนบุรีบริหารธุรกิจ,Bangkok,Bang Bon,-7.08821,-7.54665,-8.00508,-5 to -10,0.00027,low
+full,fire_station,สถานีดับเพลิงคูคต,Bangkok,Sai Mai,-6.831,-7.54184,-8.25268,-5 to -10,5e-05,low
+full,school,โรงเรียนประชินนุสรณ์,Samut Sakhon,Krathum Baen,-6.90257,-7.48775,-8.07293,-5 to -10,7e-05,low
+full,police,สภ.ย่อยบางน้ำจืด,Samut Sakhon,Mueang Samut Sakhon,-6.90376,-7.4849,-8.06603,-5 to -10,3e-05,low
+full,police,สถานีตำรวจภูธรมีนบุรี,Samut Prakan,Bang Phli,-6.7339,-7.47926,-8.22462,-5 to -10,0.00011,low
+full,police,Bang Na Police Station,Bangkok,Prawet,-7.03903,-7.47391,-7.90879,-5 to -10,4e-05,low
+full,school,โรงเรียนประชาอุทิศ,Bangkok,Don Mueang,-6.84142,-7.47031,-8.0992,-5 to -10,1e-05,low
+full,rail_station,แยก คปอ.,Bangkok,Don Mueang,-6.79233,-7.46417,-8.136,-5 to -10,7e-05,low
+full,police,ส.น บางมด,Bangkok,Chom Thong,-7.01803,-7.46336,-7.9087,-5 to -10,6e-05,low
+full,police,ห้องสืบสวน สน.บางนา,Bangkok,Prawet,-7.02664,-7.46166,-7.89668,-5 to -10,0.00014,low
+full,school,โรงเรียนวัดแป้นทอง,Bangkok,Khlong Sam Wa,-6.81167,-7.45921,-8.10675,-5 to -10,0.0002,low
+full,school,โรงเรียนจินดาศึกษา,Bangkok,Chom Thong,-6.99304,-7.43809,-7.88315,-5 to -10,6e-05,low
+full,school,โรงเรียนสุนีพิทยา,Bangkok,Pathum Wan,-7.18806,-7.4263,-7.66453,-5 to -10,0.00017,low
+full,police,สถานีตำรวจดอนเมือง,Bangkok,Don Mueang,-6.77394,-7.39382,-8.0137,-5 to -10,6e-05,low
+full,police,กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับอาชญากรรมทางเทคโนโลยี (ปอท.) Technology Crime Suppression Division (TCSD),Bangkok,Lak Si,-6.84453,-7.36586,-7.8872,-5 to -10,,
+full,school,โรงเรียน วัดตำหรุ มิตรภาพที่ 65,Samut Prakan,Mueang Samut Prakan,-6.65727,-7.36069,-8.06411,-5 to -10,0.00016,low
+full,police,泰國移民局,Bangkok,Lak Si,-6.82566,-7.34893,-7.8722,-5 to -10,8e-05,low
+full,school,อนุบาลเกษมสันต์,Bangkok,Prawet,-6.83918,-7.34091,-7.84265,-5 to -10,0.00017,low
+full,school,โรงเรียนปลูกจิต,Bangkok,Pathum Wan,-7.10983,-7.34001,-7.5702,-5 to -10,0.00022,low
+full,rail_station,บ้านทับช้าง,Bangkok,Prawet,-6.84023,-7.33998,-7.83974,-5 to -10,0.00015,low
+full,hospital,โรงพยาบาลอินทรารัตน์,Bangkok,Khan Na Yao,-6.79688,-7.33922,-7.88156,-5 to -10,0.00023,low
+full,hospital,โรงพยาบาลพริ้นซ์ สุวรรณภูมิ,Samut Prakan,Bang Phli,-6.82947,-7.32792,-7.82638,-5 to -10,0.00039,medium
+full,school,โรงเรียนราชวินิตบางแก้ว,Samut Prakan,Bang Phli,-6.78474,-7.31061,-7.83647,-5 to -10,0.00013,low
+full,school,โรงเรียนวัดพิกุล,Bangkok,Taling Chan,-6.99193,-7.31045,-7.62898,-5 to -10,6e-05,low
+full,rail_station,คลองจาก,Samut Sakhon,Mueang Samut Sakhon,-6.6014,-7.30589,-8.01038,-5 to -10,1e-05,low
+full,police,RTP Cyber Village สน.ทุ่งครุ,Bangkok,Thung Khru,-6.81321,-7.28609,-7.75898,-5 to -10,0.00015,low
+full,school,โรงเรียนวัดราษฎร์รังสรรค์,Samut Sakhon,Mueang Samut Sakhon,-6.6726,-7.28283,-7.89306,-5 to -10,4e-05,low
+full,police,ด่านพิเศษบูรพา บางนา,Samut Prakan,Bang Phli,-6.70871,-7.25482,-7.80093,-5 to -10,0.00023,low
+full,school,โรงเรียนโชคชัยหทัยราษฎร์,Bangkok,Khlong Sam Wa,-6.65609,-7.25478,-7.85347,-5 to -10,0.00015,low
+full,school,โรงเรียนนานาชาติ ดี-เพร็พ,Samut Prakan,Bang Phli,-6.70669,-7.24782,-7.78895,-5 to -10,0.00023,low
+full,police,สถานีตำรวจนครบาลทุ่งครุ,Bangkok,Thung Khru,-6.7636,-7.2361,-7.7086,-5 to -10,0.00015,low
+full,school,โรงเรียนสุวิทย์เสรีอนุสรณ์,Bangkok,Prawet,-6.78319,-7.2328,-7.68242,-5 to -10,0.00016,low
+full,school,โรงเรียนมัธยมสุวิทย์เสรีอนุสรณ์,Bangkok,Prawet,-6.77185,-7.22129,-7.67073,-5 to -10,7e-05,low
+full,school,โรงเรียนบ้านหนองหาดใหญ่,Samut Sakhon,Mueang Samut Sakhon,-6.63905,-7.2182,-7.79734,-5 to -10,6e-05,low
+full,school,โรงเรียนวัดบางบอน,Bangkok,Bang Bon,-6.7338,-7.21706,-7.70032,-5 to -10,6e-05,low
+full,school,โรงเรียนเทพนรรัตน์,Samut Sakhon,Mueang Samut Sakhon,-6.54217,-7.18974,-7.8373,-5 to -10,0.00011,low
+full,rail_station,ดอนเมือง,Bangkok,Don Mueang,-6.55214,-7.18349,-7.81484,-5 to -10,9e-05,low
+full,school,โรงเรียนเซนต์โยเซฟบางนา,Samut Prakan,Mueang Samut Prakan,-6.69561,-7.18288,-7.67015,-5 to -10,0.00015,low
+full,police,สถานีตำรวจนครบาลอุดมสุข,Bangkok,Prawet,-6.67534,-7.1791,-7.68287,-5 to -10,0.00012,low
+full,hospital,โรงพยาบาลเอส วาย เอช,Bangkok,Bang Khen,-6.61521,-7.17667,-7.73813,-5 to -10,6e-05,low
+full,rail_station,ลุมพินี,Bangkok,Sathon,-6.91916,-7.14879,-7.37841,-5 to -10,0.00021,low
+full,rail_station,ศรีอุดม,Bangkok,Prawet,-6.70674,-7.14306,-7.57938,-5 to -10,0.00014,low
+full,police,บางพลี สมุทรปราการ,Samut Prakan,Bang Phli,-6.49336,-7.0963,-7.69925,-5 to -10,0.00019,low
+full,school,โรงเรียนกสิณธรอาคาเดมี่,Bangkok,Bang Khae,-6.6033,-7.08798,-7.57267,-5 to -10,0.00021,low
+full,school,โรงเรียนนูรลอิสลามศาสนวิทยา,Bangkok,Min Buri,-6.49167,-7.08661,-7.68154,-5 to -10,6e-05,low
+full,school,โรงเรียนออเงิน,Bangkok,Sai Mai,-6.44271,-7.08018,-7.71764,-5 to -10,0.00011,low
+full,school,โรงเรียนเลิศหล้า ถนนกาญจนาภิเษก,Bangkok,Bang Bon,-6.62318,-7.04911,-7.47504,-5 to -10,0.00011,low
+full,school,โรงเรียนอนุบาลจินดาพร,Bangkok,Prawet,-6.49698,-7.04756,-7.59815,-5 to -10,6e-05,low
+full,police,กองกำกับการ 4 กองบังคับการตำรวจรถไฟ,Bangkok,Huai Khwang,-6.79085,-7.0451,-7.29934,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดใหญ่จอมปราสาท,Samut Sakhon,Mueang Samut Sakhon,-6.28224,-7.03512,-7.78799,-5 to -10,8e-05,low
+full,school,โรงเรียน สามชัยวิเทศศึกษา,Samut Sakhon,Mueang Samut Sakhon,-6.31392,-7.03288,-7.75185,-5 to -10,0.0001,low
+full,school,สถาบันเกอเธ่,Bangkok,Sathon,-6.77714,-7.00949,-7.24185,-5 to -10,0.0001,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยร่มเกล้า,Bangkok,Lat Krabang,-6.46085,-7.00496,-7.54908,-5 to -10,5e-05,low
+full,rail_station,รางสะแก,Bangkok,Bang Khun Thian,-6.55666,-6.99886,-7.44107,-5 to -10,4e-05,low
+full,school,โรงเรียนพระหฤทัยดอนเมือง,Bangkok,Don Mueang,-6.35636,-6.99415,-7.63195,-5 to -10,5e-05,low
+full,school,โรงเรียนเทศบาลบ้านมหาชัย,Samut Sakhon,Mueang Samut Sakhon,-6.30444,-6.99271,-7.68098,-5 to -10,8e-05,low
+full,university,วิทยาลัยเทคโนโลยีช่างอุตสาหกรรมกรุงเทพ,Bangkok,Bang Kapi,-6.59531,-6.96192,-7.32854,-5 to -10,0.00016,low
+full,rail_station,พระราม 9,Bangkok,Din Daeng,-6.68735,-6.95998,-7.2326,-5 to -10,0.0001,low
+full,hospital,โรงพยาบาลทศมินทราธิราช,Bangkok,Don Mueang,-6.26497,-6.9409,-7.61684,-5 to -10,0.00011,low
+full,university,Krirk Institution,Samut Prakan,Bang Phli,-6.29757,-6.93908,-7.5806,-5 to -10,0.00015,low
+full,police,กองบังคับการตำรวจนครบาล 3,Bangkok,Min Buri,-6.34153,-6.9298,-7.51807,-5 to -10,0.00018,low
+full,school,โรงเรียนราชวินิตบางเขน,Bangkok,Lak Si,-6.45515,-6.90392,-7.35269,-5 to -10,5e-05,low
+full,police,ด่านตรวจคนเข้าเมืองท่าอากาศยานกรุงเทพ,Bangkok,Don Mueang,-6.25814,-6.89474,-7.53133,-5 to -10,7e-05,low
+full,school,โรงเรียนนานาชาติ ฮาร์โรว์,Bangkok,Don Mueang,-6.28651,-6.8932,-7.4999,-5 to -10,4e-05,low
+full,school,โรงเรียนรุ่งอรุณ,Bangkok,Chom Thong,-6.40204,-6.88603,-7.37003,-5 to -10,8e-05,low
+full,police,ส.น.มีนบุรี,Bangkok,Min Buri,-6.29625,-6.8833,-7.47034,-5 to -10,0.00015,low
+full,police,Metropolitan Police Division 2,Bangkok,Don Mueang,-6.15736,-6.87831,-7.59926,-5 to -10,4e-05,low
+full,rail_station,เศรษฐบุตรบำเพ็ญ,Bangkok,Min Buri,-6.28753,-6.87244,-7.45735,-5 to -10,0.00012,low
+full,school,โรงเรียนวัดนินสุขาราม,Bangkok,Bang Bon,-6.44116,-6.86417,-7.28718,-5 to -10,0.00011,low
+full,hospital,โรงพยาบาลไทยนครินทร์,Bangkok,Bang Na,-6.41921,-6.8595,-7.2998,-5 to -10,0.00011,low
+full,school,โรงเรียนคลองบางพรม,Bangkok,Thawi Watthana,-6.35703,-6.859,-7.36096,-5 to -10,0.00024,low
+full,rail_station,ศรีเอี่ยม,Bangkok,Bang Na,-6.41141,-6.8567,-7.30198,-5 to -10,0.00013,low
+full,school,โรงเรียนฝรั่งเศสนานาชาติ กรุงเทพ,Bangkok,Wang Thonglang,-6.50141,-6.84923,-7.19705,-5 to -10,7e-05,low
+full,school,โรงเรียนสีกัน (วัฒนานันท์อุปถัมภ์),Bangkok,Don Mueang,-6.20968,-6.84671,-7.48375,-5 to -10,2e-05,low
+full,school,โรงเรียนบางเชือกหนัง (พูนบำเพ็ญอนุสรณ์),Bangkok,Bang Khae,-6.33957,-6.84066,-7.34175,-5 to -10,0.00015,low
+full,police,สถานีตำรวจมักสัน,Bangkok,Huai Khwang,-6.52508,-6.83813,-7.15117,-5 to -10,8e-05,low
+full,school,โรงเรียนเศรษฐบุตรบำเพ็ญ,Bangkok,Min Buri,-6.25027,-6.8365,-7.42274,-5 to -10,,
+full,school,โรงเรียนศรีเอี่ยมอนุสรณ์,Bangkok,Bang Na,-6.39048,-6.83516,-7.27984,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดโพธิ์แจ้,Samut Sakhon,Mueang Samut Sakhon,-6.28882,-6.827,-7.36519,-5 to -10,0.00019,low
+full,school,โรงเรียนวัดโพธิ์ทอง,Bangkok,Chom Thong,-6.40342,-6.82645,-7.24948,-5 to -10,9e-05,low
+full,hospital,โรงพยาบาลมิราเคิล อ๊อฟไลท์,Bangkok,Chatuchak,-6.42294,-6.81814,-7.21333,-5 to -10,8e-05,low
+full,hospital,โรงพยาบาล จุฬารัตน์ 9,Samut Prakan,Bang Phli,-6.2116,-6.81543,-7.41926,-5 to -10,0.0001,low
+full,school,โรงเรียนวัดกำแพง,Bangkok,Bang Khun Thian,-6.38284,-6.81327,-7.2437,-5 to -10,4e-05,low
+full,airport,ฐานทัพอากาศดอนเมือง,Bangkok,Sai Mai,-6.16893,-6.80617,-7.44341,-5 to -10,0.00034,medium
+full,school,โรงเรียนสารสาสน์สุขสวัสดิ์,Bangkok,Rat Burana,-6.38548,-6.79951,-7.21354,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลหนองจอก,Bangkok,Nong Chok,-6.02165,-6.79892,-7.5762,-5 to -10,0.00013,low
+full,rail_station,บางชัน,Bangkok,Min Buri,-6.21251,-6.79738,-7.38225,-5 to -10,0.00011,low
+full,rail_station,ชุมทางตลิ่งชัน,Bangkok,Taling Chan,-6.41132,-6.78437,-7.15743,-5 to -10,7e-05,low
+full,police,กองบังคับการตำรวจนครบาล7,Bangkok,Thawi Watthana,-6.2861,-6.78075,-7.2754,-5 to -10,0.00013,low
+full,university,วิทยาลัยเทคนิคราชสิทธาราม,Bangkok,Bang Bon,-6.30655,-6.77942,-7.25229,-5 to -10,0.0002,low
+full,police,ศูนย์ควบคุมการจราจรแยกพระราม ๙-ประดิษฐ์มนูธรรม,Bangkok,Huai Khwang,-6.46173,-6.77369,-7.08565,-5 to -10,8e-05,low
+full,school,,Bangkok,Wang Thonglang,-6.41769,-6.76648,-7.11527,-5 to -10,7e-05,low
+full,rail_station,ตลาดมีนบุรี,Bangkok,Min Buri,-6.17551,-6.76356,-7.35161,-5 to -10,6e-05,low
+full,police,ป้อมตำรวจ แยกประชาธรรม,Bangkok,Wang Thonglang,-6.3979,-6.74601,-7.09412,-5 to -10,2e-05,low
+full,school,บ้านดอนไก่ดี,Samut Sakhon,Krathum Baen,-6.09552,-6.73143,-7.36733,-5 to -10,8e-05,low
+full,school,โรงเรียนวัดทุ่งครุ (พึ่งสายอนุสรณ์),Bangkok,Thung Khru,-6.21531,-6.72415,-7.23299,-5 to -10,4e-05,low
+full,rail_station,ศูนย์วัฒนธรรมแห่งประเทศไทย,Bangkok,Din Daeng,-6.44618,-6.72369,-7.00119,-5 to -10,8e-05,low
+full,school,โรงเรียนนานาชาตินีวาอเมริกัน,Bangkok,Bang Kapi,-6.29092,-6.71888,-7.14684,-5 to -10,0.00014,low
+full,police,สถานีตำรวจนครบาลดอนเมือง ส่วนแยกสนามบิน,Bangkok,Don Mueang,-6.05756,-6.69437,-7.33117,-5 to -10,9e-05,low
+full,hospital,โรงพยาบาลเกษมราษฎร์ รามคำแหง,Bangkok,Saphan Sung,-6.21133,-6.68962,-7.16791,-5 to -10,0.00014,low
+full,school,โรงเรียนนานาชาติเบิร์คลีย์,Bangkok,Bang Na,-6.25168,-6.68412,-7.11655,-5 to -10,0.00016,low
+full,school,โรงเรียนไทยรัฐวิทยา 75 เฉลิมพระเกียรติ,Bangkok,Sai Mai,-6.07098,-6.67994,-7.28889,-5 to -10,3e-05,low
+full,school,โรงเรียนวัดแพรกษา,Samut Prakan,Mueang Samut Prakan,-6.06236,-6.67606,-7.28976,-5 to -10,9e-05,low
+full,police,สถานีตำรวจนครบาลร่มเกล้า,Bangkok,Lat Krabang,-6.11924,-6.66585,-7.21245,-5 to -10,7e-05,low
+full,school,Songvithaya School,Samut Prakan,Mueang Samut Prakan,-6.17393,-6.65753,-7.14112,-5 to -10,4e-05,low
+full,hospital,ศุนย์แพทย์ครอบครัวและชุมชน อบต.บางแก้ว,Samut Prakan,Bang Phli,-6.18391,-6.63322,-7.08252,-5 to -10,9e-05,low
+full,school,โรงเรียนเปรมฤทัย,Samut Prakan,Bang Phli,-6.16972,-6.6298,-7.08987,-5 to -10,0.0001,low
+full,rail_station,รามอินทรา กม.9,Bangkok,Khan Na Yao,-6.09745,-6.62715,-7.15685,-5 to -10,8e-05,low
+full,school,D-PREP International school (Secondary Campus),Samut Prakan,Bang Phli,-6.07166,-6.6212,-7.17074,-5 to -10,0.00036,medium
+full,rail_station,ศูนย์ราชการเฉลิมพระเกียรติ,Bangkok,Lak Si,-6.05567,-6.61422,-7.17278,-5 to -10,9e-05,low
+full,school,Sunflower Trilingual School,Samut Sakhon,Mueang Samut Sakhon,-6.06426,-6.61172,-7.15917,-5 to -10,9e-05,low
+full,school,โรงเรียนเทศบาลวัดแหลมสุวรรณาราม,Samut Sakhon,Mueang Samut Sakhon,-5.89511,-6.60751,-7.3199,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดหนองใหญ่,Bangkok,Sai Mai,-5.9445,-6.60349,-7.26249,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลบางมด,Bangkok,Chom Thong,-6.18263,-6.60271,-7.0228,-5 to -10,0.00012,low
+full,police,หน่วยบริการตำรวจทางหลวงทับช้าง,Bangkok,Saphan Sung,-6.08114,-6.59635,-7.11155,-5 to -10,4e-05,low
+full,hospital,โรงพยาบาลหลวงพ่อทวีศักดิ์,Bangkok,Nong Khaem,-6.08965,-6.58783,-7.08601,-5 to -10,0.00012,low
+full,school,โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) สมุทรปราการ,Samut Prakan,Bang Sao Thong,-5.81257,-6.58344,-7.35431,-5 to -10,0.00015,low
+full,school,โรงเรียนสารสาสน์วิเทศสายไหม,Bangkok,Sai Mai,-5.92249,-6.58167,-7.24085,-5 to -10,0.00014,low
+full,school,โรงเรียนวัดด่าน,Bangkok,Yan Nawa,-6.19877,-6.57948,-6.96019,-5 to -10,0.00047,medium
+full,police,สถานีตำรวจนครบาลดอนเมือง,Bangkok,Don Mueang,-5.85328,-6.57364,-7.294,-5 to -10,3e-05,low
+full,school,โรงเรียนทวีธาภิเศกบางขุนเทียน,Bangkok,Bang Khun Thian,-5.98098,-6.55848,-7.13597,-5 to -10,9e-05,low
+full,police,ด่าน บางนา กม.9-2,Samut Prakan,Bang Phli,-6.00835,-6.55284,-7.09733,-5 to -10,8e-05,low
+full,school,โรงเรียนเคหะทุ่งสองห้องวิทยา 2,Bangkok,Lak Si,-5.93956,-6.53739,-7.13522,-5 to -10,3e-05,low
+full,school,,Bangkok,Prawet,-6.03324,-6.53105,-7.02886,-5 to -10,5e-05,low
+full,hospital,โรงพยาบาลนวเวช,Bangkok,Bueng Kum,-6.05502,-6.52207,-6.98913,-5 to -10,0.00013,low
+full,school,โรงเรียนวัดท่าเสา,Samut Sakhon,Krathum Baen,-5.8727,-6.51241,-7.15212,-5 to -10,0.00013,low
+full,hospital,โรงพยาบาลมงกุฎวัฒนะ,Bangkok,Lak Si,-5.93753,-6.50458,-7.07164,-5 to -10,0.0001,low
+full,rail_station,บ้านแหลม,Samut Sakhon,Mueang Samut Sakhon,-5.78815,-6.50022,-7.21229,-5 to -10,0.00014,low
+full,school,โรงเรียนวัดเวฬุวนาราม,Bangkok,Don Mueang,-5.86676,-6.4994,-7.13204,-5 to -10,0.00011,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยดอนเมือง,Bangkok,Don Mueang,-5.86461,-6.49755,-7.13049,-5 to -10,8e-05,low
+full,police,สถานีตำรวจดอนเมือง เพื่อประชาชนที่รัก,Bangkok,Don Mueang,-5.77406,-6.49076,-7.20746,-5 to -10,5e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีมหานคร,Bangkok,Nong Chok,-5.73147,-6.48634,-7.2412,-5 to -10,0.00012,low
+full,police,สำนักงานคุมประพฤติจังหวัดสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-5.79358,-6.47939,-7.16519,-5 to -10,7e-05,low
+full,university,สวน 60 ปี มหาวิทยาลัยเกษตรศาสตร์,Bangkok,Chatuchak,-6.02336,-6.47852,-6.93369,-5 to -10,0.00017,low
+full,school,โรงเรียนวัดคู้บอน (วัฒนานันท์อุทิศ),Bangkok,Khlong Sam Wa,-5.90565,-6.47691,-7.04817,-5 to -10,3e-05,low
+full,police,RTP Cyber village สน.สายไหม,Bangkok,Sai Mai,-5.81,-6.47441,-7.13882,-5 to -10,5e-05,low
+full,school,โรงเรียนเทศบาล ๑,Samut Prakan,Mueang Samut Prakan,-5.9055,-6.47211,-7.03872,-5 to -10,5e-05,low
+full,hospital,รพ.เฉพาะทางด้านกระดูกสันหลังและข้อ S-Spine and Joint Hospital,Bangkok,Wang Thonglang,-6.07385,-6.46441,-6.85497,-5 to -10,7e-05,low
+full,school,โรงเรียนจารุวรรณ,Bangkok,Bang Khen,-5.86733,-6.45087,-7.03442,-5 to -10,5e-05,low
+full,university,วิทยาลัยพณิชยการบางนา,Bangkok,Bang Na,-6.02602,-6.4502,-6.87439,-5 to -10,0.00019,low
+full,rail_station,การเคหะ,Bangkok,Don Mueang,-5.8616,-6.44799,-7.03438,-5 to -10,9e-05,low
+full,police,สภ.ไทรน้อย นนทบุรี,Bangkok,Bang Khen,-5.89193,-6.42909,-6.96624,-5 to -10,3e-05,low
+full,hospital,โรงพยาบาลเซ็นทรัล เยอเนอรัล,Bangkok,Bang Khen,-5.83891,-6.4216,-7.00429,-5 to -10,6e-05,low
+full,school,โรงเรียนโพธิสารพิทยากร,Bangkok,Taling Chan,-6.04588,-6.42078,-6.79567,-5 to -10,0.0002,low
+full,school,โรงเรียนวัดเวฬุวนาราม (มัธยม),Bangkok,Don Mueang,-5.77982,-6.41405,-7.04828,-5 to -10,2e-05,low
+full,school,โรงเรียนนานาชาติร่วมฤดี,Bangkok,Min Buri,-5.84244,-6.40669,-6.97095,-5 to -10,5e-05,low
+full,rail_station,วงแหวนรามอินทรา,Bangkok,Khan Na Yao,-5.86623,-6.40643,-6.94663,-5 to -10,4e-05,low
+full,school,โรงเรียนสมฤดีสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-5.69364,-6.403,-7.11237,-5 to -10,6e-05,low
+full,school,โรงเรียนวัดดอนเมือง (ทหารอากาศอุทิศ),Bangkok,Don Mueang,-5.76151,-6.40137,-7.04124,-5 to -10,5e-05,low
+full,school,โรงเรียนชุมทางตลิ่งชัน,Bangkok,Taling Chan,-6.00824,-6.39745,-6.78666,-5 to -10,0.0001,low
+full,police,สถานีตำรวจนครบาลตลิ่งชัน (Taling Chan Police Station),Bangkok,Taling Chan,-6.05791,-6.39628,-6.73466,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดเกาะสุวรรณาราม,Bangkok,Sai Mai,-5.74947,-6.39312,-7.03677,-5 to -10,5e-05,low
+full,school,โรงเรียนเคหะทุ่งสองห้องวิทยา 1,Bangkok,Lak Si,-5.80358,-6.39296,-6.98235,-5 to -10,3e-05,low
+full,school,โรงเรียนบางมดวิทยา,Bangkok,Chom Thong,-5.95677,-6.3697,-6.78263,-5 to -10,4e-05,low
+full,school,,Bangkok,Taling Chan,-6.00632,-6.367,-6.72768,-5 to -10,7e-05,low
+full,school,International Community School,Bangkok,Bang Na,-5.9174,-6.36088,-6.80436,-5 to -10,8e-05,low
+full,school,โรงเรียนรัตนโกสินทร์ 9,Samut Prakan,Bang Sao Thong,-5.58781,-6.36082,-7.13382,-5 to -10,0.00011,low
+full,rail_station,อุดมสุข,Bangkok,Bang Na,-5.95632,-6.3516,-6.74689,-5 to -10,8e-05,low
+full,school,โรงเรียนวัดบางพลีใหญ่ใน,Samut Prakan,Bang Phli,-5.70379,-6.34049,-6.97719,-5 to -10,9e-05,low
+full,rail_station,อโศก,Bangkok,Huai Khwang,-6.08036,-6.32301,-6.56566,-5 to -10,0.00015,low
+full,police,ป้อมตำรวจวงเวียนเคหะบางพลี,Samut Prakan,Bang Sao Thong,-5.5453,-6.31722,-7.08913,-5 to -10,6e-05,low
+full,school,โรงเรียนไชยฉิมพลีวิทยาคม,Bangkok,Phasi Charoen,-5.99936,-6.31712,-6.63488,-5 to -10,6e-05,low
+full,police,Nong Khaem Police Station,Bangkok,Nong Khaem,-5.82288,-6.30762,-6.79235,-5 to -10,5e-05,low
+full,school,โรงเรียนทุ่งสองห้อง,Bangkok,Lak Si,-5.75999,-6.3051,-6.85021,-5 to -10,0.0001,low
+full,school,โรงเรียนวัดราษฎร์นิยมธรรม (พิบูลสงคราม),Bangkok,Sai Mai,-5.72078,-6.30404,-6.8873,-5 to -10,4e-05,low
+full,university,โรงเรียนนานาชาติราฟเฟิลส์อเมริกัน,Samut Prakan,Bang Phli,-5.84367,-6.29759,-6.75151,-5 to -10,0.00014,low
+full,school,โรงเรียนพร้อมมิตรพิทยา,Bangkok,Bang Kapi,-5.83282,-6.29409,-6.75535,-5 to -10,,
+full,school,โรงเรียนอนุบาลเธียรประสิทธิ์ศาสตร์,Bangkok,Sathon,-6.0584,-6.28063,-6.50286,-5 to -10,0.00026,low
+full,school,โรงเรียนเจ้าพระยาวิทยาคม,Bangkok,Yan Nawa,-5.88434,-6.26833,-6.65232,-5 to -10,0.00015,low
+full,school,โรงเรียนปราโมชวิทยารามอินทรา,Bangkok,Bang Khen,-5.73228,-6.26312,-6.79397,-5 to -10,3e-05,low
+full,police,สถานีตำรวจนครบาลหนองแขม,Bangkok,Nong Khaem,-5.77704,-6.26184,-6.74663,-5 to -10,9e-05,low
+full,police,สถานีตำรวจนครบาลบางขุนเทียน,Bangkok,Chom Thong,-5.83495,-6.24987,-6.66479,-5 to -10,6e-05,low
+full,school,โรงเรียนวัดศาลาแดง,Bangkok,Bang Khae,-5.7166,-6.23129,-6.74598,-5 to -10,5e-05,low
+full,police,กองบังคับการตำรวจสันติบาล 2,Bangkok,Bang Khen,-5.69193,-6.22483,-6.75772,-5 to -10,5e-05,low
+full,university,มหาวิทยาลัยธนบุรี,Bangkok,Nong Khaem,-5.75408,-6.21389,-6.6737,-5 to -10,0.00015,low
+full,school,โรงเรียนซอยแอนเนกซ์,Bangkok,Sai Mai,-5.52595,-6.20051,-6.87506,-5 to -10,2e-05,low
+full,school,โรงเรียนประเทืองทิพย์วิทยา 2,Bangkok,Sai Mai,-5.55482,-6.19745,-6.84008,-5 to -10,2e-05,low
+full,rail_station,แจ้งวัฒนะ 14,Bangkok,Lak Si,-5.61243,-6.18059,-6.74875,-5 to -10,4e-05,low
+full,school,โรงเรียนวัดราษฎร์บํารุง,Samut Sakhon,Krathum Baen,-5.58013,-6.17936,-6.77859,-5 to -10,7e-05,low
+full,rail_station,วัดสิงห์,Bangkok,Chom Thong,-5.74938,-6.17118,-6.59299,-5 to -10,5e-05,low
+full,school,โรงเรียนสมุทรสาครวิทยาลัย,Samut Sakhon,Mueang Samut Sakhon,-5.4627,-6.17011,-6.87751,-5 to -10,0.00018,low
+full,school,โรงเรียนมัธยมวัดสิงห์,Bangkok,Chom Thong,-5.74364,-6.16252,-6.58141,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดกระโจม,Bangkok,Taling Chan,-5.86591,-6.16123,-6.45656,-5 to -10,9e-05,low
+full,school,โรงเรียนคลองทวีวัฒนา,Bangkok,Thawi Watthana,-5.62153,-6.16048,-6.69943,-5 to -10,0.00023,low
+full,school,โรงเรียนบางพลีราษฎร์บำรุง,Samut Prakan,Bang Phli,-5.53519,-6.15803,-6.78086,-5 to -10,7e-05,low
+full,school,เลิศหล้า เกษตรนวมินทร์,Bangkok,Bueng Kum,-5.67814,-6.14187,-6.60561,-5 to -10,8e-05,low
+full,rail_station,ปุณณวิถี,Bangkok,Phra Khanong,-5.75338,-6.1399,-6.52642,-5 to -10,8e-05,low
+full,school,โรงเรียนวัดปริวาส,Bangkok,Yan Nawa,-5.74456,-6.13203,-6.5195,-5 to -10,0.00019,low
+full,police,ลน.หนองแขม,Bangkok,Nong Khaem,-5.63004,-6.11436,-6.59868,-5 to -10,9e-05,low
+full,police,สถานีตำรวจภูธร พระสมุทรเจดีย์,Bangkok,Bang Khae,-5.69417,-6.11378,-6.53338,-5 to -10,6e-05,low
+full,school,โรงเรียนสาธิตพัฒนา,Bangkok,Khlong Sam Wa,-5.48144,-6.11283,-6.74423,-5 to -10,9e-05,low
+full,police,สภ.หนองแขม,Bangkok,Nong Khaem,-5.6263,-6.11261,-6.59891,-5 to -10,6e-05,low
+full,school,โรงเรียนบางชัน (ปลื้มวิทยานุสรณ์),Bangkok,Khlong Sam Wa,-5.52508,-6.1099,-6.69472,-5 to -10,7e-05,low
+full,rail_station,สายลวด,Samut Prakan,Mueang Samut Prakan,-5.49622,-6.10886,-6.72149,-5 to -10,,
+full,rail_station,กรุงเทพอภิวัฒน์,Bangkok,Chatuchak,-5.79351,-6.10395,-6.41439,-5 to -10,6e-05,low
+full,university,มหาวิทยาลัยอัสสัมชัญ,Bangkok,Bang Kapi,-5.74437,-6.10346,-6.46256,-5 to -10,0.00019,low
+full,university,โรงเรียนวิศวกรรมรถไฟ,Bangkok,Chatuchak,-5.70041,-6.10276,-6.50511,-5 to -10,0.00025,low
+full,school,โรงเรียนวัดบางปิ้ง,Samut Prakan,Mueang Samut Prakan,-5.5408,-6.09853,-6.65626,-5 to -10,3e-05,low
+full,university,วิทยาลัยเทคโนโลยีทักษิณาบริหารธุรกิจ,Bangkok,Khan Na Yao,-5.54149,-6.09844,-6.65538,-5 to -10,0.0001,low
+full,police,กรมราชทัณฑ์,Bangkok,Chatuchak,-5.65402,-6.09381,-6.5336,-5 to -10,0.0001,low
+full,police,สถานีตำรวจบางพลีใหญ่,Samut Prakan,Bang Phli,-5.43569,-6.0934,-6.75112,-5 to -10,0.00011,low
+full,school,โรงเรียนเพลินพัฒนา,Bangkok,Thawi Watthana,-5.60881,-6.09119,-6.57358,-5 to -10,0.00014,low
+full,hospital,โรงพยาบาลสินแพทย์ รามอินทรา,Bangkok,Khan Na Yao,-5.56088,-6.08776,-6.61464,-5 to -10,9e-05,low
+full,police,สถานีตำรวจนครบาลลุมพินี,Bangkok,Pathum Wan,-5.88274,-6.08634,-6.28995,-5 to -10,0.00014,low
+full,police,บริษัท โปรเฟสชั่นแนล คอลเลคชั่น แอนด์ ลอว์ เซอร์วิส จำกัด,Bangkok,Bang Khen,-5.50592,-6.0861,-6.66628,-5 to -10,4e-05,low
+full,police,สน.คันนายาว,Bangkok,Khan Na Yao,-5.52095,-6.08467,-6.64838,-5 to -10,4e-05,low
+full,rail_station,กรมทหารราบที่ 11,Bangkok,Bang Khen,-5.55229,-6.06051,-6.56872,-5 to -10,3e-05,low
+full,school,โรงเรียนประเทืองทิพย์วิทยา,Bangkok,Sai Mai,-5.42742,-6.05654,-6.68567,-5 to -10,6e-05,low
+full,school,โรงเรียนนานาชาติเดอะรีเจ้นท์,Bangkok,Huai Khwang,-5.76028,-6.05592,-6.35156,-5 to -10,2e-05,low
+full,police,ด่านฯ บางนา,Bangkok,Bang Na,-5.67374,-6.05423,-6.43471,-5 to -10,4e-05,low
+full,university,Bangkok College of Technology,Bangkok,Phra Khanong,-5.69394,-6.05331,-6.41268,-5 to -10,9e-05,low
+full,university,ราชวิทยาลัยจุฬาภรณ์,Bangkok,Lak Si,-5.52426,-6.05148,-6.5787,-5 to -10,0.00022,low
+full,fire_station,ดับเพลิง บางพลี,Samut Prakan,Bang Phli,-5.43385,-6.05136,-6.66886,-5 to -10,0.0001,low
+full,rail_station,โทรคมนาคมแห่งชาติ,Bangkok,Lak Si,-5.49998,-6.05046,-6.60094,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดตะกล่ำ,Bangkok,Prawet,-5.57544,-6.04671,-6.51798,-5 to -10,3e-05,low
+full,hospital,serithai animalclinic,Bangkok,Khan Na Yao,-5.54108,-6.04408,-6.54709,-5 to -10,4e-05,low
+full,police,Kannayao Police Station,Bangkok,Khan Na Yao,-5.47016,-6.03466,-6.59915,-5 to -10,7e-05,low
+full,rail_station,รามอินทรา 3,Bangkok,Bang Khen,-5.50143,-6.03079,-6.56014,-5 to -10,9e-05,low
+full,school,โรงเรียนดอนเมืองทหารอากาศบำรุง,Bangkok,Don Mueang,-5.31892,-6.02289,-6.72685,-5 to -10,4e-05,low
+full,school,โรงเรียนมัธยมวัดหนองจอก,Bangkok,Nong Chok,-5.25115,-6.01859,-6.78603,-5 to -10,0.0001,low
+full,university,มหาวิทยาลัยเซนต์จอห์น,Bangkok,Chatuchak,-5.61401,-6.01673,-6.41945,-5 to -10,0.00018,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยเฉลิมพระเกียรติ,Bangkok,Prawet,-5.56358,-6.01453,-6.46548,-5 to -10,9e-05,low
+full,rail_station,พุทธมณฑลสาย 2,Bangkok,Thawi Watthana,-5.54435,-6.01272,-6.48109,-5 to -10,6e-05,low
+full,police,ทสบ.กลาง # คลองเปรม งามวงศ์วาน กรุงเทพฯ,Bangkok,Chatuchak,-5.56428,-5.99659,-6.42891,-5 to -10,9e-05,low
+full,fire_station,ธน60-00 หน่วยศิลา,Bangkok,Phasi Charoen,-5.68459,-5.99575,-6.3069,-5 to -10,9e-05,low
+full,police,กองร้อยปฏิบัติการจิตวิทยาที่ 1,Bangkok,Bang Khen,-5.49934,-5.99415,-6.48895,-5 to -10,7e-05,low
+full,rail_station,ศรีนุช,Bangkok,Suan Luang,-5.57846,-5.9923,-6.40614,-5 to -10,5e-05,low
+full,police,แยกคลองเจ็ก ถนนรามคำแหง,Bangkok,Saphan Sung,-5.49352,-5.99049,-6.48747,-5 to -10,,
+full,rail_station,บางเขน,Bangkok,Chatuchak,-5.54615,-5.9885,-6.43084,-5 to -10,0.00016,low
+full,police,สน.ทุ่งสองห้อง,Bangkok,Lak Si,-5.48829,-5.98331,-6.47832,-5 to -10,0.00014,low
+full,police,Sala Daeng Police Station,Bangkok,Bang Khae,-5.45699,-5.98103,-6.50506,-5 to -10,8e-05,low
+full,police,Lat Phrao Police Station,Bangkok,Bang Kapi,-5.55734,-5.97613,-6.39492,-5 to -10,7e-05,low
+full,police,สน.ลาดพร้าว,Bangkok,Bang Kapi,-5.55476,-5.97336,-6.39196,-5 to -10,7e-05,low
+full,school,โรงเรียนอินเตอร์คิดส์ เสรีไทย,Bangkok,Bueng Kum,-5.50242,-5.97142,-6.44042,-5 to -10,9e-05,low
+full,school,โรงเรียนโชคชัย,Bangkok,Lat Phrao,-5.4973,-5.96182,-6.42633,-5 to -10,6e-05,low
+full,rail_station,สายหยุด,Bangkok,Bang Khen,-5.38482,-5.96176,-6.53869,-5 to -10,5e-05,low
+full,school,โรงเรียนคลองสำโรง,Samut Prakan,Mueang Samut Prakan,-5.4317,-5.95846,-6.48523,-5 to -10,6e-05,low
+full,police,RTP Cyber Village สน.ศาลาแดง,Bangkok,Bang Khae,-5.42644,-5.95056,-6.47468,-5 to -10,8e-05,low
+full,school,โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี) 2,Bangkok,Bueng Kum,-5.46662,-5.94884,-6.43106,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดเทวสุนทร,Bangkok,Chatuchak,-5.48921,-5.94465,-6.40009,-5 to -10,7e-05,low
+full,police,ตู้ควบคุมจราจรแยกเทียมร่วมมิตร,Bangkok,Huai Khwang,-5.66311,-5.94429,-6.22548,-5 to -10,0.00011,low
+full,police,ส.น บางแก้ว,Samut Prakan,Bang Phli,-5.42151,-5.94107,-6.46063,-5 to -10,7e-05,low
+full,school,โรงเรียนทีปังกรวิทยาพัฒน์,Bangkok,Taling Chan,-5.60648,-5.93036,-6.25423,-5 to -10,5e-05,low
+full,school,โรงเรียนระเบียบศึกษา,Bangkok,Sai Mai,-5.296,-5.93006,-6.56413,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดบางพลีใหญ่กลาง,Samut Prakan,Bang Phli,-5.30602,-5.92145,-6.53689,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลบางนา,Bangkok,Suan Luang,-5.49282,-5.92,-6.34718,-5 to -10,7e-05,low
+full,police,Police K-9 (Police dog),Bangkok,Lak Si,-5.43558,-5.918,-6.40042,-5 to -10,0.0001,low
+full,rail_station,บ้านฉิมพลี,Bangkok,Taling Chan,-5.4862,-5.90643,-6.32666,-5 to -10,0.00015,low
+full,school,โรงเรียนพระยาประเสริฐสุนทราศรัย (กระจ่าง สิงหเสนี),Bangkok,Wang Thonglang,-5.54978,-5.90124,-6.25271,-5 to -10,8e-05,low
+full,rail_station,หัวหมาก,Bangkok,Suan Luang,-5.50592,-5.89931,-6.2927,-5 to -10,0.00016,low
+full,hospital,โรงพยาบาลธนบุรีทวีวัฒนา,Bangkok,Thawi Watthana,-5.4208,-5.89839,-6.37597,-5 to -10,0.00011,low
+full,rail_station,บางจาก,Bangkok,Phra Khanong,-5.53557,-5.89569,-6.25581,-5 to -10,9e-05,low
+full,school,โรงเรียนแก่นทองอุปถัมภ์,Bangkok,Prawet,-5.44265,-5.88688,-6.33112,-5 to -10,8e-05,low
+full,police,Bueng Kum Police Station,Bangkok,Bueng Kum,-5.42493,-5.88563,-6.34632,-5 to -10,0.00013,low
+full,hospital,โรงพยาบาลมิตรประชา,Bangkok,Phasi Charoen,-5.53457,-5.885,-6.23543,-5 to -10,0.00018,low
+full,rail_station,บางซื่อ,Bangkok,Chatuchak,-5.57662,-5.88177,-6.18693,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลบึงกุ่ม,Bangkok,Bueng Kum,-5.41793,-5.87742,-6.33692,-5 to -10,0.00013,low
+full,rail_station,บ้านขอม,Samut Sakhon,Mueang Samut Sakhon,-5.21811,-5.87474,-6.53137,-5 to -10,0.0001,low
+full,school,โรงเรียนบางกะปิ,Bangkok,Bang Kapi,-5.43365,-5.8726,-6.31154,-5 to -10,0.00015,low
+full,school,โรงเรียนเอกชัย,Samut Sakhon,Mueang Samut Sakhon,-5.16292,-5.86995,-6.57698,-5 to -10,8e-05,low
+full,rail_station,เพชรบุรี,Bangkok,Ratchathewi,-5.62741,-5.86739,-6.10737,-5 to -10,0.00018,low
+full,school,โรงเรียนคลองต้นไทร (สุขล้อมอุทิศ),Bangkok,Thawi Watthana,-5.33476,-5.85867,-6.38259,-5 to -10,7e-05,low
+full,school,โรงเรียนลาซาลกรุงเทพ,Bangkok,Bang Na,-5.38338,-5.84371,-6.30404,-5 to -10,0.00013,low
+full,school,สถาบันพัฒนาวิชาการประปา การประปานครหลวง,Bangkok,Lak Si,-5.30249,-5.84348,-6.38447,-5 to -10,6e-05,low
+full,school,,Bangkok,Sai Mai,-5.22147,-5.84214,-6.46281,-5 to -10,0.00011,low
+full,police,โรงเรียนเหล่าสารวัตรทหารอากาศ,Bangkok,Don Mueang,-5.20375,-5.83399,-6.46422,-5 to -10,6e-05,low
+full,rail_station,ศรีนครินทร์ 38,Bangkok,Prawet,-5.37129,-5.81042,-6.24956,-5 to -10,7e-05,low
+full,school,โรงเรียนสารสาสน์ธนบุรี,Bangkok,Bang Khae,-5.35933,-5.81003,-6.26074,-5 to -10,9e-05,low
+full,rail_station,สะพานใหม่,Bangkok,Bang Khen,-5.20134,-5.8047,-6.40805,-5 to -10,3e-05,low
+full,rail_station,มักกะสัน,Bangkok,Ratchathewi,-5.56539,-5.8006,-6.03581,-5 to -10,8e-05,low
+full,hospital,โรงพยาบาลตากสิน,Bangkok,Khlong San,-5.59661,-5.79872,-6.00084,-5 to -10,0.00027,low
+full,school,โรงเรียนสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-5.19195,-5.7934,-6.39485,-5 to -10,8e-05,low
+full,school,โรงเรียนประภามนตรี 2,Samut Prakan,Mueang Samut Prakan,-5.21108,-5.78566,-6.36024,-5 to -10,6e-05,low
+full,university,มหาวิทยาลัยนานาชาติแสตมฟอร์ด,Bangkok,Prawet,-5.34989,-5.78336,-6.21683,-5 to -10,0.00021,low
+full,school,โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี),Bangkok,Wang Thonglang,-5.41864,-5.7822,-6.14576,-5 to -10,7e-05,low
+full,police,กองกำกับการสืบสวนสอบสวน กองบังคับการตำรวจนครบาล 4,Bangkok,Bang Kapi,-5.40757,-5.77722,-6.14687,-5 to -10,0.00015,low
+full,rail_station,แพรกษา,Samut Prakan,Mueang Samut Prakan,-5.1719,-5.77583,-6.37977,-5 to -10,,
+full,school,โรงเรียนวัดหนามแดง (เขียวอุทิศ),Samut Prakan,Bang Phli,-5.24859,-5.77374,-6.29889,-5 to -10,0.00016,low
+full,university,วิทยาลัยพาณิชการอินทราชัย,Bangkok,Wang Thonglang,-5.43348,-5.77368,-6.11389,-5 to -10,6e-05,low
+full,hospital,โรงพยาบาลภูมิพลอดุลยเดช,Bangkok,Sai Mai,-5.12723,-5.75745,-6.38767,-5 to -10,0.00013,low
+full,fire_station,ศูนย์ป้องกันและบรรเทาสาธารณภัยตำบลท่าไม้,Samut Sakhon,Krathum Baen,-5.15672,-5.75706,-6.35741,-5 to -10,7e-05,low
+full,university,อิสลามวิทยาลัยแห่งประเทศไทย,Bangkok,Thung Khru,-5.29852,-5.75251,-6.2065,-5 to -10,0.00011,low
+full,school,โรงเรียนฤทธิยะวรรณาลัย,Bangkok,Sai Mai,-5.09326,-5.75165,-6.41005,-5 to -10,3e-05,low
+full,school,โรงเรียนเตรียมอุดมศึกษาพัฒนาการ,Bangkok,Suan Luang,-5.35336,-5.75135,-6.14933,-5 to -10,8e-05,low
+full,rail_station,กลันตัน,Bangkok,Suan Luang,-5.34812,-5.73269,-6.11725,-5 to -10,3e-05,low
+full,rail_station,ศรีเทพา,Samut Prakan,Mueang Samut Prakan,-5.21348,-5.73268,-6.25187,-5 to -10,4e-05,low
+full,hospital,โรงพยาบาลเวชธานี อินเตอร์เนชันแนล,Bangkok,Bang Kapi,-5.34819,-5.72905,-6.10992,-5 to -10,0.00012,low
+full,school,โรงเรียนอนุบาล เคหะบางพลี,Samut Prakan,Bang Sao Thong,-4.95105,-5.72118,-6.4913,-5 to -10,4e-05,low
+full,police,สถานีตำรวจนครบาลหัวหมาก,Bangkok,Bang Kapi,-5.34614,-5.71808,-6.09002,-5 to -10,0.00015,low
+full,police,Hua Mak Police Station,Bangkok,Bang Kapi,-5.34614,-5.71808,-6.09002,-5 to -10,0.00015,low
+full,rail_station,ศรีด่าน,Samut Prakan,Mueang Samut Prakan,-5.2057,-5.71789,-6.23008,-5 to -10,4e-05,low
+full,rail_station,ชุมทางบางซื่อ,Bangkok,Bang Sue,-5.4034,-5.71486,-6.02633,-5 to -10,5e-05,low
+full,police,Traffic Police Division,Bangkok,Chatuchak,-5.29115,-5.70553,-6.11991,-5 to -10,0.00015,low
+full,university,มหาวิทยาลัยรามคำแหง วิทยาเขตปัจฉิมสวัสดิ์ - สุวรรณนภาศรี (วิทยาเขตบางนา),Bangkok,Prawet,-5.18175,-5.7024,-6.22306,-5 to -10,0.00017,low
+full,school,โรงเรียนคลองกุ่ม (เสรีไทย อนุสรณ์),Bangkok,Bueng Kum,-5.22935,-5.70054,-6.17173,-5 to -10,6e-05,low
+full,school,โรงเรียนวัดโสภณาราม,Samut Sakhon,Mueang Samut Sakhon,-5.04466,-5.69909,-6.35353,-5 to -10,7e-05,low
+full,university,วิทยาลัยเทคโนโลยีเกษมสันต์บริหารธุรกิจ,Bangkok,Prawet,-5.19458,-5.68813,-6.18169,-5 to -10,0.00048,medium
+full,university,วิทยาลัยเทคโนโลยีสยามบริหารธุรกิจ สะพานใหม่,Bangkok,Sai Mai,-5.08652,-5.68385,-6.28118,-5 to -10,6e-05,low
+full,hospital,โรงพยาบาลนพรัตนราชธานี,Bangkok,Khan Na Yao,-5.1311,-5.6828,-6.23451,-5 to -10,0.00018,low
+full,school,โรงเรียนนานาชาติจีน,Bangkok,Bueng Kum,-5.20034,-5.68209,-6.16385,-5 to -10,9e-05,low
+full,rail_station,นพรัตน์,Bangkok,Khan Na Yao,-5.13064,-5.6785,-6.22635,-5 to -10,4e-05,low
+full,police,สถานีตำรวจนครบาลทุ่งครุ (Thung Khru Metropolitan Police Station),Bangkok,Thung Khru,-5.21428,-5.67845,-6.14261,-5 to -10,6e-05,low
+full,rail_station,การเคหะ,Bangkok,Bang Khun Thian,-5.23391,-5.67812,-6.12232,-5 to -10,0.0001,low
+full,rail_station,แยกลำสาลี,Bangkok,Bang Kapi,-5.27367,-5.67359,-6.07351,-5 to -10,2e-05,low
+full,rail_station,หัวหมาก,Bangkok,Suan Luang,-5.29138,-5.673,-6.05461,-5 to -10,0.0002,low
+full,rail_station,คู้บอน,Bangkok,Khan Na Yao,-5.14717,-5.67131,-6.19544,-5 to -10,2e-05,low
+full,rail_station,ศรีแบริ่ง,Samut Prakan,Mueang Samut Prakan,-5.17439,-5.67124,-6.16809,-5 to -10,7e-05,low
+full,rail_station,บางกะปิ,Bangkok,Bang Kapi,-5.28438,-5.66942,-6.05447,-5 to -10,6e-05,low
+full,school,โรงเรียนสุวรรณพลับพลาพิทยาคม,Bangkok,Taling Chan,-5.35955,-5.66417,-5.96879,-5 to -10,5e-05,low
+full,police,ส.ภ บางพลี,Samut Prakan,Bang Phli,-5.02764,-5.6545,-6.28135,-5 to -10,0.00011,low
+full,school,โรงเรียนคลองมหาวงก์,Samut Prakan,Mueang Samut Prakan,-5.08556,-5.65393,-6.2223,-5 to -10,2e-05,low
+full,rail_station,บางบำหรุ,Bangkok,Bang Phlat,-5.34441,-5.65119,-5.95797,-5 to -10,9e-05,low
+full,rail_station,คลองตัน,Bangkok,Huai Khwang,-5.36889,-5.651,-5.93311,-5 to -10,9e-05,low
+full,rail_station,สวนจตุจักร,Bangkok,Chatuchak,-5.33305,-5.65042,-5.96778,-5 to -10,6e-05,low
+full,rail_station,บางระมาด,Bangkok,Taling Chan,-5.33079,-5.64711,-5.96342,-5 to -10,5e-05,low
+full,police,กองบัญชาการตำรวจภูธรภาค 1,Bangkok,Chatuchak,-5.22234,-5.637,-6.05165,-5 to -10,6e-05,low
+full,school,โรงเรียนวัดหลักสี่,Bangkok,Lak Si,-5.07748,-5.63508,-6.19267,-5 to -10,,
+full,rail_station,พหลโยธิน,Bangkok,Chatuchak,-5.22419,-5.62863,-6.03307,-5 to -10,0.00012,low
+full,rail_station,นิคมรถไฟมหาชัย,Samut Sakhon,Mueang Samut Sakhon,-4.92657,-5.62831,-6.33004,-5 to -10,0.00017,low
+full,rail_station,ลาดพร้าว 83,Bangkok,Wang Thonglang,-5.2385,-5.62758,-6.01666,-5 to -10,4e-05,low
+full,rail_station,ศรีลาซาล,Bangkok,Bang Na,-5.15029,-5.62671,-6.10312,-5 to -10,0.00011,low
+full,rail_station,หัวหมาก,Bangkok,Suan Luang,-5.24018,-5.6251,-6.01002,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดพรหมสุวรรณสามัคคี,Bangkok,Bang Khae,-5.17905,-5.62502,-6.07099,-5 to -10,8e-05,low
+full,school,โรงเรียนนวมินทราชินูทิศ บดินทรเดชา,Bangkok,Wang Thonglang,-5.23184,-5.61681,-6.00178,-5 to -10,3e-05,low
+full,police,กรมทางหลวงชนบท,Bangkok,Bang Khae,-5.22718,-5.61267,-5.99816,-5 to -10,5e-05,low
+full,university,สถาบันบัณฑิตพัฒนบริหารศาสตร์,Bangkok,Bang Kapi,-5.15423,-5.61237,-6.07051,-5 to -10,0.00021,low
+full,school,บางกอกทวิวิทย์ แผนกประถมศึกษาและมัธยมศึกษา,Bangkok,Huai Khwang,-5.30732,-5.60982,-5.91231,-5 to -10,9e-05,low
+full,school,โรงเรียนบางบัว (เพ่งตั้งตรงจิตรวิทยาคาร),Bangkok,Chatuchak,-5.12924,-5.60477,-6.0803,-5 to -10,6e-05,low
+full,school,โรงเรียนบางเขน (ไว้สาลีอนุสรณ์),Bangkok,Lak Si,-5.13015,-5.60473,-6.07931,-5 to -10,5e-05,low
+full,school,โรงเรียนคลองทรงกระเทียม,Bangkok,Lat Phrao,-5.19362,-5.60293,-6.01225,-5 to -10,5e-05,low
+full,university,มหาวิทยาลัยธุรกิจบัณฑิตย์,Bangkok,Lak Si,-5.12567,-5.60118,-6.07669,-5 to -10,9e-05,low
+full,school,โรงเรียนมัธยมบ้านบางกะปิ,Bangkok,Bang Kapi,-5.18291,-5.59724,-6.01157,-5 to -10,6e-05,low
+full,school,โรงเรียนรัตนโกสินทร์สมโภชบางเขน,Bangkok,Bang Khen,-5.03782,-5.59507,-6.15232,-5 to -10,5e-05,low
+full,school,แย้มจาดวิชชานุสรณ์,Bangkok,Bueng Kum,-5.09543,-5.59333,-6.09123,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดปุรณาวาส,Bangkok,Thawi Watthana,-5.04829,-5.5933,-6.13831,-5 to -10,6e-05,low
+full,police,กองกำกับการหน่วยอรินทราช 26,Bangkok,Lak Si,-5.10206,-5.59195,-6.08184,-5 to -10,5e-05,low
+full,school,โรงเรียนประชาบำรุง,Bangkok,Nong Khaem,-5.13816,-5.59023,-6.0423,-5 to -10,3e-05,low
+full,police,ธนกาญน์แมนชั่น รามอินทรา58,Bangkok,Khan Na Yao,-5.06254,-5.58987,-6.11721,-5 to -10,4e-05,low
+full,police,ตรอ.ตุ้ยการันตี สาขามาเจริญ สาย4 หนองแขม,Bangkok,Nong Khaem,-5.10865,-5.58861,-6.06858,-5 to -10,3e-05,low
+full,police,กองบังคับการตำรวจสันติบาล 2,Bangkok,Bang Khen,-5.06371,-5.58485,-6.10598,-5 to -10,8e-05,low
+full,police,สถานีตำรวจนครบาลคันนายาว,Bangkok,Khan Na Yao,-5.05383,-5.58296,-6.11209,-5 to -10,3e-05,low
+full,rail_station,ทุ่งสองห้อง,Bangkok,Lak Si,-5.10834,-5.5822,-6.05605,-5 to -10,8e-05,low
+full,rail_station,เคหะฯ,Samut Prakan,Mueang Samut Prakan,-4.95472,-5.57834,-6.20195,-5 to -10,,
+full,rail_station,ลาดปลาเค้า,Bangkok,Bang Khen,-5.05456,-5.57402,-6.09348,-5 to -10,7e-05,low
+full,police,สถานีตำรวจภูธรพระสมุทรเจดีย์,Samut Prakan,Phra Samut Chedi,-5.02776,-5.57344,-6.11912,-5 to -10,0.00018,low
+full,police,Samroiyod Corporation Ltd.,Bangkok,Wang Thonglang,-5.21465,-5.5708,-5.92695,-5 to -10,6e-05,low
+full,school,คลองกลันตัน (มีสุวรรณ อนุสรณ์),Bangkok,Suan Luang,-5.18325,-5.56701,-5.95077,-5 to -10,0.00015,low
+full,school,โรงเรียนเพชรรัชต์,Bangkok,Chatuchak,-5.11656,-5.5646,-6.01264,-5 to -10,0.00011,low
+full,police,กองบังคับการสายตรวจและปฏิบัติการพิเศษ,Bangkok,Chatuchak,-5.14667,-5.56239,-5.97811,-5 to -10,0.00012,low
+full,rail_station,พหลโยธิน 59,Bangkok,Bang Khen,-5.00673,-5.56153,-6.11633,-5 to -10,5e-05,low
+full,rail_station,บางบัว,Bangkok,Chatuchak,-5.08693,-5.56061,-6.03429,-5 to -10,8e-05,low
+full,rail_station,หมอชิต,Bangkok,Chatuchak,-5.23822,-5.55606,-5.87391,-5 to -10,6e-05,low
+full,police,สน.ยิ้มแย้ม Smile Station,Bangkok,Chatuchak,-5.24744,-5.55591,-5.86439,-5 to -10,5e-05,low
+full,rail_station,จตุจักร,Bangkok,Chatuchak,-5.14828,-5.55224,-5.95621,-5 to -10,4e-05,low
+full,rail_station,ลาดพร้าว 71,Bangkok,Wang Thonglang,-5.16548,-5.55082,-5.93616,-5 to -10,2e-05,low
+full,hospital,Prachachuen MRI,Bangkok,Chom Thong,-5.15908,-5.54703,-5.93498,-5 to -10,9e-05,low
+full,school,โรงเรียนสุขุมนวพันธ์อุปถัมภ์,Bangkok,Bueng Kum,-5.08805,-5.54023,-5.99241,-5 to -10,6e-05,low
+full,fire_station,สถานีดับเพลิง บางเมือง,Samut Prakan,Mueang Samut Prakan,-4.99888,-5.53319,-6.06749,-5 to -10,9e-05,low
+full,hospital,KMB Hospital,Bangkok,Bang Khen,-5.00573,-5.53308,-6.06044,-5 to -10,8e-05,low
+full,school,โรงเรียนประชาราษฎร์บำเพ็ญ,Bangkok,Huai Khwang,-5.20675,-5.52243,-5.8381,-5 to -10,6e-05,low
+full,school,โรงเรียนบ้านบางกะปิ,Bangkok,Bang Kapi,-5.09866,-5.50965,-5.92065,-5 to -10,7e-05,low
+full,rail_station,กำแพงเพชร,Bangkok,Chatuchak,-5.20753,-5.50528,-5.80303,-5 to -10,2e-05,low
+full,police,สถานีตำรวจชุมชน กม.30,Samut Prakan,Mueang Samut Prakan,-4.87857,-5.50202,-6.12547,-5 to -10,,
+full,rail_station,รามคำแหง,Bangkok,Suan Luang,-5.1963,-5.50056,-5.80483,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดบางนานอก,Bangkok,Bang Na,-5.11481,-5.5004,-5.88599,-5 to -10,0.0001,low
+full,police,สถานีตำรวจนครบาลบึงกุ่ม,Bangkok,Bueng Kum,-5.04161,-5.49941,-5.95721,-5 to -10,3e-05,low
+full,school,โรงเรียนเบญจมินทร์,Bangkok,Bueng Kum,-5.01069,-5.49441,-5.97812,-5 to -10,5e-05,low
+full,university,วิทยาลัยดุสิตธานี กรุงเทพ,Bangkok,Prawet,-5.03849,-5.47677,-5.91505,-5 to -10,0.00011,low
+full,school,โรงเรียนสวนลุมพินี,Bangkok,Pathum Wan,-5.28171,-5.47531,-5.66892,-5 to -10,6e-05,low
+full,fire_station,สถานีดับเพลิงลาดยาว,Bangkok,Chatuchak,-5.05562,-5.47525,-5.89487,-5 to -10,7e-05,low
+full,police,สถานีตำรวจ สน. ประเวศ,Bangkok,Suan Luang,-5.09298,-5.47325,-5.85352,-5 to -10,0.0002,low
+full,school,โรงเรียนวัดตลิ่งชัน,Bangkok,Taling Chan,-5.15494,-5.47048,-5.78603,-5 to -10,2e-05,low
+full,police,สถานีตำรวจคลองตัน,Bangkok,Suan Luang,-5.12155,-5.46206,-5.80256,-5 to -10,7e-05,low
+full,police,สภอ.เมืองสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-4.84828,-5.4614,-6.07451,-5 to -10,7e-05,low
+full,university,มหาวิทยาลัยการกีฬาแห่งชาติ วิทยาเขตสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-4.75247,-5.45826,-6.16405,-5 to -10,0.00013,low
+full,school,โรงเรียนการเคหะท่าทราย,Bangkok,Lak Si,-4.96709,-5.45659,-5.94608,-5 to -10,6e-05,low
+full,school,โรงเรียนป้วยฮั้ว,Samut Prakan,Mueang Samut Prakan,-4.84636,-5.44591,-6.04546,-5 to -10,6e-05,low
+full,university,วิทยาลัยประมงสมุทรสาคร,Samut Sakhon,Krathum Baen,-4.8021,-5.44436,-6.08662,-5 to -10,0.00024,low
+full,rail_station,วัดเสมียนนารี,Bangkok,Chatuchak,-5.00254,-5.42831,-5.85408,-5 to -10,5e-05,low
+full,rail_station,ห้าแยกลาดพร้าว,Bangkok,Chatuchak,-5.00969,-5.42358,-5.83748,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดเสมียนนารี,Bangkok,Chatuchak,-4.98921,-5.41405,-5.8389,-5 to -10,5e-05,low
+full,rail_station,อ่อนนุช,Bangkok,Khlong Toei,-5.06939,-5.41258,-5.75577,-5 to -10,0.00011,low
+full,school,โรงเรียนบางแค (เนื่องสังวาลย์อนุสรณ์),Bangkok,Bang Khae,-5.01255,-5.4095,-5.80646,-5 to -10,9e-05,low
+full,university,วิทยาลัยอาชีวศึกษาเทศบาลอ้อมน้อย,Samut Sakhon,Krathum Baen,-4.85391,-5.40536,-5.95681,-5 to -10,0.0002,low
+full,school,โรงเรียนประชาภิบาล,Bangkok,Bang Khen,-4.87385,-5.40181,-5.92976,-5 to -10,0.00011,low
+full,fire_station,ศูนย์อุบัติภัย เขตสวนหลวง,Bangkok,Suan Luang,-4.98853,-5.39675,-5.80497,-5 to -10,0.00014,low
+full,rail_station,โรงพยาบาลภูมิพลอดุลยเดช,Bangkok,Don Mueang,-4.76099,-5.39257,-6.02415,-5 to -10,7e-05,low
+full,school,โรงเรียนหอวัง,Bangkok,Chatuchak,-4.96814,-5.38229,-5.79643,-5 to -10,2e-05,low
+full,rail_station,พิพิธภัณฑ์กองทัพอากาศ,Bangkok,Don Mueang,-4.71098,-5.37859,-6.0462,-5 to -10,0.00016,low
+full,university,คณะประมง,Bangkok,Chatuchak,-4.90579,-5.37499,-5.84419,-5 to -10,0.00013,low
+full,hospital,โรงพยาบาลราชพิพัฒน์,Bangkok,Bang Khae,-4.93052,-5.37388,-5.81724,-5 to -10,0.00012,low
+full,school,โรงเรียนวัดบางเตย,Bangkok,Bueng Kum,-4.92006,-5.36802,-5.81598,-5 to -10,5e-05,low
+full,hospital,โรงพยาบาลศิครินทร์,Bangkok,Bang Na,-4.88756,-5.36669,-5.84581,-5 to -10,0.00022,low
+full,hospital,ทัณฑสถานโรงพยาบาลราชทัณฑ์,Bangkok,Chatuchak,-4.92941,-5.36458,-5.79974,-5 to -10,9e-05,low
+full,hospital,โรงพยาบาลบีเอ็นเอช,Bangkok,Bang Rak,-5.15144,-5.3571,-5.56277,-5 to -10,0.00018,low
+full,school,โรงเรียนฉัตรสุดา,Samut Prakan,Mueang Samut Prakan,-4.76652,-5.35466,-5.9428,-5 to -10,5e-05,low
+full,airport,กองการบิน ศูนย์การเคลื่อนย้ายกองทัพบก,Bangkok,Bang Khen,-4.84341,-5.35332,-5.86322,-5 to -10,0.00016,low
+full,rail_station,บางนา,Bangkok,Bang Na,-4.93055,-5.34965,-5.76875,-5 to -10,7e-05,low
+full,school,โรงเรียนสาธิตกรุงเทพธนบุรี,Bangkok,Thawi Watthana,-4.78792,-5.34935,-5.91078,-5 to -10,7e-05,low
+full,school,โรงเรียนเตรียมอุดมศึกษาน้อมเกล้า,Bangkok,Saphan Sung,-4.82961,-5.34107,-5.85253,-5 to -10,5e-05,low
+full,fire_station,สถานีดับเพลิงหัวหมาก(Hua Mark Fire and Rescue),Bangkok,Bang Kapi,-4.96954,-5.33246,-5.69539,-5 to -10,4e-05,low
+full,police,สนามยิงปืนชัยจินดา,Bangkok,Chatuchak,-4.91078,-5.32973,-5.74868,-5 to -10,0.00017,low
+full,school,โรงเรียนกระทุ่มแบน (วิเศษสมุทคุณ),Samut Sakhon,Krathum Baen,-4.69387,-5.32931,-5.96475,-5 to -10,2e-05,low
+full,police,เสรีไทย73สน.บางชัน,Bangkok,Khan Na Yao,-4.81168,-5.32541,-5.83914,-5 to -10,0.00014,low
+full,police,สถานีตำรวจนครบาลมักกะสัน,Bangkok,Huai Khwang,-5.04255,-5.31806,-5.59356,-5 to -10,0.00012,low
+full,school,โรงเรียนมหาชัยคริสเตียนวิทยา,Samut Sakhon,Mueang Samut Sakhon,-4.62297,-5.3157,-6.00843,-5 to -10,0.00014,low
+full,police,กองบังคับการปราบปราม (Crime Suppression Division Thai Police),Bangkok,Chatuchak,-4.88647,-5.30545,-5.72444,-5 to -10,0.00015,low
+full,school,โรงเรียนชุมชนหมู่บ้านพัฒนา,Bangkok,Khlong Toei,-4.98925,-5.30505,-5.62085,-5 to -10,7e-05,low
+full,police,ศูนย์รับแจ้งความ ตำรวจสอบสวนกลาง,Bangkok,Chatuchak,-4.88224,-5.30144,-5.72063,-5 to -10,0.00015,low
+full,school,โรงเรียนอุดมศึกษา,Bangkok,Wang Thonglang,-4.92672,-5.29252,-5.65833,-5 to -10,6e-05,low
+full,rail_station,ภาษีเจริญ,Bangkok,Phasi Charoen,-4.9374,-5.28955,-5.64171,-5 to -10,0.0001,low
+full,school,โรงเรียนจันทร์หุ่นบำเพ็ญ,Bangkok,Huai Khwang,-4.95346,-5.28909,-5.62472,-5 to -10,3e-05,low
+full,university,มหาวิทยาลัยนอร์ทกรุงเทพ วิทยาเขตสะพานใหม่,Bangkok,Sai Mai,-4.6921,-5.28882,-5.88553,-5 to -10,8e-05,low
+full,police,สน.บางชัน,Bangkok,Khan Na Yao,-4.77604,-5.28778,-5.79951,-5 to -10,4e-05,low
+full,hospital,,Bangkok,Ratchathewi,-5.11026,-5.28301,-5.45576,-5 to -10,0.00013,low
+full,school,โรงเรียนวัดไผ่ตัน,Bangkok,Phaya Thai,-4.98501,-5.28056,-5.5761,-5 to -10,5e-05,low
+full,university,มหาวิทยาลัยอัสสัมชัญ วิทยาเขตสุวรรณภูมิ,Samut Prakan,Bang Sao Thong,-4.46263,-5.27949,-6.09634,-5 to -10,0.00046,medium
+full,police,กองบังคับการตำรวจนครบาล 4,Bangkok,Khan Na Yao,-4.76011,-5.27321,-5.78631,-5 to -10,4e-05,low
+full,school,โรงเรียนวัดบางหัวเสือ,Samut Prakan,Phra Pradaeng,-4.80566,-5.27105,-5.73644,-5 to -10,0.0001,low
+full,school,โรงเรียนเทศบาล 4 (สิทธิไชยอุปถัมภ์),Samut Prakan,Mueang Samut Prakan,-4.66872,-5.2669,-5.86508,-5 to -10,4e-05,low
+full,police,สถานีตำรวจทางด่วน,Samut Prakan,Phra Pradaeng,-4.80502,-5.26401,-5.72301,-5 to -10,8e-05,low
+full,school,โรงเรียนวัดทองสุทธาราม,Bangkok,Bang Sue,-4.85113,-5.26249,-5.67386,-5 to -10,9e-05,low
+full,fire_station,สถานีดับเพลิงพระโขนง,Bangkok,Vadhana,-4.92026,-5.26221,-5.60416,-5 to -10,0.00011,low
+full,police,สถานีตำรวจนครบาลบางชัน,Bangkok,Khan Na Yao,-4.74816,-5.26087,-5.77358,-5 to -10,4e-05,low
+full,school,โรงเรียนวัดบุณยประดิษฐ์,Bangkok,Bang Khae,-4.83804,-5.25805,-5.67807,-5 to -10,0.00011,low
+full,rail_station,มหาดไทย,Bangkok,Wang Thonglang,-4.87575,-5.2552,-5.63465,-5 to -10,5e-05,low
+full,police,ร้อย รปภ.ที่6 รร.นายเรือ,Samut Prakan,Mueang Samut Prakan,-4.68184,-5.2494,-5.81696,-5 to -10,5e-05,low
+full,rail_station,ศรีนครินทร์,Samut Prakan,Mueang Samut Prakan,-4.64982,-5.24637,-5.84292,-5 to -10,8e-05,low
+full,school,โรงเรียนโยธินบูรณะ 2 (สุวรรณสุทธาราม),Bangkok,Bang Sue,-4.82696,-5.23931,-5.65166,-5 to -10,5e-05,low
+full,school,โรงเรียนบีคอนเฮาส์ แย้มสอาดลาดพร้าว,Bangkok,Chatuchak,-4.86317,-5.23157,-5.59997,-5 to -10,5e-05,low
+full,police,ลาดพร้าวชอย3,Bangkok,Chatuchak,-4.81526,-5.22987,-5.64448,-5 to -10,4e-05,low
+full,police,สน.ตลิ่งชัน Taling Chan Police Station,Bangkok,Taling Chan,-4.90713,-5.22941,-5.55169,-5 to -10,4e-05,low
+full,school,ศูนย์ฝึกอาชีพสวนลุมพินี,Bangkok,Pathum Wan,-5.03654,-5.22392,-5.4113,-5 to -10,6e-05,low
+full,police,Phra Khanong Police Station,Bangkok,Vadhana,-4.87812,-5.22001,-5.5619,-5 to -10,0.00011,low
+full,school,โรงเรียนเตรียมอุดมศึกษาพัฒนาการ รัชดา,Bangkok,Huai Khwang,-4.92694,-5.21618,-5.50543,-5 to -10,6e-05,low
+full,police,สถานีตำรวจนครบาลพระโขนง,Bangkok,Vadhana,-4.86572,-5.20749,-5.54926,-5 to -10,9e-05,low
+full,school,โรงเรียนนวมินทราชินูทิศ สตรีวิทยา พุทธมณฑล,Bangkok,Thawi Watthana,-4.65397,-5.20007,-5.74617,-5 to -10,5e-05,low
+full,hospital,โรงพยาบาลลาดพร้าว,Bangkok,Wang Thonglang,-4.82004,-5.19892,-5.57779,-5 to -10,4e-05,low
+full,police,กองบัญชาการตำรวจสอบสวนกลาง,Bangkok,Chatuchak,-4.77505,-5.1962,-5.61734,-5 to -10,0.00018,low
+full,rail_station,คลองเตย,Bangkok,Khlong Toei,-4.94195,-5.19155,-5.44114,-5 to -10,0.00029,low
+full,hospital,ศูนย์บริการสาธารณะสุข 67 ทวีวัฒนา,Bangkok,Thawi Watthana,-4.61775,-5.18756,-5.75737,-5 to -10,0.0001,low
+full,school,โรงเรียนวัดบึงทองหลาง,Bangkok,Bang Kapi,-4.77495,-5.17899,-5.58304,-5 to -10,8e-05,low
+full,school,โรงเรียนเทพลีลา,Bangkok,Bang Kapi,-4.82297,-5.17526,-5.52756,-5 to -10,4e-05,low
+full,school,โรงเรียนแช่มเสริม,Bangkok,Bueng Kum,-4.68015,-5.17316,-5.66617,-5 to -10,5e-05,low
+full,school,โรงเรียนสาธิตแห่งมหาวิทยาลัยเกษตรศาสตร์,Bangkok,Chatuchak,-4.71321,-5.1693,-5.6254,-5 to -10,7e-05,low
+full,school,โรงเรียนนาหลวง,Bangkok,Thung Khru,-4.71151,-5.16849,-5.62548,-5 to -10,8e-05,low
+full,rail_station,หลักสี่,Bangkok,Lak Si,-4.61959,-5.16751,-5.71544,-5 to -10,2e-05,low
+full,school,โรงเรียนอำนวยพิทยา,Bangkok,Din Daeng,-4.89142,-5.16717,-5.44291,-5 to -10,5e-05,low
+full,school,โรงเรียนมัธยมวัดบึงทองหลาง,Bangkok,Bang Kapi,-4.76327,-5.16481,-5.56635,-5 to -10,0.00011,low
+full,school,,Bangkok,Wang Thonglang,-4.76881,-5.15933,-5.54986,-5 to -10,5e-05,low
+full,university,มหาวิทยาลัยศรีปทุม,Bangkok,Chatuchak,-4.68488,-5.15914,-5.6334,-5 to -10,0.00013,low
+full,school,วิทยาลัยเทคโนโลยีดอนบอสโก,Bangkok,Ratchathewi,-4.92339,-5.15385,-5.3843,-5 to -10,0.00013,low
+full,school,โรงเรียนเตรียมวิทย์พัฒนา,Bangkok,Khan Na Yao,-4.6398,-5.15309,-5.66638,-5 to -10,6e-05,low
+full,school,โรงเรียนเทศบาลวัดตึกมหาชยาราม (สมุทรคุณากร),Samut Sakhon,Mueang Samut Sakhon,-4.44328,-5.15069,-5.85811,-5 to -10,2e-05,low
+full,rail_station,ลาดพร้าว 101,Bangkok,Bang Kapi,-4.75839,-5.14556,-5.53273,-5 to -10,4e-05,low
+full,police,ด่านตรวจคนเข้าเมืองและศุลกากร สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-4.53099,-5.14387,-5.75675,-5 to -10,3e-05,low
+full,school,โรงเรียนธัชรินทร์วิทยา,Bangkok,Chatuchak,-4.72877,-5.14034,-5.5519,-5 to -10,5e-05,low
+full,school,Kensington International School,Bangkok,Taling Chan,-4.83427,-5.13777,-5.44127,-5 to -10,0.0001,low
+full,hospital,โรงพยาบาลวิมุต,Bangkok,Phaya Thai,-4.83322,-5.13681,-5.4404,-5 to -10,0.0002,low
+full,university,สถาบันการบินพลเรือน,Bangkok,Chatuchak,-4.82657,-5.13056,-5.43455,-5 to -10,7e-05,low
+full,school,โรงเรียนประชานิเวศน์,Bangkok,Chatuchak,-4.68534,-5.12659,-5.56784,-5 to -10,2e-05,low
+full,hospital,โรงพยาบาลสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-4.53034,-5.12331,-5.71629,-5 to -10,0.00014,low
+full,school,โรงเรียนนานาชาติเครซเซนต์,Bangkok,Sathon,-4.88363,-5.11742,-5.3512,-5 to -10,5e-05,low
+full,school,โรงเรียนไทยนิยมสงเคราะห์,Bangkok,Bang Khen,-4.55576,-5.09496,-5.63416,-5 to -10,3e-05,low
+full,police,สถานีตำรวจนครบาลโชคชัย,Bangkok,Wang Thonglang,-4.704,-5.09104,-5.47808,-5 to -10,2e-05,low
+full,hospital,โรงพยาบาลพญาไท พหลโยธิน,Bangkok,Phaya Thai,-4.79541,-5.08977,-5.38414,-5 to -10,6e-05,low
+full,hospital,โรงพยาบาลพญาไท 1,Bangkok,Ratchathewi,-4.925,-5.08561,-5.24621,-5 to -10,0.00021,low
+full,university,สถาบันบัณฑิตศึกษาจุฬาภรณ์,Bangkok,Lak Si,-4.54642,-5.08396,-5.62149,-5 to -10,9e-05,low
+full,school,โรงเรียนสตรีวรนารถ บางเขน,Bangkok,Chatuchak,-4.65804,-5.0768,-5.49555,-5 to -10,5e-05,low
+full,school,โรงเรียนมัธยมประชานิเวศน์,Bangkok,Chatuchak,-4.62925,-5.06668,-5.50411,-5 to -10,7e-05,low
+full,rail_station,โชคชัย 4,Bangkok,Wang Thonglang,-4.67691,-5.06407,-5.45124,-5 to -10,2e-05,low
+full,university,วิทยาลัยศิลปหัตถกรรมกรุงเทพ,Bangkok,Bang Kapi,-4.66728,-5.06205,-5.45681,-5 to -10,9e-05,low
+full,school,โรงเรียนสรรพาวุธวิทยา,Bangkok,Bang Na,-4.64059,-5.05977,-5.47894,-5 to -10,5e-05,low
+full,rail_station,ราชภัฏพระนคร,Bangkok,Bang Khen,-4.51719,-5.05796,-5.59873,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลโคกคราม,Bangkok,Bueng Kum,-4.56581,-5.05655,-5.54728,-5 to -10,5e-05,low
+full,school,โรงเรียนสายน้ำผึ้ง,Bangkok,Khlong Toei,-4.80771,-5.05321,-5.29872,-5 to -10,0.0001,low
+full,hospital,สถานพยาบาล,Bangkok,Chatuchak,-4.60854,-5.05275,-5.49695,-5 to -10,0.00023,low
+full,fire_station,Bangchan Fire and Rescue Station,Bangkok,Min Buri,-4.48433,-5.05251,-5.62069,-5 to -10,8e-05,low
+full,rail_station,สะพานควาย,Bangkok,Phaya Thai,-4.75598,-5.05174,-5.34751,-5 to -10,2e-05,low
+full,school,โรงเรียนนานาชาติเซนต์แอนดรูวส์,Bangkok,Vadhana,-4.73253,-5.04862,-5.36471,-5 to -10,9e-05,low
+full,police,สน.โคกคราม,Bangkok,Bueng Kum,-4.55602,-5.04675,-5.53748,-5 to -10,5e-05,low
+full,hospital,โรงพยาบาลจุฬาภรณ์,Bangkok,Lak Si,-4.5092,-5.04584,-5.58248,-5 to -10,0.00015,low
+full,police,สถานีตำรวจนครบาลประชาชื่น,Bangkok,Chatuchak,-4.60641,-5.04574,-5.48508,-5 to -10,7e-05,low
+full,police,สำนักงานตำรวจบางเขน,Bangkok,Bang Khen,-4.50922,-5.04264,-5.57605,-5 to -10,5e-05,low
+full,police,สถานีตำรวจนครบาลบางเขน,Bangkok,Bang Khen,-4.50567,-5.03834,-5.57101,-5 to -10,5e-05,low
+full,school,โรงเรียนสาธิตมหาวิทยาลัยรามคำแหง (ฝ่ายมัธยม),Bangkok,Bang Kapi,-4.68355,-5.03462,-5.38569,-5 to -10,5e-05,low
+full,rail_station,วัดพระศรีมหาธาตุ,Bangkok,Bang Khen,-4.50329,-5.03385,-5.56441,-5 to -10,3e-05,low
+full,school,โรงเรียนสาธิตมหาวิทยาลัยรามคำแหง (ฝ่ายประถม),Bangkok,Bang Kapi,-4.68537,-5.03353,-5.3817,-5 to -10,6e-05,low
+full,police,ส.น. บางเขน,Bangkok,Bang Khen,-4.4999,-5.03304,-5.56618,-5 to -10,5e-05,low
+full,school,โรงเรียนสายน้ำทิพย์,Bangkok,Khlong Toei,-4.78429,-5.02752,-5.27076,-5 to -10,8e-05,low
+full,school,โรงเรียนสตรีสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-4.43477,-5.02745,-5.62013,-5 to -10,8e-05,low
+full,police,ส.น ประชาชื่น,Bangkok,Chatuchak,-4.5865,-5.02537,-5.46424,-5 to -10,7e-05,low
+full,school,โรงเรียนวัดมหาบุศย์,Bangkok,Suan Luang,-4.68079,-5.02253,-5.36428,-5 to -10,4e-05,low
+full,university,วิทยาลัยเทคโนโลยีวิบูลย์บริหารธุรกิจ รามอินทรา,Bangkok,Bang Khen,-4.49373,-5.01716,-5.5406,-5 to -10,8e-05,low
+full,school,โรงเรียนบางกอกพัฒนา,Bangkok,Bang Na,-4.55201,-5.01581,-5.47961,-5 to -10,0.0001,low
+full,school,โรงเรียนศรีทัศน์ดำรงค์วิทย์,Samut Sakhon,Mueang Samut Sakhon,-4.30843,-5.01437,-5.72031,-5 to -10,5e-05,low
+full,school,โรงเรียนวัดใต้,Bangkok,Suan Luang,-4.66746,-5.00822,-5.34899,-5 to -10,8e-05,low
+full,hospital,ศูนย์บริการสาธารณสุข 56 ทับเจริญ,Bangkok,Bueng Kum,-4.51157,-5.00769,-5.50382,-5 to -10,5e-05,low
+full,school,วิทยาลัยเทคโนโลยีวราธิปบริหารธุรกิจ,Bangkok,Chatuchak,-4.56491,-5.00694,-5.44896,-5 to -10,4e-05,low
+full,school,โรงเรียนนวมินทราชูทิศ กรุงเทพมหานคร,Bangkok,Bueng Kum,-4.51291,-5.0052,-5.49748,-5 to -10,2e-05,low
+full,rail_station,ภาวนา,Bangkok,Huai Khwang,-4.61263,-5.00277,-5.39291,-5 to -10,3e-05,low
+full,school,โรงเรียนไผทอุดมศึกษา,Bangkok,Lak Si,-4.48013,-5.00273,-5.52533,-5 to -10,0.0001,low
+full,police,สถานี่ตำรวจนครบาล,Bangkok,Chatuchak,-4.59671,-4.99835,-5.39998,-2 to -5,6e-05,low
+full,rail_station,ลาดพร้าว,Bangkok,Chatuchak,-4.60669,-4.99421,-5.38174,-2 to -5,7e-05,low
+full,police,ป้อมตำรวจสี่แยกรัชดา-ลาดพร้าว,Bangkok,Chatuchak,-4.60699,-4.99137,-5.37574,-2 to -5,4e-05,low
+full,hospital,สถาบันราชานุกูล,Bangkok,Din Daeng,-4.7508,-4.98718,-5.22357,-2 to -5,0.00012,low
+full,school,Chamchan School,Bangkok,Vadhana,-4.70889,-4.98113,-5.25336,-2 to -5,0.0001,low
+full,school,โรงเรียนวัดคลองใหม่,Bangkok,Yan Nawa,-4.60919,-4.98017,-5.35114,-2 to -5,0.00014,low
+full,school,โรงเรียนช่างอากาศอำรุง,Bangkok,Dusit,-4.68136,-4.97284,-5.26433,-2 to -5,0.00012,low
+full,university,วิทยาลัยการอาชีพนวมินทราชูทิศ,Bangkok,Bueng Kum,-4.47188,-4.97024,-5.46859,-2 to -5,0.00018,low
+full,school,โรงเรียนพระมหาไถ่ศึกษา,Bangkok,Pathum Wan,-4.77762,-4.97006,-5.16251,-2 to -5,9e-05,low
+full,school,โรงเรียนศูนย์รวมน้ำใจ,Bangkok,Khlong Toei,-4.65658,-4.96926,-5.28194,-2 to -5,7e-05,low
+full,rail_station,พร้อมพงษ์,Bangkok,Khlong Toei,-4.7217,-4.96833,-5.21495,-2 to -5,9e-05,low
+full,school,โรงเรียนสิริรัตนาธร,Bangkok,Bang Na,-4.53262,-4.96243,-5.39223,-2 to -5,6e-05,low
+full,school,โรงเรียนเทศบาล 1 เทศบาลเมืองอ้อมน้อย,Samut Sakhon,Krathum Baen,-4.44902,-4.96045,-5.47188,-2 to -5,8e-05,low
+full,fire_station,สถานีดับเพลิงย่อยจอมทอง,Bangkok,Chom Thong,-4.58119,-4.95936,-5.33752,-2 to -5,5e-05,low
+full,rail_station,วัดพระศรีมหาธาตุ,Bangkok,Bang Khen,-4.42712,-4.95931,-5.4915,-2 to -5,0.00011,low
+full,school,โรงเรียนพระมารดานิจจานุเคราะห์,Bangkok,Bang Kapi,-4.5353,-4.94218,-5.34906,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดคลองครุ,Samut Sakhon,Mueang Samut Sakhon,-4.24541,-4.93603,-5.62665,-2 to -5,5e-05,low
+full,rail_station,ลาดพร้าว,Bangkok,Chatuchak,-4.54784,-4.93594,-5.32405,-2 to -5,7e-05,low
+full,school,Samsen Nok School,Bangkok,Din Daeng,-4.64827,-4.93569,-5.22312,-2 to -5,3e-05,low
+full,school,สมาคมส่งเสริมเทคโนโลยี (ไทย-ญี่ปุ่น),Bangkok,Vadhana,-4.70215,-4.9337,-5.16525,-2 to -5,0.00013,low
+full,school,โรงเรียนบ้านคลองบัว (เอี่ยมแสงโรจน์),Bangkok,Bang Khen,-4.3889,-4.93181,-5.47472,-2 to -5,5e-05,low
+full,rail_station,หลักสี่,Bangkok,Lak Si,-4.38618,-4.93042,-5.47466,-2 to -5,0.00012,low
+full,school,โรงเรียนวัดบางฝ้าย,Samut Prakan,Phra Pradaeng,-4.41861,-4.92724,-5.43586,-2 to -5,0.00016,low
+full,police,สถานีตำรวจน้ำ 4 กองกำกับการ 4,Samut Sakhon,Mueang Samut Sakhon,-4.21298,-4.9202,-5.62742,-2 to -5,,
+full,school,โรงเรียนเทศบาล 2 (วัดใน),Samut Prakan,Mueang Samut Prakan,-4.31952,-4.9181,-5.51668,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดม่วง,Bangkok,Bang Khae,-4.48593,-4.9173,-5.34868,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดประชาศรัทธาธรรม,Bangkok,Bang Sue,-4.54861,-4.91709,-5.28558,-2 to -5,5e-05,low
+full,school,โรงเรียนจำนงค์พิทยา,Bangkok,Din Daeng,-4.65444,-4.91677,-5.17911,-2 to -5,5e-05,low
+full,school,โรงเรียนพระหฤทัยคอนแวนต์,Bangkok,Khlong Toei,-4.65141,-4.9158,-5.1802,-2 to -5,0.00025,low
+full,rail_station,รามอินทรา กม.4,Bangkok,Bang Khen,-4.4002,-4.91565,-5.43111,-2 to -5,7e-05,low
+full,school,โรงเรียนปัญญาวรคุณ,Bangkok,Bang Khae,-4.48056,-4.91409,-5.34761,-2 to -5,0.0001,low
+full,hospital,รพ เกษมราษฎร์ บางแค,Bangkok,Bang Khae,-4.51732,-4.91186,-5.3064,-2 to -5,8e-05,low
+full,university,มหาวิทยาลัยรามคำแหง (หัวหมาก),Bangkok,Bang Kapi,-4.5583,-4.91175,-5.2652,-2 to -5,0.00016,low
+full,hospital,สำนักแพทย์และอนามัย การท่าเรือฯ,Bangkok,Khlong Toei,-4.58674,-4.89418,-5.20163,-2 to -5,0.00017,low
+full,police,Bang Kwang Central Prison,Bangkok,Bang Sue,-4.52638,-4.89197,-5.25756,-2 to -5,0.0001,low
+full,rail_station,หลักสอง,Bangkok,Bang Khae,-4.50506,-4.88959,-5.27412,-2 to -5,0.0001,low
+full,rail_station,พหลโยธิน 24,Bangkok,Chatuchak,-4.4723,-4.8889,-5.3055,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดป้อมวิเชียรโชติการาม,Samut Sakhon,Mueang Samut Sakhon,-4.18387,-4.8861,-5.58833,-2 to -5,7e-05,low
+full,school,โรงเรียนเพี้ยนพินอนุสรณ์,Bangkok,Bang Na,-4.45835,-4.88285,-5.30734,-2 to -5,5e-05,low
+full,police,สถานีตำรวจทางด่วน กก.2 บก.จร.,Bangkok,Bang Sue,-4.50906,-4.87678,-5.24451,-2 to -5,7e-05,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยลาดพร้าว,Bangkok,Chatuchak,-4.48681,-4.87505,-5.26329,-2 to -5,4e-05,low
+full,fire_station,ซอย ลาดพร้าว 31,Bangkok,Chatuchak,-4.48538,-4.87383,-5.26229,-2 to -5,7e-05,low
+full,school,โรงเรียนเกษมพิทยา,Bangkok,Vadhana,-4.57579,-4.87352,-5.17124,-2 to -5,5e-05,low
+full,school,โรงเรียนสามเสนนอก,Bangkok,Din Daeng,-4.57806,-4.87109,-5.16411,-2 to -5,3e-05,low
+full,police,สถานีตำรวจนครบาลห้วยขวาง,Bangkok,Din Daeng,-4.5777,-4.8694,-5.16109,-2 to -5,3e-05,low
+full,school,โรงเรียนโสมาภา 2,Bangkok,Bueng Kum,-4.44552,-4.86796,-5.2904,-2 to -5,4e-05,low
+full,fire_station,สถานีดับเพลิงสุทธิสาร,Bangkok,Din Daeng,-4.54418,-4.86471,-5.18524,-2 to -5,3e-05,low
+full,school,โรงเรียนปาณยาพัฒนาการ,Bangkok,Suan Luang,-4.50639,-4.86372,-5.22106,-2 to -5,0.00024,low
+full,school,โรงเรียนแม่พระฟาติมา,Bangkok,Din Daeng,-4.62405,-4.86027,-5.09649,-2 to -5,6e-05,low
+full,school,โรงเรียนสารวิทยา,Bangkok,Chatuchak,-4.3952,-4.85883,-5.32245,-2 to -5,8e-05,low
+full,police,สถานีตำรวจภูธรเมืองสมุทรสาคร (Samut Sakhon Police Station),Samut Sakhon,Mueang Samut Sakhon,-4.16108,-4.85861,-5.55614,-2 to -5,,
+full,rail_station,พญาไท,Bangkok,Ratchathewi,-4.6844,-4.85825,-5.0321,-2 to -5,,
+full,school,โรงเรียนนานาชาติแอ๊ดเวนตีสกรุงเทพ,Bangkok,Vadhana,-4.5617,-4.85625,-5.1508,-2 to -5,6e-05,low
+full,rail_station,ห้วยขวาง,Bangkok,Din Daeng,-4.54963,-4.85504,-5.16046,-2 to -5,4e-05,low
+full,school,,Bangkok,Thawi Watthana,-4.29298,-4.85283,-5.41268,-2 to -5,0.00016,low
+full,hospital,โรงพยาบาลวิภาวดี,Bangkok,Chatuchak,-4.42089,-4.85187,-5.28286,-2 to -5,0.00016,low
+full,police,กองบัญชาการนครบาล4,Bangkok,Bueng Kum,-4.42277,-4.84844,-5.27412,-2 to -5,5e-05,low
+full,police,สำนักงานคุมประพฤติกรุงเทพมหานคร,Bangkok,Bang Na,-4.39004,-4.84,-5.28995,-2 to -5,0.00011,low
+full,police,กองสืบจังหวัดสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-4.14116,-4.83846,-5.53576,-2 to -5,3e-05,low
+full,fire_station,สถานีตำรวจดับเพลิงห้วยขวาง,Bangkok,Din Daeng,-4.5416,-4.83521,-5.12881,-2 to -5,3e-05,low
+full,police,ฝ่ายอำนวยการ ตำรวจภูธร สมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-4.13704,-4.83391,-5.53077,-2 to -5,3e-05,low
+full,school,โรงเรียนวชิรธรรมสาธิต,Bangkok,Phra Khanong,-4.42016,-4.83303,-5.2459,-2 to -5,4e-05,low
+full,school,โรงเรียนฉิมพลี,Bangkok,Taling Chan,-4.38363,-4.81994,-5.25626,-2 to -5,3e-05,low
+full,rail_station,พญาไท,Bangkok,Ratchathewi,-4.64664,-4.81841,-4.99018,-2 to -5,0.00014,low
+full,school,Bangkok Prep,Bangkok,Vadhana,-4.47908,-4.81751,-5.15595,-2 to -5,9e-05,low
+full,police,สถานีสูบน้ำคลองเคล็ด,Bangkok,Suan Luang,-4.43533,-4.81732,-5.19931,-2 to -5,0.00013,low
+full,rail_station,รัชดาภิเษก,Bangkok,Din Daeng,-4.4558,-4.81689,-5.17797,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลกรุงเทพ,Bangkok,Huai Khwang,-4.51879,-4.8123,-5.1058,-2 to -5,0.00017,low
+full,school,Bangkok Prep Tennis Academy,Bangkok,Vadhana,-4.47345,-4.8113,-5.14916,-2 to -5,9e-05,low
+full,school,โรงเรียนโยธินบูรณะ,Bangkok,Bang Sue,-4.44177,-4.80812,-5.17447,-2 to -5,7e-05,low
+full,police,สถานีตำรวจคลองเตย,Bangkok,Khlong Toei,-4.51982,-4.80716,-5.09449,-2 to -5,5e-05,low
+full,fire_station,สถานีดับเพลิง สุทธิสาร,Bangkok,Din Daeng,-4.50117,-4.80484,-5.1085,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดสุขกร,Samut Prakan,Mueang Samut Prakan,-4.30058,-4.80373,-5.30689,-2 to -5,0.0001,low
+full,school,โรงเรียนเทศบาลวัดดอนไก่ดี,Samut Sakhon,Krathum Baen,-4.17004,-4.8023,-5.43456,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดนางสาว,Samut Sakhon,Krathum Baen,-4.2095,-4.80136,-5.39322,-2 to -5,9e-05,low
+full,rail_station,โรงเรียนนายเรือ,Samut Prakan,Mueang Samut Prakan,-4.2386,-4.80095,-5.3633,-2 to -5,3e-05,low
+full,hospital,สถาบันกัลยาณ์ราชนครินทร์,Bangkok,Thawi Watthana,-4.23124,-4.79586,-5.36047,-2 to -5,0.00015,low
+full,hospital,โรงพยาบาลเมดพาร์ค,Bangkok,Khlong Toei,-4.53337,-4.79519,-5.05701,-2 to -5,0.00023,low
+full,school,โรงเรียนรุจิเสรีวิทยา,Bangkok,Phaya Thai,-4.49573,-4.79495,-5.09418,-2 to -5,3e-05,low
+full,university,วิทยาลัยเทคโนโลยีโพลีกรุงเทพ,Bangkok,Thawi Watthana,-4.33686,-4.78646,-5.23607,-2 to -5,8e-05,low
+full,rail_station,พญาไท,Bangkok,Ratchathewi,-4.6149,-4.78448,-4.95405,-2 to -5,0.00014,low
+full,rail_station,สุขุมวิท,Bangkok,Vadhana,-4.55817,-4.78135,-5.00454,-2 to -5,,
+full,school,โรงเรียนเซนต์ดอมินิก,Bangkok,Ratchathewi,-4.55276,-4.78132,-5.00988,-2 to -5,0.00014,low
+full,school,โรงเรียนวัดสร้อยทอง,Bangkok,Bang Sue,-4.4138,-4.78102,-5.14825,-2 to -5,3e-05,low
+full,school,โรงเรียนนานาชาตินิสท์,Bangkok,Vadhana,-4.54972,-4.78089,-5.01206,-2 to -5,8e-05,low
+full,university,มหาวิทยาลัยหอการค้าไทย,Bangkok,Din Daeng,-4.48795,-4.77777,-5.06759,-2 to -5,8e-05,low
+full,school,โรงเรียนกองทัพบกอุปถัมภ์ เพชราวุธวิทยา,Bangkok,Bang Khen,-4.31695,-4.77602,-5.23508,-2 to -5,0.0001,low
+full,rail_station,วงศ์สว่าง,Bangkok,Bang Sue,-4.37673,-4.77566,-5.17459,-2 to -5,5e-05,low
+full,university,มหาวิทยาลัยกรุงเทพธนบุรี,Bangkok,Thawi Watthana,-4.21188,-4.77521,-5.33854,-2 to -5,0.00024,low
+full,rail_station,กรมป่าไม้,Bangkok,Chatuchak,-4.31246,-4.77409,-5.23571,-2 to -5,3e-05,low
+full,school,โรงเรียนนานาชาติ อาร์ซี,Bangkok,Pathum Wan,-4.58326,-4.77299,-4.96271,-2 to -5,0.00011,low
+full,school,โรงเรียนคลองเตยวิทยา,Bangkok,Khlong Toei,-4.50529,-4.77183,-5.03837,-2 to -5,0.00023,low
+full,school,Bangkok Prep Campus,Bangkok,Vadhana,-4.43155,-4.77061,-5.10968,-2 to -5,7e-05,low
+full,school,Bangkok Prep,Bangkok,Vadhana,-4.43155,-4.77061,-5.10968,-2 to -5,7e-05,low
+full,fire_station,สำนักงานป้องกันและบรรเทาสาธารณภัย,Samut Sakhon,Mueang Samut Sakhon,-4.06758,-4.76456,-5.46154,-2 to -5,6e-05,low
+full,police,สถานีตำรวจภูธรกระทุ่มแบน,Samut Sakhon,Krathum Baen,-4.16031,-4.76297,-5.36563,-2 to -5,6e-05,low
+full,school,โรงเรียนไตรรัตนาภิรักษ์,Bangkok,Bang Khen,-4.26776,-4.75621,-5.24466,-2 to -5,0.00014,low
+full,university,วิทยาลัยเทคนิคสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-4.04863,-4.74759,-5.44655,-2 to -5,0.00011,low
+full,school,โรงเรียนนานาชาติการ์เด้น,Bangkok,Sathon,-4.50558,-4.74709,-4.98859,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดไตรรัตนาราม (ชื่นชูใจ ราษฎร์ อุทิศ),Bangkok,Bang Khen,-4.25082,-4.74019,-5.22956,-2 to -5,4e-05,low
+full,university,มหาวิทยาลัยศรีนครินทรวิโรฒ ประสานมิตร,Bangkok,Vadhana,-4.48019,-4.73522,-4.99025,-2 to -5,0.00022,low
+full,rail_station,เอกมัย,Bangkok,Khlong Toei,-4.43373,-4.73493,-5.03614,-2 to -5,0.00015,low
+full,university,คณะเทคนิคการสัตวแพทย์,Bangkok,Chatuchak,-4.27651,-4.73059,-5.18467,-2 to -5,0.00011,low
+full,school,โรงเรียนอรรถมิตร,Bangkok,Chatuchak,-4.29093,-4.718,-5.14506,-2 to -5,9e-05,low
+full,police,สำนักงานบังคับคดีกรุงเทพมหานคร เขตพื้นที่ 1,Bangkok,Chatuchak,-4.2987,-4.71672,-5.13473,-2 to -5,0.00011,low
+full,school,โรงเรียนนานาชาติเอกมัย,Bangkok,Vadhana,-4.4247,-4.71362,-5.00255,-2 to -5,6e-05,low
+full,university,มหาวิทยาลัยเกษมบัณฑิต,Bangkok,Suan Luang,-4.35426,-4.71025,-5.06623,-2 to -5,8e-05,low
+full,police,สถานีตำรวจนครบาลพหลโยธิน (Phaholyothin Police Station),Bangkok,Chatuchak,-4.28899,-4.70842,-5.12784,-2 to -5,2e-05,low
+full,police,ตู้ยามแฟลต 45,Bangkok,Din Daeng,-4.45057,-4.70422,-4.95786,-2 to -5,5e-05,low
+full,university,มหาวิทยาลัยเกษตรศาสตร์,Bangkok,Chatuchak,-4.2518,-4.70213,-5.15245,-2 to -5,0.00032,low
+full,rail_station,บางซ่อน,Bangkok,Bang Sue,-4.32197,-4.69881,-5.07564,-2 to -5,0.00011,low
+full,police,Phahonyothin Police Station,Bangkok,Chatuchak,-4.27848,-4.69814,-5.1178,-2 to -5,0.0001,low
+full,school,,Bangkok,Din Daeng,-4.34533,-4.698,-5.05067,-2 to -5,2e-05,low
+full,rail_station,สีลม,Bangkok,Bang Rak,-4.50677,-4.69646,-4.88614,-2 to -5,0.00017,low
+full,hospital,,Bangkok,Khlong Toei,-4.45121,-4.69406,-4.93691,-2 to -5,0.00013,low
+full,hospital,โรงพยาบาลเจตนิน,Bangkok,Pathum Wan,-4.5076,-4.69261,-4.87762,-2 to -5,0.00025,low
+full,school,โรงเรียนธำรงวิทย์,Bangkok,Phaya Thai,-4.4442,-4.69208,-4.93996,-2 to -5,7e-05,low
+full,school,โรงเรียนนานาชาติบีเอสบีบริติชไพรแมรี่,Bangkok,Khlong Toei,-4.49511,-4.69008,-4.88506,-2 to -5,9e-05,low
+full,school,โรงเรียนกุนนทีรุทธารามวิทยาคม,Bangkok,Din Daeng,-4.3693,-4.68789,-5.00647,-2 to -5,4e-05,low
+full,rail_station,รัชโยธิน,Bangkok,Chatuchak,-4.26492,-4.68668,-5.10845,-2 to -5,3e-05,low
+full,school,โรงเรียนอนุบาลสมุทรสาคร,Samut Sakhon,Mueang Samut Sakhon,-3.9858,-4.68437,-5.38293,-2 to -5,6e-05,low
+full,rail_station,อโศก,Bangkok,Khlong Toei,-4.46127,-4.68091,-4.90055,-2 to -5,0.00017,low
+full,fire_station,บริษัท เอสเอฟซี เอกเซลเล้นซ์ จำกัด,Samut Prakan,Phra Samut Chedi,-4.13406,-4.67947,-5.22489,-2 to -5,7e-05,low
+full,school,โรงเรียนคริสต์ศาสนศาสตร์แบ๊บติสต์,Bangkok,Sathon,-4.45443,-4.67801,-4.9016,-2 to -5,0.00015,low
+full,rail_station,แบริ่ง,Bangkok,Bang Na,-4.22089,-4.67541,-5.12994,-2 to -5,0.00011,low
+full,rail_station,สนามเป้า,Bangkok,Phaya Thai,-4.43365,-4.67121,-4.90876,-2 to -5,0.00015,low
+full,school,โรงเรียนศรีอยุธยา,Bangkok,Ratchathewi,-4.4918,-4.66965,-4.8475,-2 to -5,0.0001,low
+full,school,โรงเรียนสมุทรสาครบูรณะ,Samut Sakhon,Mueang Samut Sakhon,-3.96852,-4.66806,-5.3676,-2 to -5,8e-05,low
+full,hospital,โรงพยาบาล ทหารผ่านศึก,Bangkok,Phaya Thai,-4.39867,-4.66285,-4.92704,-2 to -5,0.00018,low
+full,university,วิทยาลัยอาชีวศึกษาเทคนิควิทยา,Bangkok,Din Daeng,-4.39663,-4.66159,-4.92654,-2 to -5,7e-05,low
+full,school,โรงเรียนลาดปลาเค้าพิทยาคม,Bangkok,Lat Phrao,-4.19349,-4.65827,-5.12305,-2 to -5,5e-05,low
+full,police,บริษัท วี.เอส.ฟาร์ม่า - 1971,Bangkok,Suan Luang,-4.25964,-4.65749,-5.05533,-2 to -5,7e-05,low
+full,school,โรงเรียนสันติราษฎร์วิทยาลัย,Bangkok,Ratchathewi,-4.48558,-4.65418,-4.82278,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลบางซื่อ,Bangkok,Phaya Thai,-4.36406,-4.65327,-4.94249,-2 to -5,5e-05,low
+full,rail_station,รามอินทรา กม.6,Bangkok,Khan Na Yao,-4.13398,-4.65089,-5.16779,-2 to -5,0.0001,low
+full,school,โรงเรียนวัดมัชฌันติการาม,Bangkok,Bang Sue,-4.27656,-4.64986,-5.02317,-2 to -5,6e-05,low
+full,university,ศูนย์มานุษยวิทยาสิรินธร,Bangkok,Taling Chan,-4.3277,-4.64921,-4.97073,-2 to -5,6e-05,low
+full,university,อาคารส่วนวิทยบริการ,Bangkok,Ratchathewi,-4.45445,-4.64657,-4.83869,-2 to -5,0.00015,low
+full,rail_station,ชิดลม,Bangkok,Pathum Wan,-4.46818,-4.6452,-4.82223,-2 to -5,0.00016,low
+full,police,สน.บางซื่อ (ตำรวจแม่งเท่ห์),Bangkok,Phaya Thai,-4.35529,-4.64407,-4.93284,-2 to -5,5e-05,low
+full,rail_station,ศูนย์การประชุมแห่งชาติสิริกิติ์,Bangkok,Khlong Toei,-4.3695,-4.64256,-4.91561,-2 to -5,8e-05,low
+full,police,สน.บางโพ,Bangkok,Bang Sue,-4.29628,-4.64208,-4.98788,-2 to -5,5e-05,low
+full,school,โรงเรียนวัดนวลจันทร์,Bangkok,Bueng Kum,-4.13904,-4.64049,-5.14193,-2 to -5,5e-05,low
+full,police,สถานีตำรวจนครบาลดินแดง,Bangkok,Din Daeng,-4.3704,-4.64004,-4.90968,-2 to -5,0.0001,low
+full,school,โรงเรียนสุขฤทัย,Bangkok,Bang Khen,-4.11073,-4.63913,-5.16752,-2 to -5,7e-05,low
+full,school,โรงเรียนนานาชาติเซนต์แอนดรูส์ สุขุมวิท,Bangkok,Bang Na,-4.17753,-4.63826,-5.09899,-2 to -5,0.00013,low
+full,university,มหาวิทยาลัยราชภัฏพระนคร,Bangkok,Bang Khen,-4.10665,-4.63643,-5.16621,-2 to -5,0.00014,low
+full,police,Bang Pho Police Station,Bangkok,Bang Sue,-4.29159,-4.63619,-4.98079,-2 to -5,6e-05,low
+full,rail_station,ทองหล่อ,Bangkok,Khlong Toei,-4.35528,-4.63505,-4.91482,-2 to -5,6e-05,low
+full,school,โรงเรียนนานาชาติเซนต์แอนดรูส์ สาทร,Bangkok,Bang Rak,-4.431,-4.63281,-4.83461,-2 to -5,7e-05,low
+full,school,โรงเรียนสุรศักดิ์มนตรี,Bangkok,Din Daeng,-4.35979,-4.63014,-4.90049,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดคลองภูมิ,Bangkok,Yan Nawa,-4.27979,-4.62833,-4.97687,-2 to -5,0.0001,low
+full,rail_station,บางซ่อน,Bangkok,Bang Sue,-4.24124,-4.62298,-5.00471,-2 to -5,2e-05,low
+full,school,โรงเรียนมาแตร์เดอีวิทยาลัย,Bangkok,Pathum Wan,-4.44383,-4.62147,-4.79911,-2 to -5,,
+full,rail_station,เพลินจิต,Bangkok,Pathum Wan,-4.4336,-4.6211,-4.80861,-2 to -5,7e-05,low
+full,university,มหาวิทยาลัยรัตนบัณฑิต,Bangkok,Bang Kapi,-4.22619,-4.62021,-5.01424,-2 to -5,0.00012,low
+full,rail_station,ช้างเอราวัณ,Samut Prakan,Mueang Samut Prakan,-4.09833,-4.61848,-5.13863,-2 to -5,5e-05,low
+full,school,โรงเรียนวัดกำแพง,Bangkok,Phasi Charoen,-4.34308,-4.61717,-4.89126,-2 to -5,3e-05,low
+full,school,,Bangkok,Chom Thong,-4.20178,-4.61021,-5.01863,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลเตาปูน,Bangkok,Bang Sue,-4.23931,-4.60541,-4.97151,-2 to -5,3e-05,low
+full,school,โรงเรียนพิบูลประชาสรรค์,Bangkok,Din Daeng,-4.36995,-4.60085,-4.83174,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลมเหสักข์,Bangkok,Bang Rak,-4.42363,-4.59931,-4.77498,-2 to -5,0.0001,low
+full,university,มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ,Bangkok,Bang Sue,-4.2287,-4.59763,-4.96656,-2 to -5,0.00013,low
+full,police,การไฟฟ้านครหลวง สำนักงานเพลินจิต,Bangkok,Pathum Wan,-4.42029,-4.59753,-4.77477,-2 to -5,0.00013,low
+full,school,โรงเรียนฝึกอาชีพกรุงเทพมหานคร,Bangkok,Din Daeng,-4.32136,-4.5884,-4.85544,-2 to -5,9e-05,low
+full,police,สน.คลองตัน,Bangkok,Vadhana,-4.25528,-4.58832,-4.92136,-2 to -5,8e-05,low
+full,rail_station,พระโขนง,Bangkok,Khlong Toei,-4.26608,-4.58802,-4.90997,-2 to -5,7e-05,low
+full,school,โรงเรียนอนุบาลสามเสน,Bangkok,Phaya Thai,-4.32122,-4.58718,-4.85313,-2 to -5,5e-05,low
+full,school,,Bangkok,Taling Chan,-4.34051,-4.58365,-4.82678,-2 to -5,4e-05,low
+full,hospital,โรงพยาบาลพญาไท นวมินทร์,Bangkok,Bueng Kum,-4.08178,-4.58359,-5.08541,-2 to -5,8e-05,low
+full,school,โรงเรียนอัสสัมชัญธนบุรี,Bangkok,Bang Khae,-4.12764,-4.57405,-5.02046,-2 to -5,4e-05,low
+full,school,โรงเรียนสามัคคีบํารุงวิทยา,Bangkok,Din Daeng,-4.30133,-4.56536,-4.8294,-2 to -5,6e-05,low
+full,school,โรงเรียนนานาชาติเซนต์แอนดรูว์ส,Bangkok,Khlong Toei,-4.25444,-4.56257,-4.8707,-2 to -5,7e-05,low
+full,university,วิทยาลัยอาชีวศึกษาพณิชยการจำนงค์,Bangkok,Din Daeng,-4.28442,-4.55716,-4.82991,-2 to -5,6e-05,low
+full,hospital,โรงพยาบาลสุขุมวิท,Bangkok,Vadhana,-4.25089,-4.55581,-4.86073,-2 to -5,0.00011,low
+full,school,โรงเรียนสวนบัว,Bangkok,Phaya Thai,-4.31172,-4.55236,-4.793,-2 to -5,0.00012,low
+full,rail_station,มักกะสัน,Bangkok,Ratchathewi,-4.36781,-4.54785,-4.72789,-2 to -5,7e-05,low
+full,school,โรงเรียนสายอักษร,Bangkok,Bueng Kum,-4.02709,-4.54639,-5.06569,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดลาดปลาเค้า,Bangkok,Lat Phrao,-4.0802,-4.54525,-5.0103,-2 to -5,3e-05,low
+full,school,โรงเรียนฝึกอาชีพกรุงเทพมหานคร (ม้วนบำรุงศิลป์),Bangkok,Lat Phrao,-4.13234,-4.54293,-4.95351,-2 to -5,7e-05,low
+full,university,สมาคมนิสิตเก่ามหาวิทยาลัยเกษตรศาสตร์ ในพระบรมราชูปถัมภ์,Bangkok,Chatuchak,-4.08625,-4.54142,-4.99659,-2 to -5,0.00013,low
+full,school,โรงเรียนวัดเลียบราษฏร์บำรุง,Bangkok,Bang Sue,-4.14912,-4.53919,-4.92927,-2 to -5,8e-05,low
+full,rail_station,นานา,Bangkok,Khlong Toei,-4.33443,-4.53875,-4.74306,-2 to -5,0.00018,low
+full,hospital,ศูนย์บริการสาธารณสุข 4 ดินแดง,Bangkok,Din Daeng,-4.26122,-4.53873,-4.81625,-2 to -5,7e-05,low
+full,school,Rasami British International School Bangkok,Bangkok,Phaya Thai,-4.30938,-4.53496,-4.76053,-2 to -5,7e-05,low
+full,police,กองทหารพาลาธิการ,Bangkok,Dusit,-4.2324,-4.53438,-4.83636,-2 to -5,8e-05,low
+full,rail_station,มหาชัย,Samut Sakhon,Mueang Samut Sakhon,-3.82972,-4.53216,-5.23461,-2 to -5,3e-05,low
+full,school,โรงเรียนวิชูทิศ,Bangkok,Din Daeng,-4.26707,-4.53191,-4.79676,-2 to -5,4e-05,low
+full,fire_station,สถานีดับเพลิงทุ่งมหาเมฆ,Bangkok,Yan Nawa,-4.27953,-4.52559,-4.77164,-2 to -5,6e-05,low
+full,school,Maple Bear International School,Bangkok,Phaya Thai,-4.25551,-4.52552,-4.79552,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดไตรสามัคคี,Samut Prakan,Mueang Samut Prakan,-4.01084,-4.52513,-5.03941,-2 to -5,3e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี,Bangkok,Thung Khru,-4.07474,-4.52479,-4.97483,-2 to -5,0.00016,low
+full,rail_station,อารีย์,Bangkok,Phaya Thai,-4.26912,-4.52309,-4.77706,-2 to -5,0.00012,low
+full,university,มหาวิทยาลัยราชภัฏจันทรเกษม,Bangkok,Chatuchak,-4.08503,-4.52039,-4.95575,-2 to -5,0.00014,low
+full,school,โรงเรียนวัฒนาวิทยาลัย,Bangkok,Vadhana,-4.28972,-4.51988,-4.75005,-2 to -5,0.00017,low
+full,school,Kovit Thamrong School,Bangkok,Ratchathewi,-4.3366,-4.51781,-4.69902,-2 to -5,6e-05,low
+full,rail_station,มัยลาภ,Bangkok,Bang Khen,-3.98009,-4.50494,-5.02978,-2 to -5,3e-05,low
+full,rail_station,ตลาดพลู,Bangkok,Thon Buri,-4.17978,-4.49996,-4.82014,-2 to -5,0.0001,low
+full,police,Thong Lor Police Station,Bangkok,Vadhana,-4.22017,-4.4887,-4.75723,-2 to -5,9e-05,low
+full,police,สน ทองหล่อ,Bangkok,Vadhana,-4.22017,-4.4887,-4.75723,-2 to -5,9e-05,low
+full,hospital,โรงพยาบาลจุฬาลงกรณ์,Bangkok,Pathum Wan,-4.31451,-4.48845,-4.6624,-2 to -5,0.00025,low
+full,school,โรงเรียนวัดไก่เตี้ย,Bangkok,Taling Chan,-4.16856,-4.48807,-4.80758,-2 to -5,,
+full,school,โรงเรียนวัดอุดมรังสี,Bangkok,Nong Khaem,-4.02262,-4.48438,-4.94614,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลทองหล่อ,Bangkok,Vadhana,-4.21564,-4.48429,-4.75294,-2 to -5,9e-05,low
+full,hospital,โรงพยาบาลโรคปอดกรุงเทพ,Bangkok,Phaya Thai,-4.20355,-4.48287,-4.76219,-2 to -5,0.00014,low
+full,school,La Petite École Bangkok,Bangkok,Yan Nawa,-4.23422,-4.47873,-4.72324,-2 to -5,5e-05,low
+full,rail_station,บางโพ,Bangkok,Bang Sue,-4.14588,-4.47788,-4.80989,-2 to -5,7e-05,low
+full,fire_station,ศูนย์ป้องกันภัยและบรรเทาสาธารณภัย,Samut Prakan,Mueang Samut Prakan,-3.87882,-4.47456,-5.07031,-2 to -5,4e-05,low
+full,hospital,โรงพยาบาลสมิติเวชธนบุรี,Bangkok,Thon Buri,-4.18028,-4.46229,-4.74429,-2 to -5,0.00026,low
+full,rail_station,ราชเทวี,Bangkok,Ratchathewi,-4.31765,-4.46066,-4.60368,-2 to -5,0.00025,low
+full,school,โรงเรียน วัดวชิรธรรมสาธิต,Bangkok,Phra Khanong,-4.03861,-4.45807,-4.87753,-2 to -5,6e-05,low
+full,police,กองที่ดินของรัฐ,Bangkok,Phaya Thai,-4.20034,-4.45783,-4.71531,-2 to -5,0.00016,low
+full,police,สถานีตำรวจนครบาลบางพลัด,Bangkok,Bang Phlat,-4.16559,-4.45718,-4.74876,-2 to -5,3e-05,low
+full,school,โรงเรียนเทพศิรินทร์ สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-3.92214,-4.45556,-4.98898,-2 to -5,6e-05,low
+full,university,มหาวิทยาลัยเอเชียอาคเนย์,Bangkok,Nong Khaem,-4.00095,-4.4554,-4.90985,-2 to -5,0.00014,low
+full,school,โรงเรียนวิชากร กรุงเทพมหานคร,Bangkok,Din Daeng,-4.18745,-4.44934,-4.71123,-2 to -5,9e-05,low
+full,school,Sisb Nursery Center,Bangkok,Vadhana,-4.1568,-4.43975,-4.7227,-2 to -5,8e-05,low
+full,police,สถานีตำรวจนครบาลบางเสาธง,Bangkok,Phasi Charoen,-4.19693,-4.43646,-4.67599,-2 to -5,7e-05,low
+full,school,Wells International School,Bangkok,Vadhana,-4.1652,-4.4353,-4.70539,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดมะลิ,Bangkok,Bangkok Noi,-4.15962,-4.43508,-4.71054,-2 to -5,3e-05,low
+full,police,สถานีตำรวจนครบาลพญาไท (Phayathai Police Station),Bangkok,Ratchathewi,-4.26525,-4.43125,-4.59724,-2 to -5,0.00012,low
+full,rail_station,ราชปรารภ,Bangkok,Ratchathewi,-4.25871,-4.43108,-4.60345,-2 to -5,0.00019,low
+full,school,โรงเรียนโรงเรียนราชวินิตบางแคปานขำ,Bangkok,Bang Khae,-4.00593,-4.43042,-4.8549,-2 to -5,3e-05,low
+full,police,สน.ปตท.ลาดพร้าววังหิน,Bangkok,Lat Phrao,-4.00252,-4.42918,-4.85583,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลเพชรเกษม,Bangkok,Bang Khae,-4.00227,-4.42901,-4.85574,-2 to -5,3e-05,low
+full,rail_station,สุทธิสาร,Bangkok,Din Daeng,-4.09265,-4.42892,-4.76519,-2 to -5,5e-05,low
+full,university,คณะวนศาสตร์,Bangkok,Chatuchak,-3.97649,-4.4265,-4.8765,-2 to -5,0.0001,low
+full,school,โรงเรียนราชประชาสมาสัย ในพระบรมราชูปถัมภ์,Samut Prakan,Phra Pradaeng,-3.96314,-4.42588,-4.88862,-2 to -5,3e-05,low
+full,police,กรมสนามเป้า(กองพลทหารม้าที่๒),Bangkok,Phaya Thai,-4.20796,-4.42407,-4.64018,-2 to -5,0.00019,low
+full,rail_station,ราชดำริ,Bangkok,Pathum Wan,-4.24857,-4.42268,-4.5968,-2 to -5,,
+full,police,กองบังคับการตำรวจน้ำ,Samut Prakan,Mueang Samut Prakan,-3.88231,-4.42187,-4.96144,-2 to -5,0.00011,low
+full,rail_station,เตาปูน,Bangkok,Bang Sue,-4.09296,-4.42182,-4.75067,-2 to -5,2e-05,low
+full,police,สถานีตำรวจนครบาลสุทธิสาร,Bangkok,Din Daeng,-4.08074,-4.41924,-4.75774,-2 to -5,1e-05,low
+full,rail_station,ราชปรารภ,Bangkok,Ratchathewi,-4.24657,-4.41917,-4.59177,-2 to -5,8e-05,low
+full,rail_station,บางแค,Bangkok,Bang Khae,-4.03342,-4.41848,-4.80354,-2 to -5,4e-05,low
+full,police,Phaya Thai Police Station,Bangkok,Ratchathewi,-4.25438,-4.41843,-4.58248,-2 to -5,0.00012,low
+full,school,โรงเรียนอินทรัมพรรย์อนุสรณ์,Samut Prakan,Mueang Samut Prakan,-3.88526,-4.4166,-4.94794,-2 to -5,7e-05,low
+full,school,โรงเรียนเซนต์โยเซฟคอนเวนต์,Bangkok,Bang Rak,-4.21831,-4.41482,-4.61133,-2 to -5,0.00022,low
+full,university,อุบลรัตนราชกัญญาราชวิทยาลัย,Bangkok,Taling Chan,-4.16843,-4.41466,-4.66089,-2 to -5,0.00013,low
+full,school,โรงเรียนวัดประชาระบือธรรม,Bangkok,Dusit,-4.15614,-4.4138,-4.67147,-2 to -5,6e-05,low
+full,police,สถานีดับเพลิง นครสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-3.81794,-4.41345,-5.00896,-2 to -5,7e-05,low
+full,school,โรงเรียนนิธิปริญญา,Bangkok,Din Daeng,-4.19182,-4.40629,-4.62077,-2 to -5,6e-05,low
+full,hospital,สถาบันโรคผิวหนัง,Bangkok,Ratchathewi,-4.20731,-4.40542,-4.60352,-2 to -5,9e-05,low
+full,police,สน.เพรชเกษม,Bangkok,Bang Khae,-3.97681,-4.40333,-4.82986,-2 to -5,,
+full,school,โรงเรียนสตรีวิทยา 2,Bangkok,Lat Phrao,-3.94819,-4.4014,-4.85462,-2 to -5,9e-05,low
+full,school,,Bangkok,Vadhana,-4.07414,-4.38699,-4.69984,-2 to -5,8e-05,low
+full,school,โรงเรียนเทศบาล 5 (วัดกลางวรวิหาร),Samut Prakan,Mueang Samut Prakan,-3.79185,-4.38488,-4.97791,-2 to -5,4e-05,low
+full,school,The Brain,Bangkok,Ratchathewi,-4.1828,-4.38416,-4.58553,-2 to -5,6e-05,low
+full,university,มหาวิทยาลัยเกริก,Bangkok,Bang Khen,-3.85475,-4.38303,-4.9113,-2 to -5,0.00013,low
+full,school,โรงเรียนอนุบาลสุขสวัสดิ์,Samut Prakan,Phra Pradaeng,-3.91469,-4.37951,-4.84433,-2 to -5,0.0001,low
+full,university,วิทยาลัยเทคโนโลยีอุตสาหกรรม,Bangkok,Bang Sue,-4.00336,-4.37674,-4.75013,-2 to -5,9e-05,low
+full,rail_station,สวนหลวง ร.9,Bangkok,Prawet,-3.93244,-4.36633,-4.80022,-2 to -5,1e-05,low
+full,police,สน.ทางด่วน1,Bangkok,Khlong Toei,-4.06396,-4.36422,-4.66448,-2 to -5,8e-05,low
+full,school,โรงเรียนดุสิตพาณิชยการ,Bangkok,Ratchathewi,-4.16234,-4.35439,-4.54643,-2 to -5,6e-05,low
+full,police,ส.น.  ทุ่งมหาเมฆ,Bangkok,Sathon,-4.12294,-4.35243,-4.58191,-2 to -5,9e-05,low
+full,rail_station,แม่น้ำ,Bangkok,Yan Nawa,-4.09396,-4.35021,-4.60645,-2 to -5,0.00016,low
+full,police,Bang Pongpang Police Station,Bangkok,Sathon,-4.11971,-4.34919,-4.57868,-2 to -5,9e-05,low
+full,rail_station,มหาวิทยาลัยเกษตรศาสตร์,Bangkok,Chatuchak,-3.88696,-4.3491,-4.81125,-2 to -5,,
+full,school,The Early Learning Centre,Bangkok,Vadhana,-4.08262,-4.34277,-4.60293,-2 to -5,4e-05,low
+full,police,ต.ช.ด.,Bangkok,Phaya Thai,-4.06976,-4.34257,-4.61537,-2 to -5,0.00014,low
+full,police,บช.ตชด,Bangkok,Phaya Thai,-4.06045,-4.33232,-4.60418,-2 to -5,0.00014,low
+full,police,Border Patrol Police,Bangkok,Phaya Thai,-4.06105,-4.33213,-4.60321,-2 to -5,0.00018,low
+full,school,,Bangkok,Bang Khae,-3.87454,-4.33179,-4.78905,-2 to -5,9e-05,low
+full,rail_station,เสนานิคม,Bangkok,Chatuchak,-3.88808,-4.33064,-4.77321,-2 to -5,5e-05,low
+full,school,โรงเรียนพญาไท,Bangkok,Ratchathewi,-4.16985,-4.32982,-4.4898,-2 to -5,9e-05,low
+full,school,โรงเรียนประถมนนทรี,Bangkok,Yan Nawa,-4.06972,-4.32312,-4.57653,-2 to -5,6e-05,low
+full,police,สน.พระสมุทรเจดีย์,Samut Prakan,Phra Pradaeng,-3.85489,-4.32287,-4.79085,-2 to -5,0.0001,low
+full,police,Highway Police Division,Bangkok,Ratchathewi,-4.1598,-4.32171,-4.48362,-2 to -5,7e-05,low
+full,police,สถานีตำรวจนครบาลทุ่งมหาเมฆ,Bangkok,Sathon,-4.09127,-4.32063,-4.54998,-2 to -5,9e-05,low
+full,hospital,โรงพยาบาลราชวิถี,Bangkok,Ratchathewi,-4.12903,-4.31978,-4.51053,-2 to -5,0.00022,low
+full,university,วิทยาลัยพยาบาลบรมราชชนนี,Bangkok,Ratchathewi,-4.13452,-4.31868,-4.50284,-2 to -5,0.00022,low
+full,university,วิทยาลัยพาณิชยการธนบุรี,Bangkok,Phasi Charoen,-4.08079,-4.31504,-4.5493,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลเจริญกรุงประชารักษ์,Bangkok,Bang Kho Laem,-4.01642,-4.30422,-4.59202,-2 to -5,0.00012,low
+full,police,สถานีตำรวจนครบาลบางโพงพาง (Bang Phong Phang Police Station),Bangkok,Sathon,-4.07028,-4.29996,-4.52965,-2 to -5,9e-05,low
+full,rail_station,ปากน้ำ,Samut Prakan,Mueang Samut Prakan,-3.69977,-4.29369,-4.88762,-2 to -5,5e-05,low
+full,school,โรงเรียนวัดคันลัด,Samut Prakan,Phra Pradaeng,-3.91636,-4.29258,-4.6688,-2 to -5,,
+full,hospital,โรงพยาบาลศูนย์การแพทย์วิชัยยุทธ,Bangkok,Phaya Thai,-4.04874,-4.29173,-4.53472,-2 to -5,0.0001,low
+full,police,กองบินตำรวจ (Thai Police Aviation Division),Bangkok,Bang Khen,-3.75818,-4.28971,-4.82123,-2 to -5,5e-05,low
+full,fire_station,อบต.บังจ๊ะ,Bangkok,Bang Kho Laem,-4.02995,-4.28929,-4.54862,-2 to -5,4e-05,low
+full,hospital,โรงพยาบาลมิชชั่น,Bangkok,Dusit,-4.14782,-4.2877,-4.42759,-2 to -5,0.00013,low
+full,hospital,โรงพยาบาล เทพธารินทร์,Bangkok,Khlong Toei,-3.95097,-4.27928,-4.60759,-2 to -5,8e-05,low
+full,police,กองบังคับการตำรวจทางหลวง,Bangkok,Ratchathewi,-4.11601,-4.27846,-4.44091,-2 to -5,2e-05,low
+full,rail_station,วัชรพล,Bangkok,Bang Khen,-3.73752,-4.27773,-4.81794,-2 to -5,5e-05,low
+full,school,โรงเรียนอัสสัมชัญสมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-3.74274,-4.27195,-4.80115,-2 to -5,2e-05,low
+full,university,คณะวิศวกรรมศาสตร์,Bangkok,Chatuchak,-3.83044,-4.26945,-4.70846,-2 to -5,0.00032,low
+full,rail_station,วัดไทร,Bangkok,Chom Thong,-3.85596,-4.26707,-4.67818,-2 to -5,6e-05,low
+full,school,โรงเรียนอนุบาลคหกรรมศาสตร์,Bangkok,Chatuchak,-3.81914,-4.2633,-4.70747,-2 to -5,0.00014,low
+full,hospital,ศูนย์บริการสาธารณะสุข 3 บางซื่อ,Bangkok,Bang Sue,-3.9478,-4.26325,-4.57869,-2 to -5,5e-05,low
+full,rail_station,ยมราช,Bangkok,Dusit,-4.11282,-4.25512,-4.39742,-2 to -5,7e-05,low
+full,police,"Burapa steel Co,Ltd",Bangkok,Thung Khru,-3.8015,-4.25016,-4.69883,-2 to -5,8e-05,low
+full,school,โรงเรียนมักกะสันพิทยา,Bangkok,Ratchathewi,-4.04864,-4.2466,-4.44456,-2 to -5,0.00012,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร ศูนย์พระนครเหนือ,Bangkok,Bang Sue,-3.88503,-4.24568,-4.60632,-2 to -5,0.0001,low
+full,rail_station,อุรุพงษ์,Bangkok,Ratchathewi,-4.0771,-4.22826,-4.37943,-2 to -5,0.00014,low
+full,police,หน่วยสืบสวนปราบปรามสมุทรปราการกรมศุลกากร,Samut Prakan,Mueang Samut Prakan,-3.6273,-4.2202,-4.8131,-2 to -5,,
+full,school,โรงเรียนพระแม่มารีพระโขนง,Bangkok,Vadhana,-3.90356,-4.21794,-4.53232,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลหลักสอง,Bangkok,Bang Khae,-3.79933,-4.21581,-4.6323,-2 to -5,2e-05,low
+full,hospital,โรงพยาบาลตำรวจ,Bangkok,Pathum Wan,-4.04552,-4.20964,-4.37377,-2 to -5,0.00038,medium
+full,police,กองบังคับการตำรวจนครบาล 5,Bangkok,Bang Rak,-3.9903,-4.19449,-4.39868,-2 to -5,,
+full,school,โรงเรียนราชวินิต มัธยม,Bangkok,Dusit,-4.02461,-4.18974,-4.35488,-2 to -5,8e-05,low
+full,school,โรงเรียนนนทรีวิทยา,Bangkok,Yan Nawa,-3.9212,-4.18058,-4.43996,-2 to -5,3e-05,low
+full,hospital,โรงพยาบาลพระมงกุฎเกล้า,Bangkok,Ratchathewi,-3.98121,-4.17999,-4.37877,-2 to -5,0.00017,low
+full,rail_station,อนุสาวรีย์ชัยสมรภูมิ,Bangkok,Ratchathewi,-3.99081,-4.1792,-4.36759,-2 to -5,3e-05,low
+full,hospital,โรงพยาบาลวิชัยเวช อินเตอร์เนชั่นแนล หนองแขม,Bangkok,Nong Khaem,-3.72748,-4.17877,-4.63007,-2 to -5,0.00014,low
+full,police,สถานีตำรวจบางขุนนนท์,Bangkok,Bangkok Noi,-3.89585,-4.17649,-4.45713,-2 to -5,8e-05,low
+full,police,กองบัญชาการ กรมยุทธศึกษาทหารบก,Bangkok,Dusit,-3.94027,-4.17543,-4.4106,-2 to -5,5e-05,low
+full,police,กองปราบปรามอาชญากรรมทางเศรษฐกิจ,Bangkok,Bang Rak,-3.96856,-4.17318,-4.37781,-2 to -5,,
+full,hospital,ศูนย์บริการสาธารณสุข 24 บางเขน,Bangkok,Chatuchak,-3.70653,-4.16557,-4.62461,-2 to -5,5e-05,low
+full,hospital,โรงพยาบาลสถาบันโรคไตภูมิราชนครินทร์,Bangkok,Ratchathewi,-3.98135,-4.15784,-4.33434,-2 to -5,0.00021,low
+full,school,โรงเรียนอำนวยศิลป์,Bangkok,Ratchathewi,-3.99678,-4.15701,-4.31723,-2 to -5,9e-05,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยพญาไท,Bangkok,Ratchathewi,-3.99604,-4.15429,-4.31253,-2 to -5,0.0001,low
+full,police,กองกำกับการสืบสวน2 กองบังคับการสืบสวนสอบสวน กองบัญชาการตำรวจนครบาล,Bangkok,Ratchathewi,-3.98389,-4.14405,-4.30422,-2 to -5,0.0001,low
+full,school,โรงเรียนบางปะกอกวิทยาคม,Bangkok,Rat Burana,-3.80627,-4.13686,-4.46745,-2 to -5,8e-05,low
+full,fire_station,สำนักป้องกันและบรรเทาสาธารณภัย กรุงเทพมหานคร,Bangkok,Ratchathewi,-3.97638,-4.13665,-4.29691,-2 to -5,0.00012,low
+full,police,กองบังคับการสายตรวจและปฏิบัติการพิเศษ 191,Bangkok,Ratchathewi,-3.97263,-4.13497,-4.29731,-2 to -5,3e-05,low
+full,university,วิทยาลัยการจัดการ มหาวิทยาลัยมหิดล,Bangkok,Phaya Thai,-3.88837,-4.13465,-4.38093,-2 to -5,6e-05,low
+full,rail_station,เจริญนคร,Bangkok,Khlong San,-3.92524,-4.12885,-4.33247,-2 to -5,,
+full,school,โรงเรียนสามเสนวิทยาลัย,Bangkok,Phaya Thai,-3.8751,-4.12091,-4.36671,-2 to -5,0.00017,low
+full,police,กองบังคับการตำรวจนครบาล 8,Bangkok,Chom Thong,-3.70245,-4.11693,-4.53142,-2 to -5,6e-05,low
+full,police,สน.บุคคโล,Bangkok,Thon Buri,-3.83979,-4.11296,-4.38613,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดช่องลม,Bangkok,Yan Nawa,-3.84101,-4.11067,-4.38033,-2 to -5,5e-05,low
+full,rail_station,วุฒากาศ,Bangkok,Thon Buri,-3.77612,-4.10606,-4.43601,-2 to -5,0.0001,low
+full,police,สถานีตำรวจนครบาลบางขุนนนท์,Bangkok,Bangkok Noi,-3.82548,-4.10298,-4.38049,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดโพธินิมิตร,Bangkok,Thon Buri,-3.83665,-4.10045,-4.36426,-2 to -5,5e-05,low
+full,school,โรงเรียนเซนต์โยเซฟทิพวัล,Samut Prakan,Mueang Samut Prakan,-3.57039,-4.09875,-4.62711,-2 to -5,4e-05,low
+full,rail_station,คลองสาน,Bangkok,Khlong San,-3.90132,-4.09656,-4.2918,-2 to -5,0.00012,low
+full,hospital,โรงพยาบาลบางโพ,Bangkok,Bang Sue,-3.76294,-4.09506,-4.42718,-2 to -5,8e-05,low
+full,hospital,โรงพยาบาลกระทุ่มแบน,Samut Sakhon,Krathum Baen,-3.46783,-4.08933,-4.71083,-2 to -5,0.00011,low
+full,university,วิทยาลัยเทคโนโลยีธุรกิจการอาหารไทยและนานาชาติ,Bangkok,Yan Nawa,-3.72296,-4.08438,-4.4458,-2 to -5,0.00014,low
+full,school,โรงเรียนวัดเศวตฉัตร,Bangkok,Khlong San,-3.85476,-4.08299,-4.31122,-2 to -5,0.00012,low
+full,school,โรงเรียนวัดช่องนนทรี,Bangkok,Yan Nawa,-3.77262,-4.08144,-4.39025,-2 to -5,4e-05,low
+full,university,คณะเภสัชศาสตร์ มหาวิทยาลัยมหิดล,Bangkok,Ratchathewi,-3.90247,-4.07007,-4.23768,-2 to -5,0.00011,low
+full,rail_station,ศาลาแดง,Bangkok,Bang Rak,-3.88027,-4.06438,-4.24849,-2 to -5,0.00032,low
+full,police,สถานีตำรวจนครบาลบุคคโล,Bangkok,Thon Buri,-3.78418,-4.05889,-4.3336,-2 to -5,8e-05,low
+full,school,โรงเรียนวัดบางน้ำชน,Bangkok,Thon Buri,-3.7709,-4.04639,-4.32187,-2 to -5,5e-05,low
+full,fire_station,สถานีดับเพลิงบางแค,Bangkok,Bang Khae,-3.65632,-4.04212,-4.42793,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดบางปะกอก,Bangkok,Rat Burana,-3.70501,-4.03444,-4.36386,-2 to -5,5e-05,low
+full,school,โรงเรียนราชประชาสมาสัย ฝ่ายมัธยม รัชดาภิเษก ในพระบรมราชูปถัมภ์,Samut Prakan,Phra Pradaeng,-3.56169,-4.02569,-4.4897,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดอินทาราม,Bangkok,Thon Buri,-3.76192,-4.02121,-4.28049,-2 to -5,5e-05,low
+full,university,,Bangkok,Bang Sue,-3.63173,-4.00722,-4.38271,-2 to -5,6e-05,low
+full,school,โรงเรียนขจรโรจน์วิทยา,Bangkok,Rat Burana,-3.56755,-4.00357,-4.43958,-2 to -5,6e-05,low
+full,school,โรงเรียนสิริวุฒิวิทยา,Samut Prakan,Mueang Samut Prakan,-3.4809,-4.00124,-4.52157,-2 to -5,7e-05,low
+full,school,โรงเรียนเบญจมบพิตร,Bangkok,Dusit,-3.82615,-4.00096,-4.17577,-2 to -5,8e-05,low
+full,police,สถานีตำรวจนครบาลตลิ่งชัน,Bangkok,Bang Phlat,-3.70394,-4.00057,-4.2972,-2 to -5,3e-05,low
+full,school,โรงเรียนโกศลภัทรวิทย์,Bangkok,Sathon,-3.7784,-3.99025,-4.2021,-2 to -5,0.00014,low
+full,university,วิทยาลัยสารพัดช่างสี่พระยา,Bangkok,Samphanthawong,-3.86392,-3.98866,-4.11341,-2 to -5,0.00011,low
+full,police,สน.บางขุนนนท์,Bangkok,Bangkok Noi,-3.68548,-3.98501,-4.28454,-2 to -5,4e-05,low
+full,rail_station,โพธิ์นิมิตร,Bangkok,Thon Buri,-3.71527,-3.98186,-4.24844,-2 to -5,7e-05,low
+full,school,วิทยาลัยเทคโนโลยีจรัลสนิทวงศ์,Bangkok,Bangkok Noi,-3.71135,-3.97859,-4.24583,-2 to -5,5e-05,low
+full,hospital,โรงพยาบาลสมเด็จพระปิ่นเกล้า,Bangkok,Thon Buri,-3.67749,-3.96829,-4.25909,-2 to -5,0.00013,low
+full,school,โรงเรียนวัดแหลม,Samut Prakan,Phra Pradaeng,-3.57611,-3.96275,-4.3494,-2 to -5,4e-05,low
+full,rail_station,กรุงธนบุรี,Bangkok,Khlong San,-3.73898,-3.96223,-4.18548,-2 to -5,0.0001,low
+full,school,โรงเรียนวัดดอน,Bangkok,Sathon,-3.7421,-3.96176,-4.18141,-2 to -5,0.00013,low
+full,university,วิทยาลัยป้องกันราชอาณาจักร,Bangkok,Din Daeng,-3.68149,-3.96119,-4.24089,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดราษฎร์บำรุง,Bangkok,Bang Khae,-3.53606,-3.95817,-4.38027,-2 to -5,9e-05,low
+full,school,วิทยาลัยเซนต์หลุยส์,Bangkok,Sathon,-3.74407,-3.95638,-4.16869,-2 to -5,,
+full,university,คณะสาธารณสุขศาสตร์ มหาวิทยาลัยมหิดล,Bangkok,Ratchathewi,-3.75842,-3.95257,-4.14673,-2 to -5,0.00015,low
+full,school,โรงเรียนวัดสุวรรณ,Bangkok,Khlong San,-3.74612,-3.95014,-4.15415,-2 to -5,2e-05,low
+full,police,สถานีตำรวจดินแดง,Bangkok,Pathum Wan,-3.77369,-3.94623,-4.11877,-2 to -5,0.00017,low
+full,school,โรงเรียนสตรีศรีสุริโยทัย,Bangkok,Sathon,-3.73168,-3.94159,-4.15151,-2 to -5,6e-05,low
+full,school,โรงเรียนกิ่งเพชร,Bangkok,Ratchathewi,-3.81999,-3.93956,-4.05914,-2 to -5,9e-05,low
+full,university,วิทยาลัยเทคโนโลยีพณิชยการภาษานุสรณ์บางแค,Bangkok,Bang Khae,-3.56253,-3.93703,-4.31152,-2 to -5,8e-05,low
+full,rail_station,บางอ้อ,Bangkok,Bang Phlat,-3.61232,-3.93516,-4.25801,-2 to -5,9e-05,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยดุสิต,Bangkok,Dusit,-3.70181,-3.93042,-4.15902,-2 to -5,8e-05,low
+full,rail_station,กรุงธนบุรี,Bangkok,Khlong San,-3.69864,-3.92535,-4.15205,-2 to -5,,
+full,school,โรงเรียนวัดปทุมวนาราม,Bangkok,Pathum Wan,-3.76047,-3.92292,-4.08538,-2 to -5,,
+full,school,โรงเรียนวัดราชโอรส,Bangkok,Chom Thong,-3.55132,-3.9216,-4.29187,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดอาวุธวิกสิตาราม,Bangkok,Bang Phlat,-3.64124,-3.92127,-4.20129,-2 to -5,0.00014,low
+full,school,โรงเรียนวัดบางประทุนนอก,Bangkok,Chom Thong,-3.52729,-3.92059,-4.31389,-2 to -5,6e-05,low
+full,police,กองพลาธิการ สำนักงานส่งกำลังบำรุง สำนักงานตำรวจแห่งชาติ,Bangkok,Dusit,-3.69398,-3.9191,-4.14422,-2 to -5,7e-05,low
+full,police,สน.บางคอแหลม,Bangkok,Rat Burana,-3.5971,-3.91402,-4.23094,-2 to -5,0.00015,low
+full,school,โรงเรียนวัดราชคฤห์,Bangkok,Thon Buri,-3.65194,-3.91141,-4.17088,-2 to -5,4e-05,low
+full,police,สน.บวรมงคล,Bangkok,Bang Phlat,-3.67334,-3.91095,-4.14857,-2 to -5,,
+full,school,โรงเรียนนิพัทธ์วิทยา,Bangkok,Sathon,-3.68501,-3.91051,-4.13601,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลบางคอแหลม,Bangkok,Rat Burana,-3.59337,-3.91027,-4.22716,-2 to -5,0.00015,low
+full,rail_station,สุรศักดิ์,Bangkok,Bang Rak,-3.70904,-3.90422,-4.0994,-2 to -5,0.00011,low
+full,school,โรงเรียนวัดพิชัยสงคราม,Samut Prakan,Mueang Samut Prakan,-3.30985,-3.90329,-4.49672,-2 to -5,6e-05,low
+full,school,โรงเรียนอำนวยวิทย์,Samut Prakan,Phra Pradaeng,-3.51083,-3.89289,-4.27495,-2 to -5,,
+full,police,สถานีตำรวจนครบาลราษฎร์บูรณะ,Bangkok,Rat Burana,-3.57042,-3.89017,-4.20992,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดทรงธรรม,Samut Prakan,Phra Pradaeng,-3.50006,-3.88018,-4.26031,-2 to -5,7e-05,low
+full,police,สถานีตำรวจนครบาลสมเด็จเจ้าพระยา,Bangkok,Khlong San,-3.72029,-3.87915,-4.03801,-2 to -5,,
+full,hospital,โรงพยาบาลพญาไท 2,Bangkok,Phaya Thai,-3.63172,-3.86806,-4.1044,-2 to -5,0.0001,low
+full,hospital,โรงพยาบาลสมิติเวช สุขุมวิท,Bangkok,Vadhana,-3.61193,-3.86567,-4.11942,-2 to -5,0.00013,low
+full,fire_station,สถานีดับเพลิงบวรมงคล,Bangkok,Bang Phlat,-3.62665,-3.86341,-4.10017,-2 to -5,,
+full,fire_station,สถานีดับเพลิงและกู้ภัย,Bangkok,Bangkok Noi,-3.58944,-3.86323,-4.13703,-2 to -5,6e-05,low
+full,police,"วังรัตนาภา, กองบัญชาการตำรวจสันติบาล",Bangkok,Dusit,-3.6368,-3.86248,-4.08816,-2 to -5,8e-05,low
+full,school,โรงเรียนวัดสุวรรณคีรี,Bangkok,Bangkok Noi,-3.54911,-3.85257,-4.15604,-2 to -5,5e-05,low
+full,rail_station,คลองต้นไทร,Bangkok,Chom Thong,-3.49152,-3.8512,-4.21089,-2 to -5,4e-05,low
+full,police,สถานีตำรวจภูธรสำโรงเหนือ,Samut Prakan,Mueang Samut Prakan,-3.37523,-3.84907,-4.32291,-2 to -5,9e-05,low
+full,rail_station,ตลาดพลู,Bangkok,Thon Buri,-3.57754,-3.84576,-4.11398,-2 to -5,4e-05,low
+full,fire_station,ศูนย์ดับเพลิง ชุมชนบ้านครัวเหนือ,Bangkok,Ratchathewi,-3.72588,-3.84376,-3.96164,-2 to -5,0.00017,low
+full,school,โรงเรียนวัดคฤหบดี (จันทรสถิตย์),Bangkok,Bang Phlat,-3.60704,-3.84369,-4.08034,-2 to -5,5e-05,low
+full,university,สถาบันการพยาบาลศรีสวรินทิรา สภากาชาดไทย,Bangkok,Pathum Wan,-3.6688,-3.84246,-4.01612,-2 to -5,0.0002,low
+full,hospital,โรงพยาบาลเลิดสิน,Bangkok,Bang Rak,-3.65251,-3.8328,-4.01308,-2 to -5,0.0001,low
+full,school,โรงเรียนจิตรลดาวิชาชีพ,Bangkok,Dusit,-3.63982,-3.83154,-4.02326,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลยานนาวา | Bangkok,Bangkok,Bang Rak,-3.63943,-3.82466,-4.00989,-2 to -5,6e-05,low
+full,hospital,รพ.เมืองสมุทรปากน้ำ,Samut Prakan,Mueang Samut Prakan,-3.2199,-3.82232,-4.42474,-2 to -5,0.00011,low
+full,police,RTP Cyber Village สน.หลักสอง,Bangkok,Bang Khae,-3.4057,-3.82045,-4.2352,-2 to -5,3e-05,low
+full,police,สถานีตำรวจภูธรสำโรงเหนือ,Samut Prakan,Mueang Samut Prakan,-3.34655,-3.81864,-4.29073,-2 to -5,9e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก เขตพื้นที่จักรพงษภูวนารถ,Bangkok,Din Daeng,-3.54251,-3.81676,-4.09101,-2 to -5,0.00013,low
+full,school,โรงเรียนนานาชาติคิงส์คอลเลจกรุงเทพ,Bangkok,Yan Nawa,-3.45881,-3.81663,-4.17444,-2 to -5,0.00028,low
+full,fire_station,สถานีดับเพลิงด่านสำโรง,Samut Prakan,Mueang Samut Prakan,-3.31496,-3.81494,-4.31491,-2 to -5,0.0001,low
+full,school,โรงเรียนเซนต์หลุยส์ศึกษา,Bangkok,Sathon,-3.59914,-3.80675,-4.01436,-2 to -5,5e-05,low
+full,fire_station,สถานีตำรวจดับเพลิงยานนาวา,Bangkok,Sathon,-3.59702,-3.80562,-4.01423,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดด่านสำโรง,Samut Prakan,Mueang Samut Prakan,-3.3161,-3.80407,-4.29204,-2 to -5,7e-05,low
+full,rail_station,สำโรง,Samut Prakan,Mueang Samut Prakan,-3.33178,-3.80236,-4.27295,-2 to -5,9e-05,low
+full,police,สถานีตำรวจนครบาลท่าพระ,Bangkok,Bangkok Yai,-3.58477,-3.80184,-4.01891,-2 to -5,0.00011,low
+full,university,คณะสัตวแพทยศาสตร์,Bangkok,Chatuchak,-3.34503,-3.80183,-4.25863,-2 to -5,0.00014,low
+full,university,Faculty of Science,Bangkok,Chatuchak,-3.35326,-3.79413,-4.235,-2 to -5,0.00014,low
+full,school,โรงเรียนสวนมิสกวัน,Bangkok,Ratchathewi,-3.61186,-3.79293,-3.97399,-2 to -5,,
+full,rail_station,สำโรง,Samut Prakan,Mueang Samut Prakan,-3.31489,-3.7928,-4.2707,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดเวฬุราชิณ,Bangkok,Thon Buri,-3.54281,-3.7926,-4.04238,-2 to -5,0.00015,low
+full,school,โรงเรียนวัดใหม่ยายนุ้ย,Bangkok,Chom Thong,-3.45866,-3.79135,-4.12404,-2 to -5,,
+full,police,สถานีตำรวจนครบาลบางยี่เรือ,Bangkok,Thon Buri,-3.54119,-3.7886,-4.03601,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดสุวรรณาราม,Bangkok,Bangkok Noi,-3.54302,-3.78829,-4.03357,-2 to -5,7e-05,low
+full,rail_station,บางพลัด,Bangkok,Bang Phlat,-3.49664,-3.78721,-4.07779,-2 to -5,7e-05,low
+full,rail_station,สามเสน,Bangkok,Dusit,-3.56529,-3.78556,-4.00584,-2 to -5,3e-05,low
+full,hospital,สถาบันสุขภาพเด็กแห่งชาติมหาราชินี,Bangkok,Ratchathewi,-3.58051,-3.77859,-3.97667,-2 to -5,0.00013,low
+full,fire_station,สถานีดับเพลิงธนบุรี,Bangkok,Thon Buri,-3.53091,-3.77571,-4.02051,-2 to -5,9e-05,low
+full,school,โรงเรียนมัธยมวัดด่านสำโรง,Samut Prakan,Mueang Samut Prakan,-3.29263,-3.77498,-4.25734,-2 to -5,0.0001,low
+full,school,รร.เกื้อวิทยา,Bangkok,Thon Buri,-3.51153,-3.77424,-4.03694,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดศรีสําราญราษฎร์บํารุง,Samut Sakhon,Krathum Baen,-3.2665,-3.77237,-4.27824,-2 to -5,3e-05,low
+full,school,โรงเรียนสุวรรณารามวิทยาคม,Bangkok,Bangkok Noi,-3.52124,-3.77017,-4.0191,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดสุทธิวราราม,Bangkok,Sathon,-3.54448,-3.76499,-3.98549,-2 to -5,0.00016,low
+full,fire_station,Talat Phlu Fire Station,Bangkok,Thon Buri,-3.50767,-3.76453,-4.02138,-2 to -5,5e-05,low
+full,fire_station,สถานีดับเพลิงตลาดพลู,Bangkok,Thon Buri,-3.50749,-3.76401,-4.02052,-2 to -5,5e-05,low
+full,school,โรงเรียนมัธยมวัดนายโรง,Bangkok,Bangkok Noi,-3.4706,-3.75911,-4.04762,-2 to -5,4e-05,low
+full,rail_station,วุฒากาศ,Bangkok,Thon Buri,-3.43444,-3.75825,-4.08207,-2 to -5,,
+full,hospital,โรงพยาบาลสงฆ์,Bangkok,Ratchathewi,-3.58582,-3.7536,-3.92139,-2 to -5,0.00014,low
+full,police,กองทะเบียนประวัติอาชญากร,Bangkok,Pathum Wan,-3.59033,-3.74889,-3.90746,-2 to -5,0.00014,low
+full,school,โรงเรียนนานาชาติอินเตอร์เนชั่นแนลไพโอเนียร์ส,Bangkok,Khlong San,-3.51113,-3.74235,-3.97358,-2 to -5,7e-05,low
+full,police,หน่วยบริการ ตำรวจทางหลวง ศรีสำราญ,Samut Sakhon,Krathum Baen,-3.20506,-3.74152,-4.27798,-2 to -5,1e-05,low
+full,school,โรงเรียนวัดยานนาวา,Bangkok,Sathon,-3.5272,-3.72916,-3.93112,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลชุมชน นาควัชระอุทิศ,Bangkok,Nong Khaem,-3.27136,-3.72308,-4.17479,-2 to -5,0.00011,low
+full,school,โรงเรียนทวีวัฒนา,Bangkok,Yan Nawa,-3.44173,-3.72113,-4.00054,-2 to -5,2e-05,low
+full,school,โรงเรียนกรุงเทพคริสเตียนวิทยาลัย,Bangkok,Bang Rak,-3.53555,-3.71998,-3.90441,-2 to -5,9e-05,low
+full,school,โรงเรียนมัธยมวัดเบญจมบพิตร,Bangkok,Dusit,-3.53176,-3.71279,-3.89381,-2 to -5,7e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์ พื้นที่บพิตรพิมุข จักรวรรดิ,Bangkok,Samphanthawong,-3.52843,-3.71253,-3.89663,-2 to -5,7e-05,low
+full,school,โรงเรียนอัสสัมชัญคอนแวนต์ สีลม,Bangkok,Bang Rak,-3.52987,-3.71059,-3.8913,-2 to -5,9e-05,low
+full,rail_station,จิตรลดา,Bangkok,Dusit,-3.52558,-3.70568,-3.88579,-2 to -5,0.00015,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลกรุงเทพ พื้นที่พระนครใต้,Bangkok,Sathon,-3.4949,-3.69661,-3.89831,-2 to -5,0.00014,low
+full,school,โรงเรียนวัดพระยาศิริไอยสวรรค์,Bangkok,Bang Phlat,-3.45642,-3.6925,-3.92857,-2 to -5,0.0001,low
+full,school,รร.อนุบาลสุวาวรรณ,Bangkok,Khlong San,-3.41951,-3.68118,-3.94284,-2 to -5,2e-05,low
+full,school,โรงเรียนเศรษฐเสถียร,Bangkok,Dusit,-3.46033,-3.68032,-3.90031,-2 to -5,4e-05,low
+full,rail_station,ทิพวัล,Samut Prakan,Mueang Samut Prakan,-3.16515,-3.6794,-4.19366,-2 to -5,2e-05,low
+full,school,โรงเรียนเทศบาลวัดทรงธรรม,Samut Prakan,Phra Pradaeng,-3.29539,-3.67847,-4.06154,-2 to -5,9e-05,low
+full,rail_station,สยาม,Bangkok,Pathum Wan,-3.53622,-3.6761,-3.81598,-2 to -5,9e-05,low
+full,police,กองกำกับการ 5 กองบังคับการตำรวจสันติบาล 3 ( ส่วนแยกบ้านสาทร ),Bangkok,Bang Rak,-3.47938,-3.67328,-3.86718,-2 to -5,,
+full,police,กองบังคับการสนับสนุนทางเทคโนโลยี,Bangkok,Pathum Wan,-3.51583,-3.67028,-3.82473,-2 to -5,0.00038,medium
+full,school,Pimonwit School,Bangkok,Bang Phlat,-3.40913,-3.66931,-3.9295,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดน้อยนพคุณ,Bangkok,Dusit,-3.4341,-3.66399,-3.89388,-2 to -5,2e-05,low
+full,rail_station,ธนบุรี,Bangkok,Bangkok Noi,-3.41611,-3.65907,-3.90203,-2 to -5,7e-05,low
+full,rail_station,สะพานตากสิน,Bangkok,Bang Rak,-3.46622,-3.65844,-3.85067,-2 to -5,0.00011,low
+full,school,โรงเรียนอัสสัมชัญศึกษา,Bangkok,Bang Rak,-3.47967,-3.65804,-3.83641,-2 to -5,6e-05,low
+full,school,โรงเรียนกันตะบุตร,Bangkok,Dusit,-3.40364,-3.65574,-3.90783,-2 to -5,6e-05,low
+full,school,โรงเรียนสาธิตจุฬาลงกรณ์มหาวิทยาลัย ฝ่ายมัธยม,Bangkok,Pathum Wan,-3.5261,-3.65293,-3.77977,-2 to -5,0.00018,low
+full,school,โรงเรียนสาธิตจุฬาลงกรณ์มหาวิทยาลัย,Bangkok,Pathum Wan,-3.5261,-3.65293,-3.77977,-2 to -5,0.00018,low
+full,rail_station,ช่องนนทรี,Bangkok,Bang Rak,-3.46188,-3.65067,-3.83946,-2 to -5,0.00019,low
+full,school,โรงเรียนโสตศึกษาทุ่งมหาเมฆ,Bangkok,Sathon,-3.41828,-3.64839,-3.8785,-2 to -5,8e-05,low
+full,school,โรงเรียนสาธิตจุฬาลงกรณ์มหาวิทยาลัย ฝ่ายประถม,Bangkok,Pathum Wan,-3.51228,-3.63553,-3.75877,-2 to -5,0.00015,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลกรุงเทพ,Bangkok,Sathon,-3.39459,-3.63514,-3.87569,-2 to -5,0.00016,low
+full,school,โรงเรียนวัดบางขุนเทียนนอก,Bangkok,Chom Thong,-3.24977,-3.63325,-4.01674,-2 to -5,9e-05,low
+full,university,วิทยาลัยอาชีวศึกษาเอี่ยมละออ,Bangkok,Sathon,-3.40145,-3.63321,-3.86497,-2 to -5,0.00014,low
+full,police,สถานีตำรวจภาษีเจริญ,Bangkok,Phasi Charoen,-3.31845,-3.62825,-3.93806,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดราชสิทธาราม,Bangkok,Bangkok Yai,-3.41897,-3.62781,-3.83665,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดจันทรสโมสร,Bangkok,Dusit,-3.36267,-3.6246,-3.88653,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดหนัง,Bangkok,Chom Thong,-3.2419,-3.61014,-3.97838,-2 to -5,5e-05,low
+full,school,โรงเรียนเซนต์ยอเซฟยานนาวา,Bangkok,Yan Nawa,-3.33224,-3.60917,-3.88611,-2 to -5,2e-05,low
+full,school,โรงเรียนวัดบวรมงคล,Bangkok,Bang Phlat,-3.3594,-3.60337,-3.84734,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดพระยายัง,Bangkok,Ratchathewi,-3.48344,-3.59682,-3.71021,-2 to -5,0.00012,low
+full,school,โรงเรียนอัสสัมชัญ,Bangkok,Bang Rak,-3.41608,-3.59043,-3.76478,-2 to -5,0.00013,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร,Bangkok,Dusit,-3.42456,-3.58966,-3.75475,-2 to -5,0.0001,low
+full,university,จุฬาลงกรณ์มหาวิทยาลัย,Bangkok,Pathum Wan,-3.45579,-3.58783,-3.71987,-2 to -5,0.00025,low
+full,police,ศาลแขวงดุสิต,Bangkok,Dusit,-3.35366,-3.58544,-3.81722,-2 to -5,5e-05,low
+full,school,โรงเรียนสาธิตมหาวิทยาลัยศรีนครินทรวิโรฒ ปทุมวัน,Bangkok,Pathum Wan,-3.4432,-3.58191,-3.72062,-2 to -5,,
+full,fire_station,สถานีตำรวจดับเพลิงดาวคะนอง,Bangkok,Chom Thong,-3.19526,-3.57271,-3.95015,-2 to -5,8e-05,low
+full,school,โรงเรียนนานาชาติโชรส์เบอรี กรุงเทพ,Bangkok,Bang Kho Laem,-3.34046,-3.57107,-3.80168,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดอ้อมน้อย,Samut Sakhon,Krathum Baen,-3.00745,-3.56769,-4.12792,-2 to -5,3e-05,low
+full,rail_station,เซนต์หลุยส์,Bangkok,Bang Rak,-3.37135,-3.56737,-3.76339,-2 to -5,,
+full,school,โรงเรียนราชินีบน,Bangkok,Dusit,-3.30834,-3.56071,-3.81309,-2 to -5,8e-05,low
+full,university,วิทยาลัยแพทยศาสตร์พระมงกุฎเกล้า,Bangkok,Ratchathewi,-3.36729,-3.56012,-3.75294,-2 to -5,0.00014,low
+full,rail_station,สนามกีฬาแห่งชาติ,Bangkok,Pathum Wan,-3.44275,-3.55982,-3.67688,-2 to -5,7e-05,low
+full,school,โรงเรียนพณิชยการสามเสน,Bangkok,Dusit,-3.3157,-3.5576,-3.79949,-2 to -5,6e-05,low
+full,rail_station,สิรินธร,Bangkok,Bang Phlat,-3.29628,-3.55153,-3.80679,-2 to -5,0.0001,low
+full,school,โรงเรียนสวนอนันต์,Bangkok,Bangkok Noi,-3.32169,-3.55123,-3.78077,-2 to -5,2e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลกรุงเทพ เขตพื้นที่บพิตรพิมุข มหาเมฆ,Bangkok,Sathon,-3.32035,-3.54868,-3.77701,-2 to -5,0.00017,low
+full,school,โรงเรียนวัดดงมูลเหล็ก,Bangkok,Bangkok Noi,-3.31926,-3.54748,-3.7757,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดทองเพลง,Bangkok,Khlong San,-3.32374,-3.5474,-3.77107,-2 to -5,0.0001,low
+full,rail_station,บางยี่ขัน,Bangkok,Bang Phlat,-3.2813,-3.54316,-3.80501,-2 to -5,4e-05,low
+full,school,โรงเรียนนานาชาติดับเบิลทรีส์ เขตพระราม 3,Bangkok,Yan Nawa,-3.24766,-3.54066,-3.83365,-2 to -5,6e-05,low
+full,school,โรงเรียนอัสสัมชัญ แผนกประถม,Bangkok,Sathon,-3.3194,-3.53846,-3.75752,-2 to -5,6e-05,low
+full,police,สถานีตำรวจภูธรสำโรงใต้,Samut Prakan,Phra Pradaeng,-3.11014,-3.53377,-3.9574,-2 to -5,0.00013,low
+full,police,Police Fitness,Bangkok,Pathum Wan,-3.37598,-3.52754,-3.6791,-2 to -5,,
+full,school,โรงเรียนวัดอมรินทราราม,Bangkok,Bangkok Noi,-3.29143,-3.526,-3.76058,-2 to -5,5e-05,low
+full,police,กองบัญชาการตำรวจสอบสวนกลาง,Bangkok,Pathum Wan,-3.37316,-3.52111,-3.66906,-2 to -5,5e-05,low
+full,rail_station,จอมทอง,Bangkok,Chom Thong,-3.14421,-3.51964,-3.89508,-2 to -5,7e-05,low
+full,fire_station,สถานีดับเพลิงบรรทัดทอง,Bangkok,Pathum Wan,-3.40126,-3.51865,-3.63604,-2 to -5,9e-05,low
+full,university,วิทยาลัยสารพัดช่าง สมุทรปราการ,Samut Prakan,Mueang Samut Prakan,-2.92828,-3.51821,-4.10814,-2 to -5,6e-05,low
+full,university,คณะวิทยาศาสตร์ มหาวิทยาลัยมหิดล,Bangkok,Ratchathewi,-3.34039,-3.51745,-3.69451,-2 to -5,9e-05,low
+full,school,โรงเรียนอ้อมน้อยโสภณชนูปถัมภ์,Samut Sakhon,Krathum Baen,-2.95731,-3.51631,-4.0753,-2 to -5,4e-05,low
+full,police,กรมสรรพสามิต ส่วนกลาง,Bangkok,Dusit,-3.30768,-3.51446,-3.72124,-2 to -5,9e-05,low
+full,school,โรงเรียนมูลนิธิสตรีไทยมุสลิม,Bangkok,Bang Kho Laem,-3.27979,-3.51272,-3.74566,-2 to -5,2e-05,low
+full,school,โรงเรียนวัดโพธิ์เรียง,Bangkok,Bangkok Noi,-3.29462,-3.50999,-3.72536,-2 to -5,3e-05,low
+full,rail_station,โรงพยาบาลรามาธิบดี,Bangkok,Dusit,-3.32224,-3.50963,-3.69702,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดบางพลัด (ป.สุวณโณ),Bangkok,Bang Phlat,-3.22266,-3.5069,-3.79114,-2 to -5,8e-05,low
+full,hospital,Phyathai 3 Hospital,Bangkok,Phasi Charoen,-3.2232,-3.50635,-3.7895,-2 to -5,0.00017,low
+full,university,มหาวิทยาลัยราชภัฏบ้านสมเด็จเจ้าพระยา,Bangkok,Thon Buri,-3.27713,-3.50533,-3.73353,-2 to -5,0.00011,low
+full,university,วิทยาลัยเทคโนโลยีพระรามหก,Bangkok,Bang Phlat,-3.16944,-3.50245,-3.83547,-2 to -5,8e-05,low
+full,school,โรงเรียนเบญจวรรณศึกษา,Bangkok,Sathon,-3.22389,-3.49729,-3.77069,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดประดิษฐาราม,Bangkok,Thon Buri,-3.27959,-3.49521,-3.71083,-2 to -5,3e-05,low
+full,rail_station,บางขุนนนท์,Bangkok,Bangkok Noi,-3.2398,-3.49338,-3.74696,-2 to -5,3e-05,low
+full,school,โรงเรียนราชวัตรวิทยา,Bangkok,Dusit,-3.2713,-3.48894,-3.70658,-2 to -5,3e-05,low
+full,school,โรงเรียนคริสต์ธรรมวิทยา,Bangkok,Bang Rak,-3.34965,-3.47073,-3.59182,-2 to -5,0.00015,low
+full,rail_station,ปู่เจ้า,Samut Prakan,Mueang Samut Prakan,-2.98777,-3.46896,-3.95014,-2 to -5,0.00011,low
+full,police,กองตำรวจตรวจคนเข้าเมือง,Bangkok,Pathum Wan,-3.31591,-3.46765,-3.61939,-2 to -5,0.00021,low
+full,police,สถานีตำรวจน้ำบางรัก,Bangkok,Bang Rak,-3.2951,-3.46602,-3.63693,-2 to -5,0.00014,low
+full,school,,Bangkok,Bangkok Yai,-3.22606,-3.4644,-3.70273,-2 to -5,9e-05,low
+full,police,สถานีตำรวจย่อยจัตุรัสปทุมวัน,Bangkok,Pathum Wan,-3.32238,-3.46256,-3.60273,-2 to -5,0.00013,low
+full,fire_station,Charoenkrung103 Fire-Department.,Bangkok,Bang Kho Laem,-3.20441,-3.45205,-3.69969,-2 to -5,5e-05,low
+full,police,สน.ตลาดพลู,Bangkok,Thon Buri,-3.15444,-3.44596,-3.73748,-2 to -5,6e-05,low
+full,hospital,โรงพยาบาลวิชัยยุทธ,Bangkok,Phaya Thai,-3.20577,-3.44463,-3.68348,-2 to -5,9e-05,low
+full,rail_station,เพชรเกษม 48,Bangkok,Phasi Charoen,-3.14381,-3.44461,-3.7454,-2 to -5,5e-05,low
+full,school,โรงเรียนวิมุตยารามพิทยากร,Bangkok,Bang Phlat,-3.06872,-3.44204,-3.81536,-2 to -5,3e-05,low
+full,hospital,โรงพยาบาลเซนต์หลุยส์,Bangkok,Sathon,-3.23244,-3.43705,-3.64165,-2 to -5,0.00016,low
+full,university,คณะทันตแพทยศาสตร์ มหาวิทยาลัยมหิดล,Bangkok,Ratchathewi,-3.24914,-3.43458,-3.62001,-2 to -5,0.00011,low
+full,hospital,สถาบันประสาทวิทยา,Bangkok,Ratchathewi,-3.24805,-3.43454,-3.62102,-2 to -5,0.00024,low
+full,university,วิทยาลัยทันตแพทยศาสตร์นานาชาติ มหาวิทยาลัยวลัยลักษณ์,Bangkok,Dusit,-3.18551,-3.43249,-3.67948,-2 to -5,0.0001,low
+full,rail_station,จรัลสนิทวงศ์,Bangkok,Bangkok Noi,-3.17466,-3.42875,-3.68284,-2 to -5,3e-05,low
+full,university,วิทยาลัยเทคโนโลยีกิตติบริหารธุรกิจ,Bangkok,Sathon,-3.1594,-3.42778,-3.69615,-2 to -5,4e-05,low
+full,school,โรงเรียนธนบุรีวรเทพีพลารักษ์,Bangkok,Thon Buri,-3.16399,-3.42638,-3.68876,-2 to -5,3e-05,low
+full,police,สถานีตำรวจบางยี่ขัน,Bangkok,Bangkok Noi,-3.19551,-3.42469,-3.65386,-2 to -5,5e-05,low
+full,school,โรงเรียนวัดสุทธาราม,Bangkok,Khlong San,-3.15853,-3.42462,-3.6907,-2 to -5,6e-05,low
+full,school,โรงเรียนอัมพวันศิกษา,Bangkok,Dusit,-3.20985,-3.42449,-3.63913,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดจันทร์ประดิษฐาราม,Bangkok,Phasi Charoen,-3.10842,-3.42414,-3.73986,-2 to -5,7e-05,low
+full,rail_station,กรุงเทพ,Bangkok,Pathum Wan,-3.32737,-3.4215,-3.51564,-2 to -5,0.00011,low
+full,hospital,โรงพยาบาลสมเด็จเจ้าพระยา,Bangkok,Khlong San,-3.22651,-3.41963,-3.61274,-2 to -5,0.00025,low
+full,school,โรงเรียนวัดเทพากร (เลี่ยมมาตุทิศ),Bangkok,Bang Phlat,-3.13959,-3.41513,-3.69068,-2 to -5,0.0001,low
+full,hospital,ศูนย์สุขภาพช่องปากขั้นสูง,Bangkok,Phaya Thai,-3.17737,-3.41274,-3.64812,-2 to -5,9e-05,low
+full,school,โรงเรียนเตรียมอุดมศึกษา,Bangkok,Pathum Wan,-3.27437,-3.4103,-3.54624,-2 to -5,0.00013,low
+full,university,คณะเวชศาสตร์เขตร้อน มหาวิทยาลัยมหิดล,Bangkok,Ratchathewi,-3.2158,-3.40618,-3.59656,-2 to -5,0.0002,low
+full,school,โรงเรียนวัดอัมพวา,Bangkok,Bangkok Noi,-3.18394,-3.40427,-3.6246,-2 to -5,5e-05,low
+full,university,วิทยาลัยเทคโนโลยีวิมล ศรีย่าน,Bangkok,Dusit,-3.1703,-3.40361,-3.63692,-2 to -5,0.0001,low
+full,school,โรงเรียนวรมงคล,Bangkok,Yan Nawa,-3.0968,-3.39066,-3.68451,-2 to -5,3e-05,low
+full,fire_station,ดับเพลิง-กู้ภัย โรงหมู,Bangkok,Samphanthawong,-3.2796,-3.38339,-3.48718,-2 to -5,,
+full,rail_station,จรัญฯ 13,Bangkok,Bangkok Yai,-3.16086,-3.37615,-3.59143,-2 to -5,5e-05,low
+full,hospital,โรงพยาบาลศิริราช,Bangkok,Bangkok Noi,-3.14445,-3.37485,-3.60525,-2 to -5,8e-05,low
+full,school,โรงเรียนอักษรเจริญ,Bangkok,Dusit,-3.15972,-3.37187,-3.58403,-2 to -5,5e-05,low
+full,university,วิทยาลัยเทคโนโลยีบริหารธุรกิจยานนาวา,Bangkok,Yan Nawa,-3.07802,-3.37064,-3.66325,-2 to -5,3e-05,low
+full,police,สถานีตำรวจบางรัก,Bangkok,Bang Rak,-3.19333,-3.35921,-3.52508,-2 to -5,0.00015,low
+full,school,โรงเรียนทุ่งมหาเมฆ,Bangkok,Sathon,-3.12599,-3.3554,-3.58481,-2 to -5,8e-05,low
+full,university,โรงเรียนอัสสัมชัญพาณิชยการ,Bangkok,Sathon,-3.14733,-3.35369,-3.56004,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดราชสิงขร,Bangkok,Bang Kho Laem,-3.11507,-3.35203,-3.589,-2 to -5,3e-05,low
+full,school,โรงเรียนไตรมิตรวิทยาลัย,Bangkok,Samphanthawong,-3.24427,-3.34745,-3.45062,-2 to -5,0.00014,low
+full,school,โรงเรียนมหาวีรานุวัตร,Bangkok,Samphanthawong,-3.24092,-3.34381,-3.44671,-2 to -5,0.00014,low
+full,school,โรงเรียนวัดเปาโรหิตย์,Bangkok,Bang Phlat,-3.09454,-3.34327,-3.59199,-2 to -5,4e-05,low
+full,fire_station,สถานีตำรวจดับเพลิงสามเสน,Bangkok,Dusit,-3.1232,-3.34292,-3.56263,-2 to -5,2e-05,low
+full,school,โรงเรียนพุทธจักรวิทยา,Bangkok,Bang Rak,-3.18764,-3.34247,-3.49731,-2 to -5,0.00016,low
+full,school,โรงเรียนวัดราชบพิธ,Bangkok,Phra Nakhon,-3.15437,-3.33947,-3.52457,-2 to -5,4e-05,low
+full,hospital,โรงพยาบาลการไฟฟ้านครหลวง,Bangkok,Dusit,-3.0946,-3.33373,-3.57286,-2 to -5,9e-05,low
+full,rail_station,สามย่าน,Bangkok,Bang Rak,-3.18237,-3.33203,-3.48169,-2 to -5,,
+full,school,โรงเรียนวัดปทุมคงคา,Bangkok,Samphanthawong,-3.2139,-3.33084,-3.44779,-2 to -5,6e-05,low
+full,police,ชั้น5 สน.พระราชวัง,Bangkok,Phra Nakhon,-3.13533,-3.32429,-3.51325,-2 to -5,6e-05,low
+full,hospital,สถาบันมะเร็งแห่งชาติ,Bangkok,Ratchathewi,-3.13878,-3.32317,-3.50756,-2 to -5,6e-05,low
+full,fire_station,สถานีดับเพลิงถนนจันทน์,Bangkok,Yan Nawa,-3.05128,-3.32233,-3.59337,-2 to -5,8e-05,low
+full,school,โรงเรียนวัดท่าพระ,Bangkok,Bangkok Yai,-3.11278,-3.32206,-3.53134,-2 to -5,2e-05,low
+full,school,โรงเรียนสุโขทัย,Bangkok,Dusit,-3.11434,-3.32074,-3.52713,-2 to -5,3e-05,low
+full,rail_station,สนามไชย,Bangkok,Phra Nakhon,-3.13471,-3.32019,-3.50568,-2 to -5,2e-05,low
+full,school,โรงเรียนมัธยมวัดสุทธาราม,Bangkok,Khlong San,-3.05873,-3.31994,-3.58115,-2 to -5,5e-05,low
+full,police,สถานีตำรวจนครบาลบางยี่ขัน,Bangkok,Bang Phlat,-3.09109,-3.31977,-3.54845,-2 to -5,5e-05,low
+full,university,วิทยาลัยเทคโนโลยีพระนครพณิชยการ,Bangkok,Phra Nakhon,-3.11537,-3.31735,-3.51933,-2 to -5,5e-05,low
+full,hospital,โรงพยาบาลราช ประชาสมาสัย,Samut Prakan,Phra Pradaeng,-2.92098,-3.31415,-3.70733,-2 to -5,0.00011,low
+full,police,สถานีตำรวจนครบาลดุสิต,Bangkok,Dusit,-3.10348,-3.3124,-3.52132,-2 to -5,,
+full,police,สถานีตำรวจนครบาลพระราชวัง,Bangkok,Phra Nakhon,-3.12155,-3.31029,-3.49902,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดสวัสดิ์วารีสีมาราม,Bangkok,Dusit,-3.0941,-3.30898,-3.52385,-2 to -5,3e-05,low
+full,school,,Bangkok,Dusit,-3.09781,-3.30869,-3.51958,-2 to -5,2e-05,low
+full,rail_station,วัดมังกร,Bangkok,Samphanthawong,-3.17654,-3.30418,-3.43181,-2 to -5,8e-05,low
+full,school,โรงเรียนวัดไผ่เงินโชตนาราม,Bangkok,Bang Kho Laem,-3.01816,-3.30189,-3.58562,-2 to -5,4e-05,low
+full,hospital,สุขุมาลอนามัย สถานีกาชาดที่ 2,Bangkok,Phra Nakhon,-3.09993,-3.29968,-3.49942,-2 to -5,2e-05,low
+full,rail_station,หัวลำโพง,Bangkok,Pathum Wan,-3.20081,-3.2996,-3.39839,-2 to -5,7e-05,low
+full,school,โรงเรียนสายปัญญา ในพระบรมราชินูปถัมภ์,Bangkok,Pom Prap Sattru Phai,-3.20131,-3.29394,-3.38656,-2 to -5,8e-05,low
+full,school,โรงเรียนกว่างเจ้า,Bangkok,Bang Rak,-3.11965,-3.29314,-3.46662,-2 to -5,0.00021,low
+full,school,โรงเรียนกุหลาบวิทยา,Bangkok,Samphanthawong,-3.15669,-3.2868,-3.41692,-2 to -5,8e-05,low
+full,police,สถานีตำรวจนครบาลบางกอกน้อย,Bangkok,Bangkok Noi,-3.03557,-3.28674,-3.53791,-2 to -5,7e-05,low
+full,police,สถานีตำรวจยานนาวา,Bangkok,Sathon,-3.01377,-3.28481,-3.55586,-2 to -5,3e-05,low
+full,school,โรงเรียนราชินี,Bangkok,Phra Nakhon,-3.08962,-3.28291,-3.4762,-2 to -5,0.00012,low
+full,rail_station,อิสรภาพ,Bangkok,Bangkok Yai,-3.07576,-3.28273,-3.48971,-2 to -5,4e-05,low
+full,school,โรงเรียนมัธยมปัญญารัตน์,Bangkok,Bang Rak,-3.10614,-3.26643,-3.42671,-2 to -5,9e-05,low
+full,university,คณะแพทยศาสตร์วชิรพยาบาล มหาวิทยาลัยนวมินทราธิราช,Bangkok,Dusit,-3.03927,-3.256,-3.47272,-2 to -5,7e-05,low
+full,school,โรงเรียนสตรีวัดอัปสรสวรรค์,Bangkok,Phasi Charoen,-2.99078,-3.25549,-3.5202,-2 to -5,5e-05,low
+full,hospital,โรงพยาบาลรามาธิบดี,Bangkok,Ratchathewi,-3.06922,-3.25516,-3.44109,-2 to -5,0.00015,low
+full,police,สถานีตำรวจนครบาลจักรวรรดิ,Bangkok,Samphanthawong,-3.07992,-3.25295,-3.42597,-2 to -5,6e-05,low
+full,police,Chakkrawat Police Station,Bangkok,Samphanthawong,-3.07992,-3.25295,-3.42597,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดหัวลำโพง,Bangkok,Bang Rak,-3.10578,-3.25106,-3.39635,-2 to -5,6e-05,low
+full,rail_station,ท่าพระ,Bangkok,Bangkok Yai,-3.03708,-3.25096,-3.46484,-2 to -5,4e-05,low
+full,university,มหาวิทยาลัยนวมินทราธิราช,Bangkok,Dusit,-3.02986,-3.24971,-3.46955,-2 to -5,5e-05,low
+full,school,โรงเรียนสวนกุหลาบวิทยาลัย,Bangkok,Phra Nakhon,-3.06559,-3.24715,-3.42871,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดดวงแข,Bangkok,Pathum Wan,-3.16634,-3.24028,-3.31422,-2 to -5,9e-05,low
+full,rail_station,สามยอด,Bangkok,Phra Nakhon,-3.05727,-3.23925,-3.42122,-2 to -5,2e-05,low
+full,police,สถานีตำรวจตลิ่งซัน,Bangkok,Phra Nakhon,-3.03758,-3.23903,-3.44048,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดราขผาติการาม,Bangkok,Dusit,-3.0214,-3.23588,-3.45036,-2 to -5,5e-05,low
+full,school,โรงเรียนสารสาสน์เอกตรา,Bangkok,Bang Kho Laem,-2.91566,-3.23088,-3.5461,-2 to -5,5e-05,low
+full,school,โรงเรียนสีตบุตรบำรุง,Bangkok,Pathum Wan,-3.15668,-3.23054,-3.3044,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดชัยชนะสงคราม,Bangkok,Samphanthawong,-3.06636,-3.22946,-3.39255,-2 to -5,3e-05,low
+full,school,โรงเรียนสตรีบูรณวิทย์,Bangkok,Bang Phlat,-2.94474,-3.22381,-3.50289,-2 to -5,0.0001,low
+full,school,โรงเรียนราชวินิต,Bangkok,Dusit,-3.02212,-3.21798,-3.41385,-2 to -5,3e-05,low
+full,university,วิทยาลัยเพาะช่าง มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์,Bangkok,Phra Nakhon,-3.03614,-3.21493,-3.39372,-2 to -5,6e-05,low
+full,police,สถานีตำรวจนครบาลสามเสน,Bangkok,Dusit,-3.00326,-3.21439,-3.42551,-2 to -5,6e-05,low
+full,police,สน.สามเสน ถนนสามเสน เขตดุสิต กทม.10300,Bangkok,Dusit,-3.00326,-3.21439,-3.42551,-2 to -5,6e-05,low
+full,police,สนาม พลับพลาไชย,Bangkok,Pom Prap Sattru Phai,-3.08816,-3.21413,-3.3401,-2 to -5,5e-05,low
+full,rail_station,ไฟฉาย,Bangkok,Bangkok Noi,-2.96209,-3.20808,-3.45408,-2 to -5,9e-05,low
+full,school,โรงเรียนสารสาสน์พิทยา,Bangkok,Yan Nawa,-2.89615,-3.2069,-3.51766,-2 to -5,4e-05,low
+full,school,โรงเรียนเขมะสิริอนุสสรณ์,Bangkok,Bang Phlat,-2.95023,-3.20593,-3.46162,-2 to -5,5e-05,low
+full,police,สถานีตำรวจรถไฟนพวงศ์,Bangkok,Pathum Wan,-3.12068,-3.20558,-3.29048,-2 to -5,0.00011,low
+full,school,โรงเรียนยุหมินพัฒนา,Bangkok,Bang Rak,-3.05252,-3.20461,-3.3567,-2 to -5,9e-05,low
+full,school,โรงเรียนเปรมฤดีศึกษา,Bangkok,Bang Kho Laem,-2.90141,-3.20263,-3.50384,-2 to -5,3e-05,low
+full,fire_station,Siphaya Volunteer Fire Department,Bangkok,Bang Rak,-3.04916,-3.2025,-3.35585,-2 to -5,0.00012,low
+full,police,ศาลพ่อปู่เจ้ายี่กอฮง ชั้น ๔ สน.พลับพลาไชย ๑ & ๒,Bangkok,Pom Prap Sattru Phai,-3.07604,-3.20245,-3.32886,-2 to -5,3e-05,low
+full,rail_station,วงเวียนใหญ่,Bangkok,Khlong San,-2.95471,-3.20227,-3.44982,-2 to -5,8e-05,low
+full,police,Royal Thai Polich (สำนักงานตำรวจแห่งชาติ),Bangkok,Pathum Wan,-3.12695,-3.20087,-3.27479,-2 to -5,6e-05,low
+full,hospital,Vichaivej hospital,Samut Sakhon,Krathum Baen,-2.63554,-3.19957,-3.76359,-2 to -5,0.0001,low
+full,police,Phlapphla Chai 2 Metropolitan Police Station,Bangkok,Pom Prap Sattru Phai,-3.07103,-3.19651,-3.322,-2 to -5,3e-05,low
+full,police,สถานีตำรวจนครบาลพลับพลาไชย,Bangkok,Pom Prap Sattru Phai,-3.06226,-3.19026,-3.31827,-2 to -5,3e-05,low
+full,rail_station,วงเวียนใหญ่,Bangkok,Thon Buri,-2.94233,-3.18892,-3.43552,-2 to -5,0.00011,low
+full,school,โรงเรียนวัดพระพิเรนทร์,Bangkok,Pom Prap Sattru Phai,-3.01471,-3.18502,-3.35533,-2 to -5,2e-05,low
+full,school,โรงเรียนพระแม่มารี,Bangkok,Sathon,-2.9034,-3.18143,-3.45945,-2 to -5,4e-05,low
+full,fire_station,กองปฏิบัติการดับเพลิง ฐานท่าพระอาทิตย์,Bangkok,Phra Nakhon,-2.96159,-3.18015,-3.3987,-2 to -5,2e-05,low
+full,university,มหาวิทยาลัยสวนดุสิต,Bangkok,Dusit,-2.98227,-3.17722,-3.37217,-2 to -5,9e-05,low
+full,school,โรงเรียนมัธยมวัดดุสิตาราม,Bangkok,Bangkok Noi,-2.94887,-3.17465,-3.40043,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดหงส์รัตนารามราชวรวิหาร,Bangkok,Bangkok Yai,-2.9596,-3.17094,-3.38229,-2 to -5,2e-05,low
+full,school,โรงเรียนเทศบาลวัดแค,Samut Prakan,Phra Pradaeng,-2.76908,-3.17016,-3.57124,-2 to -5,4e-05,low
+full,school,โรงเรียนสตรีวัดมหาพฤฒาราม,Bangkok,Bang Rak,-3.04221,-3.16381,-3.28541,-2 to -5,4e-05,low
+full,school,โรงเรียนวาสุเทวี,Bangkok,Bang Kho Laem,-2.86367,-3.15846,-3.45324,-2 to -5,2e-05,low
+full,school,โรงเรียนวัดโสมนัส,Bangkok,Pom Prap Sattru Phai,-2.98709,-3.15556,-3.32403,-2 to -5,1e-05,low
+full,school,โรงเรียนวัดขุนจันทร์,Bangkok,Thon Buri,-2.87184,-3.14578,-3.41972,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดคณิกาผล,Bangkok,Pom Prap Sattru Phai,-3.01199,-3.14463,-3.27727,-2 to -5,4e-05,low
+full,rail_station,บางไผ่,Bangkok,Phasi Charoen,-2.89502,-3.13477,-3.37452,-2 to -5,5e-05,low
+full,fire_station,สถานีดับเพลิงและกู้ภัยบางรัก Bangrak Fire and Rescue Station,Bangkok,Bang Rak,-2.99725,-3.13399,-3.27073,-2 to -5,9e-05,low
+full,police,สถานีตำรวจนครบาลสำราญราษฎร์,Bangkok,Phra Nakhon,-2.95304,-3.13313,-3.31321,-2 to -5,3e-05,low
+full,school,โรงเรียนโยนออฟอาร์ค,Bangkok,Dusit,-2.92583,-3.13212,-3.33842,-2 to -5,3e-05,low
+full,police,กองกำกับการ 4 กองบังคับการตำรวจสันติบาล 3,Bangkok,Dusit,-2.9549,-3.13069,-3.30648,-2 to -5,6e-05,low
+full,school,โรงเรียนเตรียมอุดมศึกษาพัฒนาการ ยานนาเวศ,Bangkok,Sathon,-2.84968,-3.13056,-3.41144,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดมหรรณพาราม,Bangkok,Phra Nakhon,-2.93056,-3.12832,-3.32608,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดสังเวช,Bangkok,Phra Nakhon,-2.9099,-3.12429,-3.33867,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดครุนอก (สาอาจ-ดิษฐเจริญวิทยาคาร),Samut Prakan,Phra Pradaeng,-2.67314,-3.12178,-3.57041,-2 to -5,0.00015,low
+full,police,สน.บุพผาราม,Bangkok,Thon Buri,-2.89253,-3.11575,-3.33897,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลกลาง,Bangkok,Pom Prap Sattru Phai,-2.95596,-3.11228,-3.2686,-2 to -5,4e-05,low
+full,school,โรงเรียนวัดกัลยาณมิตร,Bangkok,Thon Buri,-2.90075,-3.11027,-3.3198,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดพลับพลาชัย,Bangkok,Pom Prap Sattru Phai,-3.00252,-3.11014,-3.21776,-2 to -5,7e-05,low
+full,school,โรงเรียนเซนต์ฟรังซีสเซเวียร์,Bangkok,Dusit,-2.89157,-3.09583,-3.30009,-2 to -5,2e-05,low
+full,police,สถานีตำรวจนครบาลชนะสงคราม,Bangkok,Phra Nakhon,-2.87403,-3.08689,-3.29974,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดชนะสงคราม,Bangkok,Phra Nakhon,-2.85766,-3.07222,-3.28678,-2 to -5,1e-05,low
+full,school,โรงเรียนเซนต์คาเบรียล,Bangkok,Dusit,-2.8621,-3.06387,-3.26564,-2 to -5,2e-05,low
+full,school,โรงเรียนโฆสิตสโมสร,Bangkok,Bangkok Noi,-2.83005,-3.05397,-3.27788,-2 to -5,0.0001,low
+full,school,โรงเรียนสาธิตมหาวิทยาลัยราชภัฏสวนสุนันทา,Bangkok,Dusit,-2.85408,-3.05223,-3.25037,-2 to -5,4e-05,low
+full,school,โรงเรียนสตรีวิทยา,Bangkok,Phra Nakhon,-2.85618,-3.05156,-3.24695,-2 to -5,2e-05,low
+full,school,โรงเรียนเทพศิรินทร์,Bangkok,Pom Prap Sattru Phai,-2.95152,-3.04443,-3.13734,-2 to -5,3e-05,low
+full,university,มหาวิทยาลัยมหิดล (เชิงสะพานสมเด็จพระปิ่นเกล้า),Bangkok,Bang Phlat,-2.81226,-3.03552,-3.25878,-2 to -5,6e-05,low
+full,school,โรงเรียนวัดปุณหังสนาวาส (ทิพย์สมบัติบุญ-ชุ่มอุทิศ),Samut Prakan,Phra Pradaeng,-2.61937,-3.03431,-3.44926,-2 to -5,0.00014,low
+full,university,วิทยาลัยเทคโนโลยีตั้งตรงจิตรพณิชยการ,Bangkok,Phra Nakhon,-2.83539,-3.02146,-3.20753,-2 to -5,5e-05,low
+full,police,สถานีตำรวจนครบาลบุปผาราม,Bangkok,Thon Buri,-2.79701,-3.01373,-3.23045,-2 to -5,0.00011,low
+full,university,มหาวิทยาลัยธรรมศาสตร์ ท่าพระจันทร์,Bangkok,Phra Nakhon,-2.79164,-3.00758,-3.22352,-2 to -5,9e-05,low
+full,school,โรงเรียนวัดบวรนิเวศ,Bangkok,Phra Nakhon,-2.81175,-3.00502,-3.19829,-2 to -5,3e-05,low
+full,school,โรงเรียนวัดดิสานุการาม,Bangkok,Pom Prap Sattru Phai,-2.84519,-3.00249,-3.1598,-2 to -5,5e-05,low
+full,school,โรงเรียนวัดราชาธิวาส,Bangkok,Dusit,-2.78378,-2.98638,-3.18897,-2 to -5,2e-05,low
+full,school,Sang Arun School,Bangkok,Thon Buri,-2.76484,-2.98261,-3.20038,-2 to -5,7e-05,low
+full,university,มหาวิทยาลัยราชภัฏสวนสุนันทา,Bangkok,Dusit,-2.78554,-2.98066,-3.17577,-2 to -5,7e-05,low
+full,fire_station,สถานีตำรวจดับเพลิงภูเขาทอง,Bangkok,Pom Prap Sattru Phai,-2.78419,-2.95624,-3.12829,-2 to -5,5e-05,low
+full,police,สภอ.พระประแดง,Samut Prakan,Phra Pradaeng,-2.5564,-2.94985,-3.34331,-2 to -5,7e-05,low
+full,school,โรงเรียนเทศบาลป้อมแผลงไฟฟ้า,Samut Prakan,Phra Pradaeng,-2.55428,-2.9494,-3.34453,-2 to -5,3e-05,low
+full,school,โรงเรียนสตรีวัดระฆัง,Bangkok,Bangkok Noi,-2.72985,-2.94877,-3.16769,-2 to -5,,
+full,school,โรงเรียนวัดราชนัดดาราม,Bangkok,Phra Nakhon,-2.76269,-2.94656,-3.13042,-2 to -5,4e-05,low
+full,university,มหาวิทยาลัยศิลปากร วังท่าพระ,Bangkok,Phra Nakhon,-2.73562,-2.94505,-3.15448,-2 to -5,0.0001,low
+full,school,โรงเรียนมัธยมวัดมกุฏกษัตริย์,Bangkok,Phra Nakhon,-2.75736,-2.93801,-3.11866,-2 to -5,0.0,low
+full,hospital,โรงพยาบาลบำรุงราษฎร์,Bangkok,Vadhana,-2.73742,-2.93795,-3.13848,-2 to -5,0.00015,low
+full,school,โรงเรียนวัดสระเกศ,Bangkok,Pom Prap Sattru Phai,-2.77408,-2.93355,-3.09303,-2 to -5,3e-05,low
+full,school,โรงเรียนชิโนรสวิทยาลัย,Bangkok,Bangkok Noi,-2.71026,-2.92453,-3.1388,-2 to -5,3e-05,low
+full,school,โรงเรียนวิสุทธิกษัตรี,Samut Prakan,Phra Pradaeng,-2.51999,-2.91345,-3.30691,-2 to -5,4e-05,low
+full,school,โรงเรียนซางตาครู้สคอนแวนท์,Bangkok,Thon Buri,-2.69279,-2.9109,-3.12901,-2 to -5,7e-05,low
+full,police,สถานีตำรวจนครบาลนางเลิ้ง,Bangkok,Pom Prap Sattru Phai,-2.73206,-2.9046,-3.07714,-2 to -5,5e-05,low
+full,university,สถาบันบัณฑิตพัฒนศิลป์,Bangkok,Phra Nakhon,-2.67332,-2.89741,-3.1215,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลกรุงเทพคริสเตียน,Bangkok,Bang Rak,-2.68682,-2.86034,-3.03387,-2 to -5,0.0003,low
+full,school,โรงเรียนชาตศึกษา,Bangkok,Bangkok Yai,-2.66055,-2.85789,-3.05522,-2 to -5,3e-05,low
+full,police,สถานีตำรวจนครบาลภาษีเจริญ,Bangkok,Phasi Charoen,-2.55075,-2.83305,-3.11535,-2 to -5,5e-05,low
+full,rail_station,บางหว้า,Bangkok,Phasi Charoen,-2.51967,-2.78147,-3.04328,-2 to -5,0.00024,low
+full,university,สถาบันเทคโนโลยีปทุมวัน,Bangkok,Pathum Wan,-2.66034,-2.77665,-2.89296,-2 to -5,0.00018,low
+full,rail_station,บางหว้า,Bangkok,Phasi Charoen,-2.50993,-2.77375,-3.03756,-2 to -5,0.00028,low
+full,school,โรงเรียนศึกษานารี,Bangkok,Thon Buri,-2.54984,-2.76891,-2.98797,-2 to -5,6e-05,low
+full,university,วิทยาลัยสารพัดช่างนครหลวง,Bangkok,Bang Phlat,-2.45377,-2.73288,-3.01198,-2 to -5,0.00013,low
+full,university,มหาวิทยาลัยราชภัฏธนบุรี,Bangkok,Thon Buri,-2.43195,-2.6514,-2.87086,-2 to -5,0.00019,low
+full,school,โรงเรียนวัดพระยาทำ,Bangkok,Bangkok Noi,-2.40101,-2.61522,-2.82943,-2 to -5,6e-05,low
+full,university,มหาวิทยาลัยสยาม,Bangkok,Phasi Charoen,-2.35214,-2.6134,-2.87467,-2 to -5,0.00023,low
+full,school,โรงเรียนทวีธาภิเศก,Bangkok,Bangkok Yai,-2.34314,-2.54968,-2.75622,-2 to -5,7e-05,low
+full,school,โรงเรียนวัดนาคกลาง,Bangkok,Bangkok Yai,-2.32302,-2.53277,-2.74252,-2 to -5,2e-05,low
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร,Bangkok,Dusit,-2.25154,-2.4535,-2.65547,-2 to -5,0.0001,low
+full,hospital,โรงพยาบาลศิริราช ปิยมหาราชการุณย์,Bangkok,Bangkok Noi,-2.20492,-2.43449,-2.66406,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลธนบุรีบำรุงเมือง,Bangkok,Pom Prap Sattru Phai,-2.19462,-2.31118,-2.42775,-2 to -5,4e-05,low
+full,hospital,โรงพยาบาลบางไผ่,Bangkok,Phasi Charoen,-2.01526,-2.25444,-2.49361,-2 to -5,7e-05,low
+full,university,วิทยาลัยเทคโนโลยีสยาม,Bangkok,Bangkok Yai,-2.00765,-2.2232,-2.43876,-2 to -5,7e-05,low
+full,hospital,โรงพยาบาลหัวเฉียว,Bangkok,Pom Prap Sattru Phai,-2.00183,-2.10782,-2.2138,-2 to -5,8e-05,low
+full,hospital,ศูนย์บริการสาธารณสุข 23 สี่พระยา,Bangkok,Bang Rak,-1.76877,-1.90421,-2.03964,0 to -2,0.00023,low
+full,school,โรงเรียนบ้านชายทะเลกาหลง,Samut Sakhon,Mueang Samut Sakhon,,,,no data,,
+full,school,โรงเรียนวัดบางขมิ้น (คำปุ่นราษฎร์บำรุง),Samut Prakan,Phra Pradaeng,,,,no data,,
+full,school,โรงเรียนวัดบางกระสอบ (เชยบุญปลูกราษฎร์อุปถัมภ์),Samut Prakan,Phra Pradaeng,,,,no data,,
+full,school,โรงเรียนวัดป่าเกด (ดิษ วิทยาคาร),Samut Prakan,Phra Pradaeng,,,,no data,,
+full,school,โรงเรียนวัดบางกะเจ้ากลาง (ศีลาทิราษฎร์รังสฤษฏ์),Samut Prakan,Phra Pradaeng,,,,no data,,
+full,school,โรงเรียนวัดบางน้ำผึ้งใน (กรุณานุยุตตาคาร),Samut Prakan,Phra Pradaeng,,,,no data,,
+full,university,มหาวิทยาลัยเทคโนโลยีราชมงคล วิทยาเขตอุเทนถวาย,Bangkok,Pathum Wan,,,,no data,,
+full,rail_station,อาคารเทียบเครื่องบินรองหลังที่ 1,Samut Prakan,Bang Phli,,,,no data,,
+full,rail_station,สุวรรณภูมิ,Samut Prakan,Bang Phli,,,,no data,,
+full,rail_station,อาคารผู้โดยสารหลัก,Samut Prakan,Bang Phli,,,,no data,,
+full,police,สถานีปล่อยกระสวยอวกาศสุวรรณภูมิ,Samut Prakan,Bang Phli,,,,no data,,
+full,police,กองกำกับการสืบสวนปราบปราม บกตม2,Samut Prakan,Bang Phli,,,,no data,,
+full,police,ตำรวจตรวจคนเข้าเมืองสุวรรณภูมิ,Samut Prakan,Bang Phli,,,,no data,,

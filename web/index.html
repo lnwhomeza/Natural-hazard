@@ -104,6 +104,8 @@
   <div class="legend" id="legend"></div>
 
   <h2 data-i18n="layersT">ชั้นข้อมูล</h2>
+  <label class="chk" id="riskRow" hidden><input type="checkbox" id="l-risk"> <span data-i18n="lRisk">ดัชนีความเสี่ยงรายเขต</span></label>
+  <div class="legend" id="riskLegend" hidden style="margin:2px 0 8px 28px"></div>
   <label class="chk" id="floodRow" hidden><input type="checkbox" id="l-flood" checked> <span class="sw" style="background:#2166ac;width:16px;height:12px"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
   <label class="chk" id="gfmRow" hidden><input type="checkbox" id="l-gfm"> <span class="sw" style="background:#e84c78;width:16px;height:12px"></span> <span data-i18n="lGfm">น้ำท่วมจาก Copernicus GFM</span></label>
   <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ (ซูมเข้าใกล้)</span></label>
@@ -137,6 +139,8 @@ const I18N = {
     legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
     lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
     lFlood: 'น้ำท่วม 21 ต.ค. 2569 (ภาพเรดาร์)', lGfm: 'น้ำท่วม 21 ต.ค. 2569 จาก Copernicus GFM (เทียบ)', flood: 'พื้นที่น้ำท่วมของเขต (21 ต.ค. 2569)', km2: 'ตร.กม.',
+    lRisk: 'ดัชนีความเสี่ยงรายเขต (ภัย × การสัมผัส × ความเปราะบาง)', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
+    risk: 'ความเสี่ยงของเขต', riskOf: 'จาก 59', rH: 'ภัย', rE: 'การสัมผัส', rV: 'ความเปราะบาง',
     hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
     cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
     rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
@@ -157,6 +161,8 @@ const I18N = {
     legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
     lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
     lFlood: 'Flooding on 21 Oct 2026 (radar)', lGfm: 'Flooding on 21 Oct 2026 from Copernicus GFM (compare)', flood: 'Flooded area in the district (21 Oct 2026)', km2: 'km²',
+    lRisk: 'District risk index (hazard × exposure × vulnerability)', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
+    risk: 'District risk', riskOf: 'of 59', rH: 'hazard', rE: 'exposure', rV: 'vulnerability',
     hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
     cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
     rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
@@ -188,6 +194,12 @@ const ABOUT = {
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าของแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li></ul>
     <h4>แหล่งข้อมูล</h4>
+    <h4>ดัชนีความเสี่ยงรายเขต</h4>
+    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณรายเขต/อำเภอ แต่ละส่วนปรับเป็น 0–1 เทียบกันระหว่าง 59 เขต แล้วแบ่งเป็น 5 ระดับเท่า ๆ กัน (ระดับละราว 12 เขต) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
+    <ul><li><b>ภัย</b>: อัตราทรุดกลางของเขต, % พื้นที่ทรุดเกิน 10 มม./ปี, % พื้นที่ที่ทรุดไม่เท่ากันจนอาจกระทบอาคาร (angular distortion ≥ 1/3000), % พื้นที่น้ำท่วม 21 ต.ค. 2569</li>
+    <li><b>การสัมผัสภัย</b>: จำนวนประชากร อาคาร และสถานที่สำคัญ (โรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ) ในพื้นที่ทรุดเกิน 10 มม./ปี</li>
+    <li><b>ความเปราะบาง</b>: % ผู้สูงอายุ 65 ปีขึ้นไป, % เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), % อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น), ระยะทางเฉลี่ยถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
+    <p>เมื่อสุ่มน้ำหนักตัวชี้วัดและวิธีรวม 2,000 แบบ บางบ่อ บ้านแพ้ว หนองจอก ลาดกระบัง บางเสาธง เมืองสมุทรสาคร และพระสมุทรเจดีย์ ยังอยู่ใน 10 อันดับแรกเกือบทุกครั้ง</p>
     <p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · น้ำท่วมเทียบ: Copernicus GFM (CEMS) · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">ปิด</button></p>`,
   en: `<h3>About the data</h3>
@@ -205,6 +217,12 @@ const ABOUT = {
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li></ul>
     <h4>Sources</h4>
+    <h4>District risk index</h4>
+    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed per district. Each part is scaled 0–1 across the 59 districts and the result is split into 5 equal-sized classes (about 12 districts each), so it shows <b>relative risk</b>, not a probability of damage.</p>
+    <ul><li><b>Hazard</b>: district median rate, % of area sinking faster than 10 mm/yr, % of area with uneven sinking that can affect buildings (angular distortion ≥ 1/3000), % of area flooded on 21 Oct 2026</li>
+    <li><b>Exposure</b>: people, buildings and key facilities (schools, hospitals, fire and police stations, rail stations) where the ground sinks faster than 10 mm/yr</li>
+    <li><b>Vulnerability</b>: % aged 65+, % under 5 (WorldPop 2025), % low buildings up to 6 m (houses often on short piles), average distance to the nearest hospital</li></ul>
+    <p>Across 2,000 random choices of indicator weights and combination method, Bang Bo, Ban Phaeo, Nong Chok, Lat Krabang, Bang Sao Thong, Mueang Samut Sakhon and Phra Samut Chedi stay in the top 10 almost every time.</p>
     <p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Comparison flood map: Copernicus GFM (CEMS) · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
     <p style="text-align:right"><button class="chip" id="aboutClose">Close</button></p>`,
 };
@@ -221,6 +239,7 @@ function colorExpr(prop) {
   return ['match', ['get', prop], 0, meta.colors[0], 1, meta.colors[1], 2, meta.colors[2], 3, meta.colors[3], '#c8c8c8'];
 }
 
+const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = T(e.dataset.i18n));
@@ -228,6 +247,8 @@ function applyLang() {
   $('legend').innerHTML = [0, 1, 2, 3].map(i =>
     `<div><span class="sw" style="background:${meta.colors[i]}"></span><span>${T('cls')[i]}</span><span class="rng">${T('rng')[i]}</span></div>`).join('')
     + `<div><span class="sw" style="background:#c8c8c8"></span><span>${T('nod')}</span><span class="rng"></span></div>`;
+  $('riskLegend').innerHTML = RISK_COLORS.map((c, i) =>
+    `<div><span class="sw" style="background:${c}"></span><span>${T('rcls')[i]}</span><span class="rng"></span></div>`).join('');
   $('aboutBox').innerHTML = ABOUT[lang];
   $('aboutClose').onclick = () => $('about').classList.remove('open');
   if (last) showCard(last);
@@ -270,7 +291,8 @@ function showCard(info) {
     $('cExpl').textContent = T('expl')[cl];
   }
   if (d) {
-    $('cStats').innerHTML = `${T('median')}: <b>${Math.abs(d.med).toFixed(1)} ${T('unit')}</b> · ${T('rank')} ${d.rank} ${T('of')}<br>${T('pct')}: ${d.pct10}%` + (d.fl_km2 !== undefined && d.fl_km2 !== null ? `<br>${T('flood')}: ${d.fl_km2.toFixed(1)} ${T('km2')} (${d.fl_pct.toFixed(1)}%)` : '');
+    $('cStats').innerHTML = `${T('median')}: <b>${Math.abs(d.med).toFixed(1)} ${T('unit')}</b> · ${T('rank')} ${d.rank} ${T('of')}<br>${T('pct')}: ${d.pct10}%` + (d.fl_km2 !== undefined && d.fl_km2 !== null ? `<br>${T('flood')}: ${d.fl_km2.toFixed(1)} ${T('km2')} (${d.fl_pct.toFixed(1)}%)` : '')
+      + (d.rk !== undefined && d.rk !== null ? `<br>${T('risk')}: <b style="color:${RISK_COLORS[Math.max(d.rc, 2)]}">${T('rcls')[d.rc]}</b> · ${T('rank')} ${d.rk} ${T('riskOf')}<br><small>${T('rH')} ${d.rH.toFixed(2)} · ${T('rE')} ${d.rE.toFixed(2)} · ${T('rV')} ${d.rV.toFixed(2)} (0–1)</small>` : '');
     $('cChartT').textContent = T('chartT');
     $('chart').style.display = '';
     drawChart(d);
@@ -343,6 +365,11 @@ map.on('load', async () => {
     $('gfmRow').hidden = false;
   }
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
+  if (meta.risk) {
+    map.addLayer({ id: 'ss-risk', type: 'fill', source: 'ss-dist', layout: { visibility: 'none' },
+      paint: { 'fill-color': ['match', ['get', 'rc'], ...RISK_COLORS.flatMap((c, i) => [i, c]), '#ccc'], 'fill-opacity': .78 } }, firstSymbol);
+    $('riskRow').hidden = false;
+  }
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
     paint: { 'line-color': '#444', 'line-opacity': .6, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.4] } }, firstSymbol);
   meta.buildings.forEach((f, i) => {
@@ -380,6 +407,7 @@ map.on('load', async () => {
   $('l-img').onchange = e => vis(['ss-img'], e.target.checked);
   $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
   $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
+  $('l-risk').onchange = e => { vis(['ss-risk'], e.target.checked); $('riskLegend').hidden = !e.target.checked; };
   $('l-flood').onchange = e => vis(['ss-flood'], e.target.checked);
   $('l-gfm').onchange = e => vis(['ss-gfm'], e.target.checked);
 });
