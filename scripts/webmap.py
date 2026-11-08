@@ -112,8 +112,45 @@ def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
     return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
 
 
+RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
+
+
+def risk_layer(rdir):
+    """ความเสี่ยง raster 100 ม. (scripts/risk_raster.py) → risk.png (EPSG:3857, 5 ระดับ)
+    และ risk.bin บน lon/lat: 4 ไบต์ต่อเซลล์ = ระดับ (255 ไม่มี), H, E, V (×100)"""
+    from PIL import Image
+    with rasterio.open(rdir / 'risk_class.tif') as s:
+        c = s.read(1); tr, crs = s.transform, s.crs
+        h, w = c.shape
+        b = s.bounds
+    dt, dw, dh = calculate_default_transform(crs, 'EPSG:3857', w, h, *b)
+    m = np.full((dh, dw), 255, 'uint8')
+    reproject(c, m, src_transform=tr, src_crs=crs, src_nodata=255, dst_transform=dt, dst_crs='EPSG:3857',
+              dst_nodata=255, resampling=Resampling.nearest)
+    rgba = np.zeros((dh, dw, 4), 'uint8')
+    for i, col in enumerate(RISK_COLORS):
+        rgba[m == i] = [int(col[k:k + 2], 16) for k in (1, 3, 5)] + [225]
+    Image.fromarray(rgba).save(SITE / 'risk.png', optimize=True)
+    x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
+    image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
+
+    gt, gw, gh = calculate_default_transform(crs, 'EPSG:4326', w, h, *b)
+    bands = [c.astype('float32')]
+    for k in 'HEV':
+        with rasterio.open(rdir / f'{k}.tif') as s:
+            bands.append(np.where(c == 255, np.nan, np.round(s.read(1) * 100)))
+    out = np.full((gh, gw, 4), 255, 'uint8')
+    for i, a in enumerate(bands):
+        g = np.full((gh, gw), np.nan, 'float32')
+        reproject(np.where(c == 255, np.nan, a).astype('float32'), g, src_transform=tr, src_crs=crs, src_nodata=np.nan,
+                  dst_transform=gt, dst_crs='EPSG:4326', dst_nodata=np.nan, resampling=Resampling.nearest)
+        out[..., i] = np.where(np.isfinite(g), g, 255).astype('uint8')
+    out.tofile(SITE / 'risk.bin')
+    return {'image': image, 'grid': {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e}}
+
+
 # ---------------------------------------------------------------- districts + time series
-def district_layer(v, tr, flood_csv=None, risk_csv=None):
+def district_layer(v, tr, flood_csv=None):
     adm = districts()
     zone = rasterize(zip(adm.geometry, adm.index + 1), out_shape=v.shape, transform=tr, fill=0)
     ok = np.isfinite(v) & (zone > 0)
@@ -129,12 +166,6 @@ def district_layer(v, tr, flood_csv=None, risk_csv=None):
         fl = pd.read_csv(flood_csv).set_index('adm2_name')
         out['fl_km2'] = rnd(out.adm2_name.map(fl.flood_km2), 2)
         out['fl_pct'] = rnd(out.adm2_name.map(fl.flood_pct), 1)
-    if risk_csv and Path(risk_csv).exists():          # ดัชนีความเสี่ยง H × E × V จาก scripts/risk.py
-        rk = pd.read_csv(risk_csv).set_index('adm2_pcode')
-        for col, src, nd in [('rk', 'rank', None), ('rc', 'risk_class', None), ('rH', 'H', 2), ('rE', 'E', 2),
-                             ('rV', 'V', 2), ('rt10', 'pct_top10', 0)]:
-            x = adm.adm2_pcode.map(rk[src])
-            out[col] = x.astype('Int64').tolist() if nd is None else rnd(x, nd)
     o = out.to_crs(4326)
     o['geometry'] = o.geometry.simplify(0.0002)
     o.to_file(SITE / 'districts.geojson', driver='GeoJSON', COORDINATE_PRECISION=5)
@@ -248,12 +279,12 @@ def main():
     ap.add_argument('--full', type=Path, default=ROOT / 'results' / 'full')
     ap.add_argument('--skip-buildings', action='store_true')
     ap.add_argument('--flood', type=Path, default=ROOT / 'results' / 'flood')
-    ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk' / 'risk_districts.csv')
+    ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk_raster')
     ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
     v, tr, image, grid = raster_layers(a.full)
-    adm = district_layer(v, tr, a.flood / 'flood_districts.csv', a.risk)
+    adm = district_layer(v, tr, a.flood / 'flood_districts.csv')
     district_series(a.full, adm)
     rail(v, tr)
     meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES]}
@@ -262,8 +293,8 @@ def main():
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
     if a.gfm.exists():
         meta['gfm'] = {'image': flood_layer(a.gfm, 'gfm.png', (0xe8, 0x4c, 0x78)), 'date': a.gfm.stem.split('_')[-1]}
-    if a.risk.exists():
-        meta['risk'] = True
+    if (a.risk / 'risk_class.tif').exists():
+        meta['risk'] = risk_layer(a.risk)
     old = SITE / 'meta.json'
     meta['buildings'] = (json.loads(old.read_text()).get('buildings', []) if a.skip_buildings and old.exists()
                          else buildings(v, tr))

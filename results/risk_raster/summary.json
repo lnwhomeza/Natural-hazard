@@ -1,0 +1,93 @@
+{
+ "grid_m": 100.0,
+ "radius_m": 500,
+ "n_sim": 500,
+ "class_edges_risk": [
+  0.0084,
+  0.0141,
+  0.0232,
+  0.0441
+ ],
+ "settled_km2": 2466.8,
+ "pct_settled_stable_top20": 42.1,
+ "very_high_by_district_top10": [
+  {
+   "adm2_name1": "ลาดกระบัง",
+   "adm1_name1": "กรุงเทพมหานคร",
+   "very_high_km2": 37.6,
+   "very_high_pop": 187577.9
+  },
+  {
+   "adm2_name1": "บางเสาธง",
+   "adm1_name1": "สมุทรปราการ",
+   "very_high_km2": 21.6,
+   "very_high_pop": 158002.4
+  },
+  {
+   "adm2_name1": "หนองจอก",
+   "adm1_name1": "กรุงเทพมหานคร",
+   "very_high_km2": 72.2,
+   "very_high_pop": 137876.7
+  },
+  {
+   "adm2_name1": "เมืองสมุทรสาคร",
+   "adm1_name1": "สมุทรสาคร",
+   "very_high_km2": 51.8,
+   "very_high_pop": 130838.5
+  },
+  {
+   "adm2_name1": "บางบ่อ",
+   "adm1_name1": "สมุทรปราการ",
+   "very_high_km2": 69.6,
+   "very_high_pop": 113972.3
+  },
+  {
+   "adm2_name1": "บางพลี",
+   "adm1_name1": "สมุทรปราการ",
+   "very_high_km2": 34.3,
+   "very_high_pop": 108473.1
+  },
+  {
+   "adm2_name1": "คลองสามวา",
+   "adm1_name1": "กรุงเทพมหานคร",
+   "very_high_km2": 25.5,
+   "very_high_pop": 80889.8
+  },
+  {
+   "adm2_name1": "เมืองสมุทรปราการ",
+   "adm1_name1": "สมุทรปราการ",
+   "very_high_km2": 19.0,
+   "very_high_pop": 79735.0
+  },
+  {
+   "adm2_name1": "มีนบุรี",
+   "adm1_name1": "กรุงเทพมหานคร",
+   "very_high_km2": 17.0,
+   "very_high_pop": 77425.7
+  },
+  {
+   "adm2_name1": "บ้านแพ้ว",
+   "adm1_name1": "สมุทรสาคร",
+   "very_high_km2": 103.4,
+   "very_high_pop": 55349.8
+  }
+ ],
+ "indicators": {
+  "H": [
+   "h_rate",
+   "h_beta",
+   "h_flood"
+  ],
+  "E": [
+   "e_pop",
+   "e_bld",
+   "e_fac"
+  ],
+  "V": [
+   "v_elderly",
+   "v_child",
+   "v_lowrise",
+   "v_hosp_km"
+  ]
+ }
+}
