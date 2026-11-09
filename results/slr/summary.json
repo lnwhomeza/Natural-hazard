@@ -1,0 +1,61 @@
+{
+ "dem": "DeltaDTM v1.1 (EGM2008)",
+ "msl_above_egm2008_m": 1.08,
+ "dem_epoch": 2020,
+ "mhhw_m": 1.292,
+ "rp10_m": 2.106,
+ "study_km2_with_dem_and_rate": 2831.8,
+ "pct_rate_filled": 21.1,
+ "elev_now_pct": {
+  "p5": -0.28,
+  "p25": 0.18,
+  "p50": 0.5,
+  "p75": 0.86,
+  "p95": 1.32
+ },
+ "below_now_2026_km2": {
+  "msl": 477.1,
+  "mhhw": 2703.5,
+  "rp10": 2830.5
+ },
+ "below_mhhw_p50": {
+  "ssp126_2050": {
+   "with_subsidence_km2": 2805.3,
+   "sea_level_only_km2": 2770.8
+  },
+  "ssp126_2100": {
+   "with_subsidence_km2": 2830.3,
+   "sea_level_only_km2": 2818.1
+  },
+  "ssp245_2050": {
+   "with_subsidence_km2": 2807.2,
+   "sea_level_only_km2": 2774.6
+  },
+  "ssp245_2100": {
+   "with_subsidence_km2": 2830.8,
+   "sea_level_only_km2": 2825.3
+  },
+  "ssp585_2050": {
+   "with_subsidence_km2": 2810.9,
+   "sea_level_only_km2": 2783.0
+  },
+  "ssp585_2100": {
+   "with_subsidence_km2": 2831.0,
+   "sea_level_only_km2": 2830.0
+  }
+ },
+ "sea_level_p50_m": {
+  "ssp126": {
+   "2050": 0.192,
+   "2100": 0.444
+  },
+  "ssp245": {
+   "2050": 0.204,
+   "2100": 0.568
+  },
+  "ssp585": {
+   "2050": 0.232,
+   "2100": 0.78
+  }
+ }
+}

@@ -134,6 +134,31 @@ def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
     return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
 
 
+def slr_layer(sdir, grid):
+    """ความสูงพื้นดิน (results/slr จาก scripts/slr.py) ลงกริด lon/lat เดียวกับ grid.bin
+    slr.bin: int16 สองค่าต่อช่อง = ความสูงปี DEM_EPOCH (ซม. เหนือ MSL) และอัตราทรุดที่เติมช่องว่างแล้ว (0.1 มม./ปี, บวก = ทรุด)"""
+    from rasterio.transform import Affine
+    gt = Affine(grid['dx'], 0, grid['x0'], 0, grid['dy'], grid['y0'])
+    out = np.full((grid['h'], grid['w'], 2), -32768, '<i2')
+    with rasterio.open(sdir / 'elev_2020.tif') as s:     # สัดส่วนช่อง 30 ม. ที่มีค่า ใช้ตัดช่องที่ครอบข้อมูลไม่ถึงครึ่ง
+        e, r_ = s.read(1), rasterio.open(sdir / 'rate_filled_m_per_yr.tif').read(1)
+        frac = np.zeros((grid['h'], grid['w']), 'float32')
+        reproject((np.isfinite(e) & np.isfinite(r_)).astype('float32'), frac, src_transform=s.transform, src_crs=s.crs,
+                  dst_transform=gt, dst_crs='EPSG:4326', resampling=Resampling.average)
+    for k, (name, scale) in enumerate([('elev_2020.tif', 100), ('rate_filled_m_per_yr.tif', 10000)]):
+        g = np.full((grid['h'], grid['w']), np.nan, 'float32')
+        with rasterio.open(sdir / name) as s:
+            reproject(s.read(1), g, src_transform=s.transform, src_crs=s.crs, src_nodata=np.nan, dst_transform=gt,
+                      dst_crs='EPSG:4326', dst_nodata=np.nan, resampling=Resampling.average)
+        out[..., k] = np.where(np.isfinite(g) & (frac >= 0.5), np.clip(np.round(g * scale), -32000, 32000), -32768)
+    out.tofile(SITE / 'slr.bin')
+    sl = pd.read_csv(sdir / 'ar6_sealevel_fort_phrachula.csv')
+    summ = json.loads((sdir / 'summary.json').read_text())
+    return {'epoch': summ['dem_epoch'], 'mhhw': summ['mhhw_m'],
+            'years': sorted(int(y) for y in sl.year.unique()),
+            'levels': {s_: {int(r.year): round(float(r.p50), 3) for r in sl[sl.ssp == s_].itertuples()} for s_ in sl.ssp.unique()}}
+
+
 RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
 
 
@@ -302,6 +327,7 @@ def main():
     ap.add_argument('--skip-buildings', action='store_true')
     ap.add_argument('--flood', type=Path, default=ROOT / 'results' / 'flood')
     ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk_raster')
+    ap.add_argument('--slr', type=Path, default=ROOT / 'results' / 'slr')
     ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
@@ -315,6 +341,8 @@ def main():
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
     if a.gfm.exists():
         meta['gfm'] = {'image': flood_layer(a.gfm, 'gfm.png', (0xe8, 0x4c, 0x78)), 'date': a.gfm.stem.split('_')[-1]}
+    if (a.slr / 'elev_2020.tif').exists():
+        meta['slr'] = slr_layer(a.slr, grid)
     if (a.risk / 'risk_class.tif').exists():
         meta['risk'] = risk_layer(a.risk)
     old = SITE / 'meta.json'
