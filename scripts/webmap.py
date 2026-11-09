@@ -34,9 +34,14 @@ TEMPLATE = ROOT / 'web' / 'index.html'
 MAX_TILE_MB = 95
 RAIL_PIECE = 200
 MIN_TEMP_COH = 0.7
-# ระดับการทรุด (มม./ปี): ขอบบนของแต่ละระดับ; ค่าบวกนับเป็น "น้อย"
-CLASSES = [(-5, '#fcbba1'), (-10, '#fb6a4a'), (-20, '#cb181d'), (-np.inf, '#67000d')]
+# ระดับการทรุด (มม./ปี): 0 = ไม่ทรุดหรือยกตัว (≥ 0), 1 = 0–5, 2 = 5–10, 3 = 10–20, 4 = มากกว่า 20
+CLASSES = [(0, '#c9dbe3'), (-5, '#fcbba1'), (-10, '#fb6a4a'), (-20, '#cb181d'), (-np.inf, '#67000d')]
 EDGES = [0, -5, -10, -20]
+# ความไม่แน่นอนที่แสดงบนเว็บ: sqrt(SD² + (ครึ่งหนึ่งของผลต่าง asc − desc)²) — SD เชิงสถิติของ MintPy เล็กเกินจริง
+# ผลต่างของสองวงโคจรสะท้อนทั้ง noise และ ramp เชิงระบบ (ดู docs/full_method.md); จุดที่ไม่แน่นอนเกิน UNC_FADE
+# หรือ temporal coherence ต่ำกว่า COH_FADE (ค่าต่ำสุดของสอง track) จะแสดงจางลง
+UNC_FADE = 5.0
+COH_FADE = 0.7
 # ค่าเลื่อน LOS (มม./ปี) ที่ analyze ใช้ผูกภาพกับ GNSS ที่ CUSV (จาก results/full/summary.txt)
 TIE_LOS = {'asc': -2.9, 'desc': -2.1}
 
@@ -51,7 +56,7 @@ def classify(v):
     out = np.full(v.shape, -1, 'int8')
     ok = np.isfinite(v)
     out[ok] = 0
-    for i, e in enumerate(EDGES[1:], start=1):
+    for i, e in enumerate(EDGES, start=1):
         out[ok & (v < e)] = i
     return out
 
@@ -67,18 +72,27 @@ def raster_layers(full):
         v = s.read(1).astype('float32'); tr, crs = s.transform, s.crs
     adm = districts()
     v[geometry_mask([adm.union_all()], v.shape, tr)] = np.nan
+    rd = lambda f: rasterio.open(full / f).read(1).astype('float32')
+    unc = np.sqrt(rd('sd_full.tif') ** 2 + ((rd('vlm_asc_full.tif') - rd('vlm_desc_full.tif')) / 2) ** 2)
+    coh = np.fmin(rd('timeseries/asc_full_temporalCoherence.tif'), rd('timeseries/desc_full_temporalCoherence.tif'))
+    faded = np.isfinite(v) & ((unc > UNC_FADE) | (coh < COH_FADE) | ~np.isfinite(unc))
+    print(f'จุดที่แสดงจาง: {100 * faded.sum() / np.isfinite(v).sum():.1f}%')
 
-    # ภาพ 4 ระดับ บน EPSG:3857
+    # ภาพ 5 ระดับ บน EPSG:3857 (จุดที่ไม่แน่นอนสูงโปร่งกว่า)
     h, w = v.shape
     b = rasterio.transform.array_bounds(h, w, tr)
     dt, dw, dh = calculate_default_transform(crs, 'EPSG:3857', w, h, *b)
     m = np.full((dh, dw), np.nan, 'float32')
     reproject(v, m, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=dt, dst_crs='EPSG:3857',
               dst_nodata=np.nan, resampling=Resampling.nearest)
+    fm = np.zeros((dh, dw), 'uint8')
+    reproject(faded.astype('uint8'), fm, src_transform=tr, src_crs=crs, dst_transform=dt, dst_crs='EPSG:3857',
+              resampling=Resampling.nearest)
     cls = classify(m)
     rgba = np.zeros((*m.shape, 4), 'uint8')
     for i, (_, col) in enumerate(CLASSES):
         rgba[cls == i] = [int(col[k:k + 2], 16) for k in (1, 3, 5)] + [215]
+    rgba[(cls >= 0) & (fm == 1), 3] = 80
     Image.fromarray(rgba).save(SITE / 'vlm.png', optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
@@ -90,6 +104,14 @@ def raster_layers(full):
               dst_nodata=np.nan, resampling=Resampling.nearest)
     q = np.where(np.isfinite(g), np.round(g * 10), -32768).astype('<i2')
     q.tofile(SITE / 'grid.bin')
+    # ความไม่แน่นอน (int16 = 0.1 มม./ปี; +10000 = จุดที่แสดงจาง; -32768 = ไม่มีข้อมูล)
+    gu = np.full((gh, gw), np.nan, 'float32'); gf = np.zeros((gh, gw), 'uint8')
+    reproject(np.where(np.isfinite(v), unc, np.nan).astype('float32'), gu, src_transform=tr, src_crs=crs, src_nodata=np.nan,
+              dst_transform=gt, dst_crs='EPSG:4326', dst_nodata=np.nan, resampling=Resampling.nearest)
+    reproject(faded.astype('uint8'), gf, src_transform=tr, src_crs=crs, dst_transform=gt, dst_crs='EPSG:4326',
+              resampling=Resampling.nearest)
+    qu = np.where(np.isfinite(gu), np.minimum(np.round(gu * 10), 9999) + 10000 * gf.astype('int32'), -32768).astype('<i2')
+    qu.tofile(SITE / 'unc.bin')
     grid = {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e}
     return v, tr, image, grid
 

@@ -1,0 +1,19 @@
+SBAS ช่วงเดียวต่อเนื่อง (ไม่แบ่ง pre/post): pre ทั้งหมด + post แบบ alt3 + คู่คร่อมวันแผ่นดินไหว
+asc: 20210407→20261021, 157 วัน, 462 คู่ {'asc_pre': 333, 'asc_all': 123, 'asc_coseis': 1, 'asc_full': 5}
+desc: 20210330→20261025, 157 วัน, 465 คู่ {'desc_pre': 333, 'desc_all_saw': 126, 'desc_coseis': 1, 'desc_full': 5}
+
+VLM median -7.9 มม./ปี | SD median 0.6 | ทรุด > 10 มม./ปี 36.7% | > 20 มม./ปี 11.2%
+แนวตะวันออก-ตะวันตก median 0.8 มม./ปี | |E| > 5 16.0%
+r(asc, desc) VLM = 0.71 | median(asc − desc) = -1.2 มม./ปี
+
+ผูก GNSS ที่ CUSV: เลื่อนให้ LOS ที่ pixel CUSV = U × องค์ประกอบ up (เชิงเส้นบนหน้าต่างของ stack)
+asc_full: U_CUSV = -4.0 มม./ปี, เลื่อน LOS -2.9
+desc_full: U_CUSV = -4.0 มม./ปี, เลื่อน LOS -2.1
+
+KMIT − CUSV (KMIT มีข้อมูลเฉพาะ 2024-04 → 2026-07 จึง GNSS ใช้ช่วงนั้น ขณะที่ InSAR ใช้ทั้งหน้าต่าง)
+LOS asc_full: InSAR -2.5 ± 0.9 | GNSS -0.1 ± 0.5 | ต่าง -2.3 → ไม่ผ่าน
+LOS desc_full: InSAR -3.4 ± 0.6 | GNSS 1.1 ± 0.5 | ต่าง -4.5 → ไม่ผ่าน
+แนวดิ่ง: InSAR -4.0 | GNSS 0.4 ± 0.6
+
+== เทียบ VLM full กับ VLM pre ของ alt3 (= ชุดหลัก) ==
+median(full − pre) +1.1 มม./ปี | median |diff| 1.6 | r = 0.98
