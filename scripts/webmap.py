@@ -159,6 +159,45 @@ def slr_layer(sdir, grid):
             'levels': {s_: {int(r.year): round(float(r.p50), 3) for r in sl[sl.ssp == s_].itertuples()} for s_ in sl.ssp.unique()}}
 
 
+FLOOD_DEPTH = [(0.1, '#c6dbef'), (0.3, '#6baed6'), (0.6, '#2171b5'), (1.0, '#08306b')]
+
+
+def sfincs_layers(sdir, grid):
+    """ผล SFINCS (scripts/sfincs_flood.py) → fl_<รอบ>.png (EPSG:3857 สี 4 ระดับความลึก) และ fl_<รอบ>.bin
+    (uint8 ความลึก × 20 = หน่วย 5 ซม. บนกริด lon/lat เดียวกับ grid.bin, 0 = ไม่ท่วม, 255 = นอกพื้นที่)"""
+    from PIL import Image
+    from rasterio.transform import Affine
+    t = pd.read_csv(sdir / 'flood_summary.csv')
+    land_src = rasterio.open(ROOT / 'data' / 'sfincs' / 'base_land.tif')
+    land = land_src.read(1) == 1
+    gt = Affine(grid['dx'], 0, grid['x0'], 0, grid['dy'], grid['y0'])
+    runs, image = {}, None
+    for r in t.itertuples():
+        with rasterio.open(sdir / f'hmax_{r.name}.tif') as s:
+            h = np.where(land, s.read(1), np.nan).astype('float32'); tr, crs = s.transform, s.crs
+        hh, ww = h.shape
+        b = rasterio.transform.array_bounds(hh, ww, tr)
+        dt, dw, dh = calculate_default_transform(crs, 'EPSG:3857', ww, hh, *b)
+        m = np.full((dh, dw), np.nan, 'float32')
+        reproject(h, m, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=dt, dst_crs='EPSG:3857',
+                  dst_nodata=np.nan, resampling=Resampling.nearest)
+        rgba = np.zeros((dh, dw, 4), 'uint8')
+        for lo, col in FLOOD_DEPTH:
+            rgba[m > lo] = [int(col[k:k + 2], 16) for k in (1, 3, 5)] + [225]
+        Image.fromarray(rgba).save(SITE / f'fl_{r.name}.png', optimize=True)
+        if image is None:
+            x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
+            image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
+        g = np.full((grid['h'], grid['w']), np.nan, 'float32')
+        reproject(h, g, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=gt, dst_crs='EPSG:4326',
+                  dst_nodata=np.nan, resampling=Resampling.nearest)
+        q = np.where(np.isfinite(g), np.clip(np.round(np.where(g > 0.1, g, 0) * 20), 0, 254), 255).astype('uint8')
+        q.tofile(SITE / f'fl_{r.name}.bin')
+        runs[r.name] = {'area': round(r.area_km2), 'pop': round(r.population), 'bld': int(r.buildings),
+                        'sea': r.sea_offset_m, 'school': int(r.fac_school), 'hospital': int(r.fac_hospital)}
+    return {'image': image, 'runs': runs, 'depth': [[lo, c] for lo, c in FLOOD_DEPTH]}
+
+
 RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
 
 
@@ -328,6 +367,7 @@ def main():
     ap.add_argument('--flood', type=Path, default=ROOT / 'results' / 'flood')
     ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk_raster')
     ap.add_argument('--slr', type=Path, default=ROOT / 'results' / 'slr')
+    ap.add_argument('--sfincs', type=Path, default=ROOT / 'results' / 'sfincs')
     ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
@@ -341,8 +381,8 @@ def main():
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
     if a.gfm.exists():
         meta['gfm'] = {'image': flood_layer(a.gfm, 'gfm.png', (0xe8, 0x4c, 0x78)), 'date': a.gfm.stem.split('_')[-1]}
-    if (a.slr / 'elev_2020.tif').exists():
-        meta['slr'] = slr_layer(a.slr, grid)
+    if (a.sfincs / 'flood_summary.csv').exists():
+        meta['sfl'] = sfincs_layers(a.sfincs, grid)
     if (a.risk / 'risk_class.tif').exists():
         meta['risk'] = risk_layer(a.risk)
     old = SITE / 'meta.json'
