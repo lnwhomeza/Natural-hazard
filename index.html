@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>แผ่นดินทรุด กรุงเทพฯ–ปริมณฑล | Bangkok Land Subsidence</title>
 <meta name="description" content="แผนที่อัตราการทรุดตัวของแผ่นดิน กรุงเทพฯ สมุทรปราการ สมุทรสาคร จากดาวเทียม Sentinel-1 พ.ศ. 2564–2569">
+<meta property="og:title" content="แผ่นดินตรงบ้านคุณทรุดลงปีละเท่าไร">
+<meta property="og:description" content="อัตราการทรุดตัวของแผ่นดิน กรุงเทพฯ สมุทรปราการ สมุทรสาคร จากดาวเทียม Sentinel-1 เม.ย. 2564 – ต.ค. 2569 ค้นหาบ้านของคุณได้">
+<meta property="og:image" content="https://lnwhomeza.github.io/Natural-hazard/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://lnwhomeza.github.io/Natural-hazard/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
@@ -99,6 +106,7 @@
   .cls { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 14px; margin: 8px 0 6px; }
   .cls i { width: 12px; height: 12px; border-radius: 2px; }
   #cExpl { font-size: 14.5px; margin: 0; }
+  .warn { font-size: 13.5px; margin: 8px 0 0; padding: 6px 9px; background: var(--wash); border-left: 3px solid var(--muted); }
   .gauge { width: 58px; }
   .gauge svg { display: block; overflow: visible; }
   .gauge .drop { transition: height .7s cubic-bezier(.2, .7, .2, 1); }
@@ -124,6 +132,8 @@
   #about h4 { margin: 18px 0 4px; font: 600 15.5px/1.3 var(--head); }
   #about p, #about li { font-size: 14.5px; max-width: 68ch; }
   #about ul { padding-left: 20px; margin: 4px 0; }
+  #about a { color: var(--ink); text-decoration-color: var(--staff); text-underline-offset: 3px; }
+  #about small { color: var(--muted); }
   #about .close-row { text-align: right; margin: 16px 0 0; }
   #about .btn { border: 1.5px solid var(--ink); background: none; border-radius: 6px; padding: 6px 16px; cursor: pointer; }
 
@@ -166,7 +176,7 @@
   <div id="legend"></div>
 
   <div class="flood-row" id="floodRow" hidden>
-    <label class="chk"><input type="checkbox" id="l-flood" checked> <span class="sw" style="background:var(--flood)"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
+    <label class="chk"><input type="checkbox" id="l-flood"> <span class="sw" style="background:var(--flood)"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
   </div>
   <details>
     <summary data-i18n="more">ชั้นข้อมูลอื่น</summary>
@@ -198,11 +208,12 @@ const I18N = {
     district: 'เขต/อำเภอ',
     mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง',
     scaleSub: 'ทรุดลงกี่มิลลิเมตรต่อปี', scaleRisk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ (ภัย × คนและอาคาร × ความเปราะบาง)',
-    nod: 'วัดไม่ได้ เช่น นาข้าว บ่อปลา แหล่งน้ำ', riskLo: 'ต่ำมาก', riskHi: 'สูงมาก',
+    nod: 'วัดไม่ได้ เช่น นาข้าว บ่อปลา แหล่งน้ำ', stable: 'ไม่ทรุดหรือยกตัว (0 ขึ้นไป)', faint: 'สีจาง = ค่าไม่แน่นอนสูง', riskLo: 'ต่ำมาก', riskHi: 'สูงมาก',
     lFlood: 'น้ำท่วม 21 ต.ค. 2569 จากภาพเรดาร์', lGfm: 'น้ำท่วมวันเดียวกันจาก Copernicus GFM (ใช้เทียบ)',
     more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)', lRail: 'แนวรถไฟฟ้าและรถไฟ', lDist: 'เส้นแบ่งเขต/อำเภอ', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
-    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
+    cls: ['ไม่ทรุดหรือยกตัว', 'ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
     expl: [
+      'พื้นตรงนี้ไม่ทรุดหรือยกตัวขึ้นเล็กน้อย ซึ่งพบน้อยมากในสามจังหวัดนี้',
       'ทรุดช้า ใกล้เคียงกับใจกลางกรุงเทพฯ',
       'ทรุดเร็วกว่าใจกลางกรุงเทพฯ ราว 2 เท่า',
       'ทรุดเร็ว ควรสังเกตรอยร้าวและระดับพื้นรอบบ้าน',
@@ -211,6 +222,7 @@ const I18N = {
     tenYr: (cm, steps) => `ถ้ายังทรุดเท่านี้ อีก 10 ปีพื้นตรงนี้จะต่ำลงราว ${cm} ซม. ${steps}`,
     step: s => s < 0.25 ? '' : s < 0.75 ? '(ราวครึ่งขั้นบันได)' : s < 1.25 ? '(ราวหนึ่งขั้นบันได)' : s < 1.75 ? '(ราวขั้นบันไดหนึ่งขั้นครึ่ง)' : `(ราว ${Math.round(s)} ขั้นบันได)`,
     gaugeCap: 'ใน 10 ปี',
+    uncWarn: 'ค่าตรงนี้ไม่แน่นอนสูง เพราะดาวเทียมสองวงโคจรให้ค่าต่างกันมาก หรือสัญญาณไม่สม่ำเสมอ ให้ดูเป็นแนวโน้มคร่าว ๆ',
     nodata: 'ดาวเทียมวัดตรงนี้ไม่ได้ชัด มักเป็นนาข้าว บ่อปลา หรือแหล่งน้ำ ลองแตะจุดที่มีบ้านหรือถนนใกล้ ๆ',
     outside: 'อยู่นอกพื้นที่ศึกษา',
     building: h => `อาคารสูงราว ${h} ม.`, railPlace: 'แนวราง',
@@ -229,11 +241,12 @@ const I18N = {
     district: 'District',
     mSub: 'Sinking rate', mRisk: 'Risk',
     scaleSub: 'Millimetres of sinking per year', scaleRisk: 'Relative risk across the area (hazard × people and buildings × vulnerability)',
-    nod: 'Not measurable, such as rice fields, fish ponds and water', riskLo: 'Very low', riskHi: 'Very high',
+    nod: 'Not measurable, such as rice fields, fish ponds and water', stable: 'Not sinking or rising (0 or more)', faint: 'Faded colour = high uncertainty', riskLo: 'Very low', riskHi: 'Very high',
     lFlood: 'Flooding on 21 Oct 2026 from radar', lGfm: 'Same-day flooding from Copernicus GFM (comparison)',
     more: 'More layers', lBld: '3D buildings (zoom in)', lRail: 'Rail and metro lines', lDist: 'District boundaries', lLab: 'Labels for the fastest-sinking districts',
-    cls: ['Low', 'Moderate', 'High', 'Very high'],
+    cls: ['Not sinking or rising', 'Low', 'Moderate', 'High', 'Very high'],
     expl: [
+      'The ground here is not sinking or is rising slightly, which is very rare in these provinces.',
       'Sinking slowly, similar to central Bangkok.',
       'Sinking about twice as fast as central Bangkok.',
       'Sinking fast. Watch for cracks and changes in ground level around the house.',
@@ -242,6 +255,7 @@ const I18N = {
     tenYr: (cm, steps) => `If this continues, the ground here will be about ${cm} cm lower in 10 years ${steps}`,
     step: s => s < 0.25 ? '' : s < 0.75 ? '(about half a stair step)' : s < 1.25 ? '(about one stair step)' : s < 1.75 ? '(about one and a half stair steps)' : `(about ${Math.round(s)} stair steps)`,
     gaugeCap: 'in 10 yrs',
+    uncWarn: 'This value is uncertain: the two satellite orbits disagree here or the signal is irregular. Treat it as a rough indication.',
     nodata: 'The satellite cannot measure this spot well, usually rice fields, fish ponds or water. Try a spot with houses or roads nearby.',
     outside: 'Outside the study area',
     building: h => `Building about ${h} m tall`, railPlace: 'Rail line',
@@ -253,15 +267,42 @@ const I18N = {
     eq: 'Myanmar earthquake', monthly: 'Monthly', trend: 'Trend', mm: 'mm',
   },
 };
+const GH = 'https://github.com/lnwhomeza/Natural-hazard/raw/claude/gifted-maxwell-f8qd9m/';
 const SOURCES = {
-  th: 'ภาพดาวเทียม Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 และ MintPy, แก้ผลของชั้นบรรยากาศด้วย ERA5, อาคารจาก Global Building Atlas, ประชากรจาก WorldPop, แนวรางและสถานที่จาก Overture Maps / OpenStreetMap, ขอบเขตปกครองจาก HDX COD-AB, น้ำท่วมเทียบจาก Copernicus GFM (CEMS), แผนที่ฐาน OpenFreeMap © OpenMapTiles © OpenStreetMap',
-  en: 'Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 and MintPy; atmospheric correction with ERA5; buildings from Global Building Atlas; population from WorldPop; rail and facilities from Overture Maps / OpenStreetMap; boundaries from HDX COD-AB; comparison flood map from Copernicus GFM (CEMS); basemap OpenFreeMap © OpenMapTiles © OpenStreetMap',
+  th: `<ul>
+    <li>ภาพเรดาร์ Copernicus Sentinel-1 (ESA) สร้าง interferogram และภาพ RTC ด้วย ASF HyP3</li>
+    <li>วิเคราะห์อนุกรมเวลา SBAS ด้วย MintPy แก้ผลของชั้นบรรยากาศด้วย ERA5 (ECMWF / Copernicus Climate Change Service)</li>
+    <li>GNSS สำหรับอ้างอิงและตรวจสอบ: หมุด CUSV และ KMIT จาก Nevada Geodetic Laboratory (IGS20)</li>
+    <li>อาคารและความสูง: Global Building Atlas (GBA)</li>
+    <li>ประชากรและโครงสร้างอายุ: WorldPop 2025</li>
+    <li>แนวราง ถนน และสถานที่สำคัญ: Overture Maps / OpenStreetMap</li>
+    <li>ขอบเขตปกครอง: HDX COD-AB (OCHA)</li>
+    <li>น้ำท่วมเทียบ: Copernicus Global Flood Monitoring (GFM, CEMS)</li>
+    <li>แผนที่ฐาน: OpenFreeMap © OpenMapTiles © OpenStreetMap ค้นหาที่อยู่ด้วย Photon (komoot) จากข้อมูล OpenStreetMap</li></ul>`,
+  en: `<ul>
+    <li>Radar imagery: Copernicus Sentinel-1 (ESA); interferograms and RTC images from ASF HyP3</li>
+    <li>SBAS time series with MintPy; atmospheric correction with ERA5 (ECMWF / Copernicus Climate Change Service)</li>
+    <li>GNSS reference and validation: stations CUSV and KMIT from the Nevada Geodetic Laboratory (IGS20)</li>
+    <li>Buildings and heights: Global Building Atlas (GBA)</li>
+    <li>Population and age structure: WorldPop 2025</li>
+    <li>Rail, roads and key facilities: Overture Maps / OpenStreetMap</li>
+    <li>Administrative boundaries: HDX COD-AB (OCHA)</li>
+    <li>Comparison flood map: Copernicus Global Flood Monitoring (GFM, CEMS)</li>
+    <li>Basemap: OpenFreeMap © OpenMapTiles © OpenStreetMap; address search by Photon (komoot) on OpenStreetMap data</li></ul>`,
 };
+const DOWNLOADS = {
+  th: ['อัตราทรุดแนวดิ่ง (มม./ปี)', 'ความไม่แน่นอนเชิงสถิติ', 'แนวตะวันออก–ตะวันตก', 'ความเสี่ยง 5 ระดับ (100 ม.)', 'น้ำท่วม 21 ต.ค. 2569', 'วิธีทำและผลการตรวจสอบ'],
+  en: ['Vertical rate (mm/yr)', 'Statistical uncertainty', 'East–west component', 'Risk classes (100 m)', 'Flooding 21 Oct 2026', 'Method and validation'],
+  files: ['results/full/vlm_full.tif', 'results/full/sd_full.tif', 'results/full/east_full.tif', 'results/risk_raster/risk_class.tif',
+    'results/flood/flood_20261021.tif', 'docs/full_method.md'],
+};
+const dl = l => `<ul>${DOWNLOADS[l].map((t, i) => `<li><a href="${DOWNLOADS.files[i].endsWith('.md') ? GH.replace('/raw/', '/blob/') : GH}${DOWNLOADS.files[i]}">${t}</a> <small>${DOWNLOADS.files[i].split('/').pop()}</small></li>`).join('')}</ul>`;
 const ABOUT = {
   th: `<h3>วิธีวัดและข้อจำกัด</h3>
     <p>แผนที่นี้แสดงอัตราที่ผิวดินทรุดลงโดยเฉลี่ยต่อปี วัดจากภาพเรดาร์ของดาวเทียม Sentinel-1 ทั้งวงโคจรขาขึ้นและขาลง รวม 157 วันถ่ายภาพต่อวงโคจร ระหว่างเมษายน 2564 ถึงตุลาคม 2569 ด้วยเทคนิค SBAS InSAR ความละเอียดราว 80 เมตร</p>
     <h4>อ่านค่าอย่างไร</h4>
-    <ul><li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม. ต่อปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
+    <ul><li>ค่า ± คือความไม่แน่นอนโดยประมาณ รวมค่าทางสถิติกับครึ่งหนึ่งของความต่างระหว่างดาวเทียมสองวงโคจร</li>
+    <li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม. ต่อปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
     <li>สีบอกความเร็วของการทรุด ไม่ได้บอกว่าอาคารจะเสียหาย ความเสียหายขึ้นกับฐานรากและการทรุดที่ไม่เท่ากันในระยะสั้น ๆ</li>
     <li>พื้นที่ที่ไม่มีสีคือที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ</li>
     <li>สีของอาคารมาจากอัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li></ul>
@@ -277,14 +318,18 @@ const ABOUT = {
     <ul><li>ค่าทั้งหมดผูกกับสถานี GNSS ที่จุฬาลงกรณ์มหาวิทยาลัย ซึ่งเองก็ทรุดราว 4 มม. ต่อปี ความคลาดเคลื่อนของสถานีนี้มีผลกับทั้งแผนที่</li>
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li>
-    <li>การเทียบกับขั้นบันไดใช้ความสูงขั้นละ 15 ซม. และสมมติว่าอัตราการทรุดคงที่</li></ul>
+    <li>การเทียบกับขั้นบันไดใช้ความสูงขั้นละ 15 ซม. และสมมติว่าอัตราการทรุดคงที่</li>
+    <li><b>ทางตะวันออกอาจแดงเกินจริง</b>: เทียบกับ GNSS ที่ สจล. ลาดกระบัง (KMIT) ช่วง 2567–2569 InSAR ให้ทรุดมากกว่า GNSS ราว 3–6 มม. ต่อปี และสองวงโคจรให้ค่าต่างกันเป็นแนวลาดจากตะวันตกไปตะวันออก (ดูไฟล์วิธีทำด้านล่าง) ค่า ± ในการ์ดรวมความต่างนี้แล้ว จุดที่ไม่แน่นอนเกิน 5 มม. ต่อปีแสดงเป็นสีจาง</li></ul>
+    <h4>ดาวน์โหลดข้อมูล (GeoTIFF, UTM 47N)</h4>
+    ${dl('th')}
     <h4>แหล่งข้อมูล</h4>
-    <p>${SOURCES.th}</p>
+    ${SOURCES.th}
     <p class="close-row"><button class="btn" id="aboutClose">ปิด</button></p>`,
   en: `<h3>How it was measured</h3>
     <p>This map shows how fast the ground surface sinks on average each year, measured from Sentinel-1 satellite radar on ascending and descending orbits (157 acquisitions each) between April 2021 and October 2026, using SBAS InSAR at about 80 m resolution.</p>
     <h4>How to read it</h4>
-    <ul><li>Values are millimetres per year. 15 mm a year means about 15 cm lower after 10 years if the rate continues.</li>
+    <ul><li>The ± is an approximate uncertainty: the statistical error combined with half the difference between the two satellite orbits.</li>
+    <li>Values are millimetres per year. 15 mm a year means about 15 cm lower after 10 years if the rate continues.</li>
     <li>Colours show how fast the ground sinks, not whether buildings will be damaged. Damage depends on foundations and on uneven sinking over short distances.</li>
     <li>Uncoloured areas could not be measured reliably, such as rice fields, fish ponds and water.</li>
     <li>Building colours come from the rate of the surrounding 80 m cell, not from each building itself.</li></ul>
@@ -300,13 +345,16 @@ const ABOUT = {
     <ul><li>All values are tied to the GNSS station at Chulalongkorn University, which itself sinks about 4 mm a year; any error there shifts the whole map.</li>
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li>
-    <li>The stair-step comparison uses a 15 cm step and assumes the rate stays the same.</li></ul>
+    <li>The stair-step comparison uses a 15 cm step and assumes the rate stays the same.</li>
+    <li><b>The east may look redder than it is</b>: compared with the GNSS station at KMITL Lat Krabang (KMIT) for 2024–2026, InSAR shows 3–6 mm a year more sinking, and the two orbits disagree along a west-to-east slope (see the method file below). The ± in the card includes this disagreement; spots more uncertain than 5 mm a year are drawn faded.</li></ul>
+    <h4>Download the data (GeoTIFF, UTM 47N)</h4>
+    ${dl('en')}
     <h4>Sources</h4>
-    <p>${SOURCES.en}</p>
+    ${SOURCES.en}
     <p class="close-row"><button class="btn" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, mode = 'sub';
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, mode = 'sub';
 const T = k => I18N[lang][k];
 const $ = id => document.getElementById(id);
 const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
@@ -314,10 +362,10 @@ const STEP_CM = 15;
 
 function classOf(v) {
   if (v === null || v === undefined || !isFinite(v)) return -1;
-  return v < -20 ? 3 : v < -10 ? 2 : v < -5 ? 1 : 0;
+  return v < -20 ? 4 : v < -10 ? 3 : v < -5 ? 2 : v < 0 ? 1 : 0;
 }
 function colorExpr(prop) {
-  return ['match', ['get', prop], 0, meta.colors[0], 1, meta.colors[1], 2, meta.colors[2], 3, meta.colors[3], '#c8c8c8'];
+  return ['match', ['get', prop], ...meta.colors.flatMap((c, i) => [i, c]), '#c8c8c8'];
 }
 const fmt = (x, d = 1) => x.toLocaleString(lang === 'th' ? 'th-TH' : 'en-GB', { minimumFractionDigits: d, maximumFractionDigits: d });
 
@@ -330,8 +378,10 @@ function legendHTML() {
   // 0–30 มม./ปี วางตามสเกลจริง: 0–5, 5–10, 10–20, 20–30+
   const w = [5, 5, 10, 10];
   const ticks = [0, 5, 10, 20, 30].map(t => `<span${t === 30 ? ' class="end"' : ''} style="left:${t / 30 * 100}%">${t === 30 ? '30+' : t}</span>`).join('');
-  return `<div class="ruler" style="grid-template-columns:${w.map(x => x + 'fr').join(' ')}">${meta.colors.map(c => `<span style="background:${c}"></span>`).join('')}</div>
+  return `<div class="ruler" style="grid-template-columns:${w.map(x => x + 'fr').join(' ')}">${meta.colors.slice(1).map(c => `<span style="background:${c}"></span>`).join('')}</div>
     <div class="ticks">${ticks}</div>
+    <div class="nod"><i style="background:${meta.colors[0]}"></i>${T('stable')}</div>
+    <div class="nod"><i style="background:${meta.colors[3]};opacity:.35"></i>${T('faint')}</div>
     <div class="nod"><i></i>${T('nod')}</div>`;
 }
 
@@ -355,6 +405,13 @@ function gridValue(lng, lat) {
   if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
   const q = grid.data[r * grid.w + c];
   return q === -32768 ? null : q / 10;
+}
+function uncAt(lng, lat) {
+  if (!uncGrid) return null;
+  const c = Math.floor((lng - grid.x0) / grid.dx), r = Math.floor((lat - grid.y0) / grid.dy);
+  if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
+  const q = uncGrid[r * grid.w + c];
+  return q === -32768 ? null : { u: (q % 10000) / 10, faded: q >= 10000 };
 }
 function riskAt(lng, lat) {
   if (!riskGrid) return null;
@@ -398,6 +455,7 @@ function gaugeSVG(cm) {
 function showCard(info) {
   last = info;
   if (info.lnglat && info.risk === undefined) info.risk = riskAt(...info.lnglat);
+  if (info.lnglat && info.unc === undefined) info.unc = uncAt(...info.lnglat);
   const d = info.district, v = info.v, cl = classOf(v);
   const place = d ? `${dName(d)}, ${pName(d)}` : T('outside');
   $('cPlace').textContent = info.h ? `${T('building')(info.h)}, ${place}` : info.rail ? `${T('railPlace')}, ${place}` : place;
@@ -409,9 +467,10 @@ function showCard(info) {
     const sink = Math.max(-v, 0), cm = sink;                       // มม./ปี × 10 ปี = มม. → ซม. เท่ากับตัวเลขเดิม
     const steps = cm / STEP_CM;
     h += `<div class="readout"><div>
-        <div class="num">${fmt(Math.abs(v))}<small>${v <= 0 ? T('unit') : T('unit') + ' ' + T('rise')}</small></div>
+        <div class="num">${fmt(Math.abs(v))}<small>${info.unc ? `± ${fmt(info.unc.u)} ` : ''}${v <= 0 ? T('unit') : T('unit') + ' ' + T('rise')}</small></div>
         <div class="cls"><i style="background:${meta.colors[cl]}"></i>${T('cls')[cl]}</div>
-        <p id="cExpl">${T('expl')[cl]} ${T('tenYr')(fmt(cm, 0), T('step')(steps))}</p></div>
+        <p id="cExpl">${T('expl')[cl]} ${T('tenYr')(fmt(cm, 0), T('step')(steps))}</p>
+        ${info.unc && info.unc.faded ? `<p class="warn">${T('uncWarn')}</p>` : ''}</div>
       <figure class="gauge" style="margin:0">${gaugeSVG(cm)}<figcaption>−${fmt(cm, 0)} ${lang === 'th' ? 'ซม.' : 'cm'}<br><span style="color:var(--muted);font-weight:500">${T('gaugeCap')}</span></figcaption></figure></div>`;
   }
   if (info.risk) {
@@ -533,8 +592,15 @@ map.on('load', async () => {
   [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f).then(r => r.json())));
   const buf = await fetch('grid.bin').then(r => r.arrayBuffer());
   grid = { ...meta.grid, data: new Int16Array(buf) };
+  try { uncGrid = new Int16Array(await fetch('unc.bin').then(r => r.arrayBuffer())); } catch (err) { uncGrid = null; }
 
   const style = map.getStyle();
+  // ลดความเด่นของแผนที่ฐาน: ซ่อน POI และชื่อถนน/ป้ายทางหลวงตอนซูมไกล ให้ชื่อสถานที่มีขอบขาวหนาขึ้น
+  style.layers.filter(l => l.type === 'symbol').forEach(l => {
+    if (/poi|housenum|shield|road|highway|transport|aeroway|water_name|waterway/i.test(l.id)) map.setLayerZoomRange(l.id, Math.max(l.minzoom || 0, 12.5), l.maxzoom || 24);
+    try { map.setPaintProperty(l.id, 'text-halo-color', 'rgba(255,255,255,0.95)'); map.setPaintProperty(l.id, 'text-halo-width', 1.8);
+      map.setPaintProperty(l.id, 'text-color', '#3c4a4e'); } catch (err) { /* layer has no text */ }
+  });
   const firstSymbol = style.layers.find(l => l.type === 'symbol')?.id;
   const font = style.layers.find(l => l.type === 'symbol' && l.layout?.['text-font'])?.layout['text-font'] || ['Noto Sans Regular'];
   map.addSource('ss-img', { type: 'image', url: 'vlm.png', coordinates: meta.image });
@@ -549,7 +615,7 @@ map.on('load', async () => {
   }
   if (meta.flood) {
     map.addSource('ss-flood', { type: 'image', url: 'flood.png', coordinates: meta.flood.image });
-    map.addLayer({ id: 'ss-flood', type: 'raster', source: 'ss-flood', paint: { 'raster-opacity': .9, 'raster-resampling': 'nearest' } }, firstSymbol);
+    map.addLayer({ id: 'ss-flood', type: 'raster', source: 'ss-flood', layout: { visibility: 'none' }, paint: { 'raster-opacity': .9, 'raster-resampling': 'nearest' } }, firstSymbol);
     $('floodRow').hidden = false;
   }
   if (meta.gfm) {
