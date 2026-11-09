@@ -10,121 +10,178 @@
 <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* โทนจากไม้สต๊าฟวัดระดับ (แดง/ขาว) และหมึกเข้มของแผนที่สำรวจ */
   :root {
-    --bg: #ffffff; --fg: #1c1c1e; --muted: #626268; --line: #e2e2e6; --panel: rgba(255,255,255,.97);
-    --accent: #cb181d; --shadow: 0 6px 24px rgba(0,0,0,.14);
-    --c0: #fcbba1; --c1: #fb6a4a; --c2: #cb181d; --c3: #67000d;
+    --paper: #fcfdfd; --ink: #1b2629; --muted: #56666b; --rule: #d3dbdc; --wash: #eef2f2;
+    --staff: #c41e24; --flood: #2166ac; --gfm: #e84c78;
+    --shadow: 0 2px 10px rgba(27, 38, 41, .14);
+    --head: "Chakra Petch", "Anuphan", system-ui, sans-serif;
+    --body: "Anuphan", system-ui, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #161618; --fg: #ececf0; --muted: #a2a2aa; --line: #2f2f35; --panel: rgba(30,30,33,.97);
-      --accent: #fb6a4a; --shadow: 0 6px 24px rgba(0,0,0,.5);
+      --paper: #121a1c; --ink: #e6edee; --muted: #9aabaf; --rule: #2a3639; --wash: #1a2427;
+      --staff: #f0544f; --shadow: 0 2px 14px rgba(0, 0, 0, .5);
     }
   }
   :root[data-theme="dark"] {
-    --bg: #161618; --fg: #ececf0; --muted: #a2a2aa; --line: #2f2f35; --panel: rgba(30,30,33,.97);
-    --accent: #fb6a4a; --shadow: 0 6px 24px rgba(0,0,0,.5);
+    --paper: #121a1c; --ink: #e6edee; --muted: #9aabaf; --rule: #2a3639; --wash: #1a2427;
+    --staff: #f0544f; --shadow: 0 2px 14px rgba(0, 0, 0, .5);
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
-  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
-    font: 15px/1.5 "IBM Plex Sans Thai", system-ui, sans-serif; }
+  html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); font: 15px/1.55 var(--body); }
   #map { position: absolute; inset: 0; }
-  button { font: inherit; color: inherit; }
+  button, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--staff); outline-offset: 2px; }
 
-  .panel { position: absolute; background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-    box-shadow: var(--shadow); }
-  #side { top: 12px; left: 12px; width: 330px; max-height: calc(100% - 24px); overflow: auto; padding: 16px 18px; }
-  #side h1 { font-size: 18px; line-height: 1.35; margin: 0 0 4px; }
-  #side .sub { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
-  .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .chip { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 4px 12px;
-    cursor: pointer; font-size: 14px; }
-  .chip:hover { border-color: var(--fg); }
-  h2 { font-size: 14px; font-weight: 600; color: var(--muted); margin: 16px 0 8px; letter-spacing: .02em; }
-  .legend { display: grid; gap: 6px; }
-  .legend div { display: grid; grid-template-columns: 22px 1fr auto; align-items: center; gap: 10px; font-size: 14px; }
-  .sw { width: 22px; height: 14px; border-radius: 3px; }
-  .legend .rng { color: var(--muted); font-variant-numeric: tabular-nums; }
-  label.chk { display: flex; align-items: center; gap: 10px; margin: 6px 0; cursor: pointer; font-size: 14px; }
-  label.chk input { width: 16px; height: 16px; accent-color: var(--accent); }
-  .hint { font-size: 13px; color: var(--muted); margin-top: 14px; }
+  .panel { position: absolute; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; box-shadow: var(--shadow); }
 
-  #card { right: 12px; bottom: 28px; width: 360px; max-height: calc(100% - 120px); overflow: auto; padding: 16px 18px;
-    display: none; }
+  /* ---- แผงด้านซ้าย ---- */
+  #side { top: 12px; left: 12px; width: 344px; max-height: calc(100% - 24px); overflow: auto; padding: 14px 18px 16px; }
+  .topline { display: flex; justify-content: flex-end; align-items: baseline; font-size: 13.5px; margin-bottom: 10px; }
+  .topline .place { color: var(--muted); }
+  .link { background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); text-decoration: underline;
+    text-decoration-color: var(--rule); text-underline-offset: 3px; }
+  .link:hover { text-decoration-color: var(--staff); }
+  .topline .links { display: flex; gap: 14px; }
+  h1 { font: 600 24px/1.2 var(--head); margin: 0 0 8px; letter-spacing: -.005em; }
+  .lede { margin: 0 0 14px; font-size: 14.5px; }
+  .lede b { font-family: var(--head); font-weight: 600; color: var(--staff); }
+
+  #search { display: flex; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; }
+  #search input { flex: 1; min-width: 0; border: 0; padding: 9px 11px; background: var(--paper); font-size: 15px; }
+  #search input:focus { outline: none; }
+  #search:focus-within { box-shadow: 0 0 0 3px color-mix(in srgb, var(--staff) 25%, transparent); }
+  #search button { border: 0; background: var(--ink); color: var(--paper); padding: 0 14px; cursor: pointer; font-weight: 500; }
+  #results { list-style: none; margin: 4px 0 0; padding: 0; border: 1px solid var(--rule); border-radius: 6px; max-height: 210px; overflow: auto; }
+  #results li button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 7px 11px; cursor: pointer; font-size: 14px; }
+  #results li button:hover, #results li button:focus-visible { background: var(--wash); }
+  #results li small { color: var(--muted); }
+  #results .msg { padding: 7px 11px; font-size: 14px; color: var(--muted); }
+
+  .seg { display: grid; grid-template-columns: 1fr 1fr; margin: 18px 0 10px; border: 1px solid var(--rule); border-radius: 6px; padding: 3px; gap: 3px; }
+  .seg button { border: 0; background: none; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 14px; color: var(--muted); }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); font-weight: 500; }
+
+  /* สัญลักษณ์แบบไม้บรรทัด/ไม้สต๊าฟ */
+  .scale-t { font-size: 13.5px; margin: 0 0 6px; }
+  .ruler { position: relative; display: grid; height: 16px; border-radius: 2px; overflow: hidden; }
+  .ruler span { display: block; }
+  .ticks { position: relative; height: 22px; font: 500 12.5px/1 var(--head); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .ticks span { position: absolute; top: 0; padding-top: 5px; transform: translateX(-50%); border-left: 1px solid var(--muted); }
+  .ticks span::before { content: ""; position: absolute; left: -1px; top: 0; height: 4px; border-left: 1px solid var(--muted); }
+  .ticks span { border-left: 0; }
+  .ticks span.end { transform: translateX(-100%); }
+  .ticks span.end::before { left: auto; right: 0; }
+  .ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .nod { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .nod i { width: 16px; height: 10px; background: #c8c8c8; border-radius: 2px; }
+
+  label.chk { display: flex; align-items: center; gap: 10px; margin: 7px 0; cursor: pointer; font-size: 14px; }
+  label.chk input { width: 16px; height: 16px; accent-color: var(--ink); margin: 0; }
+  .sw { width: 16px; height: 10px; border-radius: 2px; flex: none; }
+  .flood-row { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule); }
+  details { margin-top: 6px; }
+  summary { cursor: pointer; font-size: 14px; padding: 4px 0; color: var(--muted); }
+  summary:hover { color: var(--ink); }
+
+  /* ---- การ์ดเมื่อคลิก ---- */
+  #card { right: 12px; bottom: 28px; width: 372px; max-height: calc(100% - 190px); overflow: auto; padding: 16px 18px; display: none; }
   #card.open { display: block; }
-  #card .close { position: absolute; top: 8px; right: 10px; border: 0; background: none; font-size: 22px;
-    cursor: pointer; color: var(--muted); line-height: 1; padding: 4px; }
-  #card .rate { font-size: 30px; font-weight: 600; font-variant-numeric: tabular-nums; margin: 2px 0; }
-  #card .rate small { font-size: 15px; font-weight: 400; color: var(--muted); }
-  .badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; color: #fff; }
-  #card .place { font-size: 14px; color: var(--muted); margin-bottom: 6px; padding-right: 24px; }
-  #card .expl { font-size: 14px; margin: 8px 0 4px; }
-  #card .stats { font-size: 13px; color: var(--muted); margin: 8px 0; }
-  #card canvas { width: 100% !important; height: 190px !important; }
-  #card .chart-t { font-size: 13px; font-weight: 600; margin: 10px 0 4px; }
+  #card .close { position: absolute; top: 8px; right: 8px; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); line-height: 1; padding: 6px; }
+  #cPlace { font-size: 14px; color: var(--muted); padding-right: 28px; margin-bottom: 4px; }
+  .readout { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: start; }
+  .num { font: 700 44px/1 var(--head); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .num small { font: 500 15px/1 var(--body); color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+  .cls { display: inline-flex; align-items: center; gap: 7px; font-weight: 600; font-size: 14px; margin: 8px 0 6px; }
+  .cls i { width: 12px; height: 12px; border-radius: 2px; }
+  #cExpl { font-size: 14.5px; margin: 0; }
+  .gauge { width: 58px; }
+  .gauge svg { display: block; overflow: visible; }
+  .gauge .drop { transition: height .7s cubic-bezier(.2, .7, .2, 1); }
+  @media (prefers-reduced-motion: reduce) { .gauge .drop { transition: none; } }
+  .gauge figcaption { font: 600 13px/1.2 var(--head); text-align: center; margin-top: 4px; color: var(--staff); font-variant-numeric: tabular-nums; }
 
-  #about { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: none; align-items: center;
-    justify-content: center; padding: 16px; z-index: 10; }
+  .block { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule); }
+  .block h3 { font: 600 14.5px/1.3 var(--head); margin: 0 0 6px; }
+  .why { font-size: 14px; margin: 0 0 8px; }
+  .bars { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; align-items: center; font-size: 13px; color: var(--muted); }
+  .bars .bar { height: 6px; background: var(--wash); border-radius: 3px; overflow: hidden; }
+  .bars .bar span { display: block; height: 100%; background: var(--ink); }
+  dl.facts { display: grid; grid-template-columns: 1fr auto; gap: 3px 12px; margin: 0; font-size: 13.5px; }
+  dl.facts dt { color: var(--muted); }
+  dl.facts dd { margin: 0; font-variant-numeric: tabular-nums; font-weight: 500; text-align: right; }
+  #card canvas { width: 100% !important; height: 180px !important; }
+
+  /* ---- กล่องเกี่ยวกับข้อมูล ---- */
+  #about { position: fixed; inset: 0; background: rgba(18, 26, 28, .5); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
   #about.open { display: flex; }
-  #about .box { max-width: 640px; max-height: 88vh; overflow: auto; background: var(--bg); color: var(--fg);
-    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); }
-  #about h3 { margin: 0 0 8px; font-size: 19px; }
-  #about h4 { margin: 16px 0 4px; font-size: 15px; }
-  #about p, #about li { font-size: 14.5px; }
+  #about .box { max-width: 660px; max-height: 88vh; overflow: auto; background: var(--paper); color: var(--ink); border-radius: 8px; padding: 22px 26px; box-shadow: var(--shadow); }
+  #about h3 { margin: 0 0 8px; font: 600 21px/1.25 var(--head); }
+  #about h4 { margin: 18px 0 4px; font: 600 15.5px/1.3 var(--head); }
+  #about p, #about li { font-size: 14.5px; max-width: 68ch; }
   #about ul { padding-left: 20px; margin: 4px 0; }
+  #about .close-row { text-align: right; margin: 16px 0 0; }
+  #about .btn { border: 1.5px solid var(--ink); background: none; border-radius: 6px; padding: 6px 16px; cursor: pointer; }
 
-  #toggle { display: none; position: absolute; top: 12px; left: 12px; z-index: 3; padding: 8px 14px; }
-  .maplibregl-popup-content { background: var(--panel); color: var(--fg); }
+  #toggle { display: none; position: absolute; top: 12px; left: 12px; z-index: 3; padding: 8px 14px; border: 1px solid var(--rule); cursor: pointer; font-weight: 500; }
+  .maplibregl-ctrl-group { border-radius: 6px; }
 
   @media (max-width: 700px) {
-    #side { width: auto; right: 12px; top: 58px; max-height: 60%; }
+    #side { width: auto; right: 12px; top: 58px; max-height: 62%; }
     #side.hidden { display: none; }
     #toggle { display: block; }
-    #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 58%; }
+    h1 { font-size: 21px; }
+    #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 60%; }
+    .num { font-size: 38px; }
   }
 </style>
 </head>
 <body>
 <div id="map" role="application" aria-label="map"></div>
-<button id="toggle" class="panel chip" data-i18n="menu">☰ เมนู</button>
+<button id="toggle" class="panel" data-i18n="menu">ค้นหาและชั้นข้อมูล</button>
 
 <aside id="side" class="panel">
   <script>if (matchMedia('(max-width: 700px)').matches) document.currentScript.parentElement.classList.add('hidden');</script>
-  <div class="row" style="margin-bottom:6px">
-    <button class="chip" id="lang" aria-label="language">English</button>
-    <button class="chip" id="aboutBtn" data-i18n="about">เกี่ยวกับข้อมูล</button>
+  <div class="topline">
+    <span class="links"><button class="link" id="aboutBtn" data-i18n="about">วิธีวัดและข้อจำกัด</button><button class="link" id="lang">English</button></span>
   </div>
-  <h1 data-i18n="title">แผ่นดินทรุด กรุงเทพฯ สมุทรปราการ สมุทรสาคร</h1>
-  <p class="sub" data-i18n="sub">อัตราการทรุดตัวเฉลี่ยต่อปี จากดาวเทียม Sentinel-1 ช่วง เม.ย. 2564 – ต.ค. 2569</p>
+  <h1 data-i18n="title">แผ่นดินตรงบ้านคุณทรุดลงปีละเท่าไร</h1>
+  <p class="lede" id="lede"></p>
 
-  <h2 data-i18n="legendT">ระดับการทรุด (มิลลิเมตรต่อปี)</h2>
-  <div class="legend" id="legend"></div>
+  <form id="search" role="search" autocomplete="off">
+    <input id="q" type="search" data-i18n-ph="searchPh" placeholder="ค้นหาที่อยู่ ถนน หรือเขต" aria-label="search">
+    <button type="submit" data-i18n="searchBtn">ค้นหา</button>
+  </form>
+  <ul id="results" hidden></ul>
 
-  <h2 data-i18n="layersT">ชั้นข้อมูล</h2>
-  <label class="chk" id="riskRow" hidden><input type="checkbox" id="l-risk"> <span data-i18n="lRisk">ดัชนีความเสี่ยงรายเขต</span></label>
-  <div class="legend" id="riskLegend" hidden style="margin:2px 0 8px 28px"></div>
-  <label class="chk" id="floodRow" hidden><input type="checkbox" id="l-flood" checked> <span class="sw" style="background:#2166ac;width:16px;height:12px"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
-  <label class="chk" id="gfmRow" hidden><input type="checkbox" id="l-gfm"> <span class="sw" style="background:#e84c78;width:16px;height:12px"></span> <span data-i18n="lGfm">น้ำท่วมจาก Copernicus GFM</span></label>
-  <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ (ซูมเข้าใกล้)</span></label>
-  <label class="chk"><input type="checkbox" id="l-img" checked> <span data-i18n="lImg">แผนที่อัตราการทรุด</span></label>
-  <label class="chk"><input type="checkbox" id="l-rail" checked> <span data-i18n="lRail">แนวรถไฟฟ้า / รถไฟ</span></label>
-  <label class="chk"><input type="checkbox" id="l-dist" checked> <span data-i18n="lDist">ขอบเขตเขต/อำเภอ</span></label>
+  <div class="seg" role="group" aria-label="theme">
+    <button id="m-sub" aria-pressed="true" data-i18n="mSub">อัตราการทรุด</button>
+    <button id="m-risk" aria-pressed="false" data-i18n="mRisk" hidden>ความเสี่ยง</button>
+  </div>
+  <p class="scale-t" id="scaleT"></p>
+  <div id="legend"></div>
 
-  <p class="hint" data-i18n="hint">แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ</p>
+  <div class="flood-row" id="floodRow" hidden>
+    <label class="chk"><input type="checkbox" id="l-flood" checked> <span class="sw" style="background:var(--flood)"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
+  </div>
+  <details>
+    <summary data-i18n="more">ชั้นข้อมูลอื่น</summary>
+    <label class="chk" id="gfmRow" hidden><input type="checkbox" id="l-gfm"> <span class="sw" style="background:var(--gfm)"></span> <span data-i18n="lGfm">GFM</span></label>
+    <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ</span></label>
+    <label class="chk"><input type="checkbox" id="l-rail" checked> <span data-i18n="lRail">แนวราง</span></label>
+    <label class="chk"><input type="checkbox" id="l-dist" checked> <span data-i18n="lDist">ขอบเขต</span></label>
+    <label class="chk"><input type="checkbox" id="l-lab" checked> <span data-i18n="lLab">ป้ายจุดที่ทรุดมาก</span></label>
+  </details>
 </aside>
 
 <section id="card" class="panel" aria-live="polite">
   <button class="close" id="cardClose" aria-label="close">×</button>
-  <div class="place" id="cPlace"></div>
-  <div class="rate" id="cRate"></div>
-  <div id="cBadge"></div>
-  <div class="expl" id="cExpl"></div>
-  <div class="stats" id="cStats"></div>
-  <div class="chart-t" id="cChartT"></div>
-  <canvas id="chart" aria-label="chart"></canvas>
+  <div id="cPlace"></div>
+  <div id="cBody"></div>
 </section>
 
 <div id="about" role="dialog" aria-modal="true">
@@ -134,102 +191,126 @@
 <script>
 const I18N = {
   th: {
-    menu: '☰ เมนู', about: 'เกี่ยวกับข้อมูล', title: 'แผ่นดินทรุด กรุงเทพฯ สมุทรปราการ สมุทรสาคร',
-    sub: 'อัตราการทรุดตัวเฉลี่ยต่อปี จากดาวเทียม Sentinel-1 ช่วง เม.ย. 2564 – ต.ค. 2569',
-    legendT: 'ระดับการทรุด (มิลลิเมตรต่อปี)', layersT: 'ชั้นข้อมูล', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)',
-    lImg: 'แผนที่อัตราการทรุด', lRail: 'แนวรถไฟฟ้า / รถไฟ', lDist: 'ขอบเขตเขต/อำเภอ',
-    lFlood: 'น้ำท่วม 21 ต.ค. 2569 (ภาพเรดาร์)', lGfm: 'น้ำท่วม 21 ต.ค. 2569 จาก Copernicus GFM (เทียบ)', flood: 'พื้นที่น้ำท่วมของเขต (21 ต.ค. 2569)', km2: 'ตร.กม.',
-    lRisk: 'แผนที่ความเสี่ยง (ภัย × การสัมผัส × ความเปราะบาง)', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
-    risk: 'ความเสี่ยงที่จุดนี้', riskOf: 'จาก 59', rH: 'ภัย', rE: 'การสัมผัส', rV: 'ความเปราะบาง',
-    hint: 'แตะหรือคลิกที่ใดก็ได้บนแผนที่เพื่อดูอัตราการทรุดและกราฟของเขตนั้น · ใช้ปุ่ม ◎ มุมขวาบนเพื่อไปที่ตำแหน่งของคุณ',
-    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'], nod: 'ไม่มีข้อมูล (อาคารสีเทา)',
-    rng: ['0 ถึง 5', '5 ถึง 10', '10 ถึง 20', 'มากกว่า 20'],
+    menu: 'ค้นหาและชั้นข้อมูล', about: 'วิธีวัดและข้อจำกัด', where: 'กรุงเทพฯ สมุทรปราการ สมุทรสาคร',
+    title: 'แผ่นดินตรงบ้านคุณทรุดลงปีละเท่าไร',
+    lede: 'ดาวเทียม Sentinel-1 วัดความสูงของพื้นดินในกรุงเทพฯ สมุทรปราการ และสมุทรสาคร ราวทุก 12 วัน ตั้งแต่ เม.ย. 2564 ถึง ต.ค. 2569 พื้นที่ทรุดเร็วที่สุดอยู่ที่<b>บ้านแพ้ว ปีละ 2.3 ซม.</b> ส่วนใจกลางกรุงเทพฯ ทรุดราวปีละ 3–4 มม.',
+    searchPh: 'ค้นหาที่อยู่ ถนน หรือเขต', searchBtn: 'ค้นหา', searching: 'กำลังค้นหา…', noResult: 'ไม่พบสถานที่นี้ในสามจังหวัด ลองพิมพ์ชื่อถนนหรือเขต',
+    district: 'เขต/อำเภอ',
+    mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง',
+    scaleSub: 'ทรุดลงกี่มิลลิเมตรต่อปี', scaleRisk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ (ภัย × คนและอาคาร × ความเปราะบาง)',
+    nod: 'วัดไม่ได้ เช่น นาข้าว บ่อปลา แหล่งน้ำ', riskLo: 'ต่ำมาก', riskHi: 'สูงมาก',
+    lFlood: 'น้ำท่วม 21 ต.ค. 2569 จากภาพเรดาร์', lGfm: 'น้ำท่วมวันเดียวกันจาก Copernicus GFM (ใช้เทียบ)',
+    more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)', lRail: 'แนวรถไฟฟ้าและรถไฟ', lDist: 'เส้นแบ่งเขต/อำเภอ', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
+    cls: ['ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
     expl: [
-      'แผ่นดินบริเวณนี้ทรุดช้า ใกล้เคียงกับใจกลางกรุงเทพฯ',
-      'ทรุดราว 5–10 มม. ต่อปี หรือประมาณ 5–10 ซม. ใน 10 ปี',
-      'ทรุดเร็ว ราว 10–20 มม. ต่อปี หรือประมาณ 10–20 ซม. ใน 10 ปี',
-      'ทรุดเร็วมาก มากกว่า 20 มม. ต่อปี หรือมากกว่า 20 ซม. ใน 10 ปี'],
-    unit: 'มม./ปี', sink: 'ทรุด', rise: 'ยกตัว', nodata: 'ไม่มีข้อมูลที่จุดนี้ (พื้นที่ที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว แหล่งน้ำ)',
-    building: 'อาคาร สูงราว', m: 'ม.', median: 'ค่ากลางของเขต', rank: 'อันดับ', of: 'จาก 59 เขต/อำเภอ (1 = ทรุดมากที่สุด)',
-    pct: 'พื้นที่ที่ทรุดเกิน 10 มม./ปี', chartT: 'การทรุดสะสมเฉลี่ยของเขต (มม.) เทียบกับต้นปี 2564',
-    monthly: 'รายเดือน', trend: 'แนวโน้ม', eq: 'แผ่นดินไหวเมียนมา 28 มี.ค. 2568', rail: 'แนวราง',
-    outside: 'อยู่นอกพื้นที่ศึกษา (กรุงเทพฯ สมุทรปราการ สมุทรสาคร)',
+      'ทรุดช้า ใกล้เคียงกับใจกลางกรุงเทพฯ',
+      'ทรุดเร็วกว่าใจกลางกรุงเทพฯ ราว 2 เท่า',
+      'ทรุดเร็ว ควรสังเกตรอยร้าวและระดับพื้นรอบบ้าน',
+      'ทรุดเร็วมาก อยู่ในกลุ่มที่เร็วที่สุดของสามจังหวัด'],
+    unit: 'มม. ต่อปี', rise: 'ยกตัว', perYear: 'ต่อปี',
+    tenYr: (cm, steps) => `ถ้ายังทรุดเท่านี้ อีก 10 ปีพื้นตรงนี้จะต่ำลงราว ${cm} ซม. ${steps}`,
+    step: s => s < 0.25 ? '' : s < 0.75 ? '(ราวครึ่งขั้นบันได)' : s < 1.25 ? '(ราวหนึ่งขั้นบันได)' : s < 1.75 ? '(ราวขั้นบันไดหนึ่งขั้นครึ่ง)' : `(ราว ${Math.round(s)} ขั้นบันได)`,
+    gaugeCap: 'ใน 10 ปี',
+    nodata: 'ดาวเทียมวัดตรงนี้ไม่ได้ชัด มักเป็นนาข้าว บ่อปลา หรือแหล่งน้ำ ลองแตะจุดที่มีบ้านหรือถนนใกล้ ๆ',
+    outside: 'อยู่นอกพื้นที่ศึกษา',
+    building: h => `อาคารสูงราว ${h} ม.`, railPlace: 'แนวราง',
+    riskT: 'ความเสี่ยงตรงนี้', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
+    why: ['เพราะพื้นทรุดเร็ว หรือมีน้ำท่วมใกล้ ๆ', 'เพราะมีคน อาคาร และสถานที่สำคัญหนาแน่น', 'เพราะมีผู้สูงอายุ เด็กเล็ก หรือบ้านแนวราบมาก หรืออยู่ไกลโรงพยาบาล'],
+    hev: ['ภัย', 'คนและอาคาร', 'ความเปราะบาง'],
+    distT: d => `ทั้ง${d}`, median: 'ค่ากลางของการทรุด', rank: 'อันดับใน 59 เขต/อำเภอ', pct: 'พื้นที่ที่ทรุดเกิน 10 มม. ต่อปี', flood: 'น้ำท่วม 21 ต.ค. 2569',
+    km2: 'ตร.กม.', chartT: total => `การทรุดสะสมเฉลี่ยของเขต ตั้งแต่ต้นปี 2564 ทรุดไปแล้วราว ${total} ซม.`,
+    eq: 'แผ่นดินไหวเมียนมา', monthly: 'รายเดือน', trend: 'แนวโน้ม', mm: 'มม.',
   },
   en: {
-    menu: '☰ Menu', about: 'About the data', title: 'Land subsidence in Bangkok, Samut Prakan and Samut Sakhon',
-    sub: 'Average yearly ground sinking from Sentinel-1 satellite radar, Apr 2021 – Oct 2026',
-    legendT: 'Subsidence level (millimetres per year)', layersT: 'Layers', lBld: '3D buildings (zoom in)',
-    lImg: 'Subsidence map', lRail: 'Rail and metro lines', lDist: 'District boundaries',
-    lFlood: 'Flooding on 21 Oct 2026 (radar)', lGfm: 'Flooding on 21 Oct 2026 from Copernicus GFM (compare)', flood: 'Flooded area in the district (21 Oct 2026)', km2: 'km²',
-    lRisk: 'Risk map (hazard × exposure × vulnerability)', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
-    risk: 'Risk at this spot', riskOf: 'of 59', rH: 'hazard', rE: 'exposure', rV: 'vulnerability',
-    hint: 'Tap or click anywhere on the map to see the rate and the district chart · Use ◎ at the top right to go to your location',
-    cls: ['Low', 'Moderate', 'High', 'Very high'], nod: 'No data (grey buildings)',
-    rng: ['0 to 5', '5 to 10', '10 to 20', 'more than 20'],
+    menu: 'Search and layers', about: 'How it was measured', where: 'Bangkok, Samut Prakan, Samut Sakhon',
+    title: 'How fast is the ground under your home sinking?',
+    lede: 'The Sentinel-1 satellite measured ground height in Bangkok, Samut Prakan and Samut Sakhon about every 12 days from April 2021 to October 2026. The fastest sinking is in <b>Ban Phaeo, 2.3 cm a year</b>. Central Bangkok sinks about 3–4 mm a year.',
+    searchPh: 'Search an address, road or district', searchBtn: 'Search', searching: 'Searching…', noResult: 'No place found in the three provinces. Try a road or district name.',
+    district: 'District',
+    mSub: 'Sinking rate', mRisk: 'Risk',
+    scaleSub: 'Millimetres of sinking per year', scaleRisk: 'Relative risk across the area (hazard × people and buildings × vulnerability)',
+    nod: 'Not measurable, such as rice fields, fish ponds and water', riskLo: 'Very low', riskHi: 'Very high',
+    lFlood: 'Flooding on 21 Oct 2026 from radar', lGfm: 'Same-day flooding from Copernicus GFM (comparison)',
+    more: 'More layers', lBld: '3D buildings (zoom in)', lRail: 'Rail and metro lines', lDist: 'District boundaries', lLab: 'Labels for the fastest-sinking districts',
+    cls: ['Low', 'Moderate', 'High', 'Very high'],
     expl: [
-      'The ground here sinks slowly, similar to central Bangkok.',
-      'Sinking about 5–10 mm a year, roughly 5–10 cm in 10 years.',
-      'Sinking fast, about 10–20 mm a year, roughly 10–20 cm in 10 years.',
-      'Sinking very fast, more than 20 mm a year, over 20 cm in 10 years.'],
-    unit: 'mm/yr', sink: 'sinking', rise: 'uplift', nodata: 'No data here (the satellite cannot measure reliably, e.g. rice fields or water)',
-    building: 'Building, about', m: 'm tall', median: 'District median', rank: 'Rank', of: 'of 59 districts (1 = fastest sinking)',
-    pct: 'Area sinking faster than 10 mm/yr', chartT: 'Average cumulative sinking in the district (mm) since early 2021',
-    monthly: 'Monthly', trend: 'Trend', eq: 'Myanmar earthquake, 28 Mar 2025', rail: 'Rail line',
-    outside: 'Outside the study area (Bangkok, Samut Prakan, Samut Sakhon)',
+      'Sinking slowly, similar to central Bangkok.',
+      'Sinking about twice as fast as central Bangkok.',
+      'Sinking fast. Watch for cracks and changes in ground level around the house.',
+      'Sinking very fast, among the fastest in the three provinces.'],
+    unit: 'mm a year', rise: 'uplift', perYear: 'a year',
+    tenYr: (cm, steps) => `If this continues, the ground here will be about ${cm} cm lower in 10 years ${steps}`,
+    step: s => s < 0.25 ? '' : s < 0.75 ? '(about half a stair step)' : s < 1.25 ? '(about one stair step)' : s < 1.75 ? '(about one and a half stair steps)' : `(about ${Math.round(s)} stair steps)`,
+    gaugeCap: 'in 10 yrs',
+    nodata: 'The satellite cannot measure this spot well, usually rice fields, fish ponds or water. Try a spot with houses or roads nearby.',
+    outside: 'Outside the study area',
+    building: h => `Building about ${h} m tall`, railPlace: 'Rail line',
+    riskT: 'Risk at this spot', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
+    why: ['Mainly because the ground sinks fast or flooding is nearby', 'Mainly because people, buildings and key facilities are dense', 'Mainly because of many older people, young children or low houses, or a long way to hospital'],
+    hev: ['Hazard', 'People and buildings', 'Vulnerability'],
+    distT: d => `${d} as a whole`, median: 'Median sinking', rank: 'Rank among 59 districts', pct: 'Area sinking over 10 mm a year', flood: 'Flooded on 21 Oct 2026',
+    km2: 'km²', chartT: total => `District average since early 2021: about ${total} cm lower so far`,
+    eq: 'Myanmar earthquake', monthly: 'Monthly', trend: 'Trend', mm: 'mm',
   },
 };
+const SOURCES = {
+  th: 'ภาพดาวเทียม Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 และ MintPy, แก้ผลของชั้นบรรยากาศด้วย ERA5, อาคารจาก Global Building Atlas, ประชากรจาก WorldPop, แนวรางและสถานที่จาก Overture Maps / OpenStreetMap, ขอบเขตปกครองจาก HDX COD-AB, น้ำท่วมเทียบจาก Copernicus GFM (CEMS), แผนที่ฐาน OpenFreeMap © OpenMapTiles © OpenStreetMap',
+  en: 'Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 and MintPy; atmospheric correction with ERA5; buildings from Global Building Atlas; population from WorldPop; rail and facilities from Overture Maps / OpenStreetMap; boundaries from HDX COD-AB; comparison flood map from Copernicus GFM (CEMS); basemap OpenFreeMap © OpenMapTiles © OpenStreetMap',
+};
 const ABOUT = {
-  th: `<h3>เกี่ยวกับข้อมูล</h3>
+  th: `<h3>วิธีวัดและข้อจำกัด</h3>
     <p>แผนที่นี้แสดงอัตราที่ผิวดินทรุดลงโดยเฉลี่ยต่อปี วัดจากภาพเรดาร์ของดาวเทียม Sentinel-1 ทั้งวงโคจรขาขึ้นและขาลง รวม 157 วันถ่ายภาพต่อวงโคจร ระหว่างเมษายน 2564 ถึงตุลาคม 2569 ด้วยเทคนิค SBAS InSAR ความละเอียดราว 80 เมตร</p>
     <h4>อ่านค่าอย่างไร</h4>
-    <ul><li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม./ปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
-    <li>สีบอกระดับการทรุด ไม่ได้บอกว่าอาคารจะเสียหาย ความเสียหายขึ้นกับฐานรากและการทรุดที่ไม่เท่ากันในระยะสั้นๆ</li>
-    <li>พื้นที่ที่ไม่มีสี คือที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ</li>
+    <ul><li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม. ต่อปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
+    <li>สีบอกความเร็วของการทรุด ไม่ได้บอกว่าอาคารจะเสียหาย ความเสียหายขึ้นกับฐานรากและการทรุดที่ไม่เท่ากันในระยะสั้น ๆ</li>
+    <li>พื้นที่ที่ไม่มีสีคือที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ</li>
     <li>สีของอาคารมาจากอัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li></ul>
-    <h4>ชั้นข้อมูลน้ำท่วม</h4>
-    <p>พื้นที่น้ำท่วมมาจากภาพเรดาร์ Sentinel-1 วันที่ 21 ต.ค. 2569 (สองวันหลัง 19 ต.ค.) เทียบกับภาพหน้าแล้ง ก.พ.–มี.ค. 2569 ของวงโคจรเดียวกัน พื้นที่ที่ภาพมืดลงชัดเจนเพราะมีน้ำนิ่งปกคลุมถูกจัดเป็นน้ำท่วม แหล่งน้ำถาวรไม่แสดง <b>เรดาร์มองน้ำท่วมในเขตเมืองที่มีตึกหนาแน่นได้ไม่ดี</b> จึงอาจขาดพื้นที่น้ำท่วมตามถนนและชุมชน ส่วนนาข้าวหรือบ่อที่ปล่อยน้ำเข้าตามฤดูกาลอาจถูกนับรวมด้วย</p>
-    <p>ชั้น <b>Copernicus GFM</b> (สีชมพู) เป็นแผนที่น้ำท่วมอัตโนมัติของ Copernicus Emergency Management Service จากภาพ Sentinel-1 วันเดียวกันแต่คนละวิธี ใช้เพื่อเปรียบเทียบ GFM จับได้ 45 ตร.กม. ในสามจังหวัด ส่วนแผนที่ของเราจับได้ 100 ตร.กม. พื้นที่ 84% ของ GFM อยู่ในแผนที่ของเรา และเขตที่ท่วมมากที่สุดเรียงลำดับเหมือนกัน</p>
-    <h4>ข้อจำกัด</h4>
-    <ul><li>ค่าทั้งหมดผูกกับสถานี GNSS ที่จุฬาลงกรณ์มหาวิทยาลัย ซึ่งเองก็ทรุดราว 4 มม./ปี ความคลาดเคลื่อนของสถานีนี้มีผลกับทั้งแผนที่</li>
-    <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าของแต่ละเดือน</li>
-    <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li></ul>
-    <h4>แหล่งข้อมูล</h4>
     <h4>แผนที่ความเสี่ยง</h4>
-    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องกริดขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
+    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
     <ul><li><b>ภัย</b>: อัตราทรุด, การทรุดไม่เท่ากันที่อาจกระทบอาคาร (angular distortion), น้ำท่วม 21 ต.ค. 2569 บริเวณใกล้เคียง</li>
-    <li><b>การสัมผัสภัย</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ ในรัศมี 500 ม.</li>
-    <li><b>ความเปราะบาง</b> (คิดในรัศมี 500 ม.): % ผู้สูงอายุ 65 ปีขึ้นไป, % เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), % อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น), ระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
-    <p>ความเสี่ยงสูงกระจุกในพื้นที่ชานเมืองด้านตะวันออก (ลาดกระบัง หนองจอก คลองสามวา บางพลี บางเสาธง บางบ่อ) และตะวันตกเฉียงใต้ (บ้านแพ้ว เมืองสมุทรสาคร) ส่วนเขตชั้นในแม้คนหนาแน่นแต่ทรุดช้าจึงเสี่ยงต่ำกว่า</p>
-<p>ภาพดาวเทียม: Copernicus Sentinel-1 (ESA) ประมวลผลด้วย ASF HyP3 (InSAR, RTC) และ MintPy · แก้ชั้นบรรยากาศด้วย ERA5 · อาคาร: Global Building Atlas · แนวราง: Overture Maps / OpenStreetMap · ขอบเขตปกครอง: HDX COD-AB · น้ำท่วมเทียบ: Copernicus GFM (CEMS) · แผนที่ฐาน: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
-    <p style="text-align:right"><button class="chip" id="aboutClose">ปิด</button></p>`,
-  en: `<h3>About the data</h3>
+    <li><b>คนและอาคาร</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ และสถานีรถไฟในรัศมี 500 ม.</li>
+    <li><b>ความเปราะบาง</b> (ในรัศมี 500 ม.): สัดส่วนผู้สูงอายุ 65 ปีขึ้นไป, เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น) และระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
+    <h4>น้ำท่วม</h4>
+    <p>พื้นที่น้ำท่วมมาจากภาพเรดาร์ Sentinel-1 วันที่ 21 ต.ค. 2569 (สองวันหลัง 19 ต.ค.) เทียบกับภาพหน้าแล้ง ก.พ.–มี.ค. 2569 ของวงโคจรเดียวกัน พื้นที่ที่ภาพมืดลงชัดเจนเพราะมีน้ำนิ่งปกคลุมถูกจัดเป็นน้ำท่วม แหล่งน้ำถาวรไม่แสดง <b>เรดาร์มองน้ำท่วมในเขตเมืองที่มีตึกหนาแน่นได้ไม่ดี</b> จึงอาจขาดน้ำท่วมตามถนนและชุมชน ส่วนนาข้าวหรือบ่อที่ปล่อยน้ำเข้าตามฤดูกาลอาจถูกนับรวมด้วย</p>
+    <p>ชั้น Copernicus GFM (สีชมพู) เป็นแผนที่น้ำท่วมอัตโนมัติของ Copernicus Emergency Management Service จากภาพวันเดียวกันแต่คนละวิธี GFM จับได้ 45 ตร.กม. ในสามจังหวัด แผนที่ของเราจับได้ 100 ตร.กม. พื้นที่ 84% ของ GFM อยู่ในแผนที่ของเรา และเขตที่ท่วมมากที่สุดเรียงลำดับเหมือนกัน</p>
+    <h4>ข้อจำกัด</h4>
+    <ul><li>ค่าทั้งหมดผูกกับสถานี GNSS ที่จุฬาลงกรณ์มหาวิทยาลัย ซึ่งเองก็ทรุดราว 4 มม. ต่อปี ความคลาดเคลื่อนของสถานีนี้มีผลกับทั้งแผนที่</li>
+    <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าแต่ละเดือน</li>
+    <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li>
+    <li>การเทียบกับขั้นบันไดใช้ความสูงขั้นละ 15 ซม. และสมมติว่าอัตราการทรุดคงที่</li></ul>
+    <h4>แหล่งข้อมูล</h4>
+    <p>${SOURCES.th}</p>
+    <p class="close-row"><button class="btn" id="aboutClose">ปิด</button></p>`,
+  en: `<h3>How it was measured</h3>
     <p>This map shows how fast the ground surface sinks on average each year, measured from Sentinel-1 satellite radar on ascending and descending orbits (157 acquisitions each) between April 2021 and October 2026, using SBAS InSAR at about 80 m resolution.</p>
     <h4>How to read it</h4>
-    <ul><li>Values are millimetres per year. 15 mm/yr means about 15 cm lower after 10 years if the rate continues.</li>
+    <ul><li>Values are millimetres per year. 15 mm a year means about 15 cm lower after 10 years if the rate continues.</li>
     <li>Colours show how fast the ground sinks, not whether buildings will be damaged. Damage depends on foundations and on uneven sinking over short distances.</li>
     <li>Uncoloured areas could not be measured reliably, such as rice fields, fish ponds and water.</li>
     <li>Building colours come from the rate of the surrounding 80 m cell, not from each building itself.</li></ul>
-    <h4>Flood layer</h4>
-    <p>Flooded areas come from Sentinel-1 radar on 21 Oct 2026 (two days after 19 Oct), compared with dry-season images from Feb–Mar 2026 on the same orbit. Land that turned clearly darker because still water covered it is mapped as flooded; permanent water is not shown. <b>Radar sees flooding in dense built-up areas poorly</b>, so street and neighbourhood flooding may be missing, while seasonally filled rice fields or ponds may be included.</p>
-    <p>The <b>Copernicus GFM</b> layer (pink) is the automatic flood map of the Copernicus Emergency Management Service from the same Sentinel-1 image with a different method, shown for comparison. GFM maps 45 km² in the three provinces, our map 100 km²; 84% of the GFM area lies inside ours and the most-flooded districts rank the same.</p>
-    <h4>Limitations</h4>
-    <ul><li>All values are tied to the GNSS station at Chulalongkorn University, which itself sinks about 4 mm/yr; any error there shifts the whole map.</li>
-    <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
-    <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li></ul>
-    <h4>Sources</h4>
     <h4>Risk map</h4>
-    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m grid cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage.</p>
+    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage.</p>
     <ul><li><b>Hazard</b>: sinking rate, uneven sinking that can affect buildings (angular distortion), flooding nearby on 21 Oct 2026</li>
-    <li><b>Exposure</b>: people and building floor area in the cell, schools, hospitals, fire and police stations and rail stations within 500 m</li>
-    <li><b>Vulnerability</b> (within 500 m): % aged 65+, % under 5 (WorldPop 2025), % low buildings up to 6 m (houses often on short piles), distance to the nearest hospital</li></ul>
-    <p>High risk clusters in the eastern suburbs (Lat Krabang, Nong Chok, Khlong Sam Wa, Bang Phli, Bang Sao Thong, Bang Bo) and the south-west (Ban Phaeo, Mueang Samut Sakhon). The inner city is crowded but sinks slowly, so its risk is lower.</p>
-<p>Imagery: Copernicus Sentinel-1 (ESA), processed with ASF HyP3 (InSAR, RTC) and MintPy · Atmospheric correction: ERA5 · Buildings: Global Building Atlas · Rail: Overture Maps / OpenStreetMap · Boundaries: HDX COD-AB · Comparison flood map: Copernicus GFM (CEMS) · Basemap: OpenFreeMap, © OpenMapTiles, © OpenStreetMap</p>
-    <p style="text-align:right"><button class="chip" id="aboutClose">Close</button></p>`,
+    <li><b>People and buildings</b>: people and building area in the cell, and schools, hospitals, fire and police stations and rail stations within 500 m</li>
+    <li><b>Vulnerability</b> (within 500 m): share aged 65+, share under 5 (WorldPop 2025), low buildings up to 6 m (houses often on short piles), and distance to the nearest hospital</li></ul>
+    <h4>Flooding</h4>
+    <p>Flooded areas come from Sentinel-1 radar on 21 Oct 2026 (two days after 19 Oct), compared with dry-season images from Feb–Mar 2026 on the same orbit. Land that turned clearly darker because still water covered it is mapped as flooded; permanent water is not shown. <b>Radar sees flooding in dense built-up areas poorly</b>, so street and neighbourhood flooding may be missing, while seasonally filled rice fields or ponds may be included.</p>
+    <p>The Copernicus GFM layer (pink) is the automatic flood map of the Copernicus Emergency Management Service from the same image with a different method. GFM maps 45 km² in the three provinces, our map 100 km²; 84% of the GFM area lies inside ours and the most-flooded districts rank the same.</p>
+    <h4>Limitations</h4>
+    <ul><li>All values are tied to the GNSS station at Chulalongkorn University, which itself sinks about 4 mm a year; any error there shifts the whole map.</li>
+    <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
+    <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li>
+    <li>The stair-step comparison uses a 15 cm step and assumes the rate stays the same.</li></ul>
+    <h4>Sources</h4>
+    <p>${SOURCES.en}</p>
+    <p class="close-row"><button class="btn" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null;
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, mode = 'sub';
 const T = k => I18N[lang][k];
 const $ = id => document.getElementById(id);
+const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
+const STEP_CM = 15;
 
 function classOf(v) {
   if (v === null || v === undefined || !isFinite(v)) return -1;
@@ -238,23 +319,37 @@ function classOf(v) {
 function colorExpr(prop) {
   return ['match', ['get', prop], 0, meta.colors[0], 1, meta.colors[1], 2, meta.colors[2], 3, meta.colors[3], '#c8c8c8'];
 }
+const fmt = (x, d = 1) => x.toLocaleString(lang === 'th' ? 'th-TH' : 'en-GB', { minimumFractionDigits: d, maximumFractionDigits: d });
 
-const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
+// ---- สัญลักษณ์แบบไม้บรรทัด ----
+function legendHTML() {
+  if (mode === 'risk') {
+    return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${RISK_COLORS.map(c => `<span style="background:${c}"></span>`).join('')}</div>
+      <div class="ends"><span>${T('riskLo')}</span><span>${T('riskHi')}</span></div>`;
+  }
+  // 0–30 มม./ปี วางตามสเกลจริง: 0–5, 5–10, 10–20, 20–30+
+  const w = [5, 5, 10, 10];
+  const ticks = [0, 5, 10, 20, 30].map(t => `<span${t === 30 ? ' class="end"' : ''} style="left:${t / 30 * 100}%">${t === 30 ? '30+' : t}</span>`).join('');
+  return `<div class="ruler" style="grid-template-columns:${w.map(x => x + 'fr').join(' ')}">${meta.colors.map(c => `<span style="background:${c}"></span>`).join('')}</div>
+    <div class="ticks">${ticks}</div>
+    <div class="nod"><i></i>${T('nod')}</div>`;
+}
+
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = T(e.dataset.i18n));
+  document.querySelectorAll('[data-i18n-ph]').forEach(e => e.placeholder = T(e.dataset.i18nPh));
+  $('lede').innerHTML = T('lede');
   $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
-  $('legend').innerHTML = [0, 1, 2, 3].map(i =>
-    `<div><span class="sw" style="background:${meta.colors[i]}"></span><span>${T('cls')[i]}</span><span class="rng">${T('rng')[i]}</span></div>`).join('')
-    + `<div><span class="sw" style="background:#c8c8c8"></span><span>${T('nod')}</span><span class="rng"></span></div>`;
-  $('riskLegend').innerHTML = RISK_COLORS.map((c, i) =>
-    `<div><span class="sw" style="background:${c}"></span><span>${T('rcls')[i]}</span><span class="rng"></span></div>`).join('');
+  $('scaleT').textContent = mode === 'risk' ? T('scaleRisk') : T('scaleSub');
+  $('legend').innerHTML = legendHTML();
   $('aboutBox').innerHTML = ABOUT[lang];
   $('aboutClose').onclick = () => $('about').classList.remove('open');
+  if (map.getLayer('ss-lab')) map.setLayoutProperty('ss-lab', 'text-field', labelExpr());
   if (last) showCard(last);
 }
 
-// ---- value lookup from the int16 grid (0.1 mm/yr) ----
+// ---- ค้นหาค่าจากกริด ----
 function gridValue(lng, lat) {
   const c = Math.floor((lng - grid.x0) / grid.dx), r = Math.floor((lat - grid.y0) / grid.dy);
   if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
@@ -283,88 +378,178 @@ function districtAt(lng, lat) {
   }
   return null;
 }
+const dName = d => lang === 'th' ? d.adm2_name1 : d.adm2_name;
+const pName = d => lang === 'th' ? d.adm1_name1 : d.adm1_name;
+
+// ---- ไม้สต๊าฟ: ความลึกที่ทรุดใน 10 ปี (ซม.) เทียบขั้นบันได ----
+function gaugeSVG(cm) {
+  const H = 150, max = 30, px = H / max, y = Math.min(cm, max) * px;
+  let marks = '';
+  for (let i = 0; i < max; i++) marks += i % 2 ? '' : `<rect x="0" y="${i * px}" width="9" height="${px}" fill="var(--ink)" opacity=".85"/>`;
+  for (let i = 0; i <= max; i += 5) marks += `<line x1="0" x2="${i % 10 ? 13 : 17}" y1="${i * px}" y2="${i * px}" stroke="var(--ink)" stroke-width="1"/>`
+    + (i % 10 || i === 0 ? '' : `<text x="22" y="${i * px + 4}" font-size="10" fill="var(--muted)" font-family="Chakra Petch">${i}</text>`);
+  const step = `<line x1="-4" x2="38" y1="${STEP_CM * px}" y2="${STEP_CM * px}" stroke="var(--muted)" stroke-dasharray="3 3"/>`;
+  return `<svg width="40" height="${H}" viewBox="0 0 40 ${H}" role="img" aria-label="${fmt(cm, 0)} cm">
+    <rect x="0" y="0" width="17" height="${H}" fill="var(--paper)" stroke="var(--rule)"/>${marks}
+    <rect class="drop" x="0" y="0" width="17" height="0" data-h="${y}" fill="var(--staff)" opacity=".8"/>
+    <line x1="-6" x2="24" y1="0" y2="0" stroke="var(--ink)" stroke-width="2"/>${step}</svg>`;
+}
 
 function showCard(info) {
   last = info;
   if (info.lnglat && info.risk === undefined) info.risk = riskAt(...info.lnglat);
   const d = info.district, v = info.v, cl = classOf(v);
-  const name = d ? (lang === 'th' ? `${d.adm2_name1}, ${d.adm1_name1}` : `${d.adm2_name}, ${d.adm1_name}`) : T('outside');
-  $('cPlace').textContent = (info.h ? `${T('building')} ${info.h} ${T('m')} · ` : info.rail ? `${T('rail')} · ` : '') + name;
+  const place = d ? `${dName(d)}, ${pName(d)}` : T('outside');
+  $('cPlace').textContent = info.h ? `${T('building')(info.h)}, ${place}` : info.rail ? `${T('railPlace')}, ${place}` : place;
+
+  let h = '';
   if (cl < 0) {
-    $('cRate').innerHTML = ''; $('cBadge').innerHTML = ''; $('cExpl').textContent = T('nodata');
+    h += `<p id="cExpl">${T('nodata')}</p>`;
   } else {
-    const word = v <= 0 ? T('sink') : T('rise');
-    $('cRate').innerHTML = `${Math.abs(v).toFixed(1)} <small>${T('unit')} · ${word}</small>`;
-    $('cBadge').innerHTML = `<span class="badge" style="background:${meta.colors[cl]};color:${cl === 0 ? '#5a1a10' : '#fff'}">${T('cls')[cl]}</span>`;
-    $('cExpl').textContent = T('expl')[cl];
+    const sink = Math.max(-v, 0), cm = sink;                       // มม./ปี × 10 ปี = มม. → ซม. เท่ากับตัวเลขเดิม
+    const steps = cm / STEP_CM;
+    h += `<div class="readout"><div>
+        <div class="num">${fmt(Math.abs(v))}<small>${v <= 0 ? T('unit') : T('unit') + ' ' + T('rise')}</small></div>
+        <div class="cls"><i style="background:${meta.colors[cl]}"></i>${T('cls')[cl]}</div>
+        <p id="cExpl">${T('expl')[cl]} ${T('tenYr')(fmt(cm, 0), T('step')(steps))}</p></div>
+      <figure class="gauge" style="margin:0">${gaugeSVG(cm)}<figcaption>−${fmt(cm, 0)} ${lang === 'th' ? 'ซม.' : 'cm'}<br><span style="color:var(--muted);font-weight:500">${T('gaugeCap')}</span></figcaption></figure></div>`;
+  }
+  if (info.risk) {
+    const [rc, H, E, V] = info.risk, k = [H, E, V].indexOf(Math.max(H, E, V));
+    h += `<div class="block"><h3>${T('riskT')}: <span style="color:${rc >= 3 ? 'var(--staff)' : 'inherit'}">${T('rcls')[rc]}</span></h3>
+      <p class="why">${rc >= 2 ? T('why')[k] : ''}</p>
+      <div class="bars">${T('hev').map((n, i) => `<span>${n}</span><div class="bar"><span style="width:${[H, E, V][i]}%"></span></div>`).join('')}</div></div>`;
   }
   if (d) {
-    $('cStats').innerHTML = `${T('median')}: <b>${Math.abs(d.med).toFixed(1)} ${T('unit')}</b> · ${T('rank')} ${d.rank} ${T('of')}<br>${T('pct')}: ${d.pct10}%` + (d.fl_km2 !== undefined && d.fl_km2 !== null ? `<br>${T('flood')}: ${d.fl_km2.toFixed(1)} ${T('km2')} (${d.fl_pct.toFixed(1)}%)` : '')
-      + (info.risk ? `<br>${T('risk')}: <b style="color:${RISK_COLORS[Math.max(info.risk[0], 2)]}">${T('rcls')[info.risk[0]]}</b><br><small>${T('rH')} ${(info.risk[1] / 100).toFixed(2)} · ${T('rE')} ${(info.risk[2] / 100).toFixed(2)} · ${T('rV')} ${(info.risk[3] / 100).toFixed(2)} (0–1)</small>` : '');
-    $('cChartT').textContent = T('chartT');
-    $('chart').style.display = '';
-    drawChart(d);
-  } else {
-    $('cStats').textContent = ''; $('cChartT').textContent = ''; $('chart').style.display = 'none';
+    const total = series.districts[d.i] ? -series.districts[d.i].filter(x => x !== null).slice(-3).reduce((a, b) => a + b, 0) / 3 / 10 : null;
+    h += `<div class="block"><h3>${T('distT')(dName(d))}</h3><dl class="facts">
+      <dt>${T('median')}</dt><dd>${fmt(Math.abs(d.med))} ${T('unit')}</dd>
+      <dt>${T('rank')}</dt><dd>${d.rank}</dd>
+      <dt>${T('pct')}</dt><dd>${fmt(d.pct10, 0)}%</dd>
+      ${d.fl_km2 !== undefined && d.fl_km2 !== null ? `<dt>${T('flood')}</dt><dd>${fmt(d.fl_km2)} ${T('km2')}</dd>` : ''}
+      </dl></div>
+      <div class="block"><h3>${total !== null ? T('chartT')(fmt(total)) : ''}</h3><canvas id="chart" aria-label="chart"></canvas></div>`;
   }
+  $('cBody').innerHTML = h;
   $('card').classList.add('open');
+  const drop = document.querySelector('.gauge .drop');
+  if (drop) requestAnimationFrame(() => requestAnimationFrame(() => drop.setAttribute('height', drop.dataset.h)));
+  if (d) drawChart(d);
 }
 
 function drawChart(d) {
-  const s = series.districts[d.i] || [], months = series.months;
+  const s = (series.districts[d.i] || []), months = series.months;
   const x = months.map(m => { const [y, mo] = m.split('-').map(Number); return y + (mo - 0.5) / 12; });
   const ok = s.map((v, i) => v === null ? null : i).filter(i => i !== null);
   const n = ok.length, mx = ok.reduce((a, i) => a + x[i], 0) / n, my = ok.reduce((a, i) => a + s[i], 0) / n;
   const b = ok.reduce((a, i) => a + (x[i] - mx) * (s[i] - my), 0) / ok.reduce((a, i) => a + (x[i] - mx) ** 2, 0);
   const trend = x.map(t => my + b * (t - mx));
-  const col = getComputedStyle(document.documentElement);
-  const fg = col.getPropertyValue('--muted').trim(), accent = meta.colors[Math.max(classOf(d.med), 1)];
-  const labels = months.map(m => { const [y, mo] = m.split('-'); return lang === 'th' ? `${mo}/${+y + 543}` : `${mo}/${y}`; });
+  const cs = getComputedStyle(document.documentElement);
+  const muted = cs.getPropertyValue('--muted').trim(), ink = cs.getPropertyValue('--ink').trim(), staff = cs.getPropertyValue('--staff').trim(), rule = cs.getPropertyValue('--rule').trim();
+  const labels = months.map(m => { const [y, mo] = m.split('-'); return lang === 'th' ? `${mo}/${String(+y + 543).slice(2)}` : `${mo}/${y.slice(2)}`; });
   const eqIndex = months.indexOf('2025-03') + 0.9;
-  const data = {
-    labels, datasets: [
-      { label: T('monthly'), data: s, showLine: false, pointRadius: 2.2, backgroundColor: fg + '99', borderColor: fg + '99' },
-      { label: T('trend'), data: trend, pointRadius: 0, borderColor: accent, borderWidth: 2.5 },
-    ]};
   const eqLine = { id: 'eq', afterDraw(c) {
     const xs = c.scales.x, ys = c.scales.y, px = xs.getPixelForValue(eqIndex), g = c.ctx;
-    g.save(); g.strokeStyle = fg; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(px, ys.top); g.lineTo(px, ys.bottom); g.stroke();
-    g.setLineDash([]); g.fillStyle = fg; g.font = '11px "IBM Plex Sans Thai"'; g.textAlign = 'right'; g.fillText(T('eq'), px - 4, ys.bottom - 6); g.restore();
+    g.save(); g.strokeStyle = muted; g.setLineDash([3, 3]); g.beginPath(); g.moveTo(px, ys.top); g.lineTo(px, ys.bottom); g.stroke();
+    g.setLineDash([]); g.fillStyle = muted; g.font = '11px Anuphan'; g.textAlign = 'right'; g.fillText(T('eq'), px - 4, ys.top + 10); g.restore();
   }};
   if (chart) chart.destroy();
-  chart = new Chart($('chart'), { type: 'line', data, plugins: [eqLine], options: {
+  chart = new Chart($('chart'), { type: 'line', plugins: [eqLine], data: { labels, datasets: [
+      { label: T('monthly'), data: s, showLine: false, pointRadius: 1.8, backgroundColor: muted + '88', borderColor: muted + '88' },
+      { label: T('trend'), data: trend, pointRadius: 0, borderColor: staff, borderWidth: 2.5 },
+    ] }, options: {
     animation: false, maintainAspectRatio: false,
-    plugins: { legend: { position: 'bottom', labels: { color: fg, boxWidth: 12, font: { family: 'IBM Plex Sans Thai', size: 12 } } },
-      tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(0)} mm` } } },
-    scales: { x: { ticks: { color: fg, maxTicksLimit: 6, font: { size: 11 } }, grid: { display: false } },
-      y: { ticks: { color: fg, font: { size: 11 } }, grid: { color: fg + '22' } } } } });
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.parsed.y?.toFixed(0)} ${T('mm')}` } } },
+    scales: { x: { ticks: { color: muted, maxTicksLimit: 6, font: { size: 11, family: 'Chakra Petch' } }, grid: { display: false }, border: { color: rule } },
+      y: { title: { display: true, text: T('mm'), color: muted, font: { size: 11 } }, ticks: { color: muted, font: { size: 11, family: 'Chakra Petch' } },
+        grid: { color: rule }, border: { display: false } } } } });
 }
 
-// ---- map ----
+// ---- ค้นหา: ชื่อเขตในเครื่องก่อน แล้วค่อยถาม Photon (OpenStreetMap) ----
+const BBOX = [100.0, 13.45, 100.98, 13.97];
+function goTo(lng, lat, z = 15) {
+  map.flyTo({ center: [lng, lat], zoom: z, pitch: z >= 13 ? 50 : 0, essential: true });
+  map.once('moveend', () => { showCard({ v: gridValue(lng, lat), district: districtAt(lng, lat), lnglat: [lng, lat] }); placeMarker(lng, lat); });
+}
+let marker;
+function placeMarker(lng, lat) {
+  if (!marker) { const el = document.createElement('div'); el.style.cssText = 'width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--staff);box-shadow:0 0 0 2px var(--paper)'; marker = new maplibregl.Marker({ element: el }); }
+  marker.setLngLat([lng, lat]).addTo(map);
+}
+function showResults(items, msg) {
+  const ul = $('results'); ul.hidden = false;
+  ul.innerHTML = msg ? `<li class="msg">${msg}</li>` : items.map((r, i) => `<li><button data-i="${i}">${r.name}${r.sub ? ` <small>${r.sub}</small>` : ''}</button></li>`).join('');
+  ul.querySelectorAll('button').forEach(b => b.onclick = () => { const r = items[+b.dataset.i]; ul.hidden = true; $('q').value = r.name; goTo(r.lng, r.lat, r.z);
+    if (matchMedia('(max-width: 700px)').matches) $('side').classList.add('hidden'); });
+}
+function bboxCenter(f) {
+  let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  const walk = c => typeof c[0] === 'number' ? (x0 = Math.min(x0, c[0]), x1 = Math.max(x1, c[0]), y0 = Math.min(y0, c[1]), y1 = Math.max(y1, c[1])) : c.forEach(walk);
+  walk(f.geometry.coordinates); return [(x0 + x1) / 2, (y0 + y1) / 2];
+}
+$('search').onsubmit = async e => {
+  e.preventDefault();
+  const q = $('q').value.trim(); if (!q) return;
+  const m = q.match(/^\s*(\d{1,2}\.\d+)\s*[, ]\s*(\d{2,3}\.\d+)\s*$/);
+  if (m) return goTo(+m[2], +m[1]);
+  const ql = q.toLowerCase();
+  const local = districtsGeo.features.filter(f => f.properties.adm2_name1.includes(q) || f.properties.adm2_name.toLowerCase().includes(ql))
+    .map(f => { const p = f.properties, [lng, lat] = bboxCenter(f); return { name: dName(p), sub: `${T('district')}, ${pName(p)}`, lng, lat, z: 12.5 }; });
+  showResults(null, T('searching'));
+  let remote = [];
+  try {
+    const u = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=6&bbox=${BBOX.join(',')}`;
+    const js = await fetch(u).then(r => r.json());
+    remote = js.features.map(f => { const p = f.properties, [lng, lat] = f.geometry.coordinates;
+      return { name: p.name || [p.street, p.housenumber].filter(Boolean).join(' '), sub: [p.street && p.name ? p.street : '', p.district || p.city || p.county].filter(Boolean).join(', '), lng, lat, z: 16 }; })
+      .filter(r => r.name && districtAt(r.lng, r.lat));
+  } catch (err) { /* ใช้ผลในเครื่องอย่างเดียว */ }
+  const all = [...local, ...remote];
+  all.length ? showResults(all) : showResults(null, T('noResult'));
+};
+
+// ---- แผนที่ ----
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol('pmtiles', protocol.tile);
 const map = new maplibregl.Map({
   container: 'map', style: 'https://tiles.openfreemap.org/styles/positron',
-  center: [100.55, 13.68], zoom: 9.8, pitch: 0, maxPitch: 70, hash: true,
-  attributionControl: { compact: true },
+  center: [100.55, 13.68], zoom: 9.8, pitch: 0, maxPitch: 70, hash: true, attributionControl: { compact: true },
 });
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
 map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), 'top-right');
 map.addControl(new maplibregl.ScaleControl(), 'bottom-left');
+const labelExpr = () => ['concat', ['get', lang === 'th' ? 'adm2_name1' : 'adm2_name'], '\n', ['number-format', ['abs', ['get', 'med']], { 'max-fraction-digits': 0 }], lang === 'th' ? ' มม.' : ' mm'];
+
+function setMode(m) {
+  mode = m;
+  $('m-sub').setAttribute('aria-pressed', m === 'sub'); $('m-risk').setAttribute('aria-pressed', m === 'risk');
+  if (map.getLayer('ss-img')) map.setLayoutProperty('ss-img', 'visibility', m === 'sub' ? 'visible' : 'none');
+  if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', m === 'risk' ? 'visible' : 'none');
+  $('scaleT').textContent = m === 'risk' ? T('scaleRisk') : T('scaleSub');
+  $('legend').innerHTML = legendHTML();
+}
 
 map.on('load', async () => {
   [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f).then(r => r.json())));
   const buf = await fetch('grid.bin').then(r => r.arrayBuffer());
   grid = { ...meta.grid, data: new Int16Array(buf) };
-  applyLang();
 
-  const firstSymbol = map.getStyle().layers.find(l => l.type === 'symbol')?.id;
+  const style = map.getStyle();
+  const firstSymbol = style.layers.find(l => l.type === 'symbol')?.id;
+  const font = style.layers.find(l => l.type === 'symbol' && l.layout?.['text-font'])?.layout['text-font'] || ['Noto Sans Regular'];
   map.addSource('ss-img', { type: 'image', url: 'vlm.png', coordinates: meta.image });
   map.addLayer({ id: 'ss-img', type: 'raster', source: 'ss-img',
     paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.85, 14.5, 0.35], 'raster-resampling': 'nearest' } }, firstSymbol);
+  if (meta.risk) {
+    map.addSource('ss-risk', { type: 'image', url: 'risk.png', coordinates: meta.risk.image });
+    map.addLayer({ id: 'ss-risk', type: 'raster', source: 'ss-risk', layout: { visibility: 'none' },
+      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.88, 14.5, 0.4], 'raster-resampling': 'nearest' } }, firstSymbol);
+    riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
+    $('m-risk').hidden = false;
+  }
   if (meta.flood) {
     map.addSource('ss-flood', { type: 'image', url: 'flood.png', coordinates: meta.flood.image });
-    map.addLayer({ id: 'ss-flood', type: 'raster', source: 'ss-flood', paint: { 'raster-opacity': .85, 'raster-resampling': 'nearest' } }, firstSymbol);
+    map.addLayer({ id: 'ss-flood', type: 'raster', source: 'ss-flood', paint: { 'raster-opacity': .9, 'raster-resampling': 'nearest' } }, firstSymbol);
     $('floodRow').hidden = false;
   }
   if (meta.gfm) {
@@ -373,39 +558,37 @@ map.on('load', async () => {
     $('gfmRow').hidden = false;
   }
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
-  if (meta.risk) {
-    map.addSource('ss-risk', { type: 'image', url: 'risk.png', coordinates: meta.risk.image });
-    map.addLayer({ id: 'ss-risk', type: 'raster', source: 'ss-risk', layout: { visibility: 'none' },
-      paint: { 'raster-opacity': .85, 'raster-resampling': 'nearest' } }, firstSymbol);
-    riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
-    $('riskRow').hidden = false;
-  }
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
-    paint: { 'line-color': '#444', 'line-opacity': .6, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.4] } }, firstSymbol);
+    paint: { 'line-color': '#1b2629', 'line-opacity': .45, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.3] } }, firstSymbol);
   meta.buildings.forEach((f, i) => {
     map.addSource(`ss-b${i}`, { type: 'vector', url: `pmtiles://${new URL(f, location.href)}` });
     map.addLayer({ id: `ss-bld${i}`, type: 'fill-extrusion', source: `ss-b${i}`, 'source-layer': 'buildings', minzoom: 13,
       paint: { 'fill-extrusion-color': colorExpr('c'), 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .93 } });
   });
   map.addSource('ss-rail', { type: 'geojson', data: 'rail.geojson' });
-  map.addLayer({ id: 'ss-rail-case', type: 'line', source: 'ss-rail',
-    paint: { 'line-color': '#222', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2.6, 15, 8] } });
-  map.addLayer({ id: 'ss-rail', type: 'line', source: 'ss-rail',
-    paint: { 'line-color': colorExpr('c'), 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.4, 15, 5] } });
+  map.addLayer({ id: 'ss-rail-case', type: 'line', source: 'ss-rail', paint: { 'line-color': '#1b2629', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2.6, 15, 8] } });
+  map.addLayer({ id: 'ss-rail', type: 'line', source: 'ss-rail', paint: { 'line-color': colorExpr('c'), 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.4, 15, 5] } });
+  // ป้าย 6 เขตที่ทรุดเร็วที่สุด เขียนลงบนแผนที่ตรง ๆ
+  map.addLayer({ id: 'ss-lab', type: 'symbol', source: 'ss-dist', maxzoom: 12.5, filter: ['<=', ['get', 'rank'], 6],
+    layout: { 'text-field': labelExpr(), 'text-font': font, 'text-size': 13, 'text-line-height': 1.25, 'text-padding': 4 },
+    paint: { 'text-color': '#1b2629', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 } });
+  applyLang();
 
   map.on('click', e => {
     const { lng, lat } = e.lngLat;
     const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'].filter(l => map.getLayoutProperty(l, 'visibility') !== 'none');
     const f = map.queryRenderedFeatures(e.point, { layers })[0];
-    const district = districtAt(lng, lat);
+    const district = districtAt(lng, lat), lnglat = [lng, lat];
+    $('results').hidden = true;
     if (f && f.layer.id.startsWith('ss-bld')) {
       const p = f.properties;
-      showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district, lnglat: [lng, lat] });
+      showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district, lnglat });
     } else if (f && f.layer.id === 'ss-rail') {
-      showCard({ v: f.properties.v ?? null, rail: true, district, lnglat: [lng, lat] });
+      showCard({ v: f.properties.v ?? null, rail: true, district, lnglat });
     } else {
-      showCard({ v: gridValue(lng, lat), district, lnglat: [lng, lat] });
+      showCard({ v: gridValue(lng, lat), district, lnglat });
     }
+    placeMarker(lng, lat);
   });
   map.on('mousemove', e => {
     const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'];
@@ -413,11 +596,12 @@ map.on('load', async () => {
   });
 
   const vis = (ids, on) => ids.forEach(id => map.getLayer(id) && map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none'));
+  $('m-sub').onclick = () => setMode('sub');
+  $('m-risk').onclick = () => setMode('risk');
   $('l-bld').onchange = e => vis(meta.buildings.map((_, i) => `ss-bld${i}`), e.target.checked);
-  $('l-img').onchange = e => vis(['ss-img'], e.target.checked);
   $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
   $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
-  $('l-risk').onchange = e => { vis(['ss-risk'], e.target.checked); $('riskLegend').hidden = !e.target.checked; };
+  $('l-lab').onchange = e => vis(['ss-lab'], e.target.checked);
   $('l-flood').onchange = e => vis(['ss-flood'], e.target.checked);
   $('l-gfm').onchange = e => vis(['ss-gfm'], e.target.checked);
 });
@@ -426,9 +610,9 @@ map.on('zoomend', () => { if (map.getZoom() >= 13 && map.getPitch() < 20) map.ea
 $('lang').onclick = () => { lang = lang === 'th' ? 'en' : 'th'; applyLang(); };
 $('aboutBtn').onclick = () => $('about').classList.add('open');
 $('about').onclick = e => { if (e.target.id === 'about') $('about').classList.remove('open'); };
-$('cardClose').onclick = () => { $('card').classList.remove('open'); last = null; };
+$('cardClose').onclick = () => { $('card').classList.remove('open'); last = null; marker?.remove(); };
 $('toggle').onclick = () => $('side').classList.toggle('hidden');
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('about').classList.remove('open'); $('card').classList.remove('open'); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('about').classList.remove('open'); $('card').classList.remove('open'); $('results').hidden = true; } });
 </script>
 </body>
 </html>
