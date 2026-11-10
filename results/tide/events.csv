@@ -1,0 +1,4 @@
+event,reference,water_level_event_m,water_level_ref_m,threshold_db,tidal_km2,permanent_water_km2
+20250309,20250201,1.89,-0.4,-14.0,12.2,117.8
+20240219,20240114,1.65,-0.72,-14.0,12.2,107.8
+20220313,20220205,1.64,-0.34,-14.0,7.9,124.7

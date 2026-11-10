@@ -1,6 +1,7 @@
 """พื้นที่ที่น้ำทะเลขึ้นถึงจริงช่วงน้ำขึ้นสูง จากภาพเรดาร์ Sentinel-1 (แทนแบบจำลองกรณีปัจจุบัน)
 
     python scripts/tidal_sar.py download   # โหลด HyP3 RTC (job ชื่อ bkk_tide_rtc) → data/tide/rtc/vv_YYYYMMDD.tif (กริด 20 ม.)
+    python scripts/tidal_sar.py download-mpc   # หรือ RTC สำเร็จรูปจาก Microsoft Planetary Computer (ไม่ต้องรอคิว HyP3)
     python scripts/tidal_sar.py map        # เทียบภาพน้ำขึ้นกับน้ำลง → results/tide/
 
 เลือกภาพจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่าน (scripts/tide.py + ค่าปรับตามฤดู) วงโคจรขาลง path 62 (06:09 น.)
@@ -61,6 +62,36 @@ def download():
                   targetAlignedPixels=True, resampleAlg='average', srcNodata=0, dstNodata=0, creationOptions=['COMPRESS=DEFLATE'])
         shutil.rmtree(tmp)
         print(date, len(srcs), 'เฟรม')
+
+
+def download_mpc():
+    """ทางเลือกแทน HyP3: Sentinel-1 RTC สำเร็จรูปของ Microsoft Planetary Computer (gamma0 ภูมิประเทศ 10 ม.)
+    อ่านเฉพาะกรอบพื้นที่ศึกษาผ่าน HTTP range แล้วเฉลี่ยลงกริด 20 ม. เดียวกับ HyP3"""
+    import os
+    import requests
+    from osgeo import gdal
+    gdal.UseExceptions()
+    gdal.SetConfigOption('CURL_CA_BUNDLE', os.environ.get('REQUESTS_CA_BUNDLE', '/etc/ssl/certs/ca-certificates.crt'))
+    gdal.SetConfigOption('GDAL_DISABLE_READDIR_ON_OPEN', 'EMPTY_DIR')
+    gdal.SetConfigOption('GDAL_HTTP_MULTIRANGE', 'YES')
+    gdal.SetConfigOption('GDAL_HTTP_MERGE_CONSECUTIVE_RANGES', 'YES')
+    DATA.mkdir(parents=True, exist_ok=True)
+    api = 'https://planetarycomputer.microsoft.com/api'
+    tok = requests.get(f'{api}/sas/v1/token/sentinel-1-rtc').json()['token']
+    hull = F.districts().to_crs(4326).union_all().convex_hull.__geo_interface__
+    for date in sorted({*EVENTS, *EVENTS.values()}):
+        out = DATA / f'vv_{date}.tif'
+        if out.exists():
+            continue
+        d = pd.Timestamp(date)
+        r = requests.post(f'{api}/stac/v1/search', json={'collections': ['sentinel-1-rtc'], 'intersects': hull,
+                          'datetime': f'{d:%Y-%m-%d}T20:00:00Z/{d:%Y-%m-%d}T23:59:59Z'}).json()
+        feats = [f for f in r['features'] if f['properties'].get('sat:relative_orbit') in (62, None)]
+        srcs = [f"/vsicurl/{f['assets']['vv']['href']}?{tok}" for f in feats]
+        gdal.Warp(str(out), srcs, dstSRS=f'EPSG:{F.EPSG}', outputBounds=F.grid_bounds(), xRes=F.PIXEL, yRes=F.PIXEL,
+                  targetAlignedPixels=True, resampleAlg='average', srcNodata=0, dstNodata=0, multithread=True,
+                  creationOptions=['COMPRESS=DEFLATE'])
+        print(date, len(srcs), 'เฟรม', [f['id'][:40] for f in feats], flush=True)
 
 
 def classify(hi, lo, inside):
@@ -164,4 +195,4 @@ def tide_map():
 
 
 if __name__ == '__main__':
-    {'download': download, 'map': tide_map}[sys.argv[1]]()
+    {'download': download, 'download-mpc': download_mpc, 'map': tide_map}[sys.argv[1]]()

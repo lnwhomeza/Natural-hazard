@@ -1,0 +1,18 @@
+{
+ "main_event": "20250309",
+ "water_level_m": 1.89,
+ "tidal_km2": 12.2,
+ "permanent_water_km2": 117.8,
+ "population": 1967,
+ "buildings": 1033,
+ "facilities": {
+  "school": 0,
+  "hospital": 0,
+  "police": 0,
+  "fire_station": 0
+ },
+ "pct_main_also_in_other_events": {
+  "20240219": 8.1,
+  "20220313": 6.4
+ }
+}
