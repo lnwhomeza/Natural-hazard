@@ -6,3 +6,5 @@ data/
 .ipynb_checkpoints/
 __pycache__/
 data_test/
+report/pages.json
+report/toc_keys.json
