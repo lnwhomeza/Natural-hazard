@@ -243,11 +243,15 @@ const I18N = {
     searchPh: 'ค้นหาที่อยู่ ถนน หรือเขต', searchBtn: 'ค้นหา', searching: 'กำลังค้นหา…', noResult: 'ไม่พบสถานที่นี้ในสามจังหวัด ลองพิมพ์ชื่อถนนหรือเขต',
     district: 'เขต/อำเภอ',
     mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง', mSlr: 'น้ำทะเล',
-    scaleSlr: 'ความลึกน้ำท่วมจากทะเลช่วงน้ำขึ้นสูงประจำปี (แบบจำลองชลศาสตร์ SFINCS)',
+    scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพเรดาร์ อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
     cYear: 'ปี', cSsp: 'ฉากทัศน์ภูมิอากาศ (IPCC AR6)', cSub: 'การทรุด', cSubY: 'ทรุดต่อ', cSubN: 'หยุดทรุดวันนี้', cDef: 'คันกั้นน้ำ', cDefY: 'มีคัน', cDefN: 'ไม่มีคัน', now: 'ปัจจุบัน',
     depthL: ['10–30 ซม.', '30–60 ซม.', '60 ซม.–1 ม.', 'เกิน 1 ม.'],
     flSum: (a, p, b, s) => `น้ำท่วม <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง${s > 0 ? ` (น้ำทะเลสูงขึ้น ${s} ซม. จากปี 2567)` : ''}`,
     flCmp: (d) => d > 0 ? `ถ้าหยุดทรุดวันนี้ พื้นที่ท่วมจะน้อยลง <b>${d}</b> ตร.กม.` : '',
+    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพเรดาร์ตอนน้ำขึ้นสูง)',
+    tideSum: (d, w, a, p, b) => `ภาพ Sentinel-1 วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลา 06:09 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึง <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
+    tideNote: 'เทียบกับภาพตอนน้ำลง ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด เรดาร์มองน้ำใต้ป่าชายเลนและในเมืองที่ตึกหนาแน่นได้ไม่ดี และบอกความลึกไม่ได้',
+    tideT: d => `ภาพน้ำขึ้นสูง ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543}`, tideAns: ['น้ำไม่ถึง', 'น้ำทะเลขึ้นถึง', 'มีน้ำอยู่ตลอด (บ่อ/แหล่งน้ำ)'],
     be: y => y + 543, depthT: 'น้ำท่วมตรงนี้', depthNo: 'ไม่ท่วมในฉากทัศน์นี้', depthM: 'ม. (สูงสุดช่วงน้ำขึ้น)',
     slrNote: 'จำลองน้ำทะเลที่ไหลเข้ามาช่วงน้ำขึ้นสูงประจำปี ไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ความสูงคันใช้ค่าออกแบบโดยประมาณ',
     scaleSub: 'ทรุดลงกี่มิลลิเมตรต่อปี', scaleRisk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ (ภัย × คนและอาคาร × ความเปราะบาง)',
@@ -283,11 +287,15 @@ const I18N = {
     searchPh: 'Search an address, road or district', searchBtn: 'Search', searching: 'Searching…', noResult: 'No place found in the three provinces. Try a road or district name.',
     district: 'District',
     mSub: 'Sinking rate', mRisk: 'Risk', mSlr: 'Sea level',
-    scaleSlr: 'Sea flooding depth during the yearly highest tide (SFINCS hydrodynamic model)',
+    scaleSlr: 'Sea flooding at high tide: today from radar images, the future from the SFINCS hydrodynamic model',
     cYear: 'Year', cSsp: 'Climate scenario (IPCC AR6)', cSub: 'Sinking', cSubY: 'Continues', cSubN: 'Stops today', cDef: 'Flood defences', cDefY: 'With dikes', cDefN: 'No dikes', now: 'Today',
     depthL: ['10–30 cm', '30–60 cm', '60 cm–1 m', 'over 1 m'],
     flSum: (a, p, b, s) => `Flooded <b>${a}</b> km², about <b>${p}</b> people and <b>${b}</b> buildings${s > 0 ? ` (sea ${s} cm higher than 2024)` : ''}`,
     flCmp: (d) => d > 0 ? `If sinking stopped today, <b>${d}</b> km² less would flood` : '',
+    tideCls: 'Reached by the sea (radar image at high tide)',
+    tideSum: (d, w, a, p, b) => `Sentinel-1 image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at 06:09, water about +${w} m: the sea reached <b>${a}</b> km², home to about <b>${p}</b> people and <b>${b}</b> buildings`,
+    tideNote: 'Compared with a low-tide image; ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and among dense buildings poorly and cannot measure depth.',
+    tideT: d => `High-tide image ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)}`, tideAns: ['Not reached', 'Reached by the sea', 'Always water (pond/water body)'],
     be: y => y, depthT: 'Flooding here', depthNo: 'Not flooded in this scenario', depthM: 'm (peak during the tide)',
     slrNote: 'Simulates sea water flowing in during the yearly highest tide; no rain, river floods or pumping. Dike heights are approximate design values.',
     scaleSub: 'Millimetres of sinking per year', scaleRisk: 'Relative risk across the area (hazard × people and buildings × vulnerability)',
@@ -363,6 +371,8 @@ const ABOUT = {
     <ul><li><b>ภัย</b>: อัตราทรุด, การทรุดไม่เท่ากันที่อาจกระทบอาคาร (angular distortion), น้ำท่วม 21 ต.ค. 2569 บริเวณใกล้เคียง</li>
     <li><b>คนและอาคาร</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ และสถานีรถไฟในรัศมี 500 ม.</li>
     <li><b>ความเปราะบาง</b> (ในรัศมี 500 ม.): สัดส่วนผู้สูงอายุ 65 ปีขึ้นไป, เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น) และระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
+    <h4>น้ำท่วมจากทะเล: ปัจจุบัน</h4>
+    <p>ใช้ภาพเรดาร์ Sentinel-1 ที่ถ่ายตรงกับช่วงน้ำขึ้นสูง (เลือกจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่าน ช่วงหน้าแล้งเพื่อไม่ให้น้ำฝนปน) เทียบกับภาพตอนน้ำลงของวงโคจรเดียวกัน พื้นที่ที่เป็นน้ำตอนน้ำขึ้นแต่แห้งตอนน้ำลงคือที่ที่น้ำทะเลขึ้นถึงจริง บ่อและแหล่งน้ำที่มีน้ำอยู่ตลอดไม่นับ เรดาร์มองน้ำใต้ป่าชายเลนและระหว่างตึกได้ไม่ดี และบอกความลึกไม่ได้</p>
     <h4>น้ำท่วมจากทะเลในอนาคต</h4>
     <p>จำลองด้วยแบบจำลองชลศาสตร์ 2 มิติ SFINCS (Deltares) บนกริด 100 ม. ปล่อยน้ำทะเลเข้าจากอ่าวไทยตามระดับน้ำจริงทุก 10 นาที (น้ำขึ้นลง + คลื่นพายุ จาก GTSM ของ Copernicus) ช่วงน้ำขึ้นสูงสุดของปี 2567 (24 มิ.ย., +2.0 ม. ที่ปากแม่น้ำ) แล้วบวกระดับน้ำทะเลที่สูงขึ้นตาม IPCC AR6 (ค่ากลาง ฉบับที่ไม่รวมการเคลื่อนตัวของแผ่นดิน) ภูมิประเทศมาจาก DeltaDTM ปรับเป็นความสูงเหนือระดับน้ำทะเล (+1.08 ม. จาก EGM2008) แล้วลบการทรุดสะสมตามอัตราจาก InSAR น้ำต้องไหลผ่านพื้นที่ที่ต่อเนื่องกันจริง และถูกกั้นด้วยพื้นที่สูงหรือคันกั้นน้ำ</p>
     <p>กรณี "มีคัน" ใส่กำแพงริมแม่น้ำเจ้าพระยาสูง +2.8 ม. (ค่าออกแบบของ กทม.) และแนวถนนสุขุมวิทชายฝั่งสมุทรปราการ +2.5 ม. (สมมติ) ซึ่งทรุดลงตามพื้นดินในกรณี "ทรุดต่อ" ไม่มีข้อมูลแนวคันพระราชดำริและคันริมแม่น้ำท่าจีน จึงไม่ได้ใส่ แบบจำลองไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ผลจึงใช้เปรียบเทียบระหว่างฉากทัศน์ ไม่ใช่การพยากรณ์น้ำท่วมรายจุด</p>
@@ -393,6 +403,8 @@ const ABOUT = {
     <ul><li><b>Hazard</b>: sinking rate, uneven sinking that can affect buildings (angular distortion), flooding nearby on 21 Oct 2026</li>
     <li><b>People and buildings</b>: people and building area in the cell, and schools, hospitals, fire and police stations and rail stations within 500 m</li>
     <li><b>Vulnerability</b> (within 500 m): share aged 65+, share under 5 (WorldPop 2025), low buildings up to 6 m (houses often on short piles), and distance to the nearest hospital</li></ul>
+    <h4>Flooding from the sea: today</h4>
+    <p>Uses Sentinel-1 radar images taken at high tide (chosen from the water level at the Chao Phraya mouth at overpass time, in the dry season so rain does not mix in), compared with a low-tide image from the same orbit. Land that is wet at high tide but dry at low tide is where the sea actually reached. Ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and between buildings poorly and cannot measure depth.</p>
     <h4>Future flooding from the sea</h4>
     <p>Simulated with the 2D hydrodynamic model SFINCS (Deltares) on a 100 m grid. Sea water enters from the Gulf of Thailand following real 10-minute water levels (tide + storm surge, Copernicus GTSM) during the highest tide of 2024 (24 June, +2.0 m at the river mouth), plus IPCC AR6 sea-level rise (median, version without land motion). Ground height comes from DeltaDTM converted to height above sea level (+1.08 m from EGM2008), minus accumulated sinking at the InSAR rate. Water must flow through connected low ground and is stopped by higher land or dikes.</p>
     <p>"With dikes" adds Chao Phraya flood walls at +2.8 m (BMA design value) and the Sukhumvit coastal road in Samut Prakan at +2.5 m (assumed); they sink with the ground when sinking continues. The King's Dike and Tha Chin river walls are not included for lack of data. Rain, river floods and pumping are not modelled, so the results compare scenarios rather than forecast flooding at a given spot.</p>
@@ -412,7 +424,7 @@ const ABOUT = {
     <p class="close-row"><button class="btn" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, mode = 'sub', ssp = 'ssp245', slrYear = 2050, subOn = 'sub', defOn = 'def';
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, tideGrid = null, mode = 'sub', ssp = 'ssp245', slrYear = 2050, subOn = 'sub', defOn = 'def';
 const T = k => I18N[lang][k];
 const $ = id => document.getElementById(id);
 const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
@@ -429,6 +441,12 @@ const fmt = (x, d = 1) => x.toLocaleString(lang === 'th' ? 'th-TH' : 'en-GB', { 
 
 // ---- สัญลักษณ์แบบไม้บรรทัด ----
 function legendHTML() {
+  if (mode === 'slr' && slrYear === NOW && meta.tide) {
+    const t = meta.tide, d = t.main_event;
+    return `<div class="swl"><i style="background:#2171b5"></i><span>${T('tideCls')}</span></div>
+      <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString())}</p>
+      <p class="slr-sum">${T('tideNote')}</p>`;
+  }
   if (mode === 'slr') {
     const r = meta.sfl.runs[runName()] || {}, alt = slrYear !== NOW && subOn === 'sub' ? meta.sfl.runs[runName('nosub')] : null;
     return `<div class="swl">${meta.sfl.depth.map(([lo, c], i) => `<i style="background:${c}"></i><span>${T('depthL')[i]}</span>`).join('')}</div>
@@ -483,13 +501,29 @@ function uncAt(lng, lat) {
 const NOW = 2026;
 const runName = (sub = subOn) => slrYear === NOW ? `now_${defOn}` : `${slrYear}_${ssp}_${sub}_${defOn}`;
 async function showFlood() {
+  const isNow = slrYear === NOW;
+  document.querySelectorAll('[data-ssp],[data-sub],[data-def]').forEach(b => b.disabled = isNow);
+  if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', mode === 'slr' && isNow ? 'visible' : 'none');
+  map.setLayoutProperty('ss-slr', 'visibility', mode === 'slr' && !isNow ? 'visible' : 'none');
+  if (isNow) {
+    if (!tideGrid && meta.tide) tideGrid = new Uint8Array(await fetch('tide.bin').then(r => r.arrayBuffer()));
+    if (mode === 'slr') $('legend').innerHTML = legendHTML();
+    if (last) showCard(last);
+    return;
+  }
   const n = runName();
   if (!meta.sfl.runs[n]) return;
-  document.querySelectorAll('[data-ssp],[data-sub]').forEach(b => b.disabled = slrYear === NOW);
   map.getSource('ss-slr').updateImage({ url: `fl_${n}.png`, coordinates: meta.sfl.image });
   if (flName !== n) { flName = n; flGrid = null; flGrid = new Uint8Array(await fetch(`fl_${n}.bin`).then(r => r.arrayBuffer())); }
   if (mode === 'slr') $('legend').innerHTML = legendHTML();
   if (last) showCard(last);
+}
+function tideAt(lng, lat) {
+  if (!tideGrid) return null;
+  const c = Math.floor((lng - grid.x0) / grid.dx), r = Math.floor((lat - grid.y0) / grid.dy);
+  if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
+  const q = tideGrid[r * grid.w + c];
+  return q === 255 ? null : q;
 }
 function depthAt(lng, lat) {
   if (!flGrid) return null;
@@ -558,7 +592,11 @@ function showCard(info) {
         ${info.unc && info.unc.faded ? `<p class="warn">${T('uncWarn')}</p>` : ''}</div>
       <figure class="gauge" style="margin:0">${gaugeSVG(cm)}<figcaption>−${fmt(cm, 0)} ${lang === 'th' ? 'ซม.' : 'cm'}<br><span style="color:var(--muted);font-weight:500">${T('gaugeCap')}</span></figcaption></figure></div>`;
   }
-  const dep = mode === 'slr' && info.lnglat ? depthAt(...info.lnglat) : null;
+  const tq = mode === 'slr' && slrYear === NOW && info.lnglat ? tideAt(...info.lnglat) : null;
+  if (tq !== null) {
+    h += `<div class="block"><h3>${T('tideT')(meta.tide.main_event)}: ${T('tideAns')[tq]}</h3><p class="slr-sum">${T('tideNote')}</p></div>`;
+  }
+  const dep = mode === 'slr' && slrYear !== NOW && info.lnglat ? depthAt(...info.lnglat) : null;
   if (dep !== null) {
     h += `<div class="block"><h3>${T('depthT')}: ${dep > 0 ? `${fmt(dep, 2)} ${T('depthM')}` : T('depthNo')}</h3>
       <p class="slr-sum">${T('slrNote')}</p></div>`;
@@ -674,7 +712,8 @@ function setMode(m) {
   ['sub', 'risk', 'slr'].forEach(k => $(`m-${k}`).setAttribute('aria-pressed', m === k));
   if (map.getLayer('ss-img')) map.setLayoutProperty('ss-img', 'visibility', m === 'sub' ? 'visible' : 'none');
   if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', m === 'risk' ? 'visible' : 'none');
-  if (map.getLayer('ss-slr')) map.setLayoutProperty('ss-slr', 'visibility', m === 'slr' ? 'visible' : 'none');
+  if (map.getLayer('ss-slr')) map.setLayoutProperty('ss-slr', 'visibility', 'none');
+  if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', 'none');
   $('slrCtl').hidden = m !== 'slr';
   if (m === 'slr') showFlood();
   $('scaleT').textContent = m === 'risk' ? T('scaleRisk') : m === 'slr' ? T('scaleSlr') : T('scaleSub');
@@ -707,8 +746,12 @@ map.on('load', async () => {
     riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
     $('m-risk').hidden = false;
   }
+  if (meta.tide) {
+    map.addSource('ss-tide', { type: 'image', url: 'tide.png', coordinates: meta.tide.image });
+    map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
+  }
   if (meta.sfl) {
-    map.addSource('ss-slr', { type: 'image', url: `fl_${runName()}.png`, coordinates: meta.sfl.image });
+    map.addSource('ss-slr', { type: 'image', url: `fl_${runName() .replace(/^now_/, '2050_ssp245_sub_')}.png`, coordinates: meta.sfl.image });
     map.addLayer({ id: 'ss-slr', type: 'raster', source: 'ss-slr', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
     $('m-slr').hidden = false;
   }

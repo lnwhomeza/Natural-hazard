@@ -1,6 +1,4 @@
 ﻿name,year,ssp,sub,def,sea_offset_m,area_km2,pct_land,depth_mean_m,population,buildings,fac_school,fac_hospital,fac_police,fac_fire_station,fac_rail_station
-now_undef,2026,,True,False,0.0,1167.14,35.117,0.772,3695565.25,755321,190,17,67,11,59
-now_def,2026,,True,True,0.0,659.37,19.839,0.888,855092.188,259973,82,5,22,2,17
 2050_ssp245_sub_undef,2050,ssp245,True,False,0.136,2055.65,61.85,1.133,7007618.5,1447817,332,33,106,19,83
 2050_ssp245_sub_def,2050,ssp245,True,True,0.136,1127.87,33.935,1.275,2297743.5,601931,150,12,37,6,31
 2050_ssp245_nosub_undef,2050,ssp245,False,False,0.136,1398.6,42.081,0.836,4888875.0,995614,245,24,83,14,65

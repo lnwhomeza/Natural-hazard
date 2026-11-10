@@ -46,7 +46,8 @@ SSP_NAME = {'ssp245': 'SSP2-4.5', 'ssp585': 'SSP5-8.5'}
 
 
 def scenarios():
-    s = [{'name': f'now_{"def" if d else "undef"}', 'year': NOW, 'ssp': None, 'sub': True, 'def': d} for d in (False, True)]
+    # กรณีปัจจุบันใช้ภาพเรดาร์ที่ถ่ายตอนน้ำขึ้นสูงแทน (scripts/tidal_sar.py) แบบจำลองจึงรันเฉพาะอนาคต
+    s = []
     for y in (2050, 2100):
         for ssp in SSP_NAME:
             for sub in (True, False):
@@ -332,10 +333,10 @@ def summary():
     cm = matplotlib.colors.ListedColormap(['#c6dbef', '#6baed6', '#2171b5', '#08306b'])
     norm = matplotlib.colors.BoundaryNorm([WET, 0.3, 0.6, 1.0, 5], cm.N)
     for d in (False, True):
-        names = [f'now_{"def" if d else "undef"}', f'2050_ssp245_nosub_{"def" if d else "undef"}', f'2050_ssp245_sub_{"def" if d else "undef"}',
+        names = [f'2050_ssp245_nosub_{"def" if d else "undef"}', f'2050_ssp245_sub_{"def" if d else "undef"}',
                  f'2100_ssp585_nosub_{"def" if d else "undef"}', f'2100_ssp585_sub_{"def" if d else "undef"}']
-        titles = ['ปัจจุบัน (2569)', '2593 SSP2-4.5 หยุดทรุด', '2593 SSP2-4.5 ทรุดต่อ', '2643 SSP5-8.5 หยุดทรุด', '2643 SSP5-8.5 ทรุดต่อ']
-        fig, axs = plt.subplots(1, 5, figsize=(26, 5.4), constrained_layout=True)
+        titles = ['2593 SSP2-4.5 หยุดทรุด', '2593 SSP2-4.5 ทรุดต่อ', '2643 SSP5-8.5 หยุดทรุด', '2643 SSP5-8.5 ทรุดต่อ']
+        fig, axs = plt.subplots(1, 4, figsize=(21, 5.4), constrained_layout=True)
         for ax, n, ttl in zip(axs, names, titles):
             f = OUT / f'hmax_{n}.tif'
             if f.exists():
