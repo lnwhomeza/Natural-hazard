@@ -248,7 +248,7 @@ const I18N = {
     depthL: ['10–30 ซม.', '30–60 ซม.', '60 ซม.–1 ม.', 'เกิน 1 ม.'],
     flSum: (a, p, b, s) => `น้ำท่วม <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง${s > 0 ? ` (น้ำทะเลสูงขึ้น ${s} ซม. จากปี 2567)` : ''}`,
     flCmp: (d) => d > 0 ? `ถ้าหยุดทรุดวันนี้ พื้นที่ท่วมจะน้อยลง <b>${d}</b> ตร.กม.` : '',
-    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพดาวเทียมตอนน้ำขึ้นสูง)',
+    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพดาวเทียมตอนน้ำขึ้นสูง)', tidePerm: 'บ่อ นาเกลือ และแหล่งน้ำที่มีน้ำอยู่ตลอด',
     tideSum: (d, w, a, p, b, s) => `ภาพ ${s} วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลาราว 10:35 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึงแผ่นดินแค่ <b>${a}</b> ตร.กม. เป็นจุดกระจาย มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
     tideNote: 'แยกน้ำด้วยดัชนี MNDWI เทียบกับภาพตอนน้ำลง ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด มองน้ำใต้ป่าชายเลนและร่มไม้ไม่เห็น และบอกความลึกไม่ได้',
     tideT: d => `ภาพน้ำขึ้นสูง ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543}`, tideAns: ['น้ำไม่ถึง', 'น้ำทะเลขึ้นถึง', 'มีน้ำอยู่ตลอด (บ่อ/แหล่งน้ำ)'],
@@ -292,7 +292,7 @@ const I18N = {
     depthL: ['10–30 cm', '30–60 cm', '60 cm–1 m', 'over 1 m'],
     flSum: (a, p, b, s) => `Flooded <b>${a}</b> km², about <b>${p}</b> people and <b>${b}</b> buildings${s > 0 ? ` (sea ${s} cm higher than 2024)` : ''}`,
     flCmp: (d) => d > 0 ? `If sinking stopped today, <b>${d}</b> km² less would flood` : '',
-    tideCls: 'Reached by the sea (satellite image at high tide)',
+    tideCls: 'Reached by the sea (satellite image at high tide)', tidePerm: 'Ponds, salt pans and water that are always wet',
     tideSum: (d, w, a, p, b, s) => `${s} image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at about 10:35, water about +${w} m: the sea reached only <b>${a}</b> km² of land, in scattered patches, home to about <b>${p}</b> people and <b>${b}</b> buildings`,
     tideNote: 'Water detected with the MNDWI index and compared with a low-tide image; ponds and water bodies that are always wet are not counted. Water under mangroves or trees is not visible, and depth is not measured.',
     tideT: d => `High-tide image ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)}`, tideAns: ['Not reached', 'Reached by the sea', 'Always water (pond/water body)'],
@@ -443,7 +443,7 @@ const fmt = (x, d = 1) => x.toLocaleString(lang === 'th' ? 'th-TH' : 'en-GB', { 
 function legendHTML() {
   if (mode === 'slr' && slrYear === NOW && meta.tide) {
     const t = meta.tide, d = t.main_event;
-    return `<div class="swl"><i style="background:#2171b5"></i><span>${T('tideCls')}</span></div>
+    return `<div class="swl"><i style="background:#084594"></i><span>${T('tideCls')}</span><i style="background:#9ecae1"></i><span>${T('tidePerm')}</span></div>
       <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString(), t.sensor)}</p>
       <p class="slr-sum">${T('tideNote')}</p>`;
   }
@@ -506,7 +506,7 @@ async function showFlood() {
   if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', mode === 'slr' && isNow ? 'visible' : 'none');
   map.setLayoutProperty('ss-slr', 'visibility', mode === 'slr' && !isNow ? 'visible' : 'none');
   if (isNow) {
-    if (!tideGrid && meta.tide) tideGrid = new Uint8Array(await fetch('tide.bin').then(r => r.arrayBuffer()));
+    if (!tideGrid && meta.tide) tideGrid = new Uint8Array(await fetch(`tide.bin?v=${meta.v}`).then(r => r.arrayBuffer()));
     if (mode === 'slr') $('legend').innerHTML = legendHTML();
     if (last) showCard(last);
     return;
@@ -722,7 +722,7 @@ function setMode(m) {
 }
 
 map.on('load', async () => {
-  [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f).then(r => r.json())));
+  [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f, { cache: 'no-cache' }).then(r => r.json())));
   const buf = await fetch('grid.bin').then(r => r.arrayBuffer());
   grid = { ...meta.grid, data: new Int16Array(buf) };
   try { uncGrid = new Int16Array(await fetch('unc.bin').then(r => r.arrayBuffer())); } catch (err) { uncGrid = null; }
@@ -747,7 +747,7 @@ map.on('load', async () => {
     $('m-risk').hidden = false;
   }
   if (meta.tide) {
-    map.addSource('ss-tide', { type: 'image', url: 'tide.png', coordinates: meta.tide.image });
+    map.addSource('ss-tide', { type: 'image', url: `tide.png?v=${meta.v}`, coordinates: meta.tide.image });
     map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
   }
   if (meta.sfl) {

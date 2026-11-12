@@ -116,7 +116,7 @@ def raster_layers(full):
     return v, tr, image, grid
 
 
-def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
+def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac), color2=None):
     """พื้นที่น้ำท่วม (raster ค่า 1 = น้ำท่วม) → PNG บน EPSG:3857 เฉพาะในสามจังหวัด"""
     from PIL import Image
     with rasterio.open(flood_tif) as s:
@@ -128,7 +128,9 @@ def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
               dst_nodata=0, resampling=Resampling.nearest)
     rgba = np.zeros((dh, dw, 4), 'uint8')
     inside = ~geometry_mask([districts().to_crs(3857).union_all()], m.shape, dt)
-    rgba[(m == 1) & inside] = [*color, 230]
+    if color2 is not None:                     # ค่า 2 (เช่น น้ำอยู่ตลอด) สีอ่อน
+        rgba[(m == 2) & inside] = [*color2, 200]
+    rgba[(m == 1) & inside] = [*color, 235]
     Image.fromarray(rgba).save(SITE / out_name, optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
@@ -203,7 +205,7 @@ def tide_layer(tdir):
     0 แห้ง, 1 น้ำทะเลขึ้นถึง, 2 น้ำอยู่ตลอด, 255 นอกพื้นที่)"""
     summ = json.loads((tdir / 'summary.json').read_text())
     src = tdir / summ.get('file', f'tidal_{summ["main_event"]}.tif')
-    image = flood_layer(src, 'tide.png', (0x21, 0x71, 0xb5))
+    image = flood_layer(src, 'tide.png', (0x08, 0x45, 0x94), (0x9e, 0xca, 0xe1))
     return {'image': image, 'sensor': summ.get('sensor', 'Sentinel-1'),
             **{k: summ[k] for k in ('main_event', 'water_level_m', 'tidal_km2', 'population', 'buildings')}}
 
@@ -397,7 +399,8 @@ def main():
     adm = district_layer(v, tr, a.flood / 'flood_districts.csv')
     district_series(a.full, adm)
     rail(v, tr)
-    meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES]}
+    meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES],
+            'v': pd.Timestamp.now().strftime('%Y%m%d%H%M')}   # ท้ายชื่อไฟล์ภาพ กันเบราว์เซอร์ใช้ไฟล์เก่า
     ft = sorted(a.flood.glob('flood_*.tif')) if a.flood.exists() else []
     if ft:
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
