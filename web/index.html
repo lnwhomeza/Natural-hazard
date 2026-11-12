@@ -243,14 +243,14 @@ const I18N = {
     searchPh: 'ค้นหาที่อยู่ ถนน หรือเขต', searchBtn: 'ค้นหา', searching: 'กำลังค้นหา…', noResult: 'ไม่พบสถานที่นี้ในสามจังหวัด ลองพิมพ์ชื่อถนนหรือเขต',
     district: 'เขต/อำเภอ',
     mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง', mSlr: 'น้ำทะเล',
-    scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพเรดาร์ อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
+    scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพดาวเทียม อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
     cYear: 'ปี', cSsp: 'ฉากทัศน์ภูมิอากาศ (IPCC AR6)', cSub: 'การทรุด', cSubY: 'ทรุดต่อ', cSubN: 'หยุดทรุดวันนี้', cDef: 'คันกั้นน้ำ', cDefY: 'มีคัน', cDefN: 'ไม่มีคัน', now: 'ปัจจุบัน',
     depthL: ['10–30 ซม.', '30–60 ซม.', '60 ซม.–1 ม.', 'เกิน 1 ม.'],
     flSum: (a, p, b, s) => `น้ำท่วม <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง${s > 0 ? ` (น้ำทะเลสูงขึ้น ${s} ซม. จากปี 2567)` : ''}`,
     flCmp: (d) => d > 0 ? `ถ้าหยุดทรุดวันนี้ พื้นที่ท่วมจะน้อยลง <b>${d}</b> ตร.กม.` : '',
-    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพเรดาร์ตอนน้ำขึ้นสูง)',
-    tideSum: (d, w, a, p, b) => `ภาพ Sentinel-1 วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลา 06:09 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึง <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
-    tideNote: 'เทียบกับภาพตอนน้ำลง ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด เรดาร์มองน้ำใต้ป่าชายเลนและในเมืองที่ตึกหนาแน่นได้ไม่ดี และบอกความลึกไม่ได้',
+    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพดาวเทียมตอนน้ำขึ้นสูง)',
+    tideSum: (d, w, a, p, b, s) => `ภาพ ${s} วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลาราว 10:35 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึงแผ่นดินแค่ <b>${a}</b> ตร.กม. เป็นจุดกระจาย มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
+    tideNote: 'แยกน้ำด้วยดัชนี MNDWI เทียบกับภาพตอนน้ำลง ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด มองน้ำใต้ป่าชายเลนและร่มไม้ไม่เห็น และบอกความลึกไม่ได้',
     tideT: d => `ภาพน้ำขึ้นสูง ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543}`, tideAns: ['น้ำไม่ถึง', 'น้ำทะเลขึ้นถึง', 'มีน้ำอยู่ตลอด (บ่อ/แหล่งน้ำ)'],
     be: y => y + 543, depthT: 'น้ำท่วมตรงนี้', depthNo: 'ไม่ท่วมในฉากทัศน์นี้', depthM: 'ม. (สูงสุดช่วงน้ำขึ้น)',
     slrNote: 'จำลองน้ำทะเลที่ไหลเข้ามาช่วงน้ำขึ้นสูงประจำปี ไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ความสูงคันใช้ค่าออกแบบโดยประมาณ',
@@ -287,14 +287,14 @@ const I18N = {
     searchPh: 'Search an address, road or district', searchBtn: 'Search', searching: 'Searching…', noResult: 'No place found in the three provinces. Try a road or district name.',
     district: 'District',
     mSub: 'Sinking rate', mRisk: 'Risk', mSlr: 'Sea level',
-    scaleSlr: 'Sea flooding at high tide: today from radar images, the future from the SFINCS hydrodynamic model',
+    scaleSlr: 'Sea flooding at high tide: today from satellite images, the future from the SFINCS hydrodynamic model',
     cYear: 'Year', cSsp: 'Climate scenario (IPCC AR6)', cSub: 'Sinking', cSubY: 'Continues', cSubN: 'Stops today', cDef: 'Flood defences', cDefY: 'With dikes', cDefN: 'No dikes', now: 'Today',
     depthL: ['10–30 cm', '30–60 cm', '60 cm–1 m', 'over 1 m'],
     flSum: (a, p, b, s) => `Flooded <b>${a}</b> km², about <b>${p}</b> people and <b>${b}</b> buildings${s > 0 ? ` (sea ${s} cm higher than 2024)` : ''}`,
     flCmp: (d) => d > 0 ? `If sinking stopped today, <b>${d}</b> km² less would flood` : '',
-    tideCls: 'Reached by the sea (radar image at high tide)',
-    tideSum: (d, w, a, p, b) => `Sentinel-1 image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at 06:09, water about +${w} m: the sea reached <b>${a}</b> km², home to about <b>${p}</b> people and <b>${b}</b> buildings`,
-    tideNote: 'Compared with a low-tide image; ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and among dense buildings poorly and cannot measure depth.',
+    tideCls: 'Reached by the sea (satellite image at high tide)',
+    tideSum: (d, w, a, p, b, s) => `${s} image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at about 10:35, water about +${w} m: the sea reached only <b>${a}</b> km² of land, in scattered patches, home to about <b>${p}</b> people and <b>${b}</b> buildings`,
+    tideNote: 'Water detected with the MNDWI index and compared with a low-tide image; ponds and water bodies that are always wet are not counted. Water under mangroves or trees is not visible, and depth is not measured.',
     tideT: d => `High-tide image ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)}`, tideAns: ['Not reached', 'Reached by the sea', 'Always water (pond/water body)'],
     be: y => y, depthT: 'Flooding here', depthNo: 'Not flooded in this scenario', depthM: 'm (peak during the tide)',
     slrNote: 'Simulates sea water flowing in during the yearly highest tide; no rain, river floods or pumping. Dike heights are approximate design values.',
@@ -372,7 +372,7 @@ const ABOUT = {
     <li><b>คนและอาคาร</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ และสถานีรถไฟในรัศมี 500 ม.</li>
     <li><b>ความเปราะบาง</b> (ในรัศมี 500 ม.): สัดส่วนผู้สูงอายุ 65 ปีขึ้นไป, เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น) และระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
     <h4>น้ำท่วมจากทะเล: ปัจจุบัน</h4>
-    <p>ใช้ภาพเรดาร์ Sentinel-1 ที่ถ่ายตรงกับช่วงน้ำขึ้นสูง (เลือกจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่าน ช่วงหน้าแล้งเพื่อไม่ให้น้ำฝนปน) เทียบกับภาพตอนน้ำลงของวงโคจรเดียวกัน พื้นที่ที่เป็นน้ำตอนน้ำขึ้นแต่แห้งตอนน้ำลงคือที่ที่น้ำทะเลขึ้นถึงจริง บ่อและแหล่งน้ำที่มีน้ำอยู่ตลอดไม่นับ เรดาร์มองน้ำใต้ป่าชายเลนและระหว่างตึกได้ไม่ดี และบอกความลึกไม่ได้</p>
+    <p>ใช้ภาพดาวเทียม Sentinel-2 (5 ม.ค. 2569, ระดับน้ำราว +2.25 ม. สูงกว่ายอดน้ำสูงสุดประจำปี) ที่ถ่ายตรงกับช่วงน้ำขึ้นสูง เลือกจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่านในหน้าแล้งที่ไม่มีฝนและเมฆน้อย แยกน้ำด้วยดัชนี MNDWI แล้วเทียบกับภาพตอนน้ำลง (1 ธ.ค. 2568, +0.03 ม.) พื้นที่ที่เป็นน้ำตอนน้ำขึ้นแต่แห้งตอนน้ำลงคือที่ที่น้ำทะเลขึ้นถึงจริง ได้เพียงราว 35 ตร.กม. เป็นจุดกระจาย ส่วนแนวชายฝั่งเกือบทั้งหมดเป็นบ่อที่มีน้ำอยู่แล้ว ผลสอดคล้องกับภาพ Sentinel-2 และ Landsat 15 ม.ค. 2568 และภาพเรดาร์ Sentinel-1 ที่ให้ 8–20 ตร.กม. มองน้ำใต้ป่าชายเลนและร่มไม้ไม่เห็น และบอกความลึกไม่ได้</p>
     <h4>น้ำท่วมจากทะเลในอนาคต</h4>
     <p>จำลองด้วยแบบจำลองชลศาสตร์ 2 มิติ SFINCS (Deltares) บนกริด 100 ม. ปล่อยน้ำทะเลเข้าจากอ่าวไทยตามระดับน้ำจริงทุก 10 นาที (น้ำขึ้นลง + คลื่นพายุ จาก GTSM ของ Copernicus) ช่วงน้ำขึ้นสูงสุดของปี 2567 (24 มิ.ย., +2.0 ม. ที่ปากแม่น้ำ) แล้วบวกระดับน้ำทะเลที่สูงขึ้นตาม IPCC AR6 (ค่ากลาง ฉบับที่ไม่รวมการเคลื่อนตัวของแผ่นดิน) ภูมิประเทศมาจาก DeltaDTM ปรับเป็นความสูงเหนือระดับน้ำทะเล (+1.08 ม. จาก EGM2008) แล้วลบการทรุดสะสมตามอัตราจาก InSAR น้ำต้องไหลผ่านพื้นที่ที่ต่อเนื่องกันจริง และถูกกั้นด้วยพื้นที่สูงหรือคันกั้นน้ำ</p>
     <p>กรณี "มีคัน" ใส่กำแพงริมแม่น้ำเจ้าพระยาสูง +2.8 ม. (ค่าออกแบบของ กทม.) และแนวถนนสุขุมวิทชายฝั่งสมุทรปราการ +2.5 ม. (สมมติ) ซึ่งทรุดลงตามพื้นดินในกรณี "ทรุดต่อ" ไม่มีข้อมูลแนวคันพระราชดำริและคันริมแม่น้ำท่าจีน จึงไม่ได้ใส่ แบบจำลองไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ผลจึงใช้เปรียบเทียบระหว่างฉากทัศน์ ไม่ใช่การพยากรณ์น้ำท่วมรายจุด</p>
@@ -404,7 +404,7 @@ const ABOUT = {
     <li><b>People and buildings</b>: people and building area in the cell, and schools, hospitals, fire and police stations and rail stations within 500 m</li>
     <li><b>Vulnerability</b> (within 500 m): share aged 65+, share under 5 (WorldPop 2025), low buildings up to 6 m (houses often on short piles), and distance to the nearest hospital</li></ul>
     <h4>Flooding from the sea: today</h4>
-    <p>Uses Sentinel-1 radar images taken at high tide (chosen from the water level at the Chao Phraya mouth at overpass time, in the dry season so rain does not mix in), compared with a low-tide image from the same orbit. Land that is wet at high tide but dry at low tide is where the sea actually reached. Ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and between buildings poorly and cannot measure depth.</p>
+    <p>Uses a Sentinel-2 image (5 Jan 2026, water about +2.25 m, above the usual yearly peak) taken at high tide, chosen from the water level at the Chao Phraya mouth at overpass time in the dry, nearly cloud-free season. Water is detected with the MNDWI index and compared with a low-tide image (1 Dec 2025, +0.03 m). Land that is wet at high tide but dry at low tide is where the sea actually reached: only about 35 km², in scattered patches; almost the whole coastal belt is ponds that hold water anyway. Sentinel-2 and Landsat on 15 Jan 2025 and Sentinel-1 radar give 8–20 km², consistent with this. Water under mangroves or trees is not visible, and depth is not measured.</p>
     <h4>Future flooding from the sea</h4>
     <p>Simulated with the 2D hydrodynamic model SFINCS (Deltares) on a 100 m grid. Sea water enters from the Gulf of Thailand following real 10-minute water levels (tide + storm surge, Copernicus GTSM) during the highest tide of 2024 (24 June, +2.0 m at the river mouth), plus IPCC AR6 sea-level rise (median, version without land motion). Ground height comes from DeltaDTM converted to height above sea level (+1.08 m from EGM2008), minus accumulated sinking at the InSAR rate. Water must flow through connected low ground and is stopped by higher land or dikes.</p>
     <p>"With dikes" adds Chao Phraya flood walls at +2.8 m (BMA design value) and the Sukhumvit coastal road in Samut Prakan at +2.5 m (assumed); they sink with the ground when sinking continues. The King's Dike and Tha Chin river walls are not included for lack of data. Rain, river floods and pumping are not modelled, so the results compare scenarios rather than forecast flooding at a given spot.</p>
@@ -444,7 +444,7 @@ function legendHTML() {
   if (mode === 'slr' && slrYear === NOW && meta.tide) {
     const t = meta.tide, d = t.main_event;
     return `<div class="swl"><i style="background:#2171b5"></i><span>${T('tideCls')}</span></div>
-      <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString())}</p>
+      <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString(), t.sensor)}</p>
       <p class="slr-sum">${T('tideNote')}</p>`;
   }
   if (mode === 'slr') {

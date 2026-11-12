@@ -202,9 +202,10 @@ def tide_layer(tdir):
     """น้ำทะเลขึ้นถึงจริงจากภาพเรดาร์ (scripts/tidal_sar.py) → tide.png (EPSG:3857) + tide.bin (uint8 บนกริด lon/lat ของ grid.bin:
     0 แห้ง, 1 น้ำทะเลขึ้นถึง, 2 น้ำอยู่ตลอด, 255 นอกพื้นที่)"""
     summ = json.loads((tdir / 'summary.json').read_text())
-    src = tdir / f'tidal_{summ["main_event"]}.tif'
+    src = tdir / summ.get('file', f'tidal_{summ["main_event"]}.tif')
     image = flood_layer(src, 'tide.png', (0x21, 0x71, 0xb5))
-    return {'image': image, **{k: summ[k] for k in ('main_event', 'water_level_m', 'tidal_km2', 'population', 'buildings')}}
+    return {'image': image, 'sensor': summ.get('sensor', 'Sentinel-1'),
+            **{k: summ[k] for k in ('main_event', 'water_level_m', 'tidal_km2', 'population', 'buildings')}}
 
 
 def tide_grid(tdir, grid):
@@ -212,7 +213,7 @@ def tide_grid(tdir, grid):
     summ = json.loads((tdir / 'summary.json').read_text())
     gt = Affine(grid['dx'], 0, grid['x0'], 0, grid['dy'], grid['y0'])
     g = np.full((grid['h'], grid['w']), 255, 'uint8')
-    with rasterio.open(tdir / f'tidal_{summ["main_event"]}.tif') as s:
+    with rasterio.open(tdir / summ.get('file', f'tidal_{summ["main_event"]}.tif')) as s:
         reproject(s.read(1), g, src_transform=s.transform, src_crs=s.crs, src_nodata=255, dst_transform=gt,
                   dst_crs='EPSG:4326', dst_nodata=255, resampling=Resampling.mode)
     g.tofile(SITE / 'tide.bin')
@@ -388,7 +389,7 @@ def main():
     ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk_raster')
     ap.add_argument('--slr', type=Path, default=ROOT / 'results' / 'slr')
     ap.add_argument('--sfincs', type=Path, default=ROOT / 'results' / 'sfincs')
-    ap.add_argument('--tide', type=Path, default=ROOT / 'results' / 'tide')
+    ap.add_argument('--tide', type=Path, default=ROOT / 'results' / 'tide_optical')
     ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)

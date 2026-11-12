@@ -1,0 +1,4 @@
+pair,sensor,high_date,low_date,wl_high_m,wl_low_m,valid_pct,tidal_km2,permanent_water_km2
+s2_20260105,Sentinel-2,2026-01-05,2025-12-01,2.25,0.03,97.3,34.6,361.6
+s2_20250115,Sentinel-2,2025-01-15,2025-01-10,2.15,0.84,99.9,20.1,346.3
+ls_20250115,Landsat 8/9,2025-01-15,2025-01-07,2.15,0.75,98.5,10.2,431.4

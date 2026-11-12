@@ -1,0 +1,23 @@
+{
+ "main_event": "20260105",
+ "sensor": "Sentinel-2",
+ "low_date": "2025-12-01",
+ "water_level_m": 2.25,
+ "water_level_low_m": 0.03,
+ "tidal_km2": 34.6,
+ "permanent_water_km2": 361.6,
+ "valid_pct": 97.3,
+ "population": 9793,
+ "buildings": 4636,
+ "facilities": {
+  "school": 0,
+  "hospital": 0,
+  "police": 0,
+  "fire_station": 0
+ },
+ "pct_main_also_in_other_pairs": {
+  "s2_20250115": 9.1,
+  "ls_20250115": 2.7
+ },
+ "file": "tidal_s2_20260105.tif"
+}
