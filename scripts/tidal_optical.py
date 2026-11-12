@@ -5,7 +5,9 @@
 
 เลือกภาพจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่าน (~10:35 น., scripts/tide.py + ค่าปรับตามฤดู) หน้าแล้งเมฆน้อย
 MNDWI = (เขียว − SWIR1) / (เขียว + SWIR1) > 0 = น้ำ ตัดเมฆ/เงาเมฆด้วย SCL (Sentinel-2) หรือ QA_PIXEL (Landsat)
-น้ำทะเลขึ้นถึง = เป็นน้ำตอนน้ำขึ้น และไม่เป็นน้ำตอนน้ำลง (ทั้งสองภาพไม่มีเมฆ)
+น้ำทะเลขึ้นถึง = เป็นน้ำตอนน้ำขึ้น ไม่เป็นน้ำตอนน้ำลง (ทั้งสองภาพไม่มีเมฆ) และต้องต่อเนื่องทางน้ำ:
+    มีผิวน้ำในภาพน้ำขึ้นเชื่อมถึงทะเล (8 ทิศ) และอยู่ห่างทะเลไม่เกิน MAX_KM
+น้ำเพิ่มแต่ไม่ใช่น้ำทะเล = เปียกเพิ่มแต่ไม่ผ่านเงื่อนไขข้างบน (ปล่อยน้ำเข้านา/บ่อ) ไม่นับ ไม่แสดง
 น้ำอยู่ตลอด = เป็นน้ำทั้งสองภาพ (บ่อ นาเกลือ แม่น้ำ คลอง)
 ข้อจำกัด: มองน้ำใต้ป่าชายเลนและใต้ร่มไม้ไม่เห็น จุดเล็กกว่า 20 ม. หายไป
 """
@@ -18,6 +20,7 @@ import numpy as np
 import pandas as pd
 import rasterio
 from rasterio.features import rasterize
+from scipy import ndimage
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import flood as F   # noqa: E402
@@ -32,6 +35,7 @@ PAIRS = [('sentinel-2-l2a', '2026-01-05', '2025-12-01'),
          ('landsat-c2-l2', '2025-01-15', '2025-01-07')]
 MAIN = 0
 MIN_PIXELS = 10
+MAX_KM = 5.0
 S2_BAD = [0, 1, 3, 8, 9, 10]          # nodata, saturated, cloud shadow, cloud med/high, cirrus
 
 
@@ -98,7 +102,6 @@ def load(coll, date):
 
 def tide_map():
     import geopandas as gpd
-    from scipy import ndimage
     from rasterio.warp import Resampling, reproject
     OUT.mkdir(parents=True, exist_ok=True)
     adm = F.districts()
@@ -114,9 +117,17 @@ def tide_map():
         hi, lo = load(coll, hi_d), load(coll, lo_d)
         valid = (zone > 0) & np.isfinite(hi) & np.isfinite(lo)
         w_hi, w_lo = valid & (hi > 0), valid & (lo > 0)
-        tidal = F.remove_small(w_hi & ~w_lo, MIN_PIXELS)
+        # ทะเล: ผิวน้ำในภาพน้ำขึ้นนอกสามจังหวัดที่ต่อถึงขอบล่างของกริด
+        lab, _ = ndimage.label((hi > 0) & (zone == 0), structure=np.ones((3, 3)))
+        sea = np.isin(lab, np.unique(lab[-30:, :][lab[-30:, :] > 0])) & (lab > 0)
+        lab2, _ = ndimage.label((hi > 0) | sea, structure=np.ones((3, 3)))
+        conn = np.isin(lab2, np.unique(lab2[sea]))
+        near = ndimage.distance_transform_edt(~sea) * F.PIXEL / 1000 <= MAX_KM
+        new = w_hi & ~w_lo
+        tidal = F.remove_small(new & conn & near, MIN_PIXELS)
+        other = new & ~tidal
         perm = w_hi & w_lo
-        cls = np.zeros(hi.shape, 'uint8'); cls[perm] = 2; cls[tidal] = 1; cls[~valid] = 255
+        cls = np.zeros(hi.shape, 'uint8'); cls[perm] = 2; cls[other] = 3; cls[tidal] = 1; cls[~valid] = 255
         name = f'{tag(coll, hi_d)}'
         p = prof.copy(); p.update(dtype='uint8', nodata=255, compress='deflate')
         with rasterio.open(OUT / f'tidal_{name}.tif', 'w', **p) as d:
@@ -124,7 +135,8 @@ def tide_map():
         rows.append({'pair': name, 'sensor': 'Sentinel-2' if coll.startswith('sentinel') else 'Landsat 8/9',
                      'high_date': hi_d, 'low_date': lo_d, 'wl_high_m': round(float(wlv[(coll, hi_d)]), 2),
                      'wl_low_m': round(float(wlv[(coll, lo_d)]), 2), 'valid_pct': round(100 * valid.sum() / (zone > 0).sum(), 1),
-                     'tidal_km2': round(tidal.sum() * px, 1), 'permanent_water_km2': round(perm.sum() * px, 1)})
+                     'tidal_km2': round(tidal.sum() * px, 1), 'other_new_water_km2': round(other.sum() * px, 1),
+                     'permanent_water_km2': round(perm.sum() * px, 1)})
         masks.append((tidal, valid))
     ev = pd.DataFrame(rows); ev.to_csv(OUT / 'events.csv', index=False)
     print(ev.to_string(index=False))
@@ -172,11 +184,11 @@ def tide_map():
             fm.fontManager.addfont(f)
     plt.rcParams.update({'font.family': 'Loma', 'axes.unicode_minus': False})
     fig, axs = plt.subplots(1, len(PAIRS), figsize=(7 * len(PAIRS), 6), constrained_layout=True)
-    cm = matplotlib.colors.ListedColormap(['#eeeeee', '#2171b5', '#9ecae1'])
+    cm = matplotlib.colors.ListedColormap(['#eeeeee', '#084594', '#9ecae1', '#eeeeee'])
     for ax, r_ in zip(axs, rows):
         with rasterio.open(OUT / f"tidal_{r_['pair']}.tif") as s:
             v = s.read(1).astype(float); v[v == 255] = np.nan
-        ax.imshow(v, cmap=cm, vmin=-.5, vmax=2.5, interpolation='nearest')
+        ax.imshow(v, cmap=cm, vmin=-.5, vmax=3.5, interpolation='nearest')
         ax.set_title(f"{r_['sensor']} {r_['high_date']} น้ำ +{r_['wl_high_m']} ม. / {r_['low_date']} {r_['wl_low_m']:+} ม.\n"
                      f"น้ำทะเลขึ้นถึง {r_['tidal_km2']} ตร.กม. (น้ำเงิน) · น้ำอยู่ตลอด {r_['permanent_water_km2']} (ฟ้า) · ไม่มีเมฆ {r_['valid_pct']}%")
         ax.set_axis_off()
