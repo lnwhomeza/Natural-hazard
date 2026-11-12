@@ -221,6 +221,9 @@ def tide_grid(tdir, grid):
     g.tofile(SITE / 'tide.bin')
 
 
+PART_COLORS = {'H': ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'],
+               'E': ['#feedde', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603'],
+               'V': ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f']}
 RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
 
 
@@ -242,6 +245,19 @@ def risk_layer(rdir):
     Image.fromarray(rgba).save(SITE / 'risk.png', optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
+    # องค์ประกอบ H, E, V (0–1) แยกภาพ 5 ช่วงเท่ากัน บนกรอบเดียวกับ risk.png
+    for k, cols in PART_COLORS.items():
+        with rasterio.open(rdir / f'{k}.tif') as s:
+            a = s.read(1).astype('float32')
+        mm = np.full((dh, dw), np.nan, 'float32')
+        reproject(a, mm, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=dt, dst_crs='EPSG:3857',
+                  dst_nodata=np.nan, resampling=Resampling.nearest)
+        ok = np.isfinite(mm)
+        idx = np.clip((np.nan_to_num(mm) * 5).astype(int), 0, 4)
+        rgba = np.zeros((dh, dw, 4), 'uint8')
+        for i, col in enumerate(cols):
+            rgba[ok & (idx == i)] = [int(col[k_:k_ + 2], 16) for k_ in (1, 3, 5)] + [225]
+        Image.fromarray(rgba).save(SITE / f'risk_{k}.png', optimize=True)
 
     gt, gw, gh = calculate_default_transform(crs, 'EPSG:4326', w, h, *b)
     bands = [c.astype('float32')]
@@ -255,7 +271,8 @@ def risk_layer(rdir):
                   dst_transform=gt, dst_crs='EPSG:4326', dst_nodata=np.nan, resampling=Resampling.nearest)
         out[..., i] = np.where(np.isfinite(g), g, 255).astype('uint8')
     out.tofile(SITE / 'risk.bin')
-    return {'image': image, 'grid': {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e}}
+    return {'image': image, 'grid': {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e},
+            'parts': PART_COLORS}
 
 
 # ---------------------------------------------------------------- districts + time series

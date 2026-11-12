@@ -88,6 +88,20 @@
   .nod i { width: 16px; height: 10px; background: #c8c8c8; border-radius: 2px; }
 
   #slrCtl { margin: 4px 0 6px; }
+  #riskCtl .seg { margin: 0 0 10px; }
+  .seg4 button { font-size: 13px; padding: 5px 2px; }
+  .fx { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 13.5px; }
+  .fx-eq { font: 600 15px/1.5 var(--head); margin: 0 0 8px; }
+  .fx-eq { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; font-size: 14px; }
+  .fx-eq span { padding: 1px 5px; border-radius: 4px; color: var(--muted); white-space: nowrap; }
+  .fx-eq span.on { color: var(--paper); }
+  .fx h4 { font: 600 14px/1.3 var(--head); margin: 8px 0 4px; }
+  .fx ul { margin: 0; padding-left: 18px; }
+  .fx li { margin: 2px 0; }
+  .fx li small { color: var(--muted); display: block; }
+  .fx details { margin-top: 8px; }
+  .fx details p, .fx details li { color: var(--muted); }
+  .fx code { font-family: var(--head); font-weight: 600; color: var(--ink); }
   #slrCtl .seg { margin: 0 0 8px; }
   #slrCtl .seg button:disabled { opacity: .35; cursor: default; }
   .ctl-l { font-size: 12.5px; color: var(--muted); margin: 2px 0 3px; }
@@ -185,6 +199,14 @@
     <button id="m-risk" aria-pressed="false" data-i18n="mRisk" hidden>ความเสี่ยง</button>
     <button id="m-slr" aria-pressed="false" data-i18n="mSlr" hidden>น้ำทะเล</button>
   </div>
+  <div id="riskCtl" hidden>
+    <div class="seg seg4" role="group" aria-label="risk component">
+      <button data-rk="risk" aria-pressed="true" data-i18n="rkRisk">รวม</button>
+      <button data-rk="H" aria-pressed="false" data-i18n="rkH">ภัย</button>
+      <button data-rk="E" aria-pressed="false" data-i18n="rkE">การสัมผัส</button>
+      <button data-rk="V" aria-pressed="false" data-i18n="rkV">เปราะบาง</button>
+    </div>
+  </div>
   <div id="slrCtl" hidden>
     <div class="ctl-l" data-i18n="cYear">ปี</div>
     <div class="seg" role="group" aria-label="year">
@@ -243,6 +265,29 @@ const I18N = {
     searchPh: 'ค้นหาที่อยู่ ถนน หรือเขต', searchBtn: 'ค้นหา', searching: 'กำลังค้นหา…', noResult: 'ไม่พบสถานที่นี้ในสามจังหวัด ลองพิมพ์ชื่อถนนหรือเขต',
     district: 'เขต/อำเภอ',
     mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง', mSlr: 'น้ำทะเล',
+    rkRisk: 'รวม', rkH: 'ภัย', rkE: 'การสัมผัส', rkV: 'เปราะบาง',
+    rkName: { risk: 'ความเสี่ยง', H: 'ภัย', E: 'การสัมผัส', V: 'ความเปราะบาง' },
+    rkScale: { risk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ แบ่ง 5 ระดับ ระดับละ 20% ของพื้นที่ที่มีคนหรืออาคาร', H: 'ภัย: พื้นดินทรุดเร็ว ทรุดไม่เท่ากัน และมีน้ำท่วม (0–1)', E: 'การสัมผัส: คน อาคาร และสถานที่สำคัญที่อยู่ในพื้นที่ (0–1)', V: 'ความเปราะบาง: กลุ่มคนและอาคารที่รับมือได้ยาก (0–1)' },
+    rkLo: 'ต่ำ (0)', rkHi: 'สูง (1)',
+    rkInd: {
+      risk: [['ภัย × การสัมผัส × ความเปราะบาง', 'ทั้งสามส่วนต้องสูงพร้อมกัน ความเสี่ยงจึงสูง ถ้าส่วนใดเป็น 0 ความเสี่ยงเป็น 0']],
+      H: [['อัตราทรุดแนวดิ่ง (มม./ปี)', 'InSAR Sentinel-1 เม.ย. 2564 – ต.ค. 2569 (งานนี้)'],
+          ['การทรุดไม่เท่ากัน (angular distortion β)', 'คำนวณจากแผนที่ทรุด ตามวิธี Cigna & Tapete (2021)'],
+          ['สัดส่วนน้ำท่วม 21 ต.ค. 2569 ในรัศมีราว 150 ม.', 'ภาพเรดาร์ Sentinel-1 (งานนี้)']],
+      E: [['จำนวนประชากรในช่อง 100 ม.', 'WorldPop 2025'],
+          ['พื้นที่หลังคาอาคารในช่อง', 'Global Building Atlas (GBA)'],
+          ['โรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ ในรัศมี 500 ม.', 'Overture Maps / OpenStreetMap']],
+      V: [['% ผู้สูงอายุ 65 ปีขึ้นไป (รัศมี 500 ม.)', 'WorldPop 2025 แยกอายุและเพศ'],
+          ['% เด็กอายุต่ำกว่า 5 ปี (รัศมี 500 ม.)', 'WorldPop 2025 แยกอายุและเพศ'],
+          ['% อาคารสูงไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น)', 'Global Building Atlas (GBA)'],
+          ['ระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด', 'Overture Maps / OpenStreetMap']] },
+    rkHow: 'วิธีคำนวณ',
+    rkHowTxt: `<p>กรอบแนวคิด: ความเสี่ยง = ภัย × การสัมผัสภัย × ความเปราะบาง (UNDRR, Sendai Framework) คำนวณทุกช่องกริด 100 × 100 ม.</p>
+      <ul><li>ปรับแต่ละตัวชี้วัดเป็น 0–1: <code>(x − P1) / (P99 − P1)</code> แล้วตัดให้อยู่ในช่วง 0–1 (P1, P99 = เปอร์เซ็นไทล์ที่ 1 และ 99 ของทั้งพื้นที่ศึกษา)</li>
+      <li>ตัวที่เป็นจำนวนนับ (ประชากร พื้นที่อาคาร สถานที่สำคัญ และ β) ใช้ <code>log(1 + x)</code> ก่อน เพราะค่าเบ้มาก</li>
+      <li>แต่ละส่วน = ค่าเฉลี่ยของตัวชี้วัด (น้ำหนักเท่ากัน) ระยะถึงโรงพยาบาลยิ่งไกลยิ่งเปราะบาง</li>
+      <li>ความเสี่ยง = ภัย × การสัมผัส × ความเปราะบาง แล้วแบ่ง 5 ระดับเท่า ๆ กัน (ระดับละ 20% ของช่องที่มีคนหรืออาคาร) จึงเป็นความเสี่ยงเปรียบเทียบ ไม่ใช่ความน่าจะเป็นของความเสียหาย</li>
+      <li>ทดสอบความไวด้วยการสุ่มน้ำหนักตัวชี้วัดและวิธีรวม (คูณ/บวก) 500 รอบ</li></ul>`,
     scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพดาวเทียม อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
     cYear: 'ปี', cSsp: 'ฉากทัศน์ภูมิอากาศ (IPCC AR6)', cSub: 'การทรุด', cSubY: 'ทรุดต่อ', cSubN: 'หยุดทรุดวันนี้', cDef: 'คันกั้นน้ำ', cDefY: 'มีคัน', cDefN: 'ไม่มีคัน', now: 'ปัจจุบัน',
     depthL: ['10–30 ซม.', '30–60 ซม.', '60 ซม.–1 ม.', 'เกิน 1 ม.'],
@@ -287,6 +332,29 @@ const I18N = {
     searchPh: 'Search an address, road or district', searchBtn: 'Search', searching: 'Searching…', noResult: 'No place found in the three provinces. Try a road or district name.',
     district: 'District',
     mSub: 'Sinking rate', mRisk: 'Risk', mSlr: 'Sea level',
+    rkRisk: 'Overall', rkH: 'Hazard', rkE: 'Exposure', rkV: 'Vulnerab.',
+    rkName: { risk: 'Risk', H: 'Hazard', E: 'Exposure', V: 'Vulnerability' },
+    rkScale: { risk: 'Relative risk, 5 classes, 20% of populated or built-up area each', H: 'Hazard: fast and uneven sinking and flooding (0–1)', E: 'Exposure: people, buildings and key facilities present (0–1)', V: 'Vulnerability: people and buildings less able to cope (0–1)' },
+    rkLo: 'Low (0)', rkHi: 'High (1)',
+    rkInd: {
+      risk: [['Hazard × Exposure × Vulnerability', 'Risk is high only where all three are high; if any is 0, risk is 0']],
+      H: [['Vertical sinking rate (mm/yr)', 'Sentinel-1 InSAR, Apr 2021 – Oct 2026 (this study)'],
+          ['Uneven sinking (angular distortion β)', 'From the sinking map, after Cigna & Tapete (2021)'],
+          ['Share flooded on 21 Oct 2026 within about 150 m', 'Sentinel-1 radar (this study)']],
+      E: [['People in the 100 m cell', 'WorldPop 2025'],
+          ['Building roof area in the cell', 'Global Building Atlas (GBA)'],
+          ['Schools, hospitals, fire and police stations, rail stations within 500 m', 'Overture Maps / OpenStreetMap']],
+      V: [['% aged 65+ (within 500 m)', 'WorldPop 2025 age/sex'],
+          ['% under 5 (within 500 m)', 'WorldPop 2025 age/sex'],
+          ['% buildings up to 6 m tall (low houses often on short piles)', 'Global Building Atlas (GBA)'],
+          ['Distance to the nearest hospital', 'Overture Maps / OpenStreetMap']] },
+    rkHow: 'How it is calculated',
+    rkHowTxt: `<p>Framework: Risk = Hazard × Exposure × Vulnerability (UNDRR, Sendai Framework), computed for every 100 × 100 m cell.</p>
+      <ul><li>Each indicator is scaled to 0–1: <code>(x − P1) / (P99 − P1)</code>, clipped to 0–1 (P1, P99 = 1st and 99th percentiles over the study area)</li>
+      <li>Counts (people, building area, facilities and β) use <code>log(1 + x)</code> first because they are very skewed</li>
+      <li>Each part is the mean of its indicators (equal weights); a longer distance to hospital means higher vulnerability</li>
+      <li>Risk = Hazard × Exposure × Vulnerability, split into 5 equal classes (20% of populated or built-up cells each), so it is relative risk, not a probability of damage</li>
+      <li>Sensitivity tested with 500 random indicator weights and combination methods (multiply/add)</li></ul>`,
     scaleSlr: 'Sea flooding at high tide: today from satellite images, the future from the SFINCS hydrodynamic model',
     cYear: 'Year', cSsp: 'Climate scenario (IPCC AR6)', cSub: 'Sinking', cSubY: 'Continues', cSubN: 'Stops today', cDef: 'Flood defences', cDefY: 'With dikes', cDefN: 'No dikes', now: 'Today',
     depthL: ['10–30 cm', '30–60 cm', '60 cm–1 m', 'over 1 m'],
@@ -424,7 +492,7 @@ const ABOUT = {
     <p class="close-row"><button class="btn" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, tideGrid = null, mode = 'sub', ssp = 'ssp245', slrYear = 2050, subOn = 'sub', defOn = 'def';
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, tideGrid = null, mode = 'sub', riskPart = 'risk', ssp = 'ssp245', slrYear = 2050, subOn = 'sub', defOn = 'def';
 const T = k => I18N[lang][k];
 const $ = id => document.getElementById(id);
 const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
@@ -455,8 +523,15 @@ function legendHTML() {
       <p class="slr-sum">${T('slrNote')}</p>`;
   }
   if (mode === 'risk') {
-    return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${RISK_COLORS.map(c => `<span style="background:${c}"></span>`).join('')}</div>
-      <div class="ends"><span>${T('riskLo')}</span><span>${T('riskHi')}</span></div>`;
+    const cols = riskPart === 'risk' ? RISK_COLORS : meta.risk.parts[riskPart];
+    const tint = { risk: '#b30000', H: '#a50f15', E: '#a63603', V: '#54278f' };
+    const eq = ['risk', 'H', 'E', 'V'].map(k => `<span class="${k === riskPart ? 'on' : ''}" style="${k === riskPart ? `background:${tint[k]}` : ''}">${T('rkName')[k]}</span>`);
+    return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${cols.map(c => `<span style="background:${c}"></span>`).join('')}</div>
+      <div class="ends"><span>${riskPart === 'risk' ? T('riskLo') : T('rkLo')}</span><span>${riskPart === 'risk' ? T('riskHi') : T('rkHi')}</span></div>
+      <div class="fx"><div class="fx-eq">${eq[0]} = ${eq[1]} × ${eq[2]} × ${eq[3]}</div>
+        <h4>${riskPart === 'risk' ? T('rkName').risk : T('rkName')[riskPart]}</h4>
+        <ul>${T('rkInd')[riskPart].map(([a, b]) => `<li>${a}<small>${b}</small></li>`).join('')}</ul>
+        <details><summary>${T('rkHow')}</summary>${T('rkHowTxt')}</details></div>`;
   }
   // 0–30 มม./ปี วางตามสเกลจริง: 0–5, 5–10, 10–20, 20–30+
   const w = [5, 5, 10, 10];
@@ -474,7 +549,7 @@ function applyLang() {
   document.querySelectorAll('[data-i18n-ph]').forEach(e => e.placeholder = T(e.dataset.i18nPh));
   $('lede').innerHTML = T('lede');
   $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
-  $('scaleT').textContent = mode === 'risk' ? T('scaleRisk') : mode === 'slr' ? T('scaleSlr') : T('scaleSub');
+  $('scaleT').textContent = mode === 'risk' ? T('rkScale')[riskPart] : mode === 'slr' ? T('scaleSlr') : T('scaleSub');
   $('legend').innerHTML = legendHTML();
   document.querySelectorAll('[data-yr]').forEach(b => b.textContent = +b.dataset.yr === NOW ? T('now') : T('be')(+b.dataset.yr));
   $('aboutBox').innerHTML = ABOUT[lang];
@@ -715,8 +790,9 @@ function setMode(m) {
   if (map.getLayer('ss-slr')) map.setLayoutProperty('ss-slr', 'visibility', 'none');
   if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', 'none');
   $('slrCtl').hidden = m !== 'slr';
+  $('riskCtl').hidden = m !== 'risk';
   if (m === 'slr') showFlood();
-  $('scaleT').textContent = m === 'risk' ? T('scaleRisk') : m === 'slr' ? T('scaleSlr') : T('scaleSub');
+  $('scaleT').textContent = m === 'risk' ? T('rkScale')[riskPart] : m === 'slr' ? T('scaleSlr') : T('scaleSub');
   $('legend').innerHTML = legendHTML();
   if (last) showCard(last);
 }
@@ -809,6 +885,10 @@ map.on('load', async () => {
   $('m-slr').onclick = () => setMode('slr');
   const pick = (attr, set) => document.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => {
     set(b.dataset[attr]); document.querySelectorAll(`[data-${attr}]`).forEach(x => x.setAttribute('aria-pressed', x === b)); showFlood(); });
+  document.querySelectorAll('[data-rk]').forEach(b => b.onclick = () => {
+    riskPart = b.dataset.rk; document.querySelectorAll('[data-rk]').forEach(x => x.setAttribute('aria-pressed', x === b));
+    map.getSource('ss-risk').updateImage({ url: riskPart === 'risk' ? 'risk.png' : `risk_${riskPart}.png?v=${meta.v}`, coordinates: meta.risk.image });
+    $('scaleT').textContent = T('rkScale')[riskPart]; $('legend').innerHTML = legendHTML(); if (last) showCard(last); });
   pick('yr', v => slrYear = +v); pick('ssp', v => ssp = v); pick('sub', v => subOn = v); pick('def', v => defOn = v);
   $('l-bld').onchange = e => vis(meta.buildings.map((_, i) => `ss-bld${i}`), e.target.checked);
   $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
