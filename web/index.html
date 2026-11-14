@@ -571,7 +571,7 @@ const ABOUT = {
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li>
     <li>การเทียบกับขั้นบันไดใช้ความสูงขั้นละ 15 ซม. และสมมติว่าอัตราการทรุดคงที่</li>
-    <li><b>ทางตะวันออกอาจแดงเกินจริง</b>: เทียบกับ GNSS ที่ สจล. ลาดกระบัง (KMIT) ช่วง 2567–2569 InSAR ให้ทรุดมากกว่า GNSS ราว 3–6 มม. ต่อปี และสองวงโคจรให้ค่าต่างกันเป็นแนวลาดจากตะวันตกไปตะวันออก (ดูไฟล์วิธีทำด้านล่าง) ค่า ± ในการ์ดรวมความต่างนี้แล้ว จุดที่ไม่แน่นอนเกิน 5 มม. ต่อปีแสดงเป็นสีจาง</li></ul>
+    <li><b>ทางตะวันออกอาจแสดงการทรุดมากเกินจริง</b>: เทียบกับ GNSS ที่ สจล. ลาดกระบัง (KMIT) ช่วง 2567–2569 InSAR ให้ทรุดมากกว่า GNSS ราว 3–6 มม. ต่อปี และสองวงโคจรให้ค่าต่างกันเป็นแนวลาดจากตะวันตกไปตะวันออก (ดูไฟล์วิธีทำด้านล่าง) ค่า ± ในการ์ดรวมความต่างนี้แล้ว จุดที่ไม่แน่นอนเกิน 5 มม. ต่อปีแสดงเป็นสีจาง</li></ul>
     <h4>ดาวน์โหลดข้อมูล (GeoTIFF, UTM 47N)</h4>
     ${dl('th')}
     <h4>แหล่งข้อมูล</h4>
@@ -611,7 +611,7 @@ const ABOUT = {
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li>
     <li>The stair-step comparison uses a 15 cm step and assumes the rate stays the same.</li>
-    <li><b>The east may look redder than it is</b>: compared with the GNSS station at KMITL Lat Krabang (KMIT) for 2024–2026, InSAR shows 3–6 mm a year more sinking, and the two orbits disagree along a west-to-east slope (see the method file below). The ± in the card includes this disagreement; spots more uncertain than 5 mm a year are drawn faded.</li></ul>
+    <li><b>The east may show more sinking than it has</b>: compared with the GNSS station at KMITL Lat Krabang (KMIT) for 2024–2026, InSAR shows 3–6 mm a year more sinking, and the two orbits disagree along a west-to-east slope (see the method file below). The ± in the card includes this disagreement; spots more uncertain than 5 mm a year are drawn faded.</li></ul>
     <h4>Download the data (GeoTIFF, UTM 47N)</h4>
     ${dl('en')}
     <h4>Sources</h4>
@@ -772,7 +772,7 @@ async function showGroup(i, fit = true) {
 }
 
 const $ = id => document.getElementById(id);
-const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
+const RISK_COLORS = ['#fce594', '#e4d87a', '#f58cb8', '#e90003', '#99101b'];
 const STEP_CM = 15;
 
 function classOf(v) {

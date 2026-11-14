@@ -35,7 +35,8 @@ MAX_TILE_MB = 95
 RAIL_PIECE = 200
 MIN_TEMP_COH = 0.7
 # ระดับการทรุด (มม./ปี): 0 = ไม่ทรุดหรือยกตัว (≥ 0), 1 = 0–5, 2 = 5–10, 3 = 10–20, 4 = มากกว่า 20
-CLASSES = [(0, '#c9dbe3'), (-5, '#fcbba1'), (-10, '#fb6a4a'), (-20, '#cb181d'), (-np.inf, '#67000d')]
+# สี: เขียว → เขียวอมเหลือง → เหลือง → ส้ม → แดง
+CLASSES = [(0, '#1a691d'), (-5, '#87ae1f'), (-10, '#f4f61e'), (-20, '#f2a020'), (-np.inf, '#f43519')]
 EDGES = [0, -5, -10, -20]
 # ความไม่แน่นอนที่แสดงบนเว็บ: sqrt(SD² + (ครึ่งหนึ่งของผลต่าง asc − desc)²) — SD เชิงสถิติของ MintPy เล็กเกินจริง
 # ผลต่างของสองวงโคจรสะท้อนทั้ง noise และ ramp เชิงระบบ (ดู docs/full_method.md); จุดที่ไม่แน่นอนเกิน UNC_FADE
@@ -159,7 +160,8 @@ def slr_layer(sdir, grid):
             'levels': {s_: {int(r.year): round(float(r.p50), 3) for r in sl[sl.ssp == s_].itertuples()} for s_ in sl.ssp.unique()}}
 
 
-FLOOD_DEPTH = [(0.1, '#c6dbef'), (0.3, '#6baed6'), (0.6, '#2171b5'), (1.0, '#08306b')]
+# สี: น้ำเงิน → ม่วงชมพู → ส้ม → เหลือง (ตื้นไปลึก)
+FLOOD_DEPTH = [(0.1, '#0000ff'), (0.3, '#e800a5'), (0.6, '#fd6915'), (1.0, '#ffc702')]
 
 
 def sfincs_layers(sdir, grid):
@@ -218,7 +220,8 @@ def tide_grid(tdir, grid):
     g.tofile(SITE / 'tide.bin')
 
 
-RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
+# สี: เหลืองอ่อน → เหลืองหม่น → ชมพู → แดง → แดงเข้ม
+RISK_COLORS = ['#fce594', '#e4d87a', '#f58cb8', '#e90003', '#99101b']
 
 
 def risk_layer(rdir):
