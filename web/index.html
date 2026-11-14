@@ -84,6 +84,11 @@
   .ticks span { border-left: 0; }
   .ticks span.end { transform: translateX(-100%); }
   .ticks span.end::before { left: auto; right: 0; }
+  .rp { margin-top: 12px; }
+  .rp-h { margin: 0; font-size: 13px; font-weight: 500; }
+  .rp .seg { margin: 4px 0 4px; }
+  .rp .seg button { font-size: 13px; padding: 5px 4px; }
+  .rp-n { margin: 0; font-size: 12.5px; color: var(--muted); }
   .ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 2px; }
   .nod { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 6px; }
   .nod i { width: 16px; height: 10px; background: #c8c8c8; border-radius: 2px; }
@@ -167,6 +172,7 @@
     #side.hidden { display: none; }
     #toggle { display: block; }
     h1 { font-size: 21px; }
+    .rp .seg button { font-size: 12px; padding: 5px 2px; }
     #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 60%; z-index: 5; }
     #bldLeg { left: 8px; right: 8px; bottom: 36px; width: auto; }
     #bldLeg .bl-lab { font-size: 10.5px; }
@@ -359,6 +365,11 @@ const I18N = {
     be: y => y + 543, depthT: 'น้ำท่วมตรงนี้', depthNo: 'ไม่ท่วมในฉากทัศน์นี้', depthM: 'ม. (สูงสุดช่วงน้ำขึ้น)',
     slrNote: 'จำลองน้ำทะเลที่ไหลเข้ามาช่วงน้ำขึ้นสูงประจำปี ไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ความสูงคันใช้ค่าออกแบบโดยประมาณ',
     scaleSub: 'ทรุดลงกี่มิลลิเมตรต่อปี', scaleRisk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ (ภัย × คนและอาคาร × ความเปราะบาง)',
+    rpHead: 'ดูทีละส่วนของความเสี่ยง',
+    rpScale: ['ภัย: อัตราทรุด การทรุดไม่เท่ากัน และน้ำท่วมใกล้เคียง', 'คนและอาคาร: จำนวนคน พื้นที่อาคาร และสถานที่สำคัญรอบ ๆ', 'ความเปราะบาง: ผู้สูงอายุ เด็กเล็ก บ้านแนวราบ และระยะถึงโรงพยาบาล'],
+    rpOff: 'กดเพื่อเปิดทีละชั้น ระหว่างเปิด ชั้นความเสี่ยงรวมจะปิดไว้ สีจะได้ไม่ซ้อนกัน',
+    rpOn: 'แบ่ง 5 ระดับเท่า ๆ กันในช่องที่มีคนหรืออาคาร กดปุ่มเดิมอีกครั้งเพื่อกลับไปดูความเสี่ยงรวม',
+    bldLegPart: n => `สีอาคาร: สีเทา เพื่อให้เห็นสีของชั้น "${n}" บนพื้น`,
     bldLegT: 'สีอาคาร: ความเสี่ยงจากพื้นดินทรุด (มม./ปี)',
     bldLev: [['ไม่ทรุด', ''], ['ต่ำ', '0–5'], ['กลาง', '5–10'], ['สูง', '10–20'], ['สูงมาก', '>20']],
     bldNd: 'ไม่มีข้อมูล',
@@ -430,6 +441,11 @@ const I18N = {
     be: y => y, depthT: 'Flooding here', depthNo: 'Not flooded in this scenario', depthM: 'm (peak during the tide)',
     slrNote: 'Simulates sea water flowing in during the yearly highest tide; no rain, river floods or pumping. Dike heights are approximate design values.',
     scaleSub: 'Millimetres of sinking per year', scaleRisk: 'Relative risk across the area (hazard × people and buildings × vulnerability)',
+    rpHead: 'View one part of the risk',
+    rpScale: ['Hazard: sinking rate, uneven sinking and nearby flooding', 'People and buildings: people, building area and key facilities nearby', 'Vulnerability: older people, young children, low houses and distance to hospital'],
+    rpOff: 'Turn on one layer at a time; the combined risk layer is hidden meanwhile so colours do not stack',
+    rpOn: '5 equal classes over cells with people or buildings. Press the same button again to return to combined risk',
+    bldLegPart: n => `Building colour: grey, so the "${n}" layer shows on the ground`,
     bldLegT: 'Building colour: risk from sinking ground (mm/yr)',
     bldLev: [['None', ''], ['Low', '0–5'], ['Mid', '5–10'], ['High', '10–20'], ['Very high', '>20']],
     bldNd: 'No data',
@@ -533,7 +549,7 @@ const ABOUT = {
     <h4>การเติมช่องว่าง</h4>
     <p>ช่องที่ดาวเทียมวัดไม่ได้ส่วนใหญ่เป็นบ่อเลี้ยงสัตว์น้ำ นาข้าว และแหล่งน้ำ ซึ่งไม่เหมือนเมืองหรือถนนข้าง ๆ การเฉลี่ยจากจุดวัดรอบ ๆ อย่างเดียว (IDW) จึงยืมค่าจากพื้นที่ที่ทรุดคนละแบบ เราจึงเติมสองชั้น (regression kriging แบบง่าย): (1) แบบจำลอง gradient boosting เรียนอัตราทรุดของช่องที่วัดได้ 336,732 ช่องจากสัดส่วนสิ่งปกคลุมดิน ESA WorldCover 2021 (10 ม.) ในช่องและรอบ ๆ (ราว 0.5 และ 2 กม.) จำนวนอาคาร ประชากร WorldPop 2025 ความสูง DeltaDTM ระยะถึงทะเลและแหล่งน้ำ และตำแหน่ง (แนวโน้มระดับภูมิภาคจากการสูบน้ำบาดาล) (2) ส่วนต่างระหว่างค่าวัดกับแบบจำลองของจุดวัดใกล้ ๆ บวกกลับโดยลดลงตามระยะ (ครึ่งหนึ่งที่ราว 1 กม.) ใกล้จุดวัดค่าจึงต่อกับค่าวัด ไกลออกไปขึ้นกับสิ่งปกคลุมดินเป็นหลัก ทดสอบโดยซ่อนจุดวัดทั้งบล็อก 3 × 3 กม. แล้วประมาณกลับ: คลาดเฉลี่ย 1.7 มม. ต่อปี (IDW 2.0) และในช่องที่เป็นบ่อหรือนาเป็นส่วนใหญ่ 2.9 มม. ต่อปี (IDW 3.3) IDW ประเมินการทรุดในบ่อและนาต่ำไปเฉลี่ย 0.65 มม. ต่อปี วิธีใหม่ไม่เอียง ช่องที่เติมคิดเป็น 29% ของพื้นที่ศึกษา ครึ่งหนึ่งห่างจุดวัดไม่เกิน 220 ม. และ 95% ไม่เกิน 1.6 กม. ค่าเติมไม่ได้ใช้ในตารางสรุปรายเขต การจัดอันดับ และ exposure</p>
     <h4>แผนที่ความเสี่ยง</h4>
-    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย ช่องที่ดาวเทียมวัดไม่ได้ใช้อัตราทรุดจากค่าเติม และช่องที่ไม่มีคนหรืออาคารก็จัดระดับด้วยเกณฑ์เดียวกัน (มักต่ำมาก) แผนที่จึงเต็มพื้นที่ศึกษา ช่องเดิมได้ระดับเท่าเดิมทุกช่อง การ์ดบอกว่าช่องไหนใช้ค่าเติม</p>
+    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย ช่องที่ดาวเทียมวัดไม่ได้ใช้อัตราทรุดจากค่าเติม และช่องที่ไม่มีคนหรืออาคารก็จัดระดับด้วยเกณฑ์เดียวกัน (มักต่ำมาก) แผนที่จึงเต็มพื้นที่ศึกษา ช่องเดิมได้ระดับเท่าเดิมทุกช่อง การ์ดบอกว่าช่องไหนใช้ค่าเติม ปุ่ม "ภัย" "คนและอาคาร" และ "ความเปราะบาง" ใต้แถบสีเปิดดูทีละส่วนได้ แต่ละส่วนแบ่ง 5 ระดับเท่า ๆ กันในช่องที่มีคนหรืออาคารแบบเดียวกัน</p>
     <ul><li><b>ภัย</b>: อัตราทรุด, การทรุดไม่เท่ากันที่อาจกระทบอาคาร (angular distortion), น้ำท่วม 21 ต.ค. 2569 บริเวณใกล้เคียง</li>
     <li><b>คนและอาคาร</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ และสถานีรถไฟในรัศมี 500 ม.</li>
     <li><b>ความเปราะบาง</b> (ในรัศมี 500 ม.): สัดส่วนผู้สูงอายุ 65 ปีขึ้นไป, เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น) และระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
@@ -573,7 +589,7 @@ const ABOUT = {
     <h4>Filling the gaps</h4>
     <p>Most cells the satellite cannot measure are fish ponds, rice fields and water, which behave differently from the towns and roads next to them, so averaging nearby measurements alone (IDW) borrows values from land that sinks differently. The gaps are filled in two layers (a simple regression kriging): (1) a gradient-boosting model learns the sinking rate of the 336,732 measured cells from ESA WorldCover 2021 (10 m) land-cover shares in and around the cell (about 0.5 and 2 km), building count, WorldPop 2025 population, DeltaDTM height, distance to the sea and to water, and position (the regional pattern of groundwater pumping); (2) the difference between measurement and model at nearby measured cells is added back, fading with distance (half at about 1 km), so values join the measurements near them and depend mainly on land cover further away. Hiding whole 3 × 3 km blocks of measurements and estimating them back gives a mean error of 1.7 mm a year (IDW 2.0), and 2.9 mm a year in cells that are mostly ponds or fields (IDW 3.3). IDW underestimates sinking in ponds and fields by 0.65 mm a year on average; the new method shows no bias. Filled cells make up 29% of the study area; half are within 220 m of a measurement and 95% within 1.6 km. Estimates are not used in the district tables, rankings or exposure figures.</p>
     <h4>Risk map</h4>
-    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage. Cells the satellite cannot measure use the filled sinking rate, and cells without people or buildings are classed with the same edges (usually very low), so the map covers the whole study area; previously classed cells keep their class. The card says when a cell uses the estimate.</p>
+    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage. Cells the satellite cannot measure use the filled sinking rate, and cells without people or buildings are classed with the same edges (usually very low), so the map covers the whole study area; previously classed cells keep their class. The card says when a cell uses the estimate. The "Hazard", "People and buildings" and "Vulnerability" buttons under the colour bar show each part on its own, split into 5 equal classes over cells with people or buildings in the same way.</p>
     <ul><li><b>Hazard</b>: sinking rate, uneven sinking that can affect buildings (angular distortion), flooding nearby on 21 Oct 2026</li>
     <li><b>People and buildings</b>: people and building area in the cell, and schools, hospitals, fire and police stations and rail stations within 500 m</li>
     <li><b>Vulnerability</b> (within 500 m): share aged 65+, share under 5 (WorldPop 2025), low buildings up to 6 m (houses often on short piles), and distance to the nearest hospital</li></ul>
@@ -769,6 +785,7 @@ function colorExpr(prop) {
 // สีอาคารตามโหมด: อัตราทรุด (c), ระดับความเสี่ยง (r), ความลึกน้ำท่วมของฉากทัศน์ที่เลือก (f: หนึ่งหลักต่อหนึ่งรอบใน meta.sfl.order)
 const BLD_DRY = '#e4e1da';
 function bldColor() {
+  if (mode === 'risk' && riskPart) return BLD_DRY;
   if (mode === 'risk') return ['match', ['coalesce', ['get', 'r'], -1], ...RISK_COLORS.flatMap((c, i) => [i, c]), '#c8c8c8'];
   const order = meta.sfl?.order || [], i = order.indexOf(runName());
   if (mode === 'slr' && i >= 0) return ['match', ['to-number', ['slice', ['coalesce', ['get', 'f'], '0'.repeat(order.length)], i, i + 1]],
@@ -806,8 +823,12 @@ function legendHTML() {
       <p class="slr-sum">${T('slrNote')}</p>`;
   }
   if (mode === 'risk') {
-    return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${RISK_COLORS.map(c => `<span style="background:${c}"></span>`).join('')}</div>
-      <div class="ends"><span>${T('riskLo')}</span><span>${T('riskHi')}</span></div>`;
+    const cols = riskPart ? rpMeta.colors[riskPart] : RISK_COLORS;
+    return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${cols.map(c => `<span style="background:${c}"></span>`).join('')}</div>
+      <div class="ends"><span>${T('riskLo')}</span><span>${T('riskHi')}</span></div>
+      <div class="rp"><p class="rp-h">${T('rpHead')}</p><div class="seg">${RP.map((k, i) =>
+        `<button type="button" data-rp="${k}" aria-pressed="${riskPart === k}">${T('hev')[i]}</button>`).join('')}</div>
+      <p class="rp-n">${T(riskPart ? 'rpOn' : 'rpOff')}</p></div>`;
   }
   // 0–30 มม./ปี วางตามสเกลจริง: 0–5, 5–10, 10–20, 20–30+
   const w = [5, 5, 10, 10];
@@ -823,6 +844,10 @@ function legendHTML() {
 function renderBldLegend() {
   if (!meta) return;
   const cell = (c, lab, cls = '') => `<div class="${cls}"><i style="background:${c}"></i><div class="bl-lab">${lab}</div></div>`;
+  if (mode === 'risk' && riskPart) {
+    $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegPart')(T('hev')[RP.indexOf(riskPart)])}</h2>`;
+    return;
+  }
   if (mode === 'risk') {
     $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegRisk')}</h2><div class="bl-bar">${RISK_COLORS.map((c, i) =>
       cell(c, `<b>${T('rcls')[i]}</b>`)).join('')}${cell('#c8c8c8', T('bldNd'), 'bl-nd')}</div>`;
@@ -844,7 +869,7 @@ function applyLang() {
   document.querySelectorAll('[data-i18n-title]').forEach(e => e.title = T(e.dataset.i18nTitle));
   $('lede').innerHTML = T('lede');
   $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
-  $('scaleT').textContent = mode === 'risk' ? T('scaleRisk') : mode === 'slr' ? T('scaleSlr') : T('scaleSub');
+  $('scaleT').textContent = scaleTitle();
   renderLegend();
   renderBldLegend();
   renderPlaces();
@@ -996,7 +1021,7 @@ function showCard(info) {
     const [rc, H, E, V, rx] = info.risk, k = [H, E, V].indexOf(Math.max(H, E, V));
     h += `<div class="block"><h3>${T('riskT')}: <span style="color:${rc >= 3 ? 'var(--staff)' : 'inherit'}">${T('rcls')[rc]}</span></h3>
       <p class="why">${rc >= 2 ? T('why')[k] : ''}</p>
-      <div class="bars">${T('hev').map((n, i) => `<span>${n}</span><div class="bar"><span style="width:${[H, E, V][i]}%"></span></div>`).join('')}</div>${rx === 1 || rx === 2 ? `<p class="warn">${T('riskX')[rx - 1]}</p>` : ''}</div>`;
+      <div class="bars">${T('hev').map((n, i) => `<span${riskPart === RP[i] ? ' style="font-weight:600;color:var(--ink)"' : ''}>${n}</span><div class="bar"><span style="width:${[H, E, V][i]}%"></span></div>`).join('')}</div>${rx === 1 || rx === 2 ? `<p class="warn">${T('riskX')[rx - 1]}</p>` : ''}</div>`;
   }
   if (d) {
     const total = series.districts[d.i] ? -series.districts[d.i].filter(x => x !== null).slice(-3).reduce((a, b) => a + b, 0) / 3 / 10 : null;
@@ -1217,17 +1242,48 @@ try { basemap = localStorage.getItem('basemap') || 'light'; } catch (err) { /* �
 renderBm();
 const labelExpr = () => ['concat', ['get', lang === 'th' ? 'adm2_name1' : 'adm2_name'], '\n', ['number-format', ['abs', ['get', 'med']], { 'max-fraction-digits': 0 }], lang === 'th' ? ' มม.' : ' mm'];
 
+// ---- ส่วนประกอบของความเสี่ยง: ภัย / คนและอาคาร / ความเปราะบาง (risk_h/e/v.png จาก scripts/risk_parts_build.py)
+// เปิดได้ทีละชั้น ระหว่างเปิด ชั้นความเสี่ยงรวมปิด สีจะได้ไม่ซ้อนกัน อาคารเป็นสีเทา
+let riskPart = null, rpMeta = null;
+const RP = ['h', 'e', 'v'];
+function scaleTitle() {
+  if (mode === 'risk') return riskPart ? T('rpScale')[RP.indexOf(riskPart)] : T('scaleRisk');
+  return mode === 'slr' ? T('scaleSlr') : T('scaleSub');
+}
+function applyRiskVis() {
+  if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', mode === 'risk' && !riskPart ? 'visible' : 'none');
+  RP.forEach(k => map.getLayer(`ss-rp-${k}`) && map.setLayoutProperty(`ss-rp-${k}`, 'visibility', mode === 'risk' && riskPart === k ? 'visible' : 'none'));
+}
+async function setRiskPart(k) {
+  const next = riskPart === k ? null : k;
+  if (next && !rpMeta) {
+    try { rpMeta = await fetch('risk_parts.json').then(r => r.json()); } catch (err) { return; }
+    RP.forEach(p => {
+      if (map.getSource(`ss-rp-${p}`)) return;
+      map.addSource(`ss-rp-${p}`, { type: 'image', url: `risk_${p}.png`, coordinates: rpMeta.image });
+      map.addLayer({ id: `ss-rp-${p}`, type: 'raster', source: `ss-rp-${p}`, layout: { visibility: 'none' },
+        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.88, 14.5, 0.4], 'raster-resampling': 'nearest' } }, 'ss-risk');
+    });
+  }
+  riskPart = next;
+  applyRiskVis();
+  $('scaleT').textContent = scaleTitle();
+  renderLegend();
+  applyBld();
+  if (last) showCard(last);
+}
+
 function setMode(m) {
   mode = m;
   ['sub', 'risk', 'slr'].forEach(k => $(`m-${k}`).setAttribute('aria-pressed', m === k));
   if (map.getLayer('ss-img')) map.setLayoutProperty('ss-img', 'visibility', m === 'sub' ? 'visible' : 'none');
   if (map.getLayer('ss-idw')) map.setLayoutProperty('ss-idw', 'visibility', m === 'sub' && idwOn ? 'visible' : 'none');
-  if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', m === 'risk' ? 'visible' : 'none');
+  applyRiskVis();
   if (map.getLayer('ss-slr')) map.setLayoutProperty('ss-slr', 'visibility', 'none');
   if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', 'none');
   $('slrCtl').hidden = m !== 'slr';
   if (m === 'slr') showFlood();
-  $('scaleT').textContent = m === 'risk' ? T('scaleRisk') : m === 'slr' ? T('scaleSlr') : T('scaleSub');
+  $('scaleT').textContent = scaleTitle();
   renderLegend();
   applyBld();
   if (last) showCard(last);
@@ -1401,6 +1457,7 @@ map.on('load', async () => {
   $('l-fac').onchange = e => { vis(['pl-fac', 'pl-fac-lab'], e.target.checked); $('facLeg').hidden = !e.target.checked; };
   $('l-ev').onchange = e => vis(['pl-ev', 'pl-ev-lab', 'pl-evn'], e.target.checked);
   $('l-tr').onchange = e => setTraffy(e.target.checked);
+  $('legend').addEventListener('click', e => { const b = e.target.closest('[data-rp]'); if (b) setRiskPart(b.dataset.rp); });
   $('legend').addEventListener('change', e => { if (e.target.id === 'l-idw') { idwOn = e.target.checked; applyIdw(); } });
 });
 
