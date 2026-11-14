@@ -1262,7 +1262,7 @@ async function setRiskPart(k) {
       if (map.getSource(`ss-rp-${p}`)) return;
       map.addSource(`ss-rp-${p}`, { type: 'image', url: `risk_${p}.png`, coordinates: rpMeta.image });
       map.addLayer({ id: `ss-rp-${p}`, type: 'raster', source: `ss-rp-${p}`, layout: { visibility: 'none' },
-        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.88, 14.5, 0.4], 'raster-resampling': 'nearest' } }, 'ss-risk');
+        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.68, 14.5, 0.4], 'raster-resampling': 'nearest' } }, 'ss-risk');
     });
   }
   riskPart = next;
@@ -1317,29 +1317,29 @@ map.on('load', async () => {
   const font = style.layers.find(l => l.type === 'symbol' && l.layout?.['text-font'])?.layout['text-font'] || ['Noto Sans Regular'];
   map.addSource('ss-img', { type: 'image', url: 'vlm.png', coordinates: meta.image });
   map.addLayer({ id: 'ss-img', type: 'raster', source: 'ss-img',
-    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.85, 14.5, 0.35], 'raster-resampling': 'nearest' } }, firstSymbol);
+    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.71, 14.5, 0.36], 'raster-resampling': 'nearest' } }, firstSymbol);
   if (meta.fill) {
     // ช่องว่างของ InSAR เติมด้วยแบบจำลองจากสิ่งปกคลุมดิน + ค่าวัดรอบข้าง (scripts/vlm_fill.py) วางใต้ภาพค่าที่วัดได้
     map.addSource('ss-idw', { type: 'image', url: 'vlm_fill.png', coordinates: meta.fill.image });
     map.addLayer({ id: 'ss-idw', type: 'raster', source: 'ss-idw',
-      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.85, 14.5, 0.35], 'raster-resampling': 'nearest' } }, 'ss-img');
+      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.71, 14.5, 0.36], 'raster-resampling': 'nearest' } }, 'ss-img');
     try { idwGrid = new Int16Array(await fetch('fill.bin').then(r => r.arrayBuffer())); } catch (err) { idwGrid = null; }
   }
   if (meta.risk) {
     map.addSource('ss-risk', { type: 'image', url: 'risk.png', coordinates: meta.risk.image });
     map.addLayer({ id: 'ss-risk', type: 'raster', source: 'ss-risk', layout: { visibility: 'none' },
-      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.88, 14.5, 0.4], 'raster-resampling': 'nearest' } }, firstSymbol);
+      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.68, 14.5, 0.4], 'raster-resampling': 'nearest' } }, firstSymbol);
     riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
     try { riskxGrid = new Uint8Array(await fetch('riskx.bin').then(r => r.arrayBuffer())); } catch (err) { riskxGrid = null; }
     $('m-risk').hidden = false;
   }
   if (meta.tide) {
     map.addSource('ss-tide', { type: 'image', url: 'tide.png', coordinates: meta.tide.image });
-    map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
+    map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .78 } }, firstSymbol);
   }
   if (meta.sfl) {
     map.addSource('ss-slr', { type: 'image', url: `fl_${runName() .replace(/^now_/, '2036_ssp245_sub_')}.png`, coordinates: meta.sfl.image });
-    map.addLayer({ id: 'ss-slr', type: 'raster', source: 'ss-slr', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
+    map.addLayer({ id: 'ss-slr', type: 'raster', source: 'ss-slr', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .78 } }, firstSymbol);
     $('m-slr').hidden = false;
   }
   if (meta.flood) {
