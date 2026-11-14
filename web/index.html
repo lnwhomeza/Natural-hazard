@@ -268,6 +268,7 @@
       <label class="rl" style="--c:#c41e24" data-i18n-title="lEv"><input type="checkbox" id="l-ev" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="rt" data-i18n="rEv">เหตุการณ์</span></label>
       <label class="rl" style="--c:#bf812d" data-i18n-title="lTr"><input type="checkbox" id="l-tr"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-5 4v-4H4V5Z"/><path d="M12 8v3M12 13.5v.01"/></svg></span><span class="rt" data-i18n="rTr">เรื่องแจ้ง</span></label>
       <label class="rl" style="--c:#6a51a3" data-i18n-title="lDist"><input type="checkbox" id="l-dist" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l6-3 5 3 5-1v13l-6 3-5-3-5 2V6Z" stroke-dasharray="3 2.5"/></svg></span><span class="rt" data-i18n="rDist">เขต</span></label>
+      <label class="rl" style="--c:#2d1e5c" data-i18n-title="lProv"><input type="checkbox" id="l-prov" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l6-3 5 3 5-1v13l-6 3-5-3-5 2V6Z" stroke-width="3"/></svg></span><span class="rt" data-i18n="rProv">จังหวัด</span></label>
       <label class="rl" style="--c:#707a80" data-i18n-title="lRoad"><input type="checkbox" id="l-road" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 21M16 3l4 18M12 5v3M12 11v3M12 17v3"/></svg></span><span class="rt" data-i18n="rRoad">ถนน</span></label>
       <label class="rl" style="--c:#2a7f62" data-i18n-title="lLab"><input type="checkbox" id="l-lab" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="8" r="1.5"/></svg></span><span class="rt" data-i18n="rLab">ป้ายเขต</span></label>
       <label class="rl" id="floodRow" hidden style="--c:var(--flood)" data-i18n-title="lFlood"><input type="checkbox" id="l-flood"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg></span><span class="rt" data-i18n="rFlood">น้ำท่วม</span></label>
@@ -395,9 +396,9 @@ const I18N = {
     grpN: n => `${n} เหตุการณ์ แตะเพื่อดูบนแผนที่`, trTot: (a, b) => a === b ? `${a} จุด` : `${a} จุด รวม ${b} เรื่องที่แจ้ง`,
     months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
     rail: 'ชั้นข้อมูล', railHint: 'เปิด/ปิดอาคาร สถานที่ ถนน และเส้นแบ่งเขตได้ที่แถบ "ชั้นข้อมูล" ทางขวาของแผนที่', bmShort: 'แผนที่',
-    rBld: 'อาคาร​2 มิติ', rB3d: 'อาคาร​3 มิติ', rLm: 'จุดสำคัญ', rFac: 'อาคาร​สาธารณะ', rEv: 'เหตุการณ์', rDist: 'เขต', rRoad: 'ถนน', rLab: 'ป้ายเขต', rFlood: 'น้ำท่วม', rGfm: 'GFM',
+    rBld: 'อาคาร​2 มิติ', rB3d: 'อาคาร​3 มิติ', rLm: 'จุดสำคัญ', rFac: 'อาคาร​สาธารณะ', rEv: 'เหตุการณ์', rDist: 'เขต', rProv: 'จังหวัด', rRoad: 'ถนน', rLab: 'ป้ายเขต', rFlood: 'น้ำท่วม', rGfm: 'GFM',
     lB3d: 'อาคาร 3 มิติตามความสูงจริง เมื่อซูมเข้าใกล้',
-    more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 2 มิติ ไม่มีความสูง เห็นได้เมื่อซูมออก (ถ้าปิด 3 มิติ จะเป็น 2 มิติทุกระดับซูม)', lRoad: 'ถนน กว้างตามจริง (OpenStreetMap)', lDist: 'เส้นแบ่งเขต/อำเภอ', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
+    more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 2 มิติ ไม่มีความสูง เห็นได้เมื่อซูมออก (ถ้าปิด 3 มิติ จะเป็น 2 มิติทุกระดับซูม)', lRoad: 'ถนน กว้างตามจริง (OpenStreetMap)', lDist: 'เส้นแบ่งเขต/อำเภอ', lProv: 'เส้นแบ่งจังหวัด (เส้นหนา)', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
     cls: ['ไม่ทรุดหรือยกตัว', 'ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
     expl: [
       'พื้นตรงนี้ไม่ทรุดหรือยกตัวขึ้นเล็กน้อย ซึ่งพบน้อยมากในสามจังหวัดนี้',
@@ -472,9 +473,9 @@ const I18N = {
     grpN: n => `${n} events, tap one to see it on the map`, trTot: (a, b) => a === b ? `${a} points` : `${a} points, ${b} reports in all`,
     months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     rail: 'Layers', railHint: 'Turn buildings, places, roads and boundaries on or off in the "Layers" bar on the right of the map', bmShort: 'Basemap',
-    rBld: 'Bldg 2D', rB3d: 'Bldg 3D', rLm: 'Places', rFac: 'Facilities', rEv: 'Events', rDist: 'Districts', rRoad: 'Roads', rLab: 'Labels', rFlood: 'Flood', rGfm: 'GFM',
+    rBld: 'Bldg 2D', rB3d: 'Bldg 3D', rLm: 'Places', rFac: 'Facilities', rEv: 'Events', rDist: 'Districts', rProv: 'Provinces', rRoad: 'Roads', rLab: 'Labels', rFlood: 'Flood', rGfm: 'GFM',
     lB3d: '3D buildings at their real height, when zoomed in',
-    more: 'More layers', lBld: 'Flat (2D) buildings, seen when zoomed out (flat at every zoom when 3D is off)', lRoad: 'Roads at real width (OpenStreetMap)', lDist: 'District boundaries', lLab: 'Labels for the fastest-sinking districts',
+    more: 'More layers', lBld: 'Flat (2D) buildings, seen when zoomed out (flat at every zoom when 3D is off)', lRoad: 'Roads at real width (OpenStreetMap)', lDist: 'District boundaries', lProv: 'Province boundaries (thick line)', lLab: 'Labels for the fastest-sinking districts',
     cls: ['Not sinking or rising', 'Low', 'Moderate', 'High', 'Very high'],
     expl: [
       'The ground here is not sinking or is rising slightly, which is very rare in these provinces.',
@@ -1362,6 +1363,12 @@ map.on('load', async () => {
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
     paint: { 'line-color': '#1b2629', 'line-opacity': .45, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.3] } }, firstSymbol);
+  // เส้นแบ่งจังหวัด (provinces.geojson รวมจากเขต/อำเภอ โดย scripts/provinces_build.py) หนาและเข้มกว่าเส้นเขต
+  try {
+    map.addSource('ss-prov', { type: 'geojson', data: await fetch('provinces.geojson').then(r => r.json()) });
+    map.addLayer({ id: 'ss-prov', type: 'line', source: 'ss-prov', layout: { 'line-join': 'round', visibility: $('l-prov').checked ? 'visible' : 'none' },
+      paint: { 'line-color': '#1b2629', 'line-opacity': .8, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.8, 14, 3.5] } }, firstSymbol);
+  } catch (err) { /* ไม่มีไฟล์ก็ข้ามไป */ }
   meta.buildings.forEach((f, i) => {
     map.addSource(`ss-b${i}`, { type: 'vector', url: `pmtiles://${new URL(f, location.href)}` });
     map.addLayer({ id: `ss-bld${i}`, type: 'fill-extrusion', source: `ss-b${i}`, 'source-layer': 'buildings', minzoom: 13,
@@ -1457,6 +1464,7 @@ map.on('load', async () => {
   $('l-bld').onchange = bldVis; $('l-b3d').onchange = bldVis;
   $('l-road').onchange = e => { roadsOn = e.target.checked; applyRoads(); };
   $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
+  $('l-prov').onchange = e => vis(['ss-prov'], e.target.checked);
   $('l-lab').onchange = e => vis(['ss-lab'], e.target.checked);
   $('l-flood').onchange = e => vis(['ss-flood'], e.target.checked);
   $('l-gfm').onchange = e => vis(['ss-gfm'], e.target.checked);
