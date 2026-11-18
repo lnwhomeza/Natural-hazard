@@ -7,11 +7,12 @@
 <meta name="description" content="แผนที่อัตราการทรุดตัวของแผ่นดิน กรุงเทพฯ สมุทรปราการ สมุทรสาคร จากดาวเทียม Sentinel-1 พ.ศ. 2564–2569">
 <meta property="og:title" content="แผ่นดินตรงบ้านคุณทรุดลงปีละเท่าไร">
 <meta property="og:description" content="อัตราการทรุดตัวของแผ่นดิน กรุงเทพฯ สมุทรปราการ สมุทรสาคร จากดาวเทียม Sentinel-1 เม.ย. 2564 – ต.ค. 2569 ค้นหาบ้านของคุณได้">
-<meta property="og:image" content="https://lnwhomeza.github.io/Natural-hazard/og.png">
+<meta property="og:image" content="https://psykorollin.github.io/FinalNH/og.png">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
-<meta property="og:url" content="https://lnwhomeza.github.io/Natural-hazard/">
+<meta property="og:url" content="https://psykorollin.github.io/FinalNH/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2C10 2 5.5 6.6 5.5 12.4 5.5 20 16 30 16 30s10.5-10 10.5-17.6C26.5 6.6 22 2 16 2z' fill='%23c41e24'/%3E%3Ccircle cx='16' cy='12.5' r='4.2' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
@@ -83,25 +84,16 @@
   .ticks span { border-left: 0; }
   .ticks span.end { transform: translateX(-100%); }
   .ticks span.end::before { left: auto; right: 0; }
+  .rp { margin-top: 12px; }
+  .rp-h { margin: 0; font-size: 13px; font-weight: 500; }
+  .rp .seg { margin: 4px 0 4px; }
+  .rp .seg button { font-size: 13px; padding: 5px 4px; }
+  .rp-n { margin: 0; font-size: 12.5px; color: var(--muted); }
   .ends { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 2px; }
   .nod { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-top: 6px; }
   .nod i { width: 16px; height: 10px; background: #c8c8c8; border-radius: 2px; }
 
-  #slrCtl { margin: 4px 0 6px; }
-  #riskCtl .seg { margin: 0 0 10px; }
-  .seg4 button { font-size: 13px; padding: 5px 2px; }
-  .fx { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 13.5px; }
-  .fx-eq { font: 600 15px/1.5 var(--head); margin: 0 0 8px; }
-  .fx-eq { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 4px; font-size: 14px; }
-  .fx-eq span { padding: 1px 5px; border-radius: 4px; color: var(--muted); white-space: nowrap; }
-  .fx-eq span.on { color: var(--paper); }
-  .fx h4 { font: 600 14px/1.3 var(--head); margin: 8px 0 4px; }
-  .fx ul { margin: 0; padding-left: 18px; }
-  .fx li { margin: 2px 0; }
-  .fx li small { color: var(--muted); display: block; }
-  .fx details { margin-top: 8px; }
-  .fx details p, .fx details li { color: var(--muted); }
-  .fx code { font-family: var(--head); font-weight: 600; color: var(--ink); }
+  #slrCtl { margin: 12px 0 6px; }
   #slrCtl .seg { margin: 0 0 8px; }
   #slrCtl .seg button:disabled { opacity: .35; cursor: default; }
   .ctl-l { font-size: 12.5px; color: var(--muted); margin: 2px 0 3px; }
@@ -122,7 +114,16 @@
   summary:hover { color: var(--ink); }
 
   /* ---- การ์ดเมื่อคลิก ---- */
-  #card { right: 12px; bottom: 28px; width: 372px; max-height: calc(100% - 190px); overflow: auto; padding: 16px 18px; display: none; }
+  /* แถบสีอาคาร มุมขวาล่าง */
+  #bldLeg { right: 66px; bottom: 12px; width: min(440px, calc(100% - 434px)); padding: 6px 10px 5px; z-index: 1; }
+  #bldLeg:empty, body:has(#card.open) #bldLeg { display: none; }
+  #bldLeg h2 { font: 600 12px/1.3 var(--head); margin: 0 0 4px; }
+  #bldLeg .bl-bar { display: grid; grid-template-columns: repeat(5, 1fr) 0.9fr; column-gap: 2px; }
+  #bldLeg i { display: block; height: 7px; border-radius: 1px; }
+  #bldLeg .bl-nd { margin-left: 6px; }
+  #bldLeg .bl-lab { font-size: 11px; line-height: 1.25; margin-top: 3px; color: var(--muted); }
+  #bldLeg .bl-lab b { font-weight: 600; color: var(--ink); }
+  #card { right: 66px; bottom: 12px; width: 372px; max-height: calc(100% - 24px); overflow: auto; padding: 16px 18px; display: none; z-index: 5; }
   #card.open { display: block; }
   #card .close { position: absolute; top: 8px; right: 8px; border: 0; background: none; font-size: 22px; cursor: pointer; color: var(--muted); line-height: 1; padding: 6px; }
   #cPlace { font-size: 14px; color: var(--muted); padding-right: 28px; margin-bottom: 4px; }
@@ -167,21 +168,118 @@
   .maplibregl-ctrl-group { border-radius: 6px; }
 
   @media (max-width: 700px) {
-    #side { width: auto; right: 12px; top: 58px; max-height: 62%; }
+    #side { width: auto; right: 66px; top: 58px; max-height: 62%; } /* เว้นคอลัมน์ปุ่มขวา (ซูม/ชั้นข้อมูล) */
     #side.hidden { display: none; }
     #toggle { display: block; }
     h1 { font-size: 21px; }
-    #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 60%; }
+    .rp .seg button { font-size: 12px; padding: 5px 2px; }
+    #card { left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 60%; z-index: 5; }
+    #bldLeg { left: 8px; right: 8px; bottom: 36px; width: auto; }
+    #bldLeg .bl-lab { font-size: 10.5px; }
     .num { font-size: 38px; }
   }
+  /* สถานที่และเหตุการณ์สำคัญ */
+  .pl-row { margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--rule); }
+  .pl-sw { width: 12px; height: 12px; border-radius: 50%; flex: none; border: 2px solid var(--paper); box-shadow: 0 0 0 1px var(--muted); }
+  .fac-leg { display: flex; flex-wrap: wrap; gap: 3px 10px; font-size: 12.5px; color: var(--muted); margin: 2px 0 8px; }
+  .fac-leg span { display: inline-flex; align-items: center; gap: 5px; }
+  .fac-leg i { width: 9px; height: 9px; border-radius: 50%; }
+  #evList { list-style: none; padding: 0; margin: 2px 0 0; }
+  #evList button, #evList .ev-nl { display: grid; grid-template-columns: 5.4em 1fr; gap: 8px; width: 100%; text-align: left; border: 0; background: none;
+    padding: 5px 4px; font-size: 13.5px; line-height: 1.4; border-radius: 4px; }
+  #evList button { cursor: pointer; }
+  #evList button:hover, #evList button:focus-visible { background: var(--wash); }
+  #evList .ev-y { font: 600 12.5px/1.45 var(--head); color: var(--staff); font-variant-numeric: tabular-nums; }
+  #evList small { display: block; color: var(--muted); font-size: 12.5px; }
+  /* กลุ่มเหตุการณ์และเรื่องแจ้ง Traffy */
+  .grp-list { list-style: none; padding: 0; margin: 4px 0 0; }
+  .grp-list button { display: grid; grid-template-columns: 6.6em 1fr; gap: 8px; width: 100%; text-align: left; border: 0; background: none;
+    padding: 5px 4px; font-size: 13.5px; line-height: 1.4; border-radius: 4px; cursor: pointer; }
+  .grp-list button:hover, .grp-list button:focus-visible { background: var(--wash); }
+  .grp-list .ev-y { font: 600 12.5px/1.45 var(--head); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .grp-list small { display: block; color: var(--muted); font-size: 12.5px; }
+  .pl-meta { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .pl-meta b { color: var(--ink); font-weight: 600; }
+  .pl-card a { color: var(--ink); text-decoration-color: var(--staff); text-underline-offset: 3px; }
+  .tr-leg { margin: 2px 0 8px; font-size: 13px; }
+  .tr-leg b { display: block; font-weight: 600; margin-bottom: 2px; }
+  .tr-leg label.chk { margin: 4px 0; font-size: 13px; }
+  .tr-leg small { color: var(--muted); }
+  .tr-note { font-size: 12px; color: var(--muted); margin: 4px 0 0; }
+  .pl-card { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  .pl-card .pl-k { font-size: 12.5px; color: var(--muted); margin: 0 0 2px; display: flex; align-items: center; gap: 6px; }
+  .pl-card h3 { font: 600 18px/1.3 var(--head); margin: 0 0 4px; padding-right: 22px; }
+  .pl-card p { font-size: 14px; margin: 0 0 6px; }
+  #slrCtl [data-yr] small { display: block; font-size: 11px; opacity: .8; }
+  /* ตัวเลือกแผนที่ฐาน */
+  .bm-ctl { position: relative; }
+  .bm-ctl > button.bm-btn svg { width: 18px; height: 18px; display: block; margin: auto; color: #333; }
+  .bm-pop { position: absolute; right: 38px; top: 0; width: 214px; background: var(--paper); color: var(--ink);
+    border: 1px solid var(--rule); border-radius: 8px; box-shadow: var(--shadow); padding: 8px; font-family: var(--body); display: none; }
+  .bm-ctl.open .bm-pop { display: block; max-height: calc(100vh - 90px); overflow-y: auto; }
+  .bm-pop h3 { font: 600 13px var(--head); margin: 2px 4px 6px; letter-spacing: .02em; }
+  .bm-pop button.bm-opt { display: flex; align-items: center; gap: 9px; width: 100%; height: auto;
+    padding: 5px 6px; border: 0; background: none; color: inherit; font: 14px var(--body); text-align: left; cursor: pointer; border-radius: 6px; }
+  .bm-pop button.bm-opt:hover { background: var(--wash); }
+  .bm-pop button.bm-opt[aria-pressed="true"] { background: var(--wash); font-weight: 600; }
+  .bm-opt img { width: 42px; height: 42px; border-radius: 5px; object-fit: cover; border: 1px solid var(--rule); flex: none; background: var(--wash); }
+  .bm-note { font-size: 12px; line-height: 1.45; color: var(--muted); margin: 6px 4px 2px; }
+  .bm-opt[aria-pressed="true"] img { outline: 2px solid var(--staff); outline-offset: 1px; }
+
+  /* ---- ปุ่มด้านขวาทั้งหมดกว้าง 44 px; แถบชั้นข้อมูลมีชื่อสั้นใต้ไอคอน ชื่อเต็มอยู่ใน title ---- */
+  .maplibregl-ctrl-top-right .maplibregl-ctrl-group button { width: 44px; height: 40px; }
+  .maplibregl-ctrl-top-right .maplibregl-ctrl-group button .maplibregl-ctrl-icon { background-size: 34px; }
+  .lr { width: 44px; background: #fff; color: #333; border-radius: 4px; box-shadow: 0 0 0 2px rgba(0, 0, 0, .1); font-family: var(--body); }
+  .lr .lr-head, .lr .rl { position: relative; display: grid; justify-items: center; align-content: center; gap: 1px; width: 44px; min-height: 42px;
+    padding: 4px 1px 3px; margin: 0; border: 0; background: none; color: #333; cursor: pointer; font: inherit; }
+  .lr .lr-head { border-radius: 4px; }
+  .lr .lr-head svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+  .lr .lr-head[aria-expanded="true"] { border-bottom: 1px solid #ddd; border-radius: 4px 4px 0 0; }
+  .lr .rl:hover, .lr .lr-head:hover { background: rgba(0, 0, 0, .05); }
+  .lr-list { max-height: calc(100dvh - 300px); overflow-y: auto; scrollbar-width: none; }
+  .lr-foot { border-top: 1px solid #ddd; }
+  .lr .rl input { position: absolute; top: 8px; left: 50%; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+  .lr .ri { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; color: #56666b; transition: background .15s, color .15s; }
+  .lr .ri svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .lr .rl input:checked + .ri, .bm-ctl.open .ri { background: var(--c); color: #fff; }
+  .lr .rl input:focus-visible + .ri { outline: 2px solid var(--staff); outline-offset: 1px; }
+  .lr .rt { font: 500 9.5px/1.15 var(--body); color: #56666b; text-align: center; max-width: 42px; overflow-wrap: anywhere; }
+  .lr .lr-head .rt { font-weight: 600; color: #333; }
+  .lr .rl input:checked ~ .rt { color: #1b2629; font-weight: 600; }
+  .lr .bm-pop { right: calc(100% + 10px); top: auto; bottom: -2px; }
+  @media (max-width: 700px) { .lr-list { max-height: calc(100dvh - 380px); } }
+  .lr-hint { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+  .credits { font-size: 11px; line-height: 1.45; color: var(--muted); margin: 10px 0 0; padding-top: 8px; border-top: 1px solid var(--rule); }
+  .credits a { color: inherit; text-underline-offset: 2px; }
+  .fac-leg b { flex-basis: 100%; font-weight: 600; color: var(--ink); }
 </style>
 </head>
 <body>
 <div id="map" role="application" aria-label="map"></div>
+<section id="bldLeg" class="panel" aria-labelledby="bldLegT"></section>
+<nav id="lyrRail" class="lr maplibregl-ctrl" aria-label="layers">
+  <button id="lrHead" class="lr-head" type="button" aria-expanded="true" aria-controls="lrBody"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 8.5 12 14l10-5.5L12 3Z"/><path d="m2 13 10 5.5L22 13"/><path d="m2 17.5 10 5.5 10-5.5" opacity=".55"/></svg><span class="rt" data-i18n="rail">ชั้นข้อมูล</span></button>
+  <div id="lrBody" class="lr-body">
+    <div class="lr-list">
+      <label class="rl" style="--c:#b5532a" data-i18n-title="lBld"><input type="checkbox" id="l-bld" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg></span><span class="rt" data-i18n="rBld">อาคาร​2 มิติ</span></label>
+      <label class="rl" style="--c:#7a4f2e" data-i18n-title="lB3d"><input type="checkbox" id="l-b3d" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/><path d="m3 7 9 5 9-5M12 12v10"/></svg></span><span class="rt" data-i18n="rB3d">อาคาร​3 มิติ</span></label>
+      <label class="rl" style="--c:#1b2629" data-i18n-title="lLm"><input type="checkbox" id="l-lm" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/></svg></span><span class="rt" data-i18n="rLm">จุดสำคัญ</span></label>
+      <label class="rl" style="--c:#3b7dd8" data-i18n-title="lFac"><input type="checkbox" id="l-fac"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 3 8v2h18V8l-9-5Z"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg></span><span class="rt" data-i18n="rFac">อาคาร​สาธารณะ</span></label>
+      <label class="rl" style="--c:#c41e24" data-i18n-title="lEv"><input type="checkbox" id="l-ev" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg></span><span class="rt" data-i18n="rEv">เหตุการณ์</span></label>
+      <label class="rl" style="--c:#bf812d" data-i18n-title="lTr"><input type="checkbox" id="l-tr"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-5 4v-4H4V5Z"/><path d="M12 8v3M12 13.5v.01"/></svg></span><span class="rt" data-i18n="rTr">เรื่องแจ้ง</span></label>
+      <label class="rl" style="--c:#6a51a3" data-i18n-title="lDist"><input type="checkbox" id="l-dist" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l6-3 5 3 5-1v13l-6 3-5-3-5 2V6Z" stroke-dasharray="3 2.5"/></svg></span><span class="rt" data-i18n="rDist">เขต</span></label>
+      <label class="rl" style="--c:#2d1e5c" data-i18n-title="lProv"><input type="checkbox" id="l-prov" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6l6-3 5 3 5-1v13l-6 3-5-3-5 2V6Z" stroke-width="3"/></svg></span><span class="rt" data-i18n="rProv">จังหวัด</span></label>
+      <label class="rl" style="--c:#707a80" data-i18n-title="lRoad"><input type="checkbox" id="l-road" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 21M16 3l4 18M12 5v3M12 11v3M12 17v3"/></svg></span><span class="rt" data-i18n="rRoad">ถนน</span></label>
+      <label class="rl" style="--c:#2a7f62" data-i18n-title="lLab"><input type="checkbox" id="l-lab" checked><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8L3 12Z"/><circle cx="7.5" cy="8" r="1.5"/></svg></span><span class="rt" data-i18n="rLab">ป้ายเขต</span></label>
+      <label class="rl" id="floodRow" hidden style="--c:var(--flood)" data-i18n-title="lFlood"><input type="checkbox" id="l-flood"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/></svg></span><span class="rt" data-i18n="rFlood">น้ำท่วม</span></label>
+      <label class="rl" id="gfmRow" hidden style="--c:var(--gfm)" data-i18n-title="lGfm"><input type="checkbox" id="l-gfm"><span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15c2-1 4 1 6 0s4-1 6 0 4 1 6 0M3 19c2-1 4 1 6 0s4-1 6 0 4 1 6 0"/><path d="M12 3s3 3.5 3 6a3 3 0 0 1-6 0c0-2.5 3-6 3-6Z"/></svg></span><span class="rt" data-i18n="rGfm">GFM</span></label>
+    </div>
+    <div class="lr-foot" id="bmSlot"></div>
+  </div>
+</nav>
 <button id="toggle" class="panel" data-i18n="menu">ค้นหาและชั้นข้อมูล</button>
 
 <aside id="side" class="panel">
-  <script>if (matchMedia('(max-width: 700px)').matches) document.currentScript.parentElement.classList.add('hidden');</script>
   <div class="topline">
     <span class="links"><button class="link" id="aboutBtn" data-i18n="about">วิธีวัดและข้อจำกัด</button><button class="link" id="lang">English</button></span>
   </div>
@@ -196,23 +294,17 @@
 
   <div class="seg" role="group" aria-label="theme">
     <button id="m-sub" aria-pressed="true" data-i18n="mSub">อัตราการทรุด</button>
-    <button id="m-risk" aria-pressed="false" data-i18n="mRisk" hidden>ความเสี่ยง</button>
     <button id="m-slr" aria-pressed="false" data-i18n="mSlr" hidden>น้ำทะเล</button>
+    <button id="m-risk" aria-pressed="false" data-i18n="mRisk" hidden>ความเสี่ยง</button>
   </div>
-  <div id="riskCtl" hidden>
-    <div class="seg seg4" role="group" aria-label="risk component">
-      <button data-rk="risk" aria-pressed="true" data-i18n="rkRisk">รวม</button>
-      <button data-rk="H" aria-pressed="false" data-i18n="rkH">ภัย</button>
-      <button data-rk="E" aria-pressed="false" data-i18n="rkE">การสัมผัส</button>
-      <button data-rk="V" aria-pressed="false" data-i18n="rkV">เปราะบาง</button>
-    </div>
-  </div>
+  <p class="scale-t" id="scaleT"></p>
+  <div id="legend"></div>
   <div id="slrCtl" hidden>
     <div class="ctl-l" data-i18n="cYear">ปี</div>
     <div class="seg" role="group" aria-label="year">
       <button data-yr="2026" aria-pressed="false">ปัจจุบัน</button>
-      <button data-yr="2050" aria-pressed="true">2593</button>
-      <button data-yr="2100" aria-pressed="false">2643</button>
+      <button data-yr="2036" aria-pressed="true">2579</button>
+      <button data-yr="2046" aria-pressed="false">2589</button>
     </div>
     <div class="ctl-l" data-i18n="cSsp">ฉากทัศน์ภูมิอากาศ</div>
     <div class="seg" role="group" aria-label="scenario">
@@ -230,20 +322,15 @@
       <button data-def="undef" aria-pressed="false" data-i18n="cDefN">ไม่มีคัน</button>
     </div>
   </div>
-  <p class="scale-t" id="scaleT"></p>
-  <div id="legend"></div>
+  <div id="slrSum"></div>
 
-  <div class="flood-row" id="floodRow" hidden>
-    <label class="chk"><input type="checkbox" id="l-flood"> <span class="sw" style="background:var(--flood)"></span> <span data-i18n="lFlood">น้ำท่วม</span></label>
+  <div class="pl-row">
+    <div class="fac-leg" id="facLeg" hidden></div>
+    <div class="tr-leg" id="trLeg" hidden></div>
+    <details id="evBox"><summary data-i18n="evList">ลำดับเหตุการณ์</summary><ul id="evList"></ul></details>
   </div>
-  <details>
-    <summary data-i18n="more">ชั้นข้อมูลอื่น</summary>
-    <label class="chk" id="gfmRow" hidden><input type="checkbox" id="l-gfm"> <span class="sw" style="background:var(--gfm)"></span> <span data-i18n="lGfm">GFM</span></label>
-    <label class="chk"><input type="checkbox" id="l-bld" checked> <span data-i18n="lBld">อาคาร 3 มิติ</span></label>
-    <label class="chk"><input type="checkbox" id="l-rail" checked> <span data-i18n="lRail">แนวราง</span></label>
-    <label class="chk"><input type="checkbox" id="l-dist" checked> <span data-i18n="lDist">ขอบเขต</span></label>
-    <label class="chk"><input type="checkbox" id="l-lab" checked> <span data-i18n="lLab">ป้ายจุดที่ทรุดมาก</span></label>
-  </details>
+  <p class="lr-hint" data-i18n="railHint">เปิด/ปิดอาคาร สถานที่ ถนน และเส้นแบ่งเขตได้ที่แถบ "ชั้นข้อมูล" ทางขวาของแผนที่</p>
+  <p class="credits" id="credits"></p>
 </aside>
 
 <section id="card" class="panel" aria-live="polite">
@@ -264,45 +351,54 @@ const I18N = {
     lede: 'ดาวเทียม Sentinel-1 วัดความสูงของพื้นดินในกรุงเทพฯ สมุทรปราการ และสมุทรสาคร ราวทุก 12 วัน ตั้งแต่ เม.ย. 2564 ถึง ต.ค. 2569 พื้นที่ทรุดเร็วที่สุดอยู่ที่<b>บ้านแพ้ว ปีละ 2.3 ซม.</b> ส่วนใจกลางกรุงเทพฯ ทรุดราวปีละ 3–4 มม.',
     searchPh: 'ค้นหาที่อยู่ ถนน หรือเขต', searchBtn: 'ค้นหา', searching: 'กำลังค้นหา…', noResult: 'ไม่พบสถานที่นี้ในสามจังหวัด ลองพิมพ์ชื่อถนนหรือเขต',
     district: 'เขต/อำเภอ',
+    bmTitle: 'แผนที่ฐาน', bmNames: { light: 'แผนที่เรียบ', osm: 'OpenStreetMap', liberty: 'ถนน (OpenFreeMap)', streets: 'ถนน (Esri)', sat: 'ภาพดาวเทียม (Esri)', topo: 'ภูมิประเทศ (Esri)' },
+    bmNote: '* ใช้ข้อมูลถนนคนละชุดกับชั้นถนนและอาคาร (OpenStreetMap) แนวถนนจึงอาจคลาดกัน 10–20 ม.',
     mSub: 'อัตราการทรุด', mRisk: 'ความเสี่ยง', mSlr: 'น้ำทะเล',
-    rkRisk: 'รวม', rkH: 'ภัย', rkE: 'การสัมผัส', rkV: 'เปราะบาง',
-    rkName: { risk: 'ความเสี่ยง', H: 'ภัย', E: 'การสัมผัส', V: 'ความเปราะบาง' },
-    rkScale: { risk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ แบ่ง 5 ระดับ ระดับละ 20% ของพื้นที่ที่มีคนหรืออาคาร', H: 'ภัย: พื้นดินทรุดเร็ว ทรุดไม่เท่ากัน และมีน้ำท่วม (0–1)', E: 'การสัมผัส: คน อาคาร และสถานที่สำคัญที่อยู่ในพื้นที่ (0–1)', V: 'ความเปราะบาง: กลุ่มคนและอาคารที่รับมือได้ยาก (0–1)' },
-    rkLo: 'ต่ำ (0)', rkHi: 'สูง (1)',
-    rkInd: {
-      risk: [['ภัย × การสัมผัส × ความเปราะบาง', 'ทั้งสามส่วนต้องสูงพร้อมกัน ความเสี่ยงจึงสูง ถ้าส่วนใดเป็น 0 ความเสี่ยงเป็น 0']],
-      H: [['อัตราทรุดแนวดิ่ง (มม./ปี)', 'InSAR Sentinel-1 เม.ย. 2564 – ต.ค. 2569 (งานนี้)'],
-          ['การทรุดไม่เท่ากัน (angular distortion β)', 'คำนวณจากแผนที่ทรุด ตามวิธี Cigna & Tapete (2021)'],
-          ['สัดส่วนน้ำท่วม 21 ต.ค. 2569 ในรัศมีราว 150 ม.', 'ภาพเรดาร์ Sentinel-1 (งานนี้)']],
-      E: [['จำนวนประชากรในช่อง 100 ม.', 'WorldPop 2025'],
-          ['พื้นที่หลังคาอาคารในช่อง', 'Global Building Atlas (GBA)'],
-          ['โรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ สถานีรถไฟ ในรัศมี 500 ม.', 'Overture Maps / OpenStreetMap']],
-      V: [['% ผู้สูงอายุ 65 ปีขึ้นไป (รัศมี 500 ม.)', 'WorldPop 2025 แยกอายุและเพศ'],
-          ['% เด็กอายุต่ำกว่า 5 ปี (รัศมี 500 ม.)', 'WorldPop 2025 แยกอายุและเพศ'],
-          ['% อาคารสูงไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น)', 'Global Building Atlas (GBA)'],
-          ['ระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด', 'Overture Maps / OpenStreetMap']] },
-    rkHow: 'วิธีคำนวณ',
-    rkHowTxt: `<p>กรอบแนวคิด: ความเสี่ยง = ภัย × การสัมผัสภัย × ความเปราะบาง (UNDRR, Sendai Framework) คำนวณทุกช่องกริด 100 × 100 ม.</p>
-      <ul><li>ปรับแต่ละตัวชี้วัดเป็น 0–1: <code>(x − P1) / (P99 − P1)</code> แล้วตัดให้อยู่ในช่วง 0–1 (P1, P99 = เปอร์เซ็นไทล์ที่ 1 และ 99 ของทั้งพื้นที่ศึกษา)</li>
-      <li>ตัวที่เป็นจำนวนนับ (ประชากร พื้นที่อาคาร สถานที่สำคัญ และ β) ใช้ <code>log(1 + x)</code> ก่อน เพราะค่าเบ้มาก</li>
-      <li>แต่ละส่วน = ค่าเฉลี่ยของตัวชี้วัด (น้ำหนักเท่ากัน) ระยะถึงโรงพยาบาลยิ่งไกลยิ่งเปราะบาง</li>
-      <li>ความเสี่ยง = ภัย × การสัมผัส × ความเปราะบาง แล้วแบ่ง 5 ระดับเท่า ๆ กัน (ระดับละ 20% ของช่องที่มีคนหรืออาคาร) จึงเป็นความเสี่ยงเปรียบเทียบ ไม่ใช่ความน่าจะเป็นของความเสียหาย</li>
-      <li>ทดสอบความไวด้วยการสุ่มน้ำหนักตัวชี้วัดและวิธีรวม (คูณ/บวก) 500 รอบ</li></ul>`,
-    scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพดาวเทียม อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
+    scaleSlr: 'น้ำท่วมจากทะเลช่วงน้ำขึ้นสูง: ปัจจุบันจากภาพเรดาร์ อนาคตจากแบบจำลองชลศาสตร์ SFINCS',
     cYear: 'ปี', cSsp: 'ฉากทัศน์ภูมิอากาศ (IPCC AR6)', cSub: 'การทรุด', cSubY: 'ทรุดต่อ', cSubN: 'หยุดทรุดวันนี้', cDef: 'คันกั้นน้ำ', cDefY: 'มีคัน', cDefN: 'ไม่มีคัน', now: 'ปัจจุบัน',
     depthL: ['10–30 ซม.', '30–60 ซม.', '60 ซม.–1 ม.', 'เกิน 1 ม.'],
     flSum: (a, p, b, s) => `น้ำท่วม <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง${s > 0 ? ` (น้ำทะเลสูงขึ้น ${s} ซม. จากปี 2567)` : ''}`,
     flCmp: (d) => d > 0 ? `ถ้าหยุดทรุดวันนี้ พื้นที่ท่วมจะน้อยลง <b>${d}</b> ตร.กม.` : '',
-    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพดาวเทียมตอนน้ำขึ้นสูง)', tidePerm: 'บ่อ นาเกลือ และแหล่งน้ำที่มีน้ำอยู่ตลอด',
-    tideSum: (d, w, a, p, b, s) => `ภาพ ${s} วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลาราว 10:35 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึงแผ่นดินแค่ <b>${a}</b> ตร.กม. ตามแนวชายฝั่ง มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
-    tideNote: 'แยกน้ำด้วยดัชนี MNDWI เทียบกับภาพตอนน้ำลง นับเฉพาะจุดที่มีผิวน้ำต่อเนื่องถึงทะเลและห่างทะเลไม่เกิน 5 กม. ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด มองน้ำใต้ป่าชายเลนและร่มไม้ไม่เห็น และบอกความลึกไม่ได้',
-    tideT: d => `ภาพน้ำขึ้นสูง ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543}`, tideAns: ['น้ำไม่ถึง', 'น้ำทะเลขึ้นถึง', 'มีน้ำอยู่ตลอด (บ่อ/แหล่งน้ำ)', 'มีน้ำเพิ่ม แต่ไม่ใช่น้ำทะเล (น่าจะปล่อยน้ำเข้านาหรือบ่อ)'],
+    tideCls: 'น้ำทะเลขึ้นถึงจริง (ภาพเรดาร์ตอนน้ำขึ้นสูง)',
+    tideSum: (d, w, a, p, b) => `ภาพ Sentinel-1 วันที่ ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543} เวลา 06:09 น. ระดับน้ำราว +${w} ม. น้ำทะเลขึ้นถึง <b>${a}</b> ตร.กม. มีคนอยู่ราว <b>${p}</b> คน อาคาร <b>${b}</b> หลัง`,
+    tideNote: 'เทียบกับภาพตอนน้ำลง ไม่นับบ่อและแหล่งน้ำที่มีน้ำอยู่ตลอด เรดาร์มองน้ำใต้ป่าชายเลนและในเมืองที่ตึกหนาแน่นได้ไม่ดี และบอกความลึกไม่ได้',
+    tideT: d => `ภาพน้ำขึ้นสูง ${+d.slice(6)}/${+d.slice(4, 6)}/${+d.slice(0, 4) + 543}`, tideAns: ['น้ำไม่ถึง', 'น้ำทะเลขึ้นถึง', 'มีน้ำอยู่ตลอด (บ่อ/แหล่งน้ำ)'],
     be: y => y + 543, depthT: 'น้ำท่วมตรงนี้', depthNo: 'ไม่ท่วมในฉากทัศน์นี้', depthM: 'ม. (สูงสุดช่วงน้ำขึ้น)',
     slrNote: 'จำลองน้ำทะเลที่ไหลเข้ามาช่วงน้ำขึ้นสูงประจำปี ไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ความสูงคันใช้ค่าออกแบบโดยประมาณ',
     scaleSub: 'ทรุดลงกี่มิลลิเมตรต่อปี', scaleRisk: 'ความเสี่ยงเทียบกันทั้งพื้นที่ (ภัย × คนและอาคาร × ความเปราะบาง)',
+    rpHead: 'ดูทีละส่วนของความเสี่ยง',
+    rpScale: ['ภัย: อัตราทรุด การทรุดไม่เท่ากัน และน้ำท่วมใกล้เคียง', 'คนและอาคาร: จำนวนคน พื้นที่อาคาร และสถานที่สำคัญรอบ ๆ', 'ความเปราะบาง: ผู้สูงอายุ เด็กเล็ก บ้านแนวราบ และระยะถึงโรงพยาบาล'],
+    rpOff: 'กดเพื่อเปิดทีละชั้น ระหว่างเปิด ชั้นความเสี่ยงรวมจะปิดไว้ สีจะได้ไม่ซ้อนกัน',
+    rpOn: 'แบ่ง 5 ระดับเท่า ๆ กันในช่องที่มีคนหรืออาคาร กดปุ่มเดิมอีกครั้งเพื่อกลับไปดูความเสี่ยงรวม',
+    bldLegPart: n => `สีอาคาร: สีเทา เพื่อให้เห็นสีของชั้น "${n}" บนพื้น`,
+    bldLegT: 'สีอาคาร: ความเสี่ยงจากพื้นดินทรุด (มม./ปี)',
+    bldLev: [['ไม่ทรุด', ''], ['ต่ำ', '0–5'], ['กลาง', '5–10'], ['สูง', '10–20'], ['สูงมาก', '>20']],
+    bldNd: 'ไม่มีข้อมูล',
+    bldLegRisk: 'สีอาคาร: ระดับความเสี่ยงของช่อง 100 ม. ที่อาคารตั้งอยู่',
+    bldLegSlr: 'สีอาคาร: ความลึกน้ำท่วมจากทะเลในฉากทัศน์ที่เลือก', bldDry: 'ไม่ท่วม',
+    lLm: 'สถานที่สำคัญ', lFac: 'อาคารสาธารณะ: โรงเรียน มหาวิทยาลัย โรงพยาบาล สถานีตำรวจ/ดับเพลิง สถานีรถไฟ สนามบิน', facHead: 'อาคารสาธารณะ', lEv: 'เหตุการณ์สำคัญ', evList: 'ลำดับเหตุการณ์ (แตะเพื่อดูบนแผนที่)',
+    facT: { school: 'โรงเรียน', university: 'มหาวิทยาลัย', hospital: 'โรงพยาบาล', police: 'สถานีตำรวจ', fire_station: 'สถานีดับเพลิง', rail_station: 'สถานีรถไฟ/รถไฟฟ้า', airport: 'สนามบิน' },
+    lmK: 'สถานที่สำคัญ', evK: 'เหตุการณ์สำคัญ', facV: 'อัตราทรุดรอบสถานที่', facRange: 'ช่วงตามความไม่แน่นอน (มม./ปี)', facB: 'การทรุดไม่เท่ากัน (β)',
+    bcls: { low: 'ต่ำ', medium: 'ปานกลาง', high: 'สูง', very_high: 'สูงมาก' },
+    idwL: 'เติมจุดที่ดาวเทียมวัดไม่ได้ด้วยค่าประมาณจากสิ่งปกคลุมดิน',
+    idwWarn: (d, lc) => `ดาวเทียมวัดตรงนี้ไม่ได้${lc ? ` (ส่วนใหญ่เป็น${lc})` : ''} ค่านี้ประมาณจากสิ่งปกคลุมดิน อาคาร ประชากร ความสูงพื้น และจุดวัดรอบ ๆ (จุดวัดที่ใกล้ที่สุดห่าง ${d}) ใช้ดูแนวโน้มเท่านั้น`,
+    lcN: ['ต้นไม้/สวน', 'ไม้พุ่ม', 'ทุ่งหญ้า', 'นา/ไร่', 'สิ่งปลูกสร้าง', 'พื้นที่โล่ง', 'บ่อ/แหล่งน้ำ', 'พื้นที่ชุ่มน้ำ', 'ป่าชายเลน'],
+    riskX: ['ดาวเทียมวัดอัตราทรุดตรงนี้ไม่ได้ ภัยจึงใช้ค่าเติมจากสิ่งปกคลุมดิน', 'ไม่มีคนหรืออาคารในช่องนี้ ความเสี่ยงจึงมักต่ำ'],
+    yrL: n => `อีก ${n} ปี`, kmU: 'กม.', mU: 'ม.',
     nod: 'วัดไม่ได้ เช่น นาข้าว บ่อปลา แหล่งน้ำ', stable: 'ไม่ทรุดหรือยกตัว (0 ขึ้นไป)', faint: 'สีจาง = ค่าไม่แน่นอนสูง', riskLo: 'ต่ำมาก', riskHi: 'สูงมาก',
     lFlood: 'น้ำท่วม 21 ต.ค. 2569 จากภาพเรดาร์', lGfm: 'น้ำท่วมวันเดียวกันจาก Copernicus GFM (ใช้เทียบ)',
-    more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 3 มิติ (ซูมเข้าใกล้)', lRail: 'แนวรถไฟฟ้าและรถไฟ', lDist: 'เส้นแบ่งเขต/อำเภอ', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
+    rTr: 'เรื่องแจ้ง', lTr: 'เรื่องที่ประชาชนแจ้งใน Traffy Fondue: ดินทรุด หลุมยุบ ตลิ่งพัง และอาคารร้าวหลังแผ่นดินไหว',
+    trHead: 'เรื่องแจ้งใน Traffy Fondue (จุด)', trCat: { sub: 'ดินทรุด/หลุมยุบ', bank: 'ดินสไลด์/ตลิ่งพัง', eq: 'อาคารร้าวหลังแผ่นดินไหว 28 มี.ค. 2568' },
+    trNote: 'เกือบทั้งหมดอยู่ในกรุงเทพฯ เพราะ Traffy เป็นระบบของ กทม. หนึ่งจุดอาจรวมหลายเรื่องที่แจ้งซ้ำ ไม่แสดงข้อความและรูปเพื่อความเป็นส่วนตัว',
+    trK: 'เรื่องแจ้ง Traffy Fondue', trN: n => `แจ้ง ${n} เรื่องที่จุดนี้`, trPriv: 'ไม่แสดงข้อความและรูปที่ผู้แจ้งส่งมา ตำแหน่งปัดเศษราว 10 ม.',
+    evG: { eq: 'แผ่นดินไหวเมียนมา', tremor: 'แรงสั่นจากเมียนมาครั้งต่อมา', samsen: 'ถนนสามเสนทรุดซ้ำ', other: 'ถนนทรุดและหลุมยุบ' },
+    evHaz: 'สิ่งที่เกิด', evDmg: 'ความเสียหาย', evAcc: 'ตำแหน่งบนแผนที่', evAccV: a => `โดยประมาณ ระดับ${a}`, evOpen: 'อ่านข่าว', evThai: '',
+    grpN: n => `${n} เหตุการณ์ แตะเพื่อดูบนแผนที่`, trTot: (a, b) => a === b ? `${a} จุด` : `${a} จุด รวม ${b} เรื่องที่แจ้ง`,
+    months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+    rail: 'ชั้นข้อมูล', railHint: 'เปิด/ปิดอาคาร สถานที่ ถนน และเส้นแบ่งเขตได้ที่แถบ "ชั้นข้อมูล" ทางขวาของแผนที่', bmShort: 'แผนที่',
+    rBld: 'อาคาร​2 มิติ', rB3d: 'อาคาร​3 มิติ', rLm: 'จุดสำคัญ', rFac: 'อาคาร​สาธารณะ', rEv: 'เหตุการณ์', rDist: 'เขต', rProv: 'จังหวัด', rRoad: 'ถนน', rLab: 'ป้ายเขต', rFlood: 'น้ำท่วม', rGfm: 'GFM',
+    lB3d: 'อาคาร 3 มิติตามความสูงจริง เมื่อซูมเข้าใกล้',
+    more: 'ชั้นข้อมูลอื่น', lBld: 'อาคาร 2 มิติ ไม่มีความสูง เห็นได้เมื่อซูมออก (ถ้าปิด 3 มิติ จะเป็น 2 มิติทุกระดับซูม)', lRoad: 'ถนน กว้างตามจริง (OpenStreetMap)', lDist: 'เส้นแบ่งเขต/อำเภอ', lProv: 'เส้นแบ่งจังหวัด (เส้นหนา)', lLab: 'ป้ายเขตที่ทรุดเร็วที่สุด',
     cls: ['ไม่ทรุดหรือยกตัว', 'ทรุดน้อย', 'ทรุดปานกลาง', 'ทรุดสูง', 'ทรุดสูงมาก'],
     expl: [
       'พื้นตรงนี้ไม่ทรุดหรือยกตัวขึ้นเล็กน้อย ซึ่งพบน้อยมากในสามจังหวัดนี้',
@@ -317,7 +413,7 @@ const I18N = {
     uncWarn: 'ค่าตรงนี้ไม่แน่นอนสูง เพราะดาวเทียมสองวงโคจรให้ค่าต่างกันมาก หรือสัญญาณไม่สม่ำเสมอ ให้ดูเป็นแนวโน้มคร่าว ๆ',
     nodata: 'ดาวเทียมวัดตรงนี้ไม่ได้ชัด มักเป็นนาข้าว บ่อปลา หรือแหล่งน้ำ ลองแตะจุดที่มีบ้านหรือถนนใกล้ ๆ',
     outside: 'อยู่นอกพื้นที่ศึกษา',
-    building: h => `อาคารสูงราว ${h} ม.`, railPlace: 'แนวราง',
+    building: h => `อาคารสูงราว ${h} ม.`,
     riskT: 'ความเสี่ยงตรงนี้', rcls: ['ต่ำมาก', 'ต่ำ', 'ปานกลาง', 'สูง', 'สูงมาก'],
     why: ['เพราะพื้นทรุดเร็ว หรือมีน้ำท่วมใกล้ ๆ', 'เพราะมีคน อาคาร และสถานที่สำคัญหนาแน่น', 'เพราะมีผู้สูงอายุ เด็กเล็ก หรือบ้านแนวราบมาก หรืออยู่ไกลโรงพยาบาล'],
     hev: ['ภัย', 'คนและอาคาร', 'ความเปราะบาง'],
@@ -331,45 +427,55 @@ const I18N = {
     lede: 'The Sentinel-1 satellite measured ground height in Bangkok, Samut Prakan and Samut Sakhon about every 12 days from April 2021 to October 2026. The fastest sinking is in <b>Ban Phaeo, 2.3 cm a year</b>. Central Bangkok sinks about 3–4 mm a year.',
     searchPh: 'Search an address, road or district', searchBtn: 'Search', searching: 'Searching…', noResult: 'No place found in the three provinces. Try a road or district name.',
     district: 'District',
+    bmTitle: 'Basemap', bmNames: { light: 'Plain', osm: 'OpenStreetMap', liberty: 'Streets (OpenFreeMap)', streets: 'Streets (Esri)', sat: 'Satellite (Esri)', topo: 'Topographic (Esri)' },
+    bmNote: '* Uses a different road dataset from the road and building layers (OpenStreetMap), so roads may sit 10–20 m off.',
     mSub: 'Sinking rate', mRisk: 'Risk', mSlr: 'Sea level',
-    rkRisk: 'Overall', rkH: 'Hazard', rkE: 'Exposure', rkV: 'Vulnerab.',
-    rkName: { risk: 'Risk', H: 'Hazard', E: 'Exposure', V: 'Vulnerability' },
-    rkScale: { risk: 'Relative risk, 5 classes, 20% of populated or built-up area each', H: 'Hazard: fast and uneven sinking and flooding (0–1)', E: 'Exposure: people, buildings and key facilities present (0–1)', V: 'Vulnerability: people and buildings less able to cope (0–1)' },
-    rkLo: 'Low (0)', rkHi: 'High (1)',
-    rkInd: {
-      risk: [['Hazard × Exposure × Vulnerability', 'Risk is high only where all three are high; if any is 0, risk is 0']],
-      H: [['Vertical sinking rate (mm/yr)', 'Sentinel-1 InSAR, Apr 2021 – Oct 2026 (this study)'],
-          ['Uneven sinking (angular distortion β)', 'From the sinking map, after Cigna & Tapete (2021)'],
-          ['Share flooded on 21 Oct 2026 within about 150 m', 'Sentinel-1 radar (this study)']],
-      E: [['People in the 100 m cell', 'WorldPop 2025'],
-          ['Building roof area in the cell', 'Global Building Atlas (GBA)'],
-          ['Schools, hospitals, fire and police stations, rail stations within 500 m', 'Overture Maps / OpenStreetMap']],
-      V: [['% aged 65+ (within 500 m)', 'WorldPop 2025 age/sex'],
-          ['% under 5 (within 500 m)', 'WorldPop 2025 age/sex'],
-          ['% buildings up to 6 m tall (low houses often on short piles)', 'Global Building Atlas (GBA)'],
-          ['Distance to the nearest hospital', 'Overture Maps / OpenStreetMap']] },
-    rkHow: 'How it is calculated',
-    rkHowTxt: `<p>Framework: Risk = Hazard × Exposure × Vulnerability (UNDRR, Sendai Framework), computed for every 100 × 100 m cell.</p>
-      <ul><li>Each indicator is scaled to 0–1: <code>(x − P1) / (P99 − P1)</code>, clipped to 0–1 (P1, P99 = 1st and 99th percentiles over the study area)</li>
-      <li>Counts (people, building area, facilities and β) use <code>log(1 + x)</code> first because they are very skewed</li>
-      <li>Each part is the mean of its indicators (equal weights); a longer distance to hospital means higher vulnerability</li>
-      <li>Risk = Hazard × Exposure × Vulnerability, split into 5 equal classes (20% of populated or built-up cells each), so it is relative risk, not a probability of damage</li>
-      <li>Sensitivity tested with 500 random indicator weights and combination methods (multiply/add)</li></ul>`,
-    scaleSlr: 'Sea flooding at high tide: today from satellite images, the future from the SFINCS hydrodynamic model',
+    scaleSlr: 'Sea flooding at high tide: today from radar images, the future from the SFINCS hydrodynamic model',
     cYear: 'Year', cSsp: 'Climate scenario (IPCC AR6)', cSub: 'Sinking', cSubY: 'Continues', cSubN: 'Stops today', cDef: 'Flood defences', cDefY: 'With dikes', cDefN: 'No dikes', now: 'Today',
     depthL: ['10–30 cm', '30–60 cm', '60 cm–1 m', 'over 1 m'],
     flSum: (a, p, b, s) => `Flooded <b>${a}</b> km², about <b>${p}</b> people and <b>${b}</b> buildings${s > 0 ? ` (sea ${s} cm higher than 2024)` : ''}`,
     flCmp: (d) => d > 0 ? `If sinking stopped today, <b>${d}</b> km² less would flood` : '',
-    tideCls: 'Reached by the sea (satellite image at high tide)', tidePerm: 'Ponds, salt pans and water that are always wet',
-    tideSum: (d, w, a, p, b, s) => `${s} image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at about 10:35, water about +${w} m: the sea reached only <b>${a}</b> km² of land along the shore, home to about <b>${p}</b> people and <b>${b}</b> buildings`,
-    tideNote: 'Water detected with the MNDWI index and compared with a low-tide image; only spots with surface water connected to the sea and within 5 km of it count; ponds and water bodies that are always wet are not counted. Water under mangroves or trees is not visible, and depth is not measured.',
-    tideT: d => `High-tide image ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)}`, tideAns: ['Not reached', 'Reached by the sea', 'Always water (pond/water body)', 'Newly wet but not from the sea (likely fields or ponds being filled)'],
+    tideCls: 'Reached by the sea (radar image at high tide)',
+    tideSum: (d, w, a, p, b) => `Sentinel-1 image of ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)} at 06:09, water about +${w} m: the sea reached <b>${a}</b> km², home to about <b>${p}</b> people and <b>${b}</b> buildings`,
+    tideNote: 'Compared with a low-tide image; ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and among dense buildings poorly and cannot measure depth.',
+    tideT: d => `High-tide image ${+d.slice(6)}/${+d.slice(4, 6)}/${d.slice(0, 4)}`, tideAns: ['Not reached', 'Reached by the sea', 'Always water (pond/water body)'],
     be: y => y, depthT: 'Flooding here', depthNo: 'Not flooded in this scenario', depthM: 'm (peak during the tide)',
     slrNote: 'Simulates sea water flowing in during the yearly highest tide; no rain, river floods or pumping. Dike heights are approximate design values.',
     scaleSub: 'Millimetres of sinking per year', scaleRisk: 'Relative risk across the area (hazard × people and buildings × vulnerability)',
+    rpHead: 'View one part of the risk',
+    rpScale: ['Hazard: sinking rate, uneven sinking and nearby flooding', 'People and buildings: people, building area and key facilities nearby', 'Vulnerability: older people, young children, low houses and distance to hospital'],
+    rpOff: 'Turn on one layer at a time; the combined risk layer is hidden meanwhile so colours do not stack',
+    rpOn: '5 equal classes over cells with people or buildings. Press the same button again to return to combined risk',
+    bldLegPart: n => `Building colour: grey, so the "${n}" layer shows on the ground`,
+    bldLegT: 'Building colour: risk from sinking ground (mm/yr)',
+    bldLev: [['None', ''], ['Low', '0–5'], ['Mid', '5–10'], ['High', '10–20'], ['Very high', '>20']],
+    bldNd: 'No data',
+    bldLegRisk: 'Building colour: risk class of the 100 m cell it stands in',
+    bldLegSlr: 'Building colour: sea flooding depth in the selected scenario', bldDry: 'Not flooded',
+    lLm: 'Key places', lFac: 'Public facilities: schools, universities, hospitals, police/fire stations, rail stations, airports', facHead: 'Public facilities', lEv: 'Key events', evList: 'Timeline (tap to see on the map)',
+    facT: { school: 'School', university: 'University', hospital: 'Hospital', police: 'Police station', fire_station: 'Fire station', rail_station: 'Rail/metro station', airport: 'Airport' },
+    lmK: 'Key place', evK: 'Key event', facV: 'Sinking around the site', facRange: 'Range with uncertainty (mm/yr)', facB: 'Uneven sinking (β)',
+    bcls: { low: 'Low', medium: 'Moderate', high: 'High', very_high: 'Very high' },
+    idwL: 'Fill unmeasured spots with land-cover estimates',
+    idwWarn: (d, lc) => `The satellite cannot measure this spot${lc ? ` (mostly ${lc})` : ''}. This value is estimated from land cover, buildings, population, ground height and surrounding measurements (nearest measurement ${d} away); treat it as a rough indication.`,
+    lcN: ['trees/orchards', 'shrubs', 'grass', 'rice fields/crops', 'built-up land', 'bare ground', 'ponds/water', 'wetland', 'mangrove'],
+    riskX: ['The satellite cannot measure sinking here, so the hazard uses the land-cover estimate', 'No people or buildings in this cell, so the risk is usually low'],
+    yrL: n => `in ${n} yrs`, kmU: 'km', mU: 'm',
     nod: 'Not measurable, such as rice fields, fish ponds and water', stable: 'Not sinking or rising (0 or more)', faint: 'Faded colour = high uncertainty', riskLo: 'Very low', riskHi: 'Very high',
     lFlood: 'Flooding on 21 Oct 2026 from radar', lGfm: 'Same-day flooding from Copernicus GFM (comparison)',
-    more: 'More layers', lBld: '3D buildings (zoom in)', lRail: 'Rail and metro lines', lDist: 'District boundaries', lLab: 'Labels for the fastest-sinking districts',
+    rTr: 'Reports', lTr: 'Citizen reports on Traffy Fondue: ground sinking, sinkholes, bank collapses and building cracks after the earthquake',
+    trHead: 'Traffy Fondue reports (points)', trCat: { sub: 'Sinking / sinkhole', bank: 'Landslide / bank collapse', eq: 'Building cracks after the 28 Mar 2025 quake' },
+    trNote: 'Almost all in Bangkok, as Traffy is a Bangkok city service. One point may merge repeated reports. Text and photos are not shown, for privacy.',
+    trK: 'Traffy Fondue report', trN: n => `${n} report${n > 1 ? 's' : ''} at this point`, trPriv: 'The text and photos sent by the reporter are not shown; the position is rounded to about 10 m.',
+    evG: { eq: 'Myanmar earthquake', tremor: 'Later tremors from Myanmar', samsen: 'Samsen Road sinking again', other: 'Road collapses and sinkholes' },
+    evHaz: 'What happened', evDmg: 'Damage', evAcc: 'Map position', evAccV: a => `approximate (${({ 'อาคาร': 'building', 'ถนน': 'road', 'ซอย': 'lane', 'ย่าน': 'neighbourhood', 'ทางแยก': 'junction', 'เขต': 'district' })[a] || a} level)`,
+    evOpen: 'Read the news', evThai: ' (news text in Thai)',
+    grpN: n => `${n} events, tap one to see it on the map`, trTot: (a, b) => a === b ? `${a} points` : `${a} points, ${b} reports in all`,
+    months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    rail: 'Layers', railHint: 'Turn buildings, places, roads and boundaries on or off in the "Layers" bar on the right of the map', bmShort: 'Basemap',
+    rBld: 'Bldg 2D', rB3d: 'Bldg 3D', rLm: 'Places', rFac: 'Facilities', rEv: 'Events', rDist: 'Districts', rProv: 'Provinces', rRoad: 'Roads', rLab: 'Labels', rFlood: 'Flood', rGfm: 'GFM',
+    lB3d: '3D buildings at their real height, when zoomed in',
+    more: 'More layers', lBld: 'Flat (2D) buildings, seen when zoomed out (flat at every zoom when 3D is off)', lRoad: 'Roads at real width (OpenStreetMap)', lDist: 'District boundaries', lProv: 'Province boundaries (thick line)', lLab: 'Labels for the fastest-sinking districts',
     cls: ['Not sinking or rising', 'Low', 'Moderate', 'High', 'Very high'],
     expl: [
       'The ground here is not sinking or is rising slightly, which is very rare in these provinces.',
@@ -384,7 +490,7 @@ const I18N = {
     uncWarn: 'This value is uncertain: the two satellite orbits disagree here or the signal is irregular. Treat it as a rough indication.',
     nodata: 'The satellite cannot measure this spot well, usually rice fields, fish ponds or water. Try a spot with houses or roads nearby.',
     outside: 'Outside the study area',
-    building: h => `Building about ${h} m tall`, railPlace: 'Rail line',
+    building: h => `Building about ${h} m tall`,
     riskT: 'Risk at this spot', rcls: ['Very low', 'Low', 'Moderate', 'High', 'Very high'],
     why: ['Mainly because the ground sinks fast or flooding is nearby', 'Mainly because people, buildings and key facilities are dense', 'Mainly because of many older people, young children or low houses, or a long way to hospital'],
     hev: ['Hazard', 'People and buildings', 'Vulnerability'],
@@ -393,7 +499,7 @@ const I18N = {
     eq: 'Myanmar earthquake', monthly: 'Monthly', trend: 'Trend', mm: 'mm',
   },
 };
-const GH = 'https://github.com/lnwhomeza/Natural-hazard/raw/claude/gifted-maxwell-f8qd9m/';
+const GH = 'https://github.com/psykorollin/FinalNH/raw/claude/gifted-maxwell-f8qd9m/';
 const SOURCES = {
   th: `<ul>
     <li>ภาพเรดาร์ Copernicus Sentinel-1 (ESA) สร้าง interferogram และภาพ RTC ด้วย ASF HyP3</li>
@@ -401,10 +507,13 @@ const SOURCES = {
     <li>GNSS สำหรับอ้างอิงและตรวจสอบ: หมุด CUSV และ KMIT จาก Nevada Geodetic Laboratory (IGS20)</li>
     <li>อาคารและความสูง: Global Building Atlas (GBA)</li>
     <li>ประชากรและโครงสร้างอายุ: WorldPop 2025</li>
+    <li>สิ่งปกคลุมดิน (ใช้เติมช่องว่าง): ESA WorldCover 10 m 2021 v200 (Zanaga et al. 2022)</li>
     <li>แนวราง ถนน และสถานที่สำคัญ: Overture Maps / OpenStreetMap</li>
     <li>ขอบเขตปกครอง: HDX COD-AB (OCHA)</li>
     <li>ความสูงพื้นดิน: DeltaDTM v1.1 (Pronk et al. 2024), ผิวน้ำทะเลเฉลี่ย DTU21 MSS, ระดับน้ำทะเลในอนาคต IPCC AR6 (Fox-Kemper et al. 2021; Garner et al. 2021), ระดับน้ำจาก GTSM (Copernicus Climate Change Service), แบบจำลองน้ำท่วม SFINCS (Leijnse et al. 2021, Deltares)</li>
     <li>น้ำท่วมเทียบ: Copernicus Global Flood Monitoring (GFM, CEMS)</li>
+    <li>เหตุการณ์ดินทรุด หลุมยุบ และความเสียหายจากแผ่นดินไหว: รวบรวมจากข่าว 2564–2569 (ลิงก์ข่าวอยู่ในการ์ดของแต่ละจุด)</li>
+    <li>เรื่องแจ้งจากประชาชน: Traffy Fondue (public API) ใช้เฉพาะประเภท วันที่ และจำนวนเรื่อง</li>
     <li>แผนที่ฐาน: OpenFreeMap © OpenMapTiles © OpenStreetMap ค้นหาที่อยู่ด้วย Photon (komoot) จากข้อมูล OpenStreetMap</li></ul>`,
   en: `<ul>
     <li>Radar imagery: Copernicus Sentinel-1 (ESA); interferograms and RTC images from ASF HyP3</li>
@@ -412,16 +521,19 @@ const SOURCES = {
     <li>GNSS reference and validation: stations CUSV and KMIT from the Nevada Geodetic Laboratory (IGS20)</li>
     <li>Buildings and heights: Global Building Atlas (GBA)</li>
     <li>Population and age structure: WorldPop 2025</li>
+    <li>Land cover (for gap filling): ESA WorldCover 10 m 2021 v200 (Zanaga et al. 2022)</li>
     <li>Rail, roads and key facilities: Overture Maps / OpenStreetMap</li>
     <li>Administrative boundaries: HDX COD-AB (OCHA)</li>
     <li>Ground height: DeltaDTM v1.1 (Pronk et al. 2024); mean sea surface DTU21 MSS; future sea level IPCC AR6 (Fox-Kemper et al. 2021; Garner et al. 2021); water levels from GTSM (Copernicus Climate Change Service); flood model SFINCS (Leijnse et al. 2021, Deltares)</li>
     <li>Comparison flood map: Copernicus Global Flood Monitoring (GFM, CEMS)</li>
+    <li>Ground failure and earthquake damage events: compiled from news reports 2021–2026 (each point's card links to its news story)</li>
+    <li>Citizen reports: Traffy Fondue (public API); only category, date and ticket count are used</li>
     <li>Basemap: OpenFreeMap © OpenMapTiles © OpenStreetMap; address search by Photon (komoot) on OpenStreetMap data</li></ul>`,
 };
 const DOWNLOADS = {
-  th: ['อัตราทรุดแนวดิ่ง (มม./ปี)', 'ความไม่แน่นอนเชิงสถิติ', 'แนวตะวันออก–ตะวันตก', 'ความเสี่ยง 5 ระดับ (100 ม.)', 'น้ำท่วม 21 ต.ค. 2569', 'ความสูงพื้นดินปี 2569 (ม. เหนือ MSL)', 'ตารางน้ำท่วมจากทะเลทุกฉากทัศน์ (SFINCS)', 'วิธีทำและผลการตรวจสอบ'],
-  en: ['Vertical rate (mm/yr)', 'Statistical uncertainty', 'East–west component', 'Risk classes (100 m)', 'Flooding 21 Oct 2026', 'Ground height 2026 (m above MSL)', 'Sea flooding for every scenario (SFINCS)', 'Method and validation'],
-  files: ['results/full/vlm_full.tif', 'results/full/sd_full.tif', 'results/full/east_full.tif', 'results/risk_raster/risk_class.tif',
+  th: ['อัตราทรุดแนวดิ่ง (มม./ปี)', 'อัตราทรุดเติมช่องว่างเต็มพื้นที่ (แบนด์ 2: 1 = ค่าเติม)', 'ความไม่แน่นอนเชิงสถิติ', 'แนวตะวันออก–ตะวันตก', 'ความเสี่ยง 5 ระดับ (100 ม.)', 'น้ำท่วม 21 ต.ค. 2569', 'ความสูงพื้นดินปี 2569 (ม. เหนือ MSL)', 'ตารางน้ำท่วมจากทะเลทุกฉากทัศน์ (SFINCS)', 'วิธีทำและผลการตรวจสอบ'],
+  en: ['Vertical rate (mm/yr)', 'Vertical rate with gaps filled (band 2: 1 = estimate)', 'Statistical uncertainty', 'East–west component', 'Risk classes (100 m)', 'Flooding 21 Oct 2026', 'Ground height 2026 (m above MSL)', 'Sea flooding for every scenario (SFINCS)', 'Method and validation'],
+  files: ['results/full/vlm_full.tif', 'results/full/vlm_filled.tif', 'results/full/sd_full.tif', 'results/full/east_full.tif', 'results/risk_raster/risk_full_class.tif',
     'results/flood/flood_20261021.tif', 'results/slr/elev_2026.tif', 'results/sfincs/flood_summary.csv', 'docs/full_method.md'],
 };
 const dl = l => `<ul>${DOWNLOADS[l].map((t, i) => `<li><a href="${DOWNLOADS.files[i].endsWith('.md') ? GH.replace('/raw/', '/blob/') : GH}${DOWNLOADS.files[i]}">${t}</a> <small>${DOWNLOADS.files[i].split('/').pop()}</small></li>`).join('')}</ul>`;
@@ -432,18 +544,26 @@ const ABOUT = {
     <ul><li>ค่า ± คือความไม่แน่นอนโดยประมาณ รวมค่าทางสถิติกับครึ่งหนึ่งของความต่างระหว่างดาวเทียมสองวงโคจร</li>
     <li>ค่าเป็นมิลลิเมตรต่อปี เช่น 15 มม. ต่อปี หมายถึงถ้าทรุดในอัตรานี้ต่อไป 10 ปีจะต่ำลงราว 15 ซม.</li>
     <li>สีบอกความเร็วของการทรุด ไม่ได้บอกว่าอาคารจะเสียหาย ความเสียหายขึ้นกับฐานรากและการทรุดที่ไม่เท่ากันในระยะสั้น ๆ</li>
-    <li>พื้นที่ที่ไม่มีสีคือที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ</li>
-    <li>สีของอาคารมาจากอัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li></ul>
+    <li>ที่ที่ดาวเทียมวัดได้ไม่ชัด เช่น นาข้าว บ่อเลี้ยงสัตว์น้ำ และแหล่งน้ำ (ราว 29% ของพื้นที่ศึกษา) เติมสีด้วยค่าประมาณจากสิ่งปกคลุมดินและจุดวัดรอบ ๆ ให้เต็มสามจังหวัด ปิดได้ที่ช่องใต้แถบสี การ์ดจะบอกว่าค่าไหนเป็นค่าประมาณ</li>
+    <li>สีของอาคารเปลี่ยนตามแถบที่เลือก: อัตราทรุดของพื้นที่รอบอาคาร (ช่องละ 80 ม.), ความลึกน้ำท่วมจากทะเลของฉากทัศน์ที่เลือก (ช่อง 100 ม.) หรือระดับความเสี่ยง (ช่อง 100 ม.) ไม่ได้วัดตัวอาคารแต่ละหลัง</li>
+    <li>ปุ่ม "อาคาร 2 มิติ" แสดงอาคารแบบแบนเมื่อซูมออก ปุ่ม "อาคาร 3 มิติ" แสดงอาคารตามความสูงจริงเมื่อซูมเข้าใกล้ (ระดับซูม 13 ขึ้นไป) ถ้าปิด 3 มิติ อาคารจะแบนทุกระดับซูม</li></ul>
+    <h4>การเติมช่องว่าง</h4>
+    <p>ช่องที่ดาวเทียมวัดไม่ได้ส่วนใหญ่เป็นบ่อเลี้ยงสัตว์น้ำ นาข้าว และแหล่งน้ำ ซึ่งไม่เหมือนเมืองหรือถนนข้าง ๆ การเฉลี่ยจากจุดวัดรอบ ๆ อย่างเดียว (IDW) จึงยืมค่าจากพื้นที่ที่ทรุดคนละแบบ เราจึงเติมสองชั้น (regression kriging แบบง่าย): (1) แบบจำลอง gradient boosting เรียนอัตราทรุดของช่องที่วัดได้ 336,732 ช่องจากสัดส่วนสิ่งปกคลุมดิน ESA WorldCover 2021 (10 ม.) ในช่องและรอบ ๆ (ราว 0.5 และ 2 กม.) จำนวนอาคาร ประชากร WorldPop 2025 ความสูง DeltaDTM ระยะถึงทะเลและแหล่งน้ำ และตำแหน่ง (แนวโน้มระดับภูมิภาคจากการสูบน้ำบาดาล) (2) ส่วนต่างระหว่างค่าวัดกับแบบจำลองของจุดวัดใกล้ ๆ บวกกลับโดยลดลงตามระยะ (ครึ่งหนึ่งที่ราว 1 กม.) ใกล้จุดวัดค่าจึงต่อกับค่าวัด ไกลออกไปขึ้นกับสิ่งปกคลุมดินเป็นหลัก ทดสอบโดยซ่อนจุดวัดทั้งบล็อก 3 × 3 กม. แล้วประมาณกลับ: คลาดเฉลี่ย 1.7 มม. ต่อปี (IDW 2.0) และในช่องที่เป็นบ่อหรือนาเป็นส่วนใหญ่ 2.9 มม. ต่อปี (IDW 3.3) IDW ประเมินการทรุดในบ่อและนาต่ำไปเฉลี่ย 0.65 มม. ต่อปี วิธีใหม่ไม่เอียง ช่องที่เติมคิดเป็น 29% ของพื้นที่ศึกษา ครึ่งหนึ่งห่างจุดวัดไม่เกิน 220 ม. และ 95% ไม่เกิน 1.6 กม. ค่าเติมไม่ได้ใช้ในตารางสรุปรายเขต การจัดอันดับ และ exposure</p>
     <h4>แผนที่ความเสี่ยง</h4>
-    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย</p>
+    <p>ความเสี่ยง = <b>ภัย × การสัมผัสภัย × ความเปราะบาง</b> (กรอบของ UNDRR) คำนวณทุกช่องขนาด 100 × 100 ม. แต่ละส่วนปรับเป็น 0–1 เทียบกันทั้งพื้นที่ศึกษา แล้วแบ่งช่องที่มีคนหรืออาคารเป็น 5 ระดับเท่า ๆ กัน (ระดับละ 20%) จึงเป็น<b>ความเสี่ยงเปรียบเทียบ</b> ไม่ใช่ความน่าจะเป็นของความเสียหาย ช่องที่ดาวเทียมวัดไม่ได้ใช้อัตราทรุดจากค่าเติม และช่องที่ไม่มีคนหรืออาคารก็จัดระดับด้วยเกณฑ์เดียวกัน (มักต่ำมาก) แผนที่จึงเต็มพื้นที่ศึกษา ช่องเดิมได้ระดับเท่าเดิมทุกช่อง การ์ดบอกว่าช่องไหนใช้ค่าเติม ปุ่ม "ภัย" "คนและอาคาร" และ "ความเปราะบาง" ใต้แถบสีเปิดดูทีละส่วนได้ แต่ละส่วนแบ่ง 5 ระดับเท่า ๆ กันในช่องที่มีคนหรืออาคารแบบเดียวกัน</p>
     <ul><li><b>ภัย</b>: อัตราทรุด, การทรุดไม่เท่ากันที่อาจกระทบอาคาร (angular distortion), น้ำท่วม 21 ต.ค. 2569 บริเวณใกล้เคียง</li>
     <li><b>คนและอาคาร</b>: จำนวนคนและพื้นที่อาคารในช่อง, จำนวนโรงเรียน โรงพยาบาล สถานีดับเพลิง สถานีตำรวจ และสถานีรถไฟในรัศมี 500 ม.</li>
     <li><b>ความเปราะบาง</b> (ในรัศมี 500 ม.): สัดส่วนผู้สูงอายุ 65 ปีขึ้นไป, เด็กอายุต่ำกว่า 5 ปี (WorldPop 2025), อาคารเตี้ยไม่เกิน 6 ม. (บ้านแนวราบมักใช้เสาเข็มสั้น) และระยะทางถึงโรงพยาบาลที่ใกล้ที่สุด</li></ul>
     <h4>น้ำท่วมจากทะเล: ปัจจุบัน</h4>
-    <p>ใช้ภาพดาวเทียม Sentinel-2 (5 ม.ค. 2569, ระดับน้ำราว +2.25 ม. สูงกว่ายอดน้ำสูงสุดประจำปี) ที่ถ่ายตรงกับช่วงน้ำขึ้นสูง เลือกจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่านในหน้าแล้งที่ไม่มีฝนและเมฆน้อย แยกน้ำด้วยดัชนี MNDWI แล้วเทียบกับภาพตอนน้ำลง (1 ธ.ค. 2568, +0.03 ม.) พื้นที่ที่เป็นน้ำตอนน้ำขึ้นแต่แห้งตอนน้ำลง และมีผิวน้ำต่อเนื่องถึงทะเลภายในระยะ 5 กม. คือที่ที่น้ำทะเลขึ้นถึงจริง ได้เพียงราว 6 ตร.กม. ตามชายฝั่งสมุทรสาคร พระสมุทรเจดีย์ และบางขุนเทียน ส่วนแนวชายฝั่งเกือบทั้งหมดเป็นบ่อที่มีน้ำอยู่แล้ว จุดที่เปียกเพิ่มในแผ่นดินไกลทะเล (ราว 65 ตร.กม.) เป็นการปล่อยน้ำเข้านาหรือบ่อ ไม่นับ ผลสอดคล้องกับภาพ Sentinel-2 และ Landsat 15 ม.ค. 2568 (2–4 ตร.กม.) มองน้ำใต้ป่าชายเลนและร่มไม้ไม่เห็น และบอกความลึกไม่ได้</p>
+    <p>ใช้ภาพเรดาร์ Sentinel-1 ที่ถ่ายตรงกับช่วงน้ำขึ้นสูง (เลือกจากระดับน้ำที่ปากแม่น้ำเจ้าพระยาตอนดาวเทียมผ่าน ช่วงหน้าแล้งเพื่อไม่ให้น้ำฝนปน) เทียบกับภาพตอนน้ำลงของวงโคจรเดียวกัน พื้นที่ที่เป็นน้ำตอนน้ำขึ้นแต่แห้งตอนน้ำลงคือที่ที่น้ำทะเลขึ้นถึงจริง บ่อและแหล่งน้ำที่มีน้ำอยู่ตลอดไม่นับ เรดาร์มองน้ำใต้ป่าชายเลนและระหว่างตึกได้ไม่ดี และบอกความลึกไม่ได้</p>
     <h4>น้ำท่วมจากทะเลในอนาคต</h4>
-    <p>จำลองด้วยแบบจำลองชลศาสตร์ 2 มิติ SFINCS (Deltares) บนกริด 100 ม. ปล่อยน้ำทะเลเข้าจากอ่าวไทยตามระดับน้ำจริงทุก 10 นาที (น้ำขึ้นลง + คลื่นพายุ จาก GTSM ของ Copernicus) ช่วงน้ำขึ้นสูงสุดของปี 2567 (24 มิ.ย., +2.0 ม. ที่ปากแม่น้ำ) แล้วบวกระดับน้ำทะเลที่สูงขึ้นตาม IPCC AR6 (ค่ากลาง ฉบับที่ไม่รวมการเคลื่อนตัวของแผ่นดิน) ภูมิประเทศมาจาก DeltaDTM ปรับเป็นความสูงเหนือระดับน้ำทะเล (+1.08 ม. จาก EGM2008) แล้วลบการทรุดสะสมตามอัตราจาก InSAR น้ำต้องไหลผ่านพื้นที่ที่ต่อเนื่องกันจริง และถูกกั้นด้วยพื้นที่สูงหรือคันกั้นน้ำ</p>
+    <p>จำลองด้วยแบบจำลองชลศาสตร์ 2 มิติ SFINCS (Deltares) บนกริด 100 ม. ปล่อยน้ำทะเลเข้าจากอ่าวไทยตามระดับน้ำจริงทุก 10 นาที (น้ำขึ้นลง + คลื่นพายุ จาก GTSM ของ Copernicus) ช่วงน้ำขึ้นสูงสุดของปี 2567 (24 มิ.ย., +2.0 ม. ที่ปากแม่น้ำ) แล้วบวกระดับน้ำทะเลที่สูงขึ้นตาม IPCC AR6 (ค่ากลาง ฉบับที่ไม่รวมการเคลื่อนตัวของแผ่นดิน) ภูมิประเทศมาจาก DeltaDTM ปรับเป็นความสูงเหนือระดับน้ำทะเล (+1.08 ม. จาก EGM2008) แล้วลบการทรุดสะสมตามอัตราจาก InSAR (ช่องที่วัดไม่ได้ใช้ค่าเติมเดียวกับแผนที่อัตราทรุด) น้ำต้องไหลผ่านพื้นที่ที่ต่อเนื่องกันจริง และถูกกั้นด้วยพื้นที่สูงหรือคันกั้นน้ำ</p>
+    <p>ปุ่มปีคือปัจจุบัน (2569) และ 10 กับ 20 ปีข้างหน้า (2579, 2589) ระดับน้ำทะเลตาม AR6 สูงกว่าปี 2567 อยู่ 5.5 และ 11.1 ซม. (SSP2-4.5) หรือ 6.7 และ 13.5 ซม. (SSP5-8.5) สองฉากทัศน์จึงต่างกันเพียง 1–2 ซม. ในช่วงนี้ ความต่างหลักมาจากการทรุดซึ่งเท่ากับ 10–20 ปีของอัตราในแผนที่</p>
     <p>กรณี "มีคัน" ใส่กำแพงริมแม่น้ำเจ้าพระยาสูง +2.8 ม. (ค่าออกแบบของ กทม.) และแนวถนนสุขุมวิทชายฝั่งสมุทรปราการ +2.5 ม. (สมมติ) ซึ่งทรุดลงตามพื้นดินในกรณี "ทรุดต่อ" ไม่มีข้อมูลแนวคันพระราชดำริและคันริมแม่น้ำท่าจีน จึงไม่ได้ใส่ แบบจำลองไม่รวมฝน น้ำเหนือ และเครื่องสูบน้ำ ผลจึงใช้เปรียบเทียบระหว่างฉากทัศน์ ไม่ใช่การพยากรณ์น้ำท่วมรายจุด</p>
+    <p>แผนที่แสดงเฉพาะน้ำท่วมที่ต่อเนื่องจากทะเลผ่านพื้นที่ที่ท่วมด้วยกัน แอ่งที่ท่วมแยกอยู่ในแผ่นดิน หรือเชื่อมกับทะเลผ่านร่องแม่น้ำและคลองเท่านั้น (เช่น หนองจอก ลาดกระบัง ดอนเมือง) ตัดออก เพราะเกิดจากความคลาดของ DEM หรือน้ำที่ล้นตามลำน้ำ ไม่ใช่แนวน้ำทะเลที่ขึ้นมาจริง (ตัดออก 7–10 ตร.กม. ในกรณีมีคัน และ 46–54 ตร.กม. ในกรณีไม่มีคัน) บ่อ คลอง และแม่น้ำที่อยู่ภายในแนวน้ำท่วมระบายสีตามความลึกของช่องข้างเคียง (ไม่เกิน 500 ม.) แนวจึงไม่เป็นรู</p>
+    <p>ตรวจความต่อเนื่องของน้ำท่วมชายฝั่ง: ช่องแผ่นดินที่ติดทะเลทั้งแนว (ราว 80 กม. จากสมุทรสาครถึงสมุทรปราการ) ถูกน้ำท่วมครบ 100% ในทั้ง 18 ฉากทัศน์ และน้ำท่วมเป็นแนวเดียวกันสองฝั่งของร่องแม่น้ำเจ้าพระยา (ชิ้นเล็กที่เหลือรวม 0.04 ตร.กม.)</p>
+    <h4>สถานที่และเหตุการณ์สำคัญ</h4>
+    <p>จุดสีดำคือสถานที่สำคัญ (ตำแหน่งจาก OpenStreetMap) จุดสีตามประเภทคือโรงเรียน มหาวิทยาลัย โรงพยาบาล สถานีตำรวจ สถานีดับเพลิง สถานีรถไฟ และสนามบิน 1,538 แห่งที่ใช้ประเมิน exposure ค่าที่การ์ดคืออัตราทรุดเฉลี่ยรอบสถานที่ (จุด: ถ่วงน้ำหนักในรัศมี 500 ม.; พื้นที่: ภายในขอบเขต) พร้อมช่วงตามความไม่แน่นอนและระดับการทรุดไม่เท่ากัน (β) จุดสีตามกลุ่มคือ 37 เหตุการณ์ดินทรุด หลุมยุบ และความเสียหายจากแผ่นดินไหวที่รวบรวมจากข่าว (2564–2569) ตำแหน่งเป็นค่าประมาณจากที่อยู่ในข่าว ชั้น "เรื่องแจ้ง" คือจุดที่ประชาชนแจ้งใน Traffy Fondue (public API) ซึ่งเกือบทั้งหมดอยู่ในกรุงเทพฯ หนึ่งจุดอาจรวมหลายเรื่องที่แจ้งซ้ำ ไม่แสดงข้อความและรูปที่ผู้แจ้งส่งมา หลุมยุบส่วนใหญ่เกิดจากงานใต้ดินหรือท่อรั่ว จึงไม่ได้สะท้อนอัตราทรุดที่ดาวเทียมวัดโดยตรง</p>
     <h4>น้ำท่วม</h4>
     <p>พื้นที่น้ำท่วมมาจากภาพเรดาร์ Sentinel-1 วันที่ 21 ต.ค. 2569 (สองวันหลัง 19 ต.ค.) เทียบกับภาพหน้าแล้ง ก.พ.–มี.ค. 2569 ของวงโคจรเดียวกัน พื้นที่ที่ภาพมืดลงชัดเจนเพราะมีน้ำนิ่งปกคลุมถูกจัดเป็นน้ำท่วม แหล่งน้ำถาวรไม่แสดง <b>เรดาร์มองน้ำท่วมในเขตเมืองที่มีตึกหนาแน่นได้ไม่ดี</b> จึงอาจขาดน้ำท่วมตามถนนและชุมชน ส่วนนาข้าวหรือบ่อที่ปล่อยน้ำเข้าตามฤดูกาลอาจถูกนับรวมด้วย</p>
     <p>ชั้น Copernicus GFM (สีชมพู) เป็นแผนที่น้ำท่วมอัตโนมัติของ Copernicus Emergency Management Service จากภาพวันเดียวกันแต่คนละวิธี GFM จับได้ 45 ตร.กม. ในสามจังหวัด แผนที่ของเราจับได้ 100 ตร.กม. พื้นที่ 84% ของ GFM อยู่ในแผนที่ของเรา และเขตที่ท่วมมากที่สุดเรียงลำดับเหมือนกัน</p>
@@ -452,7 +572,7 @@ const ABOUT = {
     <li>กราฟรายเดือนมีสัญญาณตามฤดูกาลและสัญญาณรบกวนจากชั้นบรรยากาศ ให้ดูแนวโน้มมากกว่าค่าแต่ละเดือน</li>
     <li>ไม่พบหลักฐานชัดเจนว่าแผ่นดินไหว 28 มี.ค. 2568 ทำให้อัตราการทรุดเปลี่ยนไป</li>
     <li>การเทียบกับขั้นบันไดใช้ความสูงขั้นละ 15 ซม. และสมมติว่าอัตราการทรุดคงที่</li>
-    <li><b>ทางตะวันออกอาจแดงเกินจริง</b>: เทียบกับ GNSS ที่ สจล. ลาดกระบัง (KMIT) ช่วง 2567–2569 InSAR ให้ทรุดมากกว่า GNSS ราว 3–6 มม. ต่อปี และสองวงโคจรให้ค่าต่างกันเป็นแนวลาดจากตะวันตกไปตะวันออก (ดูไฟล์วิธีทำด้านล่าง) ค่า ± ในการ์ดรวมความต่างนี้แล้ว จุดที่ไม่แน่นอนเกิน 5 มม. ต่อปีแสดงเป็นสีจาง</li></ul>
+    <li><b>ทางตะวันออกอาจแสดงการทรุดมากเกินจริง</b>: เทียบกับ GNSS ที่ สจล. ลาดกระบัง (KMIT) ช่วง 2567–2569 InSAR ให้ทรุดมากกว่า GNSS ราว 3–6 มม. ต่อปี และสองวงโคจรให้ค่าต่างกันเป็นแนวลาดจากตะวันตกไปตะวันออก (ดูไฟล์วิธีทำด้านล่าง) ค่า ± ในการ์ดรวมความต่างนี้แล้ว จุดที่ไม่แน่นอนเกิน 5 มม. ต่อปีแสดงเป็นสีจาง</li></ul>
     <h4>ดาวน์โหลดข้อมูล (GeoTIFF, UTM 47N)</h4>
     ${dl('th')}
     <h4>แหล่งข้อมูล</h4>
@@ -464,18 +584,26 @@ const ABOUT = {
     <ul><li>The ± is an approximate uncertainty: the statistical error combined with half the difference between the two satellite orbits.</li>
     <li>Values are millimetres per year. 15 mm a year means about 15 cm lower after 10 years if the rate continues.</li>
     <li>Colours show how fast the ground sinks, not whether buildings will be damaged. Damage depends on foundations and on uneven sinking over short distances.</li>
-    <li>Uncoloured areas could not be measured reliably, such as rice fields, fish ponds and water.</li>
-    <li>Building colours come from the rate of the surrounding 80 m cell, not from each building itself.</li></ul>
+    <li>Spots the satellite cannot measure reliably, such as rice fields, fish ponds and water (about 29% of the study area), are filled with estimates from land cover and nearby measurements so the three provinces are fully covered. Untick the box under the colour bar to hide them; the card says when a value is an estimate.</li>
+    <li>Building colours follow the selected tab: the sinking rate of the surrounding 80 m cell, the sea flooding depth of the selected scenario (100 m cell) or the risk class (100 m cell), not a measurement of each building.</li>
+    <li>"Bldg 2D" shows flat footprints when zoomed out; "Bldg 3D" shows buildings at their real height when zoomed in (zoom 13 and closer). With 3D off, buildings stay flat at every zoom.</li></ul>
+    <h4>Filling the gaps</h4>
+    <p>Most cells the satellite cannot measure are fish ponds, rice fields and water, which behave differently from the towns and roads next to them, so averaging nearby measurements alone (IDW) borrows values from land that sinks differently. The gaps are filled in two layers (a simple regression kriging): (1) a gradient-boosting model learns the sinking rate of the 336,732 measured cells from ESA WorldCover 2021 (10 m) land-cover shares in and around the cell (about 0.5 and 2 km), building count, WorldPop 2025 population, DeltaDTM height, distance to the sea and to water, and position (the regional pattern of groundwater pumping); (2) the difference between measurement and model at nearby measured cells is added back, fading with distance (half at about 1 km), so values join the measurements near them and depend mainly on land cover further away. Hiding whole 3 × 3 km blocks of measurements and estimating them back gives a mean error of 1.7 mm a year (IDW 2.0), and 2.9 mm a year in cells that are mostly ponds or fields (IDW 3.3). IDW underestimates sinking in ponds and fields by 0.65 mm a year on average; the new method shows no bias. Filled cells make up 29% of the study area; half are within 220 m of a measurement and 95% within 1.6 km. Estimates are not used in the district tables, rankings or exposure figures.</p>
     <h4>Risk map</h4>
-    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage.</p>
+    <p>Risk = <b>hazard × exposure × vulnerability</b> (UNDRR framework), computed for every 100 × 100 m cell. Each part is scaled 0–1 across the study area and cells with people or buildings are split into 5 equal classes (20% each), so it shows <b>relative risk</b>, not a probability of damage. Cells the satellite cannot measure use the filled sinking rate, and cells without people or buildings are classed with the same edges (usually very low), so the map covers the whole study area; previously classed cells keep their class. The card says when a cell uses the estimate. The "Hazard", "People and buildings" and "Vulnerability" buttons under the colour bar show each part on its own, split into 5 equal classes over cells with people or buildings in the same way.</p>
     <ul><li><b>Hazard</b>: sinking rate, uneven sinking that can affect buildings (angular distortion), flooding nearby on 21 Oct 2026</li>
     <li><b>People and buildings</b>: people and building area in the cell, and schools, hospitals, fire and police stations and rail stations within 500 m</li>
     <li><b>Vulnerability</b> (within 500 m): share aged 65+, share under 5 (WorldPop 2025), low buildings up to 6 m (houses often on short piles), and distance to the nearest hospital</li></ul>
     <h4>Flooding from the sea: today</h4>
-    <p>Uses a Sentinel-2 image (5 Jan 2026, water about +2.25 m, above the usual yearly peak) taken at high tide, chosen from the water level at the Chao Phraya mouth at overpass time in the dry, nearly cloud-free season. Water is detected with the MNDWI index and compared with a low-tide image (1 Dec 2025, +0.03 m). Land that is wet at high tide but dry at low tide, with surface water connected to the sea within 5 km, is where the sea actually reached: only about 6 km² along the Samut Sakhon, Phra Samut Chedi and Bang Khun Thian shore; almost the whole coastal belt is ponds that hold water anyway. Newly wet spots far inland (about 65 km²) are fields or ponds being filled and are not counted. Sentinel-2 and Landsat on 15 Jan 2025 give 2–4 km², consistent with this. Water under mangroves or trees is not visible, and depth is not measured.</p>
+    <p>Uses Sentinel-1 radar images taken at high tide (chosen from the water level at the Chao Phraya mouth at overpass time, in the dry season so rain does not mix in), compared with a low-tide image from the same orbit. Land that is wet at high tide but dry at low tide is where the sea actually reached. Ponds and water bodies that are always wet are not counted. Radar sees water under mangroves and between buildings poorly and cannot measure depth.</p>
     <h4>Future flooding from the sea</h4>
-    <p>Simulated with the 2D hydrodynamic model SFINCS (Deltares) on a 100 m grid. Sea water enters from the Gulf of Thailand following real 10-minute water levels (tide + storm surge, Copernicus GTSM) during the highest tide of 2024 (24 June, +2.0 m at the river mouth), plus IPCC AR6 sea-level rise (median, version without land motion). Ground height comes from DeltaDTM converted to height above sea level (+1.08 m from EGM2008), minus accumulated sinking at the InSAR rate. Water must flow through connected low ground and is stopped by higher land or dikes.</p>
+    <p>Simulated with the 2D hydrodynamic model SFINCS (Deltares) on a 100 m grid. Sea water enters from the Gulf of Thailand following real 10-minute water levels (tide + storm surge, Copernicus GTSM) during the highest tide of 2024 (24 June, +2.0 m at the river mouth), plus IPCC AR6 sea-level rise (median, version without land motion). Ground height comes from DeltaDTM converted to height above sea level (+1.08 m from EGM2008), minus accumulated sinking at the InSAR rate (unmeasured cells use the same filled rate as the sinking map). Water must flow through connected low ground and is stopped by higher land or dikes.</p>
+    <p>The year buttons are today (2026) and 10 and 20 years ahead (2036, 2046). AR6 sea level is 5.5 and 11.1 cm above 2024 (SSP2-4.5) or 6.7 and 13.5 cm (SSP5-8.5), so the two scenarios differ by only 1–2 cm over this period; the main difference comes from sinking, which is 10–20 years of the mapped rate.</p>
     <p>"With dikes" adds Chao Phraya flood walls at +2.8 m (BMA design value) and the Sukhumvit coastal road in Samut Prakan at +2.5 m (assumed); they sink with the ground when sinking continues. The King's Dike and Tha Chin river walls are not included for lack of data. Rain, river floods and pumping are not modelled, so the results compare scenarios rather than forecast flooding at a given spot.</p>
+    <p>The map shows only flooding that connects to the sea through other flooded land. Patches that flood on their own inland, or reach the sea only along a river or canal channel (for example Nong Chok, Lat Krabang, Don Mueang), are removed because they come from DEM errors or water spilling along channels rather than the sea rising over land (7–10 km² removed with dikes, 46–54 km² without). Ponds, canals and rivers inside the flooded band take the depth of the nearest flooded cell (within 500 m), so the band has no holes.</p>
+    <p>Coastal continuity check: 100% of the land cells touching the sea along the whole coast (about 80 km from Samut Sakhon to Samut Prakan) flood in all 18 scenarios, and the flooding forms one band on each side of the Chao Phraya channel (remaining specks total 0.04 km²).</p>
+    <h4>Key places and events</h4>
+    <p>Black dots are key places (positions from OpenStreetMap). Dots coloured by type are the 1,538 schools, universities, hospitals, police and fire stations, rail stations and airports used in the exposure analysis; the card gives the average sinking around the site (points: weighted within 500 m; areas: within the outline), its range with uncertainty and the uneven-sinking class (β). Dots coloured by group are 37 ground collapses, sinkholes and earthquake damage reports compiled from the news (2021–2026), placed approximately from the addresses given. The "Reports" layer shows points residents reported on Traffy Fondue (public API), almost all in Bangkok; one point may merge repeated reports, and the text and photos are not shown. Most sinkholes come from underground works or leaking pipes, so they do not directly reflect the sinking rate the satellites measure.</p>
     <h4>Flooding</h4>
     <p>Flooded areas come from Sentinel-1 radar on 21 Oct 2026 (two days after 19 Oct), compared with dry-season images from Feb–Mar 2026 on the same orbit. Land that turned clearly darker because still water covered it is mapped as flooded; permanent water is not shown. <b>Radar sees flooding in dense built-up areas poorly</b>, so street and neighbourhood flooding may be missing, while seasonally filled rice fields or ponds may be included.</p>
     <p>The Copernicus GFM layer (pink) is the automatic flood map of the Copernicus Emergency Management Service from the same image with a different method. GFM maps 45 km² in the three provinces, our map 100 km²; 84% of the GFM area lies inside ours and the most-flooded districts rank the same.</p>
@@ -484,7 +612,7 @@ const ABOUT = {
     <li>Monthly chart values include seasonal and atmospheric noise; read the trend rather than single months.</li>
     <li>We found no clear evidence that the 28 March 2025 earthquake changed subsidence rates.</li>
     <li>The stair-step comparison uses a 15 cm step and assumes the rate stays the same.</li>
-    <li><b>The east may look redder than it is</b>: compared with the GNSS station at KMITL Lat Krabang (KMIT) for 2024–2026, InSAR shows 3–6 mm a year more sinking, and the two orbits disagree along a west-to-east slope (see the method file below). The ± in the card includes this disagreement; spots more uncertain than 5 mm a year are drawn faded.</li></ul>
+    <li><b>The east may show more sinking than it has</b>: compared with the GNSS station at KMITL Lat Krabang (KMIT) for 2024–2026, InSAR shows 3–6 mm a year more sinking, and the two orbits disagree along a west-to-east slope (see the method file below). The ± in the card includes this disagreement; spots more uncertain than 5 mm a year are drawn faded.</li></ul>
     <h4>Download the data (GeoTIFF, UTM 47N)</h4>
     ${dl('en')}
     <h4>Sources</h4>
@@ -492,10 +620,160 @@ const ABOUT = {
     <p class="close-row"><button class="btn" id="aboutClose">Close</button></p>`,
 };
 
-let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, tideGrid = null, mode = 'sub', riskPart = 'risk', ssp = 'ssp245', slrYear = 2050, subOn = 'sub', defOn = 'def';
+let lang = 'th', meta, grid, series, districtsGeo, chart, last = null, riskGrid = null, uncGrid = null, flGrid = null, flName = null, tideGrid = null, mode = 'sub', ssp = 'ssp245', slrYear = 2036, subOn = 'sub', defOn = 'def';
+let idwOn = true, idwGrid = null, riskxGrid = null;
 const T = k => I18N[lang][k];
+// ---- สถานที่และเหตุการณ์สำคัญ ----
+const FAC_COLORS = { school: '#3b7dd8', university: '#7a5195', hospital: '#d6336c', police: '#1d3557', fire_station: '#f77f00', rail_station: '#2a9d8f', airport: '#6c757d' };
+const LANDMARKS = [
+  [100.49186, 13.74935, 'พระบรมมหาราชวัง', 'Grand Palace', 'ใจกลางเกาะรัตนโกสินทร์ ริมแม่น้ำเจ้าพระยา', 'Heart of Rattanakosin Island on the Chao Phraya'],
+  [100.50184, 13.75667, 'อนุสาวรีย์ประชาธิปไตย', 'Democracy Monument', '', ''],
+  [100.51131, 13.76379, 'ทำเนียบรัฐบาล', 'Government House', '', ''],
+  [100.51733, 13.79597, 'สัปปายะสภาสถาน (รัฐสภา)', 'Sappaya-Sapasathan (Parliament)', 'อาคารรัฐสภาริมแม่น้ำเจ้าพระยา', 'Parliament building on the Chao Phraya'],
+  [100.53829, 13.76493, 'อนุสาวรีย์ชัยสมรภูมิ', 'Victory Monument', '', ''],
+  [100.54186, 13.80398, 'สถานีกลางกรุงเทพอภิวัฒน์', 'Krung Thep Aphiwat Central Terminal', 'สถานีรถไฟหลักของประเทศ (บางซื่อ)', 'Main national rail terminal (Bang Sue)'],
+  [100.60353, 13.91222, 'ท่าอากาศยานดอนเมือง', 'Don Mueang Airport', '', ''],
+  [100.74858, 13.68188, 'ท่าอากาศยานสุวรรณภูมิ', 'Suvarnabhumi Airport', 'สร้างบนที่ลุ่มหนองงูเห่าเดิม', 'Built on the former Nong Ngu Hao wetland'],
+  [100.57523, 13.70615, 'ท่าเรือกรุงเทพ (คลองเตย)', 'Bangkok Port (Khlong Toei)', '', ''],
+  [100.56102, 13.6954, 'บางกะเจ้า', 'Bang Kachao', 'พื้นที่สีเขียวในโค้งแม่น้ำเจ้าพระยา', 'Green area inside a bend of the Chao Phraya'],
+  [100.53392, 13.73591, 'สถานี GNSS CUSV (จุฬาฯ)', 'GNSS station CUSV (Chulalongkorn)', 'หมุดอ้างอิงที่ใช้ผูกค่าทั้งแผนที่', 'Reference station that ties the whole map'],
+  [100.77244, 13.72783, 'สถานี GNSS KMIT (สจล.)', 'GNSS station KMIT (KMITL)', 'หมุดที่ใช้ตรวจสอบค่าจากดาวเทียม', 'Station used to check the satellite values'],
+  [100.59737, 13.59879, 'ศาลากลางจังหวัดสมุทรปราการ', 'Samut Prakan Provincial Hall', '', ''],
+  [100.58377, 13.53783, 'ป้อมพระจุลจอมเกล้า', 'Phra Chulachomklao Fort', 'ปากแม่น้ำเจ้าพระยา จุดที่ใช้ค่าระดับน้ำทะเลในอนาคตของ IPCC AR6', 'Chao Phraya mouth; location of the IPCC AR6 sea-level projection used here'],
+  [100.631, 13.5463, 'เมืองโบราณ', 'Ancient City', '', ''],
+  [100.6549, 13.51735, 'สถานตากอากาศบางปู', 'Bang Pu Recreation Centre', 'ชายฝั่งสมุทรปราการ', 'Samut Prakan coast'],
+  [100.53122, 13.50697, 'วัดขุนสมุทราวาส', 'Wat Khun Samut Trawat', 'วัดที่ถูกน้ำทะเลล้อมรอบเพราะชายฝั่งถูกกัดเซาะ', 'Temple now surrounded by sea after coastal erosion'],
+  [100.27367, 13.54747, 'ศาลากลางจังหวัดสมุทรสาคร', 'Samut Sakhon Provincial Hall', '', ''],
+  [100.25642, 13.54982, 'ตลาดทะเลไทย (มหาชัย)', 'Talay Thai Market (Mahachai)', 'ตลาดอาหารทะเลริมแม่น้ำท่าจีน', 'Seafood market on the Tha Chin river'],
+];
+// ลำดับเหตุการณ์: กลุ่มเหตุการณ์จากข่าวและเรื่องแจ้ง Traffy (จุดอยู่ใน events.geojson / traffy.geojson)
+const EVENTS = [
+  { date: { th: '2564–2569', en: '2021–2026' }, t: { th: 'ถนนทรุดและหลุมยุบ 14 ครั้ง', en: '14 road collapses and sinkholes' }, grp: 'other',
+    d: { th: 'ถนนและทางเท้ายุบเป็นหลุมในสามจังหวัด เช่น อุดมสุข (2565) สุขุมวิท 64/1 (2566) และสมุทรสาคร (2569) ส่วนใหญ่เกิดจากงานใต้ดิน ท่อประปารั่ว หรือบ่อพัก เป็นการยุบเฉพาะจุด ต่างจากการทรุดช้า ๆ ทั้งแผ่นที่ดาวเทียมวัด', en: 'Roads and pavements caved in across the three provinces, e.g. Udom Suk (2022), Sukhumvit 64/1 (2023) and Samut Sakhon (2026). Most were caused by underground works, leaking water mains or utility pits: sudden local collapses, unlike the slow regional sinking the satellites measure.' } },
+  { date: { th: 'พ.ค. 2565 – ปัจจุบัน', en: 'May 2022 – now' }, t: { th: 'เรื่องแจ้งดินทรุดใน Traffy Fondue', en: 'Sinking reports on Traffy Fondue' }, grp: 'traffy',
+    d: { th: 'ประชาชนแจ้งดินทรุดหรือหลุมยุบ 1,072 จุด และดินสไลด์หรือตลิ่งพัง 245 จุด เกือบทั้งหมดในกรุงเทพฯ จำนวนที่เพิ่มขึ้นแต่ละปีส่วนหนึ่งมาจากคนใช้ Traffy มากขึ้น ไม่ได้แปลว่าดินทรุดมากขึ้น', en: 'Residents reported ground sinking or sinkholes at 1,072 points and landslides or bank collapses at 245, almost all in Bangkok. Part of the yearly rise comes from more people using Traffy, not from more sinking.' } },
+  { date: { th: '28 มี.ค. 2568', en: '28 Mar 2025' }, t: { th: 'แผ่นดินไหวเมียนมา', en: 'Myanmar earthquake' }, grp: 'eq',
+    d: { th: 'แผ่นดินไหวขนาด 7.7 ในเมียนมา อาคาร สตง. ที่กำลังก่อสร้างในเขตจตุจักรถล่ม อาคารสูงหลายแห่งถูกระงับใช้ บนแผนที่มี 16 จุดจากข่าว และ 3,551 จุดที่ประชาชนแจ้งอาคารร้าวใน Traffy Fondue ระหว่าง 28 มี.ค. – 30 เม.ย. 2568 ข้อมูลดาวเทียมของเราไม่พบว่าอัตราการทรุดเปลี่ยนไปชัดเจน', en: 'A magnitude 7.7 earthquake in Myanmar; the State Audit Office tower under construction in Chatuchak collapsed and several high-rises were closed. The map shows 16 points from the news and 3,551 points where residents reported cracked buildings on Traffy Fondue between 28 Mar and 30 Apr 2025. Our satellite data show no clear change in sinking rates.' } },
+  { date: { th: 'ส.ค. 2568, พ.ค. 2569', en: 'Aug 2025, May 2026' }, t: { th: 'แรงสั่นจากเมียนมาอีก 2 ครั้ง', en: 'Two more tremors from Myanmar' }, grp: 'tremor',
+    d: { th: 'แผ่นดินไหวขนาด 5.4 และ 5.3 ในเมียนมา คนในอาคารสูงรับรู้แรงสั่น มีการอพยพคนออกจากอาคารบางแห่ง ไม่มีรายงานความเสียหาย', en: 'Magnitude 5.4 and 5.3 earthquakes in Myanmar were felt in high-rises; some buildings were evacuated, with no damage reported.' } },
+  { date: { th: 'ก.ย. 2568 – พ.ย. 2569', en: 'Sep 2025 – Nov 2026' }, t: { th: 'ถนนสามเสนทรุดซ้ำ 5 ครั้ง', en: 'Samsen Road sinks five times' }, grp: 'samsen',
+    d: { th: 'ถนนสามเสน เขตดุสิต ทรุดและยุบซ้ำ 5 ครั้งในแนวก่อสร้างรถไฟฟ้าสายสีม่วงใต้ ครั้งแรกเป็นหลุมกว้างราว 30 ม. จากดินไหลเข้าอุโมงค์และท่อประปาแตก', en: 'Samsen Road in Dusit sank or caved in five times along the MRT Purple Line works; the first was a hole about 30 m across, where soil flowed into the tunnel and a water main burst.' } },
+];
+const lmGeo = () => ({ type: 'FeatureCollection', features: LANDMARKS.map((l, i) => ({ type: 'Feature', properties: { i, name: lang === 'th' ? l[2] : l[3] }, geometry: { type: 'Point', coordinates: [l[0], l[1]] } })) });
+const evGeo = () => ({ type: 'FeatureCollection', features: EVENTS.map((e, i) => e.ll ? { type: 'Feature', properties: { i, label: `${e.date[lang]} ${e.t[lang]}` }, geometry: { type: 'Point', coordinates: e.ll } } : null).filter(Boolean) });
+const distTxt = m => m >= 1000 ? `${fmt(m / 1000, 1)} ${T('kmU')}` : `${Math.round(m / 10) * 10} ${T('mU')}`;
+function placeHTML(p) {
+  const head = (sw, k, name, desc) => `<div class="pl-card"><p class="pl-k"><span class="pl-sw" style="background:${sw}"></span>${k}</p><h3>${name}</h3>${desc ? `<p>${desc}</p>` : ''}`;
+  if (p.layer === 'pl-ev') { const e = EVENTS[p.i]; return head('#c41e24', `${T('evK')} · ${e.date[lang]}`, e.t[lang], e.d[lang]) + '</div>'; }
+  if (p.layer === 'pl-evn') {
+    const host = /^https?:\/\//.test(p.url || '') ? new URL(p.url).hostname.replace(/^www\./, '') : '';
+    return head(EV_COLORS[p.g], `${T('evG')[p.g]} · ${fmtDate(p.date)}`, esc(p.loc), esc(p.sum) + T('evThai'))
+      + `<p class="pl-meta"><b>${T('evHaz')}:</b> ${esc(p.haz)}</p><p class="pl-meta"><b>${T('evDmg')}:</b> ${esc(p.dmg)}</p>`
+      + `<p class="pl-meta"><b>${T('evAcc')}:</b> ${T('evAccV')(p.acc)}${host ? ` · <a href="${esc(p.url)}" target="_blank" rel="noopener">${T('evOpen')} (${host})</a>` : ''}</p></div>`;
+  }
+  if (p.layer === 'pl-tr') return head(TR_COLORS[p.c], `${T('trK')} · ${fmtDate(p.d)}`, T('trCat')[p.c], T('trN')(p.n)) + `<p class="pl-meta">${T('trPriv')}</p></div>`;
+  if (p.layer === 'pl-lm') { const l = LANDMARKS[p.i]; return head('#1b2629', T('lmK'), lang === 'th' ? l[2] : l[3], lang === 'th' ? l[4] : l[5]) + '</div>'; }
+  const ok = x => x !== undefined && x !== null && isFinite(x);
+  const rate = x => x <= 0 ? `${fmt(-x)} ${T('unit')}` : `${fmt(x)} ${T('unit')} ${T('rise')}`;
+  return head(FAC_COLORS[p.t] || '#666', T('facT')[p.t] || p.t, p.n || T('facT')[p.t] || '', '') + `<dl class="facts">
+    ${ok(p.v) ? `<dt>${T('facV')}</dt><dd>${rate(p.v)}</dd>` : ''}
+    ${ok(p.lo) && ok(p.up) ? `<dt>${T('facRange')}</dt><dd>${fmt(Math.abs(p.lo))}–${fmt(Math.abs(p.up))}</dd>` : ''}
+    ${p.b ? `<dt>${T('facB')}</dt><dd>${T('bcls')[p.b] || p.b}</dd>` : ''}</dl></div>`;
+}
+function renderPlaces() {
+  $('facLeg').innerHTML = `<b>${T('facHead')}</b>` + Object.entries(FAC_COLORS).map(([k, c]) => `<span><i style="background:${c}"></i>${T('facT')[k]}</span>`).join('');
+  $('evList').innerHTML = EVENTS.map((e, i) => e.ll || e.grp
+    ? `<li><button type="button" data-ev="${i}"><span class="ev-y">${e.date[lang]}</span><span>${e.t[lang]}</span></button></li>`
+    : `<li><div class="ev-nl"><span class="ev-y">${e.date[lang]}</span><span>${e.t[lang]}<small>${e.d[lang]}</small></span></div></li>`).join('');
+  $('evList').querySelectorAll('button').forEach(b => b.onclick = () => {
+    const i = +b.dataset.ev, e = EVENTS[i];
+    if (e.grp) showGroup(i);
+    else goTo(e.ll[0], e.ll[1], e.z || 13, { place: { layer: 'pl-ev', i } });
+    if (matchMedia('(max-width: 700px)').matches) $('side').classList.add('hidden');
+  });
+  if (map.getSource('pl-lm')) map.getSource('pl-lm').setData(lmGeo());
+  if (map.getSource('pl-ev')) map.getSource('pl-ev').setData(evGeo());
+  renderTrLeg();
+}
+// ---- กลุ่มเหตุการณ์ (events.geojson จากข่าว 37 เหตุการณ์) และเรื่องแจ้ง Traffy Fondue (traffy.geojson) ----
+// scripts/events_build.py สร้างทั้งสองไฟล์ ไฟล์ Traffy เก็บแค่ประเภท วันที่ และจำนวนเรื่อง ไม่มีข้อความ ที่อยู่ หรือรูป
+const EV_COLORS = { eq: '#7b3294', tremor: '#b08fc7', samsen: '#e66101', other: '#8c510a' };
+const TR_COLORS = { sub: '#bf812d', bank: '#35978f', eq: '#9970ab' };
+const GRP_COLORS = { ...EV_COLORS, traffy: TR_COLORS.sub };
+let evPts = null, evFocus = null, trData = null, trCount = {}, lastGrp = null, trCats = new Set(['sub', 'bank']);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const fmtDate = iso => { const [y, m, d] = iso.split('-').map(Number); return `${d} ${T('months')[m - 1]} ${lang === 'th' ? y + 543 : y}`; };
+function applyEvFocus() {
+  if (!map.getLayer('pl-evn')) return;
+  const f = base => evFocus ? ['case', ['==', ['get', 'g'], evFocus], base, 0.15] : base;
+  map.setPaintProperty('pl-evn', 'circle-opacity', f(['case', ['in', ['get', 'acc'], ['literal', ['ย่าน', 'เขต']]], 0.55, 0.95]));
+  map.setPaintProperty('pl-evn', 'circle-stroke-opacity', f(1));
+}
+function fitPts(pts) {
+  if (!pts.length) return;
+  const xs = pts.map(c => c[0]), ys = pts.map(c => c[1]), small = matchMedia('(max-width: 700px)').matches;
+  const pad = small ? { top: 70, bottom: Math.round(innerHeight * 0.62), left: 30, right: 70 }
+    : { top: 50, bottom: 50, left: 380, right: Math.max(80, Math.min(460, innerWidth - 380 - 260)) };
+  // จอเตี้ยหรือแคบ: ลดขอบล่าง/ซ้ายให้เหลือพื้นที่แผนที่อย่างน้อย 160×200 พิกเซล
+  pad.bottom = Math.max(10, Math.min(pad.bottom, innerHeight - pad.top - 160));
+  pad.left = Math.max(10, Math.min(pad.left, innerWidth - pad.right - 200));
+  map.fitBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]], { padding: pad, maxZoom: 14 });
+}
+function renderTrLeg() {
+  $('trLeg').innerHTML = `<b>${T('trHead')}</b>${Object.keys(TR_COLORS).map(c => `<label class="chk"><input type="checkbox" data-trc="${c}"${trCats.has(c) ? ' checked' : ''}>
+    <span class="pl-sw" style="background:${TR_COLORS[c]}"></span><span>${T('trCat')[c]}${trCount[c] ? ` <small>${trCount[c].toLocaleString()}</small>` : ''}</span></label>`).join('')}
+    <p class="tr-note">${T('trNote')}</p>`;
+  $('trLeg').querySelectorAll('[data-trc]').forEach(x => x.onchange = () => { x.checked ? trCats.add(x.dataset.trc) : trCats.delete(x.dataset.trc); setTraffy(true); });
+}
+async function setTraffy(on) {
+  $('l-tr').checked = on;
+  $('trLeg').hidden = !on;
+  if (on && !trData) {
+    try { trData = await fetch('traffy.geojson').then(r => r.json()); } catch (err) { return; }
+    trData.features.forEach(f => { trCount[f.properties.c] = (trCount[f.properties.c] || 0) + 1; });
+    map.addSource('pl-tr', { type: 'geojson', data: trData, attribution: 'Traffy Fondue' });
+    map.addLayer({ id: 'pl-tr', type: 'circle', source: 'pl-tr', paint: {
+      'circle-color': ['match', ['get', 'c'], ...Object.entries(TR_COLORS).flat(), '#888888'],
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 2, 13, 3.5, 16, 6], 'circle-opacity': 0.75,
+      'circle-stroke-color': '#ffffff', 'circle-stroke-width': ['interpolate', ['linear'], ['zoom'], 11, 0, 14, 1] } },
+      map.getLayer('pl-evn') ? 'pl-evn' : map.getLayer('pl-ev') ? 'pl-ev' : undefined);
+  }
+  if (map.getLayer('pl-tr')) {
+    map.setFilter('pl-tr', ['in', ['get', 'c'], ['literal', [...trCats]]]);
+    map.setLayoutProperty('pl-tr', 'visibility', on ? 'visible' : 'none');
+  }
+  renderTrLeg();
+}
+// แตะกลุ่มในลำดับเหตุการณ์: ซูมให้เห็นทุกจุดของกลุ่ม เน้นสีกลุ่มนั้น และเปิดการ์ดรายชื่อเหตุการณ์
+async function showGroup(i, fit = true) {
+  const e = EVENTS[i], g = e.grp;
+  if (fit && (g === 'traffy' || g === 'eq')) { trCats = new Set(g === 'eq' ? ['eq'] : ['sub', 'bank']); await setTraffy(true); }
+  if (g !== 'traffy') {
+    if (!$('l-ev').checked) { $('l-ev').checked = true; $('l-ev').dispatchEvent(new Event('change')); }
+    evFocus = g; applyEvFocus();
+  }
+  const members = g === 'traffy' ? [] : (evPts?.features || []).filter(f => f.properties.g === g).sort((a, b) => a.properties.date.localeCompare(b.properties.date));
+  if (fit) fitPts(g === 'traffy' ? (trData?.features || []).filter(f => trCats.has(f.properties.c)).map(f => f.geometry.coordinates) : members.map(f => f.geometry.coordinates));
+  last = null; lastGrp = i; marker?.remove();
+  $('cPlace').textContent = e.date[lang];
+  let h = `<div class="pl-card"><p class="pl-k"><span class="pl-sw" style="background:${GRP_COLORS[g]}"></span>${T('evK')}</p><h3>${e.t[lang]}</h3><p>${e.d[lang]}</p>`;
+  if (g === 'traffy' && trData) {
+    const n = trData.features.filter(f => trCats.has(f.properties.c)), tk = n.reduce((s, f) => s + f.properties.n, 0);
+    h += `<p class="pl-meta">${T('trTot')(n.length.toLocaleString(), tk.toLocaleString())}</p><p class="pl-meta">${T('trNote')}</p>`;
+  }
+  h += '</div>';
+  if (members.length) h += `<p class="pl-meta">${T('grpN')(members.length)}</p><ul class="grp-list">${members.map(f => { const p = f.properties;
+    return `<li><button type="button" data-id="${p.id}"><span class="ev-y">${fmtDate(p.date)}</span><span>${esc(p.loc)}<small>${esc(p.dmg)} · ${esc(p.dist)}</small></span></button></li>`; }).join('')}</ul>`;
+  $('cBody').innerHTML = h;
+  $('card').classList.add('open');
+  $('cBody').querySelectorAll('[data-id]').forEach(b => b.onclick = () => {
+    const f = members.find(m => m.properties.id === +b.dataset.id);
+    goTo(...f.geometry.coordinates, 15.5, { place: { layer: 'pl-evn', ...f.properties } });
+  });
+}
+
 const $ = id => document.getElementById(id);
-const RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000'];
+const RISK_COLORS = ['#fce594', '#e4d87a', '#f58cb8', '#e90003', '#99101b'];
 const STEP_CM = 15;
 
 function classOf(v) {
@@ -505,33 +783,53 @@ function classOf(v) {
 function colorExpr(prop) {
   return ['match', ['get', prop], ...meta.colors.flatMap((c, i) => [i, c]), '#c8c8c8'];
 }
+// สีอาคารตามโหมด: อัตราทรุด (c), ระดับความเสี่ยง (r), ความลึกน้ำท่วมของฉากทัศน์ที่เลือก (f: หนึ่งหลักต่อหนึ่งรอบใน meta.sfl.order)
+const BLD_DRY = '#e4e1da';
+function bldColor() {
+  if (mode === 'risk' && riskPart) return BLD_DRY;
+  if (mode === 'risk') return ['match', ['coalesce', ['get', 'r'], -1], ...RISK_COLORS.flatMap((c, i) => [i, c]), '#c8c8c8'];
+  const order = meta.sfl?.order || [], i = order.indexOf(runName());
+  if (mode === 'slr' && i >= 0) return ['match', ['to-number', ['slice', ['coalesce', ['get', 'f'], '0'.repeat(order.length)], i, i + 1]],
+    ...meta.sfl.depth.flatMap(([lo, c], k) => [k + 1, c]), BLD_DRY];
+  return colorExpr('c');
+}
+function applyBld() {
+  if (!meta) return;
+  const e = bldColor();
+  meta.buildings.forEach((_, i) => map.getLayer(`ss-bld${i}`) && map.setPaintProperty(`ss-bld${i}`, 'fill-extrusion-color', e));
+  if (map.getLayer('ss-blo')) map.setPaintProperty('ss-blo', 'fill-color', e);
+  meta.buildings.forEach((_, i) => map.getLayer(`ss-bldf${i}`) && map.setPaintProperty(`ss-bldf${i}`, 'fill-color', e));
+  renderBldLegend();
+}
 const fmt = (x, d = 1) => x.toLocaleString(lang === 'th' ? 'th-TH' : 'en-GB', { minimumFractionDigits: d, maximumFractionDigits: d });
 
 // ---- สัญลักษณ์แบบไม้บรรทัด ----
+// คำอธิบายสีอยู่เหนือปุ่มเลือกปี ส่วนสรุปพื้นที่/ประชากรของโหมดน้ำทะเลอยู่ใต้ปุ่ม (#slrSum)
+function renderLegend() {
+  const [key, sum = ''] = legendHTML().split('<!--sum-->');
+  $('legend').innerHTML = key; $('slrSum').innerHTML = sum;
+}
 function legendHTML() {
   if (mode === 'slr' && slrYear === NOW && meta.tide) {
     const t = meta.tide, d = t.main_event;
-    return `<div class="swl"><i style="background:#084594"></i><span>${T('tideCls')}</span><i style="background:#9ecae1"></i><span>${T('tidePerm')}</span></div>
-      <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString(), t.sensor)}</p>
+    return `<div class="swl"><i style="background:#2171b5"></i><span>${T('tideCls')}</span></div><!--sum-->
+      <p class="slr-sum">${T('tideSum')(d, t.water_level_m, Math.round(t.tidal_km2).toLocaleString(), t.population.toLocaleString(), t.buildings.toLocaleString())}</p>
       <p class="slr-sum">${T('tideNote')}</p>`;
   }
   if (mode === 'slr') {
     const r = meta.sfl.runs[runName()] || {}, alt = slrYear !== NOW && subOn === 'sub' ? meta.sfl.runs[runName('nosub')] : null;
-    return `<div class="swl">${meta.sfl.depth.map(([lo, c], i) => `<i style="background:${c}"></i><span>${T('depthL')[i]}</span>`).join('')}</div>
+    return `<div class="swl">${meta.sfl.depth.map(([lo, c], i) => `<i style="background:${c}"></i><span>${T('depthL')[i]}</span>`).join('')}</div><!--sum-->
       <p class="slr-sum">${T('flSum')((r.area || 0).toLocaleString(), (r.pop || 0).toLocaleString(), (r.bld || 0).toLocaleString(), Math.round((r.sea || 0) * 100))}</p>
       ${alt ? `<p class="slr-sum">${T('flCmp')((r.area - alt.area).toLocaleString())}</p>` : ''}
       <p class="slr-sum">${T('slrNote')}</p>`;
   }
   if (mode === 'risk') {
-    const cols = riskPart === 'risk' ? RISK_COLORS : meta.risk.parts[riskPart];
-    const tint = { risk: '#b30000', H: '#a50f15', E: '#a63603', V: '#54278f' };
-    const eq = ['risk', 'H', 'E', 'V'].map(k => `<span class="${k === riskPart ? 'on' : ''}" style="${k === riskPart ? `background:${tint[k]}` : ''}">${T('rkName')[k]}</span>`);
+    const cols = riskPart ? rpMeta.colors[riskPart] : RISK_COLORS;
     return `<div class="ruler" style="grid-template-columns:repeat(5,1fr)">${cols.map(c => `<span style="background:${c}"></span>`).join('')}</div>
-      <div class="ends"><span>${riskPart === 'risk' ? T('riskLo') : T('rkLo')}</span><span>${riskPart === 'risk' ? T('riskHi') : T('rkHi')}</span></div>
-      <div class="fx"><div class="fx-eq">${eq[0]} = ${eq[1]} × ${eq[2]} × ${eq[3]}</div>
-        <h4>${riskPart === 'risk' ? T('rkName').risk : T('rkName')[riskPart]}</h4>
-        <ul>${T('rkInd')[riskPart].map(([a, b]) => `<li>${a}<small>${b}</small></li>`).join('')}</ul>
-        <details><summary>${T('rkHow')}</summary>${T('rkHowTxt')}</details></div>`;
+      <div class="ends"><span>${T('riskLo')}</span><span>${T('riskHi')}</span></div>
+      <div class="rp"><p class="rp-h">${T('rpHead')}</p><div class="seg">${RP.map((k, i) =>
+        `<button type="button" data-rp="${k}" aria-pressed="${riskPart === k}">${T('hev')[i]}</button>`).join('')}</div>
+      <p class="rp-n">${T(riskPart ? 'rpOn' : 'rpOff')}</p></div>`;
   }
   // 0–30 มม./ปี วางตามสเกลจริง: 0–5, 5–10, 10–20, 20–30+
   const w = [5, 5, 10, 10];
@@ -540,22 +838,48 @@ function legendHTML() {
     <div class="ticks">${ticks}</div>
     <div class="nod"><i style="background:${meta.colors[0]}"></i>${T('stable')}</div>
     <div class="nod"><i style="background:${meta.colors[3]};opacity:.35"></i>${T('faint')}</div>
-    <div class="nod"><i></i>${T('nod')}</div>`;
+    ${meta.fill ? `<label class="chk"><input type="checkbox" id="l-idw"${idwOn ? ' checked' : ''}> <span>${T('idwL')}</span></label>` : ''}
+    ${!meta.fill || !idwOn ? `<div class="nod"><i></i>${T('nod')}</div>` : ''}`;
+}
+
+function renderBldLegend() {
+  if (!meta) return;
+  const cell = (c, lab, cls = '') => `<div class="${cls}"><i style="background:${c}"></i><div class="bl-lab">${lab}</div></div>`;
+  if (mode === 'risk' && riskPart) {
+    $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegPart')(T('hev')[RP.indexOf(riskPart)])}</h2>`;
+    return;
+  }
+  if (mode === 'risk') {
+    $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegRisk')}</h2><div class="bl-bar">${RISK_COLORS.map((c, i) =>
+      cell(c, `<b>${T('rcls')[i]}</b>`)).join('')}${cell('#c8c8c8', T('bldNd'), 'bl-nd')}</div>`;
+    return;
+  }
+  if (mode === 'slr' && meta.sfl) {
+    $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegSlr')}</h2><div class="bl-bar">${cell(BLD_DRY, `<b>${T('bldDry')}</b>`)}${meta.sfl.depth.map(([lo, c], i) =>
+      cell(c, `<b>${T('depthL')[i]}</b>`)).join('')}</div>`;
+    return;
+  }
+  $('bldLeg').innerHTML = `<h2 id="bldLegT">${T('bldLegT')}</h2><div class="bl-bar">${T('bldLev').map(([a, b], i) =>
+    cell(meta.colors[i], `<b>${a}</b>${b ? ' ' + b : ''}`)).join('')}${cell('#c8c8c8', T('bldNd'), 'bl-nd')}</div>`;
 }
 
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-i18n]').forEach(e => e.textContent = T(e.dataset.i18n));
   document.querySelectorAll('[data-i18n-ph]').forEach(e => e.placeholder = T(e.dataset.i18nPh));
+  document.querySelectorAll('[data-i18n-title]').forEach(e => e.title = T(e.dataset.i18nTitle));
   $('lede').innerHTML = T('lede');
   $('lang').textContent = lang === 'th' ? 'English' : 'ภาษาไทย';
-  $('scaleT').textContent = mode === 'risk' ? T('rkScale')[riskPart] : mode === 'slr' ? T('scaleSlr') : T('scaleSub');
-  $('legend').innerHTML = legendHTML();
-  document.querySelectorAll('[data-yr]').forEach(b => b.textContent = +b.dataset.yr === NOW ? T('now') : T('be')(+b.dataset.yr));
+  $('scaleT').textContent = scaleTitle();
+  renderLegend();
+  renderBldLegend();
+  renderPlaces();
+  document.querySelectorAll('[data-yr]').forEach(b => b.innerHTML = +b.dataset.yr === NOW ? T('now') : `${T('be')(+b.dataset.yr)}<small>${T('yrL')(+b.dataset.yr - NOW)}</small>`);
   $('aboutBox').innerHTML = ABOUT[lang];
   $('aboutClose').onclick = () => $('about').classList.remove('open');
   if (map.getLayer('ss-lab')) map.setLayoutProperty('ss-lab', 'text-field', labelExpr());
   if (last) showCard(last);
+  else if (lastGrp !== null && $('card').classList.contains('open')) showGroup(lastGrp, false);
 }
 
 // ---- ค้นหาค่าจากกริด ----
@@ -572,17 +896,31 @@ function uncAt(lng, lat) {
   const q = uncGrid[r * grid.w + c];
   return q === -32768 ? null : { u: (q % 10000) / 10, faded: q >= 10000 };
 }
+// ค่าเติมในช่องที่ดาวเทียมวัดไม่ได้ (fill.bin: สามค่าต่อช่อง = อัตรา × 10, ระยะถึงจุดวัด ÷ 100 ม., สิ่งปกคลุมดินหลัก 1–9)
+function idwAt(lng, lat) {
+  if (!idwGrid || !idwOn) return null;
+  const c = Math.floor((lng - grid.x0) / grid.dx), r = Math.floor((lat - grid.y0) / grid.dy);
+  if (c < 0 || r < 0 || c >= grid.w || r >= grid.h) return null;
+  const k = (r * grid.w + c) * 3;
+  return idwGrid[k] === -32768 ? null : { v: idwGrid[k] / 10, d: idwGrid[k + 1] * 100, lc: idwGrid[k + 2] };
+}
+function applyIdw() {
+  if (map.getLayer('ss-idw')) map.setLayoutProperty('ss-idw', 'visibility', mode === 'sub' && idwOn ? 'visible' : 'none');
+  if (mode === 'sub') renderLegend();
+  if (last) showCard(last);
+}
 // ---- น้ำท่วมจากทะเล (SFINCS): เลือกรอบตามปี/ฉากทัศน์/การทรุด/คันกั้นน้ำ ----
 const NOW = 2026;
 const runName = (sub = subOn) => slrYear === NOW ? `now_${defOn}` : `${slrYear}_${ssp}_${sub}_${defOn}`;
 async function showFlood() {
+  if (mode === 'slr') applyBld();
   const isNow = slrYear === NOW;
   document.querySelectorAll('[data-ssp],[data-sub],[data-def]').forEach(b => b.disabled = isNow);
   if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', mode === 'slr' && isNow ? 'visible' : 'none');
   map.setLayoutProperty('ss-slr', 'visibility', mode === 'slr' && !isNow ? 'visible' : 'none');
   if (isNow) {
-    if (!tideGrid && meta.tide) tideGrid = new Uint8Array(await fetch(`tide.bin?v=${meta.v}`).then(r => r.arrayBuffer()));
-    if (mode === 'slr') $('legend').innerHTML = legendHTML();
+    if (!tideGrid && meta.tide) tideGrid = new Uint8Array(await fetch('tide.bin').then(r => r.arrayBuffer()));
+    if (mode === 'slr') renderLegend();
     if (last) showCard(last);
     return;
   }
@@ -590,7 +928,7 @@ async function showFlood() {
   if (!meta.sfl.runs[n]) return;
   map.getSource('ss-slr').updateImage({ url: `fl_${n}.png`, coordinates: meta.sfl.image });
   if (flName !== n) { flName = n; flGrid = null; flGrid = new Uint8Array(await fetch(`fl_${n}.bin`).then(r => r.arrayBuffer())); }
-  if (mode === 'slr') $('legend').innerHTML = legendHTML();
+  if (mode === 'slr') renderLegend();
   if (last) showCard(last);
 }
 function tideAt(lng, lat) {
@@ -611,8 +949,8 @@ function riskAt(lng, lat) {
   if (!riskGrid) return null;
   const g = riskGrid, c = Math.floor((lng - g.x0) / g.dx), r = Math.floor((lat - g.y0) / g.dy);
   if (c < 0 || r < 0 || c >= g.w || r >= g.h) return null;
-  const k = (r * g.w + c) * 4;
-  return g.data[k] === 255 ? null : [g.data[k], g.data[k + 1], g.data[k + 2], g.data[k + 3]];
+  const k = (r * g.w + c) * 4, x = riskxGrid ? riskxGrid[r * g.w + c] : 0;
+  return g.data[k] === 255 ? null : [g.data[k], g.data[k + 1], g.data[k + 2], g.data[k + 3], x];
 }
 function inRing(x, y, ring) {
   let ins = false;
@@ -647,14 +985,17 @@ function gaugeSVG(cm) {
 }
 
 function showCard(info) {
-  last = info;
+  last = info; lastGrp = null;
   if (info.lnglat && info.risk === undefined) info.risk = riskAt(...info.lnglat);
   if (info.lnglat && info.unc === undefined) info.unc = uncAt(...info.lnglat);
+  if (info.v0 === undefined) info.v0 = info.v ?? null;
+  info.v = info.v0; info.idw = null; info.lc = 0;
+  if (info.v0 === null && info.lnglat) { const e = idwAt(...info.lnglat); if (e) { info.v = e.v; info.idw = e.d; info.lc = e.lc; } }
   const d = info.district, v = info.v, cl = classOf(v);
   const place = d ? `${dName(d)}, ${pName(d)}` : T('outside');
-  $('cPlace').textContent = info.h ? `${T('building')(info.h)}, ${place}` : info.rail ? `${T('railPlace')}, ${place}` : place;
+  $('cPlace').textContent = info.h ? `${T('building')(info.h)}, ${place}` : place;
 
-  let h = '';
+  let h = info.place ? placeHTML(info.place) : '';
   if (cl < 0) {
     h += `<p id="cExpl">${T('nodata')}</p>`;
   } else {
@@ -664,7 +1005,8 @@ function showCard(info) {
         <div class="num">${fmt(Math.abs(v))}<small>${info.unc ? `± ${fmt(info.unc.u)} ` : ''}${v <= 0 ? T('unit') : T('unit') + ' ' + T('rise')}</small></div>
         <div class="cls"><i style="background:${meta.colors[cl]}"></i>${T('cls')[cl]}</div>
         <p id="cExpl">${T('expl')[cl]} ${T('tenYr')(fmt(cm, 0), T('step')(steps))}</p>
-        ${info.unc && info.unc.faded ? `<p class="warn">${T('uncWarn')}</p>` : ''}</div>
+        ${info.unc && info.unc.faded ? `<p class="warn">${T('uncWarn')}</p>` : ''}
+        ${info.idw !== null ? `<p class="warn">${T('idwWarn')(distTxt(info.idw), T('lcN')[info.lc - 1] || '')}</p>` : ''}</div>
       <figure class="gauge" style="margin:0">${gaugeSVG(cm)}<figcaption>−${fmt(cm, 0)} ${lang === 'th' ? 'ซม.' : 'cm'}<br><span style="color:var(--muted);font-weight:500">${T('gaugeCap')}</span></figcaption></figure></div>`;
   }
   const tq = mode === 'slr' && slrYear === NOW && info.lnglat ? tideAt(...info.lnglat) : null;
@@ -677,10 +1019,10 @@ function showCard(info) {
       <p class="slr-sum">${T('slrNote')}</p></div>`;
   }
   if (info.risk) {
-    const [rc, H, E, V] = info.risk, k = [H, E, V].indexOf(Math.max(H, E, V));
+    const [rc, H, E, V, rx] = info.risk, k = [H, E, V].indexOf(Math.max(H, E, V));
     h += `<div class="block"><h3>${T('riskT')}: <span style="color:${rc >= 3 ? 'var(--staff)' : 'inherit'}">${T('rcls')[rc]}</span></h3>
       <p class="why">${rc >= 2 ? T('why')[k] : ''}</p>
-      <div class="bars">${T('hev').map((n, i) => `<span>${n}</span><div class="bar"><span style="width:${[H, E, V][i]}%"></span></div>`).join('')}</div></div>`;
+      <div class="bars">${T('hev').map((n, i) => `<span${riskPart === RP[i] ? ' style="font-weight:600;color:var(--ink)"' : ''}>${n}</span><div class="bar"><span style="width:${[H, E, V][i]}%"></span></div>`).join('')}</div>${rx === 1 || rx === 2 ? `<p class="warn">${T('riskX')[rx - 1]}</p>` : ''}</div>`;
   }
   if (d) {
     const total = series.districts[d.i] ? -series.districts[d.i].filter(x => x !== null).slice(-3).reduce((a, b) => a + b, 0) / 3 / 10 : null;
@@ -729,9 +1071,9 @@ function drawChart(d) {
 
 // ---- ค้นหา: ชื่อเขตในเครื่องก่อน แล้วค่อยถาม Photon (OpenStreetMap) ----
 const BBOX = [100.0, 13.45, 100.98, 13.97];
-function goTo(lng, lat, z = 15) {
+function goTo(lng, lat, z = 15, extra = {}) {
   map.flyTo({ center: [lng, lat], zoom: z, pitch: z >= 13 ? 50 : 0, essential: true });
-  map.once('moveend', () => { showCard({ v: gridValue(lng, lat), district: districtAt(lng, lat), lnglat: [lng, lat] }); placeMarker(lng, lat); });
+  map.once('moveend', () => { showCard({ v: gridValue(lng, lat), district: districtAt(lng, lat), lnglat: [lng, lat], ...extra }); placeMarker(lng, lat); });
 }
 let marker;
 function placeMarker(lng, lat) {
@@ -773,32 +1115,190 @@ $('search').onsubmit = async e => {
 // ---- แผนที่ ----
 const protocol = new pmtiles.Protocol();
 maplibregl.addProtocol('pmtiles', protocol.tile);
+// ไฟล์ข้อมูลของเว็บ (json, bin, png) ต่อท้ายด้วยเลขรุ่น เบราว์เซอร์จะโหลดของใหม่ทันทีหลังอัปเดต ไม่ค้างสีหรือค่าเก่าในแคช
+// เปลี่ยน ASSET_V ทุกครั้งที่อัปโหลดไฟล์ข้อมูลชุดใหม่ (pmtiles ไม่ผ่านตรงนี้ เพราะโหลดเป็นช่วง ๆ ผ่าน pmtiles.js)
+const ASSET_V = '20261115';
+const vurl = u => typeof u !== 'string' || /^[a-z]+:/i.test(u) || u.includes('?') ? u : `${u}?v=${ASSET_V}`;
+const fetch0 = window.fetch.bind(window);
+window.fetch = (u, o) => fetch0(vurl(u), o);
 const map = new maplibregl.Map({
   container: 'map', style: 'https://tiles.openfreemap.org/styles/positron',
-  center: [100.55, 13.68], zoom: 9.8, pitch: 0, maxPitch: 70, hash: true, attributionControl: { compact: true },
+  transformRequest: url => ({ url: vurl(url) }),
+  center: [100.55, 13.68], zoom: 9.8, pitch: 0, maxPitch: 70, hash: true, attributionControl: false,
 });
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), 'top-right');
 map.addControl(new maplibregl.GeolocateControl({ positionOptions: { enableHighAccuracy: true }, trackUserLocation: false }), 'top-right');
 map.addControl(new maplibregl.ScaleControl(), 'bottom-left');
+// เครดิตแผนที่ (OSM/OpenFreeMap/Esri ต้องแสดงตามเงื่อนไขการใช้) อยู่ท้ายแผงซ้ายแทนมุมแผนที่
+// รวมจาก source ที่มีชั้นเปิดอยู่ เหมือนที่ AttributionControl ทำ เปลี่ยนตามแผนที่ฐานที่เลือก
+function updateCredits() {
+  const st = map.getStyle(); if (!st) return;
+  const seen = new Set();
+  st.layers.forEach(l => { if (l.source && l.layout?.visibility !== 'none') { const a = map.getSource(l.source)?.attribution; if (a) seen.add(a); } });
+  const html = [...seen].join(' | ');
+  if ($('credits').innerHTML !== html) $('credits').innerHTML = html;
+}
+map.on('idle', updateCredits);
+
+// ---- แผนที่ฐาน ----
+// "light" คือสไตล์เวกเตอร์ OpenFreeMap เดิม, "liberty" เป็นสไตล์เวกเตอร์ที่ใช้ข้อมูล OSM ชุดเดียวกัน (โหลดเมื่อเลือก)
+// แบบอื่นเป็น raster tile ที่วางไว้ใต้ชั้นข้อมูลทั้งหมด
+const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/';
+const svgThumb = (bg, park, water, road, casing) => 'data:image/svg+xml,' + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42"><rect width="42" height="42" fill="${bg}"/>`
+  + `<path d="M24 0h18v14H30z" fill="${park}"/><path d="M0 30c10-4 20 2 42-6v18H0z" fill="${water}"/>`
+  + `<path d="M-2 12 44 20M14-2l6 46" stroke="${casing}" stroke-width="5"/><path d="M-2 12 44 20M14-2l6 46" stroke="${road}" stroke-width="3"/></svg>`);
+const BASEMAPS = {
+  light: { thumb: svgThumb('#f2f3f0', '#e3ebde', '#cdd9e0', '#ffffff', '#dcdcdc') },
+  osm: { tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], max: 19,
+    attr: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    thumb: 'https://tile.openstreetmap.org/12/3191/1890.png' },
+  liberty: { style: 'https://tiles.openfreemap.org/styles/liberty', thumb: svgThumb('#f8f4f0', '#cfe6b8', '#9ec7e8', '#ffd98a', '#e9a84a') },
+  streets: { tiles: [ESRI + 'World_Street_Map/MapServer/tile/{z}/{y}/{x}'], max: 19, note: true,
+    attr: 'Tiles © Esri — Esri, HERE, Garmin, USGS, OpenStreetMap contributors',
+    thumb: ESRI + 'World_Street_Map/MapServer/tile/12/1890/3191' },
+  sat: { tiles: [ESRI + 'World_Imagery/MapServer/tile/{z}/{y}/{x}'], max: 18, labels: true,
+    attr: 'Imagery © Esri — Esri, Maxar, Earthstar Geographics, GIS User Community',
+    thumb: ESRI + 'World_Imagery/MapServer/tile/12/1890/3191' },
+  topo: { tiles: [ESRI + 'World_Topo_Map/MapServer/tile/{z}/{y}/{x}'], max: 19, note: true,
+    attr: 'Tiles © Esri — Esri, HERE, Garmin, FAO, NOAA, USGS, OpenStreetMap contributors',
+    thumb: ESRI + 'World_Topo_Map/MapServer/tile/12/1890/3191' },
+};
+let basemap = 'light', baseLayers = null;
+const bmCtl = document.createElement('div');
+bmCtl.className = 'bm-ctl';
+function renderBm() {
+  bmCtl.innerHTML = `<button class="bm-btn rl" type="button" style="--c:#56666b" aria-haspopup="true" aria-expanded="${bmCtl.classList.contains('open')}" title="${T('bmTitle')}">
+    <span class="ri"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></span><span class="rt">${T('bmShort')}</span></button>
+    <div class="bm-pop" role="menu"><h3>${T('bmTitle')}</h3>${Object.keys(BASEMAPS).map(k =>
+      `<button class="bm-opt" type="button" role="menuitemradio" data-bm="${k}" aria-pressed="${k === basemap}"><img src="${BASEMAPS[k].thumb}" alt="" loading="lazy">${T('bmNames')[k]}${BASEMAPS[k].note ? ' *' : ''}</button>`).join('')}<p class="bm-note">${T('bmNote')}</p></div>`;
+  bmCtl.querySelector('.bm-btn').onclick = e => { e.stopPropagation(); bmCtl.classList.toggle('open'); renderBm(); };
+  bmCtl.querySelectorAll('.bm-opt').forEach(b => b.onclick = e => { e.stopPropagation(); setBasemap(b.dataset.bm); });
+}
+// ---- ถนนกว้างตามจริง (OSM) ----
+// ถนน OSM ของเราเอง (osmroads.pmtiles) รู้ความกว้างเป็นเมตรของแต่ละเส้น: จากแทก width หรือจำนวนช่องจราจรใน OSM
+// ถ้าไม่มีใช้ความกว้างที่ Microsoft ตรวจจับจากภาพถ่าย (ปรับสเกลแล้ว) สุดท้ายจึงใช้ค่าตามประเภทถนน
+// วาดเป็นแถบสีเทาอ่อนกว้างตามจริง ตั้งแต่ซูม 12 และซ่อนเส้นถนนของแผนที่ฐานแบบเวกเตอร์ที่ซูมนั้นเสมอ ให้เหลือถนนชุดเดียว (ปิดแล้วไม่มีถนน)
+const MPP0 = 40075016.686 * Math.cos(13.75 * Math.PI / 180) / 512;  // เมตรต่อพิกเซลที่ซูม 0 ละติจูดกรุงเทพฯ
+const RW_Z = 12, ROAD_COLOR = '#cdd1d4';
+function isRoadLayer(l) {
+  return l.type === 'line' && l['source-layer'] === 'transportation' && !/rail|pier/.test(l.id);
+}
+// ความกว้างเป็นพิกเซล = เมตร × 2^z / MPP0 ไม่ให้แคบกว่า 1 พิกเซล
+const roadWidth = ['interpolate', ['exponential', 2], ['zoom']];
+for (let z = RW_Z; z <= 22; z++) roadWidth.push(z, ['max', 1, ['*', ['get', 'w'], 2 ** z / MPP0]]);
+const roadLayers = [];
+let roadsOn = true;
+function applyRoads() {
+  roadLayers.forEach(r => { if (map.getLayer(r.id)) map.setLayerZoomRange(r.id, r.min, Math.min(r.max, RW_Z)); });
+  if (map.getLayer('osm-roads')) map.setLayoutProperty('osm-roads', 'visibility', roadsOn ? 'visible' : 'none');
+}
+let bmFirstSymbol;
+// เพิ่มชั้นของสไตล์เวกเตอร์ (ซ่อนไว้ก่อน) ใช้ source/sprite/ฟอนต์เดียวกับแผนที่เรียบ ไม่เอาอาคาร 3 มิติของสไตล์ เพราะมีของเราแล้ว
+async function addVectorBasemap(id) {
+  const b = BASEMAPS[id];
+  if (b.layers) return;
+  const st = await fetch(b.style).then(r => r.json());
+  if (b.layers) return;
+  b.layers = [];
+  for (const l of st.layers) {
+    if (l.type === 'fill-extrusion') continue;
+    if (l.source && !map.getSource(l.source)) map.addSource(l.source, st.sources[l.source]);
+    const lid = `bm-${id}-${l.id}`;
+    if (isRoadLayer(l)) roadLayers.push({ id: lid, min: l.minzoom ?? 0, max: l.maxzoom ?? 24 });
+    map.addLayer({ ...l, id: lid, layout: { ...(l.layout || {}), visibility: 'none' } }, l.type === 'symbol' ? bmFirstSymbol : baseLayers[0].id);
+    b.layers.push({ id: lid, vis: l.layout?.visibility || 'visible' });
+  }
+}
+async function setBasemap(id) {
+  if (!BASEMAPS[id]) id = 'light';
+  basemap = id;
+  try { localStorage.setItem('basemap', id); } catch (err) { /* ไม่มี storage ก็ใช้ได้ */ }
+  renderBm();
+  if (!baseLayers) return;  // แผนที่ยังโหลดไม่เสร็จ จะตั้งค่าอีกครั้งตอน load
+  const b = BASEMAPS[id];
+  if (b.style) { try { await addVectorBasemap(id); } catch (err) { basemap = id = 'light'; renderBm(); } }
+  if (id !== basemap) return;  // ผู้ใช้เปลี่ยนไปแบบอื่นระหว่างโหลด
+  Object.keys(BASEMAPS).forEach(k => (BASEMAPS[k].layers || []).forEach(l => map.setLayoutProperty(l.id, 'visibility', k === id ? l.vis : 'none')));
+  if (b.tiles && !map.getSource(`bm-${id}`)) {
+    map.addSource(`bm-${id}`, { type: 'raster', tiles: b.tiles, tileSize: 256, maxzoom: b.max, attribution: b.attr });
+    map.addLayer({ id: `bm-${id}`, type: 'raster', source: `bm-${id}` }, baseLayers[0].id);
+  }
+  Object.keys(BASEMAPS).forEach(k => { if (map.getLayer(`bm-${k}`)) map.setLayoutProperty(`bm-${k}`, 'visibility', k === id ? 'visible' : 'none'); });
+  // สไตล์เวกเตอร์เดิม: เปิดทั้งหมดเมื่อเลือกแผนที่เรียบ, บนภาพดาวเทียมเหลือเฉพาะป้ายชื่อ, แบบอื่นปิดทั้งหมด
+  baseLayers.forEach(l => {
+    const on = id === 'light' || (b.labels && l.type === 'symbol');
+    map.setLayoutProperty(l.id, 'visibility', on ? l.vis : 'none');
+  });
+  applyRoads();
+}
+// แถบชั้นข้อมูลอยู่ใต้ปุ่มซูม/ตำแหน่ง ปุ่มแผนที่ฐานอยู่ท้ายแถบ บนจอเล็กเปิดแผงซ้ายแล้วแถบพับเก็บ
+map.addControl({ onAdd: () => $('lyrRail'), onRemove: () => $('lyrRail').remove() }, 'top-right');
+$('bmSlot').append(bmCtl);
+const small = () => matchMedia('(max-width: 700px)').matches;
+function railOpen(open) {
+  $('lrHead').setAttribute('aria-expanded', open); $('lrBody').hidden = !open;
+  if (open && small()) $('side').classList.add('hidden');
+}
+railOpen(!small());
+// บนมือถือเปิดมาเห็นหัวเรื่องและคำอธิบายก่อน แตะหรือลากแผนที่แล้วแผงซ้ายพับเก็บ (เปิดใหม่ได้ที่ปุ่มมุมซ้ายบน)
+const foldSide = () => { if (small()) $('side').classList.add('hidden'); };
+map.on('click', foldSide); map.on('dragstart', foldSide);
+$('lrHead').onclick = () => railOpen($('lrBody').hidden);
+document.addEventListener('click', e => { if (!bmCtl.contains(e.target) && bmCtl.classList.contains('open')) { bmCtl.classList.remove('open'); renderBm(); } });
+try { basemap = localStorage.getItem('basemap') || 'light'; } catch (err) { /* ใช้ค่าเริ่มต้น */ }
+renderBm();
 const labelExpr = () => ['concat', ['get', lang === 'th' ? 'adm2_name1' : 'adm2_name'], '\n', ['number-format', ['abs', ['get', 'med']], { 'max-fraction-digits': 0 }], lang === 'th' ? ' มม.' : ' mm'];
+
+// ---- ส่วนประกอบของความเสี่ยง: ภัย / คนและอาคาร / ความเปราะบาง (risk_h/e/v.png จาก scripts/risk_parts_build.py)
+// เปิดได้ทีละชั้น ระหว่างเปิด ชั้นความเสี่ยงรวมปิด สีจะได้ไม่ซ้อนกัน อาคารเป็นสีเทา
+let riskPart = null, rpMeta = null;
+const RP = ['h', 'e', 'v'];
+function scaleTitle() {
+  if (mode === 'risk') return riskPart ? T('rpScale')[RP.indexOf(riskPart)] : T('scaleRisk');
+  return mode === 'slr' ? T('scaleSlr') : T('scaleSub');
+}
+function applyRiskVis() {
+  if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', mode === 'risk' && !riskPart ? 'visible' : 'none');
+  RP.forEach(k => map.getLayer(`ss-rp-${k}`) && map.setLayoutProperty(`ss-rp-${k}`, 'visibility', mode === 'risk' && riskPart === k ? 'visible' : 'none'));
+}
+async function setRiskPart(k) {
+  const next = riskPart === k ? null : k;
+  if (next && !rpMeta) {
+    try { rpMeta = await fetch('risk_parts.json').then(r => r.json()); } catch (err) { return; }
+    RP.forEach(p => {
+      if (map.getSource(`ss-rp-${p}`)) return;
+      map.addSource(`ss-rp-${p}`, { type: 'image', url: `risk_${p}.png`, coordinates: rpMeta.image });
+      map.addLayer({ id: `ss-rp-${p}`, type: 'raster', source: `ss-rp-${p}`, layout: { visibility: 'none' },
+        paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.68, 14.5, 0.4], 'raster-resampling': 'nearest' } }, 'ss-risk');
+    });
+  }
+  riskPart = next;
+  applyRiskVis();
+  $('scaleT').textContent = scaleTitle();
+  renderLegend();
+  applyBld();
+  if (last) showCard(last);
+}
 
 function setMode(m) {
   mode = m;
   ['sub', 'risk', 'slr'].forEach(k => $(`m-${k}`).setAttribute('aria-pressed', m === k));
   if (map.getLayer('ss-img')) map.setLayoutProperty('ss-img', 'visibility', m === 'sub' ? 'visible' : 'none');
-  if (map.getLayer('ss-risk')) map.setLayoutProperty('ss-risk', 'visibility', m === 'risk' ? 'visible' : 'none');
+  if (map.getLayer('ss-idw')) map.setLayoutProperty('ss-idw', 'visibility', m === 'sub' && idwOn ? 'visible' : 'none');
+  applyRiskVis();
   if (map.getLayer('ss-slr')) map.setLayoutProperty('ss-slr', 'visibility', 'none');
   if (map.getLayer('ss-tide')) map.setLayoutProperty('ss-tide', 'visibility', 'none');
   $('slrCtl').hidden = m !== 'slr';
-  $('riskCtl').hidden = m !== 'risk';
   if (m === 'slr') showFlood();
-  $('scaleT').textContent = m === 'risk' ? T('rkScale')[riskPart] : m === 'slr' ? T('scaleSlr') : T('scaleSub');
-  $('legend').innerHTML = legendHTML();
+  $('scaleT').textContent = scaleTitle();
+  renderLegend();
+  applyBld();
   if (last) showCard(last);
 }
 
 map.on('load', async () => {
-  [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f, { cache: 'no-cache' }).then(r => r.json())));
+  [meta, series, districtsGeo] = await Promise.all(['meta.json', 'series.json', 'districts.geojson'].map(f => fetch(f).then(r => r.json())));
   const buf = await fetch('grid.bin').then(r => r.arrayBuffer());
   grid = { ...meta.grid, data: new Int16Array(buf) };
   try { uncGrid = new Int16Array(await fetch('unc.bin').then(r => r.arrayBuffer())); } catch (err) { uncGrid = null; }
@@ -811,24 +1311,43 @@ map.on('load', async () => {
       map.setPaintProperty(l.id, 'text-color', '#3c4a4e'); } catch (err) { /* layer has no text */ }
   });
   const firstSymbol = style.layers.find(l => l.type === 'symbol')?.id;
+  baseLayers = style.layers.map(l => ({ id: l.id, type: l.type, vis: l.layout?.visibility || 'visible' }));
+  bmFirstSymbol = firstSymbol;
+  style.layers.forEach(l => { if (isRoadLayer(l)) roadLayers.push({ id: l.id, min: l.minzoom ?? 0, max: l.maxzoom ?? 24 }); });
+  // ถนน OSM ที่มีความกว้างรายเส้น วาดใต้ป้ายชื่อ สะพาน/ทางยกระดับอยู่บน
+  map.addSource('osm-w', { type: 'vector', url: `pmtiles://${new URL('osmroads.pmtiles', location.href)}`,
+    attribution: 'Road widths: © OpenStreetMap contributors, Microsoft Road Detections (ODbL)' });
+  map.addLayer({ id: 'osm-roads', type: 'line', source: 'osm-w', 'source-layer': 'roads', minzoom: RW_Z,
+    layout: { 'line-cap': 'round', 'line-join': 'round', 'line-sort-key': ['coalesce', ['get', 'l'], 0] },
+    paint: { 'line-color': ROAD_COLOR, 'line-width': roadWidth } }, firstSymbol);
+  applyRoads();
+  setBasemap(basemap);
   const font = style.layers.find(l => l.type === 'symbol' && l.layout?.['text-font'])?.layout['text-font'] || ['Noto Sans Regular'];
   map.addSource('ss-img', { type: 'image', url: 'vlm.png', coordinates: meta.image });
   map.addLayer({ id: 'ss-img', type: 'raster', source: 'ss-img',
-    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.85, 14.5, 0.35], 'raster-resampling': 'nearest' } }, firstSymbol);
+    paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.71, 14.5, 0.36], 'raster-resampling': 'nearest' } }, firstSymbol);
+  if (meta.fill) {
+    // ช่องว่างของ InSAR เติมด้วยแบบจำลองจากสิ่งปกคลุมดิน + ค่าวัดรอบข้าง (scripts/vlm_fill.py) วางใต้ภาพค่าที่วัดได้
+    map.addSource('ss-idw', { type: 'image', url: 'vlm_fill.png', coordinates: meta.fill.image });
+    map.addLayer({ id: 'ss-idw', type: 'raster', source: 'ss-idw',
+      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.71, 14.5, 0.36], 'raster-resampling': 'nearest' } }, 'ss-img');
+    try { idwGrid = new Int16Array(await fetch('fill.bin').then(r => r.arrayBuffer())); } catch (err) { idwGrid = null; }
+  }
   if (meta.risk) {
     map.addSource('ss-risk', { type: 'image', url: 'risk.png', coordinates: meta.risk.image });
     map.addLayer({ id: 'ss-risk', type: 'raster', source: 'ss-risk', layout: { visibility: 'none' },
-      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.88, 14.5, 0.4], 'raster-resampling': 'nearest' } }, firstSymbol);
+      paint: { 'raster-opacity': ['interpolate', ['linear'], ['zoom'], 12, 0.68, 14.5, 0.4], 'raster-resampling': 'nearest' } }, firstSymbol);
     riskGrid = { ...meta.risk.grid, data: new Uint8Array(await fetch('risk.bin').then(r => r.arrayBuffer())) };
+    try { riskxGrid = new Uint8Array(await fetch('riskx.bin').then(r => r.arrayBuffer())); } catch (err) { riskxGrid = null; }
     $('m-risk').hidden = false;
   }
   if (meta.tide) {
-    map.addSource('ss-tide', { type: 'image', url: `tide.png?v=${meta.v}`, coordinates: meta.tide.image });
-    map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
+    map.addSource('ss-tide', { type: 'image', url: 'tide.png', coordinates: meta.tide.image });
+    map.addLayer({ id: 'ss-tide', type: 'raster', source: 'ss-tide', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .78 } }, firstSymbol);
   }
   if (meta.sfl) {
-    map.addSource('ss-slr', { type: 'image', url: `fl_${runName() .replace(/^now_/, '2050_ssp245_sub_')}.png`, coordinates: meta.sfl.image });
-    map.addLayer({ id: 'ss-slr', type: 'raster', source: 'ss-slr', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .9 } }, firstSymbol);
+    map.addSource('ss-slr', { type: 'image', url: `fl_${runName() .replace(/^now_/, '2036_ssp245_sub_')}.png`, coordinates: meta.sfl.image });
+    map.addLayer({ id: 'ss-slr', type: 'raster', source: 'ss-slr', layout: { visibility: 'none' }, paint: { 'raster-resampling': 'nearest', 'raster-opacity': .78 } }, firstSymbol);
     $('m-slr').hidden = false;
   }
   if (meta.flood) {
@@ -844,38 +1363,85 @@ map.on('load', async () => {
   map.addSource('ss-dist', { type: 'geojson', data: districtsGeo });
   map.addLayer({ id: 'ss-dist', type: 'line', source: 'ss-dist',
     paint: { 'line-color': '#1b2629', 'line-opacity': .45, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, .5, 14, 1.3] } }, firstSymbol);
+  // เส้นแบ่งจังหวัด (provinces.geojson รวมจากเขต/อำเภอ โดย scripts/provinces_build.py) หนาและเข้มกว่าเส้นเขต
+  try {
+    map.addSource('ss-prov', { type: 'geojson', data: await fetch('provinces.geojson').then(r => r.json()) });
+    map.addLayer({ id: 'ss-prov', type: 'line', source: 'ss-prov', layout: { 'line-join': 'round', visibility: $('l-prov').checked ? 'visible' : 'none' },
+      paint: { 'line-color': '#1b2629', 'line-opacity': .8, 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.8, 14, 3.5] } }, firstSymbol);
+  } catch (err) { /* ไม่มีไฟล์ก็ข้ามไป */ }
   meta.buildings.forEach((f, i) => {
     map.addSource(`ss-b${i}`, { type: 'vector', url: `pmtiles://${new URL(f, location.href)}` });
     map.addLayer({ id: `ss-bld${i}`, type: 'fill-extrusion', source: `ss-b${i}`, 'source-layer': 'buildings', minzoom: 13,
       paint: { 'fill-extrusion-color': colorExpr('c'), 'fill-extrusion-height': ['get', 'h'], 'fill-extrusion-opacity': .93 } });
+    map.addLayer({ id: `ss-bldf${i}`, type: 'fill', source: `ss-b${i}`, 'source-layer': 'buildings', minzoom: 13, layout: { visibility: 'none' },
+      paint: { 'fill-color': colorExpr('c'), 'fill-outline-color': 'rgba(60,20,20,0.35)', 'fill-opacity': .95 } }, firstSymbol);
   });
-  map.addSource('ss-rail', { type: 'geojson', data: 'rail.geojson' });
-  map.addLayer({ id: 'ss-rail-case', type: 'line', source: 'ss-rail', paint: { 'line-color': '#1b2629', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2.6, 15, 8] } });
-  map.addLayer({ id: 'ss-rail', type: 'line', source: 'ss-rail', paint: { 'line-color': colorExpr('c'), 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 1.4, 15, 5] } });
+  if (meta.bldLo) {
+    // ซูมออก (z10–13): อาคารแบบ 2 มิติ ไม่มีความสูง จาก buildings_lo.pmtiles (scripts/bld_export.py + tippecanoe)
+    map.addSource('ss-blo', { type: 'vector', url: `pmtiles://${new URL(meta.bldLo, location.href)}` });
+    map.addLayer({ id: 'ss-blo', type: 'fill', source: 'ss-blo', 'source-layer': 'buildings', minzoom: 10, maxzoom: 13,
+      paint: { 'fill-color': colorExpr('c'), 'fill-outline-color': 'rgba(60,20,20,0.35)', 'fill-opacity': ['interpolate', ['linear'], ['zoom'], 10, .75, 12.5, .95] } }, firstSymbol);
+  }
   // ป้าย 6 เขตที่ทรุดเร็วที่สุด เขียนลงบนแผนที่ตรง ๆ
   map.addLayer({ id: 'ss-lab', type: 'symbol', source: 'ss-dist', maxzoom: 12.5, filter: ['<=', ['get', 'rank'], 6],
     layout: { 'text-field': labelExpr(), 'text-font': font, 'text-size': 13, 'text-line-height': 1.25, 'text-padding': 4 },
     paint: { 'text-color': '#1b2629', 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 } });
+  // สถานที่สำคัญ, สถานที่ที่ประเมิน exposure (results/exposure_full/facilities.gpkg) และเหตุการณ์สำคัญ
+  const halo = { 'text-halo-color': '#ffffff', 'text-halo-width': 1.6 };
+  try {
+    map.addSource('pl-fac', { type: 'geojson', data: await fetch('facilities.geojson').then(r => r.json()) });
+    map.addLayer({ id: 'pl-fac', type: 'circle', source: 'pl-fac', minzoom: 10, layout: { visibility: 'none' },
+      paint: { 'circle-color': ['match', ['get', 't'], ...Object.entries(FAC_COLORS).flat(), '#666666'],
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 2.5, 15, 6.5], 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1 } });
+    map.addLayer({ id: 'pl-fac-lab', type: 'symbol', source: 'pl-fac', minzoom: 14.5, layout: { visibility: 'none', 'text-field': ['get', 'n'], 'text-font': font,
+      'text-size': 11.5, 'text-offset': [0, 0.9], 'text-anchor': 'top', 'text-optional': true }, paint: { 'text-color': '#3c4a4e', ...halo } });
+  } catch (err) { /* ไม่มีไฟล์ก็ข้ามไป */ }
+  map.addSource('pl-lm', { type: 'geojson', data: lmGeo() });
+  map.addLayer({ id: 'pl-lm', type: 'circle', source: 'pl-lm',
+    paint: { 'circle-color': '#1b2629', 'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 3.5, 15, 6.5], 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1.5 } });
+  map.addLayer({ id: 'pl-lm-lab', type: 'symbol', source: 'pl-lm', minzoom: 10.5, layout: { 'text-field': ['get', 'name'], 'text-font': font, 'text-size': 12,
+    'text-offset': [0, 0.8], 'text-anchor': 'top', 'text-optional': true }, paint: { 'text-color': '#1b2629', ...halo } });
+  map.addSource('pl-ev', { type: 'geojson', data: evGeo() });
+  map.addLayer({ id: 'pl-ev', type: 'circle', source: 'pl-ev',
+    paint: { 'circle-color': '#c41e24', 'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, 6, 15, 9], 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 } });
+  map.addLayer({ id: 'pl-ev-lab', type: 'symbol', source: 'pl-ev', layout: { 'text-field': ['get', 'label'], 'text-font': font, 'text-size': 12,
+    'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-optional': true, 'text-max-width': 9 }, paint: { 'text-color': '#a3181d', ...halo } });
+  try {
+    evPts = await fetch('events.geojson').then(r => r.json());
+    map.addSource('pl-evn', { type: 'geojson', data: evPts });
+    map.addLayer({ id: 'pl-evn', type: 'circle', source: 'pl-evn', paint: {
+      'circle-color': ['match', ['get', 'g'], ...Object.entries(EV_COLORS).flat(), '#888888'],
+      'circle-radius': ['interpolate', ['linear'], ['zoom'], 9, ['case', ['in', ['get', 'acc'], ['literal', ['ย่าน', 'เขต']]], 7, 4.5], 15, ['case', ['in', ['get', 'acc'], ['literal', ['ย่าน', 'เขต']]], 12, 8]],
+      'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1.5 } }, 'pl-ev');
+    applyEvFocus();
+  } catch (err) { /* ไม่มีไฟล์ก็ข้ามไป */ }
   applyLang();
 
   map.on('click', e => {
+    const plLayers = ['pl-ev', 'pl-evn', 'pl-lm', 'pl-fac', 'pl-tr'].filter(l => map.getLayer(l) && map.getLayoutProperty(l, 'visibility') !== 'none');
+    const pf = map.queryRenderedFeatures([[e.point.x - 6, e.point.y - 6], [e.point.x + 6, e.point.y + 6]], { layers: plLayers })[0];
+    if (pf) {
+      const [x, y] = pf.geometry.coordinates;
+      $('results').hidden = true;
+      showCard({ v: gridValue(x, y), district: districtAt(x, y), lnglat: [x, y], place: { layer: pf.layer.id, ...pf.properties } });
+      placeMarker(x, y);
+      return;
+    }
     const { lng, lat } = e.lngLat;
-    const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'].filter(l => map.getLayoutProperty(l, 'visibility') !== 'none');
+    const layers = meta.buildings.flatMap((_, i) => [`ss-bld${i}`, `ss-bldf${i}`]).filter(l => map.getLayer(l) && map.getLayoutProperty(l, 'visibility') !== 'none');
     const f = map.queryRenderedFeatures(e.point, { layers })[0];
     const district = districtAt(lng, lat), lnglat = [lng, lat];
     $('results').hidden = true;
     if (f && f.layer.id.startsWith('ss-bld')) {
       const p = f.properties;
       showCard({ v: p.v ?? null, h: p.h, district: p.d !== undefined && p.d !== null ? districtsGeo.features[p.d].properties : district, lnglat });
-    } else if (f && f.layer.id === 'ss-rail') {
-      showCard({ v: f.properties.v ?? null, rail: true, district, lnglat });
     } else {
       showCard({ v: gridValue(lng, lat), district, lnglat });
     }
     placeMarker(lng, lat);
   });
   map.on('mousemove', e => {
-    const layers = [...meta.buildings.map((_, i) => `ss-bld${i}`), 'ss-rail'];
+    const layers = [...meta.buildings.flatMap((_, i) => [`ss-bld${i}`, `ss-bldf${i}`]), ...['pl-ev', 'pl-evn', 'pl-lm', 'pl-fac', 'pl-tr']].filter(l => map.getLayer(l));
     map.getCanvas().style.cursor = map.queryRenderedFeatures(e.point, { layers }).length ? 'pointer' : '';
   });
 
@@ -885,25 +1451,37 @@ map.on('load', async () => {
   $('m-slr').onclick = () => setMode('slr');
   const pick = (attr, set) => document.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => {
     set(b.dataset[attr]); document.querySelectorAll(`[data-${attr}]`).forEach(x => x.setAttribute('aria-pressed', x === b)); showFlood(); });
-  document.querySelectorAll('[data-rk]').forEach(b => b.onclick = () => {
-    riskPart = b.dataset.rk; document.querySelectorAll('[data-rk]').forEach(x => x.setAttribute('aria-pressed', x === b));
-    map.getSource('ss-risk').updateImage({ url: riskPart === 'risk' ? 'risk.png' : `risk_${riskPart}.png?v=${meta.v}`, coordinates: meta.risk.image });
-    $('scaleT').textContent = T('rkScale')[riskPart]; $('legend').innerHTML = legendHTML(); if (last) showCard(last); });
   pick('yr', v => slrYear = +v); pick('ssp', v => ssp = v); pick('sub', v => subOn = v); pick('def', v => defOn = v);
-  $('l-bld').onchange = e => vis(meta.buildings.map((_, i) => `ss-bld${i}`), e.target.checked);
-  $('l-rail').onchange = e => vis(['ss-rail', 'ss-rail-case'], e.target.checked);
+  const bldVis = () => {
+    // ปุ่ม 2 มิติ: อาคารแบนตอนซูมออก (และตอนซูมเข้าถ้าปิด 3 มิติ) ปุ่ม 3 มิติ: อาคารตามความสูงตั้งแต่ซูม 13
+    const d2 = $('l-bld').checked, d3 = $('l-b3d').checked;
+    vis(['ss-blo'], d2);
+    vis(meta.buildings.map((_, i) => `ss-bld${i}`), d3);
+    vis(meta.buildings.map((_, i) => `ss-bldf${i}`), d2 && !d3);
+    $('bldLeg').hidden = !(d2 || d3);
+    if (!d3 && map.getPitch() > 0) map.easeTo({ pitch: 0, duration: 600 });
+  };
+  $('l-bld').onchange = bldVis; $('l-b3d').onchange = bldVis;
+  $('l-road').onchange = e => { roadsOn = e.target.checked; applyRoads(); };
   $('l-dist').onchange = e => vis(['ss-dist'], e.target.checked);
+  $('l-prov').onchange = e => vis(['ss-prov'], e.target.checked);
   $('l-lab').onchange = e => vis(['ss-lab'], e.target.checked);
   $('l-flood').onchange = e => vis(['ss-flood'], e.target.checked);
   $('l-gfm').onchange = e => vis(['ss-gfm'], e.target.checked);
+  $('l-lm').onchange = e => vis(['pl-lm', 'pl-lm-lab'], e.target.checked);
+  $('l-fac').onchange = e => { vis(['pl-fac', 'pl-fac-lab'], e.target.checked); $('facLeg').hidden = !e.target.checked; };
+  $('l-ev').onchange = e => vis(['pl-ev', 'pl-ev-lab', 'pl-evn'], e.target.checked);
+  $('l-tr').onchange = e => setTraffy(e.target.checked);
+  $('legend').addEventListener('click', e => { const b = e.target.closest('[data-rp]'); if (b) setRiskPart(b.dataset.rp); });
+  $('legend').addEventListener('change', e => { if (e.target.id === 'l-idw') { idwOn = e.target.checked; applyIdw(); } });
 });
 
-map.on('zoomend', () => { if (map.getZoom() >= 13 && map.getPitch() < 20) map.easeTo({ pitch: 50, duration: 600 }); });
-$('lang').onclick = () => { lang = lang === 'th' ? 'en' : 'th'; applyLang(); };
+map.on('zoomend', () => { if (map.getZoom() >= 13 && map.getPitch() < 20 && $('l-b3d').checked) map.easeTo({ pitch: 50, duration: 600 }); });
+$('lang').onclick = () => { lang = lang === 'th' ? 'en' : 'th'; applyLang(); renderBm(); };
 $('aboutBtn').onclick = () => $('about').classList.add('open');
 $('about').onclick = e => { if (e.target.id === 'about') $('about').classList.remove('open'); };
-$('cardClose').onclick = () => { $('card').classList.remove('open'); last = null; marker?.remove(); };
-$('toggle').onclick = () => $('side').classList.toggle('hidden');
+$('cardClose').onclick = () => { $('card').classList.remove('open'); last = null; lastGrp = null; marker?.remove(); evFocus = null; applyEvFocus(); };
+$('toggle').onclick = () => { $('side').classList.toggle('hidden'); if (small() && !$('side').classList.contains('hidden')) railOpen(false); };
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { $('about').classList.remove('open'); $('card').classList.remove('open'); $('results').hidden = true; } });
 </script>
 </body>

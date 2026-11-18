@@ -35,7 +35,8 @@ MAX_TILE_MB = 95
 RAIL_PIECE = 200
 MIN_TEMP_COH = 0.7
 # ระดับการทรุด (มม./ปี): 0 = ไม่ทรุดหรือยกตัว (≥ 0), 1 = 0–5, 2 = 5–10, 3 = 10–20, 4 = มากกว่า 20
-CLASSES = [(0, '#c9dbe3'), (-5, '#fcbba1'), (-10, '#fb6a4a'), (-20, '#cb181d'), (-np.inf, '#67000d')]
+# สี: เขียว → เขียวอมเหลือง → เหลือง → ส้ม → แดง
+CLASSES = [(0, '#1a691d'), (-5, '#87ae1f'), (-10, '#f4f61e'), (-20, '#f2a020'), (-np.inf, '#f43519')]
 EDGES = [0, -5, -10, -20]
 # ความไม่แน่นอนที่แสดงบนเว็บ: sqrt(SD² + (ครึ่งหนึ่งของผลต่าง asc − desc)²) — SD เชิงสถิติของ MintPy เล็กเกินจริง
 # ผลต่างของสองวงโคจรสะท้อนทั้ง noise และ ramp เชิงระบบ (ดู docs/full_method.md); จุดที่ไม่แน่นอนเกิน UNC_FADE
@@ -116,7 +117,7 @@ def raster_layers(full):
     return v, tr, image, grid
 
 
-def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac), color2=None):
+def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac)):
     """พื้นที่น้ำท่วม (raster ค่า 1 = น้ำท่วม) → PNG บน EPSG:3857 เฉพาะในสามจังหวัด"""
     from PIL import Image
     with rasterio.open(flood_tif) as s:
@@ -128,9 +129,7 @@ def flood_layer(flood_tif, out_name='flood.png', color=(0x21, 0x66, 0xac), color
               dst_nodata=0, resampling=Resampling.nearest)
     rgba = np.zeros((dh, dw, 4), 'uint8')
     inside = ~geometry_mask([districts().to_crs(3857).union_all()], m.shape, dt)
-    if color2 is not None:                     # ค่า 2 (เช่น น้ำอยู่ตลอด) สีอ่อน
-        rgba[(m == 2) & inside] = [*color2, 200]
-    rgba[(m == 1) & inside] = [*color, 235]
+    rgba[(m == 1) & inside] = [*color, 230]
     Image.fromarray(rgba).save(SITE / out_name, optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     return [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
@@ -161,7 +160,8 @@ def slr_layer(sdir, grid):
             'levels': {s_: {int(r.year): round(float(r.p50), 3) for r in sl[sl.ssp == s_].itertuples()} for s_ in sl.ssp.unique()}}
 
 
-FLOOD_DEPTH = [(0.1, '#c6dbef'), (0.3, '#6baed6'), (0.6, '#2171b5'), (1.0, '#08306b')]
+# สี: น้ำเงิน → ม่วงชมพู → ส้ม → เหลือง (ตื้นไปลึก)
+FLOOD_DEPTH = [(0.1, '#0000ff'), (0.3, '#e800a5'), (0.6, '#fd6915'), (1.0, '#ffc702')]
 
 
 def sfincs_layers(sdir, grid):
@@ -204,10 +204,9 @@ def tide_layer(tdir):
     """น้ำทะเลขึ้นถึงจริงจากภาพเรดาร์ (scripts/tidal_sar.py) → tide.png (EPSG:3857) + tide.bin (uint8 บนกริด lon/lat ของ grid.bin:
     0 แห้ง, 1 น้ำทะเลขึ้นถึง, 2 น้ำอยู่ตลอด, 255 นอกพื้นที่)"""
     summ = json.loads((tdir / 'summary.json').read_text())
-    src = tdir / summ.get('file', f'tidal_{summ["main_event"]}.tif')
-    image = flood_layer(src, 'tide.png', (0x08, 0x45, 0x94), (0x9e, 0xca, 0xe1))
-    return {'image': image, 'sensor': summ.get('sensor', 'Sentinel-1'),
-            **{k: summ[k] for k in ('main_event', 'water_level_m', 'tidal_km2', 'population', 'buildings')}}
+    src = tdir / f'tidal_{summ["main_event"]}.tif'
+    image = flood_layer(src, 'tide.png', (0x21, 0x71, 0xb5))
+    return {'image': image, **{k: summ[k] for k in ('main_event', 'water_level_m', 'tidal_km2', 'population', 'buildings')}}
 
 
 def tide_grid(tdir, grid):
@@ -215,16 +214,14 @@ def tide_grid(tdir, grid):
     summ = json.loads((tdir / 'summary.json').read_text())
     gt = Affine(grid['dx'], 0, grid['x0'], 0, grid['dy'], grid['y0'])
     g = np.full((grid['h'], grid['w']), 255, 'uint8')
-    with rasterio.open(tdir / summ.get('file', f'tidal_{summ["main_event"]}.tif')) as s:
+    with rasterio.open(tdir / f'tidal_{summ["main_event"]}.tif') as s:
         reproject(s.read(1), g, src_transform=s.transform, src_crs=s.crs, src_nodata=255, dst_transform=gt,
                   dst_crs='EPSG:4326', dst_nodata=255, resampling=Resampling.mode)
     g.tofile(SITE / 'tide.bin')
 
 
-PART_COLORS = {'H': ['#fee5d9', '#fcae91', '#fb6a4a', '#de2d26', '#a50f15'],
-               'E': ['#feedde', '#fdbe85', '#fd8d3c', '#e6550d', '#a63603'],
-               'V': ['#f2f0f7', '#cbc9e2', '#9e9ac8', '#756bb1', '#54278f']}
-RISK_COLORS = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
+# สี: เหลืองอ่อน → เหลืองหม่น → ชมพู → แดง → แดงเข้ม
+RISK_COLORS = ['#fce594', '#e4d87a', '#f58cb8', '#e90003', '#99101b']
 
 
 def risk_layer(rdir):
@@ -245,19 +242,6 @@ def risk_layer(rdir):
     Image.fromarray(rgba).save(SITE / 'risk.png', optimize=True)
     x0, y0, x1, y1 = transform_bounds('EPSG:3857', 'EPSG:4326', dt.c, dt.f + dt.e * dh, dt.c + dt.a * dw, dt.f)
     image = [[x0, y1], [x1, y1], [x1, y0], [x0, y0]]
-    # องค์ประกอบ H, E, V (0–1) แยกภาพ 5 ช่วงเท่ากัน บนกรอบเดียวกับ risk.png
-    for k, cols in PART_COLORS.items():
-        with rasterio.open(rdir / f'{k}.tif') as s:
-            a = s.read(1).astype('float32')
-        mm = np.full((dh, dw), np.nan, 'float32')
-        reproject(a, mm, src_transform=tr, src_crs=crs, src_nodata=np.nan, dst_transform=dt, dst_crs='EPSG:3857',
-                  dst_nodata=np.nan, resampling=Resampling.nearest)
-        ok = np.isfinite(mm)
-        idx = np.clip((np.nan_to_num(mm) * 5).astype(int), 0, 4)
-        rgba = np.zeros((dh, dw, 4), 'uint8')
-        for i, col in enumerate(cols):
-            rgba[ok & (idx == i)] = [int(col[k_:k_ + 2], 16) for k_ in (1, 3, 5)] + [225]
-        Image.fromarray(rgba).save(SITE / f'risk_{k}.png', optimize=True)
 
     gt, gw, gh = calculate_default_transform(crs, 'EPSG:4326', w, h, *b)
     bands = [c.astype('float32')]
@@ -271,8 +255,7 @@ def risk_layer(rdir):
                   dst_transform=gt, dst_crs='EPSG:4326', dst_nodata=np.nan, resampling=Resampling.nearest)
         out[..., i] = np.where(np.isfinite(g), g, 255).astype('uint8')
     out.tofile(SITE / 'risk.bin')
-    return {'image': image, 'grid': {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e},
-            'parts': PART_COLORS}
+    return {'image': image, 'grid': {'w': gw, 'h': gh, 'x0': gt.c, 'y0': gt.f, 'dx': gt.a, 'dy': gt.e}}
 
 
 # ---------------------------------------------------------------- districts + time series
@@ -408,7 +391,7 @@ def main():
     ap.add_argument('--risk', type=Path, default=ROOT / 'results' / 'risk_raster')
     ap.add_argument('--slr', type=Path, default=ROOT / 'results' / 'slr')
     ap.add_argument('--sfincs', type=Path, default=ROOT / 'results' / 'sfincs')
-    ap.add_argument('--tide', type=Path, default=ROOT / 'results' / 'tide_optical')
+    ap.add_argument('--tide', type=Path, default=ROOT / 'results' / 'tide')
     ap.add_argument('--gfm', type=Path, default=ROOT / 'results' / 'flood' / 'gfm_flood_2026-10-21.tif')
     a = ap.parse_args()
     SITE.mkdir(parents=True, exist_ok=True)
@@ -416,8 +399,7 @@ def main():
     adm = district_layer(v, tr, a.flood / 'flood_districts.csv')
     district_series(a.full, adm)
     rail(v, tr)
-    meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES],
-            'v': pd.Timestamp.now().strftime('%Y%m%d%H%M')}   # ท้ายชื่อไฟล์ภาพ กันเบราว์เซอร์ใช้ไฟล์เก่า
+    meta = {'image': image, 'grid': grid, 'edges': EDGES, 'colors': [c for _, c in CLASSES]}
     ft = sorted(a.flood.glob('flood_*.tif')) if a.flood.exists() else []
     if ft:
         meta['flood'] = {'image': flood_layer(ft[-1]), 'date': ft[-1].stem.split('_')[1]}
