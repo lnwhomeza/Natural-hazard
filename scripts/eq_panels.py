@@ -1,4 +1,4 @@
-"""Three same-size maps for the earthquake slide: before (rate), during (12-day vertical displacement), after (rate).
+"""Three same-size maps (same pixel footprint) for the earthquake slide: before (rate), during (12-day vertical displacement), after (rate).
 
     python scripts/eq_panels.py docs/slides   ->  eq_before.png, eq_during.png, eq_after.png
 Inputs in results/eq/ (main pre/post run of psykorollin/FinalNH, branch claude/pipeline-execution-results-domd4k);
@@ -23,11 +23,21 @@ prov = adm.dissolve('adm1_name')
 tb = adm.total_bounds
 
 
-def load(f):
+def read(f):
     with rasterio.open(E / f) as s:
-        a = s.read(1).astype('float32'); b = s.bounds
-        m = geometry_mask(adm.geometry, a.shape, s.transform, invert=True)
-    return np.where(m, a, np.nan), [b.left, b.right, b.bottom, b.top]
+        return s.read(1).astype('float32'), s.transform, s.bounds
+
+
+# same footprint on all three maps: inside the study area and valid in before, during and after
+_, T, B = read('vlm_pre.tif')
+COMMON = geometry_mask(adm.geometry, read('vlm_pre.tif')[0].shape, T, invert=True)
+for f in ['vlm_pre.tif', 'vlm_post.tif', 'coseismic_up_mm.tif']:
+    COMMON &= np.isfinite(read(f)[0])
+
+
+def load(f):
+    a, _, b = read(f)
+    return np.where(COMMON, a, np.nan), [b.left, b.right, b.bottom, b.top]
 
 
 def draw(img, ext, cmap, vmin, vmax, handles, title, name):
