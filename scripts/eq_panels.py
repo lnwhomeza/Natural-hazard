@@ -47,9 +47,7 @@ for f, name in [('vlm_pre.tif', 'eq_before.png'), ('vlm_post.tif', 'eq_after.png
     c = np.digitize(-a, [0, 5, 10, 20]).astype('float32'); c[a >= 0] = 0; c[~np.isfinite(a)] = np.nan
     draw(c, ext, RATE, -.5, 4.5, rh, 'อัตราทรุด (มม./ปี)', name)
     print(name, 'median', round(float(np.nanmedian(a)), 1))
-DIV = ListedColormap(['#b2182b', '#ef8a62', '#f7f7f7', '#67a9cf', '#2166ac'])
 a, ext = load('coseismic_up_mm.tif')
-c = np.digitize(a, [-20, -5, 5, 20]).astype('float32'); c[~np.isfinite(a)] = np.nan
-dh = [Patch(color=DIV(i), label=l) for i, l in enumerate(['ทรุด > 20', '5–20', '±5', '5–20', 'ยก > 20'])]
-draw(c, ext, DIV, -.5, 4.5, dh, 'การเคลื่อนตัวแนวดิ่งใน 12 วัน (มม.)', 'eq_during.png')
+c = np.digitize(-a, [0, 5, 10, 20]).astype('float32'); c[a >= 0] = 0; c[~np.isfinite(a)] = np.nan
+draw(c, ext, RATE, -.5, 4.5, rh, 'ทรุดใน 12 วันที่คร่อมแผ่นดินไหว (มม.)', 'eq_during.png')
 print('during std', round(float(np.nanstd(a)), 1))
